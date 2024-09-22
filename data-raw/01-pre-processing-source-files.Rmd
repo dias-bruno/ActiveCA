@@ -1,0 +1,1907 @@
+---
+title: "Reading source files and preparing data sets"
+author: "Bruno Santos, Mahdis Moghadasi & Antonio Paez"
+date: "`r Sys.Date()`"
+output:
+  tufte::tufte_html: default
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+  tufte::tufte_book:
+    citation_package: natbib
+    latex_engine: xelatex
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+# layout configuration 
+library(tufte)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+options(htmltools.dir.version = FALSE)
+rm(list=ls())
+```
+
+# Introduction
+
+This Rmarkdown file is part of the
+[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package. This
+package is one of the products developed by the [*Mobilizing
+Justice*](https://mobilizingjustice.ca/)[^1].
+
+[^1]: The Mobilizing Justice project is a multidisciplinary and
+    multi-sector collaboration with the objective of understand and
+    address transportation poverty in Canada and to improve the
+    well-being of Canadians at risk of transport poverty. The Social
+    Sciences and Humanities Research Council (SSRHC) has provided
+    funding for the project, which was created by an unprecedented
+    alliance of academics from various Canadian provinces and
+    institutions, transportation firms, and nonprofit organizations
+
+The main objective of the *ActiveCA* package is to identify the most
+appropriate impedance functions for active transportation modes for
+various destinations and time periods in Canada. To do achieve our
+objective, we analyzed historical data from the [General Social Survey
+(GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221)
+from 1986 to 2015 in Canada to calculate the impedance function for
+cycling and walking trips.
+
+In this R markdown, we read the GSS surveys and prepare the data set to
+the following analyses.
+
+# The General Social Surveys (GSS)
+
+In Canada, Statistics Canada produces the General Social Surveys (GSS)
+to collect data on social trends in order to track changes in the living
+conditions of Canadians and well-being over time. This survey tracks
+changes in time and it is used to understand how Canadians spend and
+manage their time and what factors contribute to their happiness and
+stress. The survey was created in 1985 as a series of independent,
+annual, cross-sectional surveys, each covering one topic in depth.
+Caregiving, families, time use, social identity, volunteering, and
+victimization are among the current themes of the GSS.
+
+The six survey themes listed above are repeated every five years. In
+addition to the central topic, each cycle includes new content that
+addresses emerging and policy-relevant issues, collecting detailed
+socio-demographic information, such as age, gender, education, religion,
+ethnicity, income, etc. Time-use surveys collect data on all human
+activities and can inform a wide range of policies. In particular, three
+key themes have been identified as essential for policymaking and for
+which no other data source is adequate: unpaid work and non-market
+production, well-being, and gender equality. Leisure time, work-life
+balance, health, commuting, culture, and sports are among the other
+topics covered by time-use surveys. In addition, statistics Canada has
+been conducting time-use surveys at five to seven year intervals since
+1986, with the most recent being in 2015 (1986, 1992, 1998, 2005, 2010,
+and 2015). The time use collects information on participation of
+respondents and time spent on a wide range of day-to-day activities
+using a 24-hour retrospective diary. Also, information is collected on
+the location of these activities (e.g., at home, at work, etc.) and, for
+non-personal activities, the people who were present with the respondent
+at the time of the activity.
+
+The surveys (obtained from
+[here](http://odesi2.scholarsportal.info/webview/)) consist of two
+files: a main file and an episode file.
+
+## The Main File
+
+The Main File compiles an large array of aggregated data, summarizing
+the answers to the questionnaire and derived variables that summarize
+the respondents' time use across different activities, locations, and
+social interactions. This file documents the time and duration that
+respondents allocate to each activity and location. The Main File
+provides a overview of daily routines and social dynamics, not focusing
+on individual activity episodes. Additionally, this file categorizes
+activities into bigger groups and subcategories, enhancing the data's
+analytical utility with additional metrics such as total transit time,
+duration spent with household members, and counts of activities and
+episodes. This file is aggregated and prohibits the direct association
+between specific activities with particular locations or companions.
+
+## The Episode File
+
+The Episode File records detailed data for each activity episode
+reported by respondents. Each episode entry includes the start and end
+times, duration, location, and accompanying social context, informing
+when and where activities occurred and with whom. The file distinguishes
+itself by focusing on individual episodes rather than respondents, with
+the data structured around the numerous activity instances that compose
+a respondent's day. Although respondent-specific characteristics are not
+included within the Episode File, it is possible to link the Main File
+and the Episode File by using an identifiable variable present in both
+data sets.
+
+# Reading and processing the GSS files
+
+In this R markdown, our aim is to generate a table in the appropriate
+format to perform the subsequent analyses, after reading and processing
+the GSS episode surveys.
+
+For the purpose of our analyses, the following definitions are
+important:
+
+| **Code** | **Location**                           | **Year** | **Description**                                                |
+|-------------|------------------|-------------|------------------------------|
+| 300      | At home or on property                 | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 301      | At place of work or school             | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 302      | Away on business                       | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 303      | At someone else's home or property     | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 304      | In the neighbourhood                   | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 305      | Outdoors                               | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 306      | Grocery store, other stores or mall    | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 307      | Library, museum or theatre             | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 308      | Sports centre, field or arena          | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 309      | Restaurant, bar or club                | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 310      | Place of worship                       | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 311      | Medical, dental or other health clinic | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 312      | Elsewhere                              | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
+| 1        | Respondent's home                      | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 2        | Work place                             | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 3        | Someone else's home                    | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 4        | Restaurant/bar                         | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 5        | Place of worship                       | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 6        | Grocery store                          | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 7        | Other store/Mall                       | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 8        | School                                 | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 9        | Outdoors away from home                | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 10       | Library                                | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 11       | Other place                            | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 1        | Respondent's home                      | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 2        | Work place                             | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 3        | Someone else's home                    | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 4        | Restaurant/bar                         | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 5        | Place of worship                       | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 6        | Grocery store                          | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 7        | Other store/Mall                       | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 8        | School                                 | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 9        | Outdoors away from home                | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 10       | Library                                | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 11       | Other place                            | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
+| 1        | Respondent's home                      | 1998     | Walking (code = 7) and Cycling (code = 9) to this location     |
+| 2        | Work place                             | 1998     | Walking (code = 7) and Cycling (code = 9) to this location     |
+| 3        | Someone else's home                    | 1998     | Walking (code = 7) and Cycling (code = 9) to this location     |
+| 4        | Other plourhood                        | 1998     | Walking (code = 7) and Cycling (code = 9) to this location     |
+| 1        | Respondent's home                      | 1992     | Walking (code = 7) and Cycling (code = 9) to this location     |
+| 2        | Work place                             | 1992     | Walking (code = 7) and Cycling (code = 9) to this location     |
+| 3        | Someone else's home                    | 1992     | Walking (code = 7) and Cycling (code = 9) to this location     |
+| 4        | Other place                            | 1992     | Walking (code = 7) and Cycling (code = 9) to this location     |
+| 1        | Respondent's home                      | 1886     | Walking (code = 5) to this location                            |
+| 2        | Work place                             | 1886     | Walking (code = 5) to this location                            |
+| 3        | At other places                        | 1886     | Walking (code = 5) to this location                            |
+| 7        | other                                  | 1886     | Walking (code = 5) to this location                            |
+
+To start processing the data, first load the `R` packages used in this
+notebook:
+
+```{r}
+library(dplyr) # A Grammar of Data Manipulation
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(here) # A Simpler Way to Find Your Files
+library(readxl) # Read Excel Files
+library(tidyr) # Tidy Messy Data
+library(usethis) # Automate Package and Project Setup
+library(fitdistrplus) # Estimates distribution parameters
+library(purrr) # Provides a complete and consistent set of tools for working with functions and vectors
+```
+
+For each survey year, the process of preparing the data is very similar
+and, in the end, we will obtain a table in which each row represents an
+specific episode, and each column a variable. The following variables
+will be added to our final table:
+
+-   `PUMFID`: the record identification[^2].
+-   `WGHT_EPI`: Episode weight.
+-   `ACTCODE`: Activity code of the episode.
+-   `STARTIME`: Start time of the episode.
+-   `ENDTIME`: End time of the episode.
+-   `DURATION` Duration (in minutes) of the episode
+-   `LOCATION`: Location/mode of transport of the episode.
+-   `ORIGIN`: Place of origin of the episode.
+-   `DESTINATION`: Place of destination of the episode.
+
+[^2]: This variable serves as the link between the Main and the Episode
+    files. Each case has a unique record identifier and this appears on
+    every episode.
+
+The variables mentioned above are obtained directly from the GSS episode
+file. To facilitate the reading and better identify the survey of origin
+of the episode, we will create the following variables:
+
+-   `orig_label`: A label for the variable `ORIGIN`.
+-   `dest_label`: A label for the variable `DESTINATION`.
+-   `YEAR`: The year of the survey.
+-   `MODE`: The transportation mode of the episode (`walking` or
+    `cycling`).
+    
+    
+Additionally, our analysis will focus on developing impedance functions considering only the population who lives in larger urban population centre (a Census Metropolitan Area (CMA) or Census Agglomeration (CA))^[For definitions of CMA and CA check the this [website](https://www12.statcan.gc.ca/census-recensement/2021/ref/dict/az/Definition-eng.cfm?ID=geo009).]. We decided to apply this restriction because the travel behavior among residents of the CMA and CA areas, in terms of active travel, tends to be very different from those outside these large urban population centers. The variable that informs if the respondent resides in a CMA or CA region is the variable named `LUC_RST`, present in the Main File survey. According to the Statistics Canada, `LUC_RST` = 1 indicates that the resident is from a CMA or CA region. 
+
+The file name pattern is as follows: `transportation mode`[^3] + `_` +
+`year of survey` [^4]. This means that, for instance, the file
+`walking_2015` refers to transportation mode table `walking` in the year
+2015.
+
+[^3]:  `walking` or `cycling`
+
+[^4]:  whether 1986, 1992, 1998, 2005, 2010 or 2015. Note: There is no
+    data on cycling for the 1986 GSS survey.
+
+The walking and cycling episodes are identified using the specific
+activity code. Also, the preceding and succeeding episodes for each
+walking/cycling instance are included to determine the origin and
+destination locations of the trip.
+
+## GSS 2015
+
+Read the Episode and Main files of the 2015 GSS survey:
+
+```{r}
+# Episode File
+gss_e_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-e.csv"))
+
+# Main File
+gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv"))
+```
+
+### Walking 2015
+
+Identifying the rows with walking episodes and selecting the rows after
+and before the walking episodes to obtain the origin and location
+variables:
+
+```{r}
+# walking 2015
+# Creating data of origins and destinations of walking trip 2015
+inds <- which(gss_e_2015$LOCATION == 315)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with walking episodes in the GSS survey,
+selecting the columns that we are interested[^5], and already creating
+the origin and destination variables:
+
+[^5]: Specifically for the 2015 GSS survey, `TUI_01` refers to the
+    activity code. We'll change the name of this column to be match the
+    name of the activity code variable in the others surveys.
+
+```{r}
+walking_2015 <- gss_e_2015 |>
+  dplyr::slice(unlist(rows)) |>
+  dplyr::select(PUMFID, WGHT_EPI,TUI_01:LOCATION) |> 
+  mutate(origin = lag(LOCATION),
+         destination = lead(LOCATION)) |>
+  filter(LOCATION == 315)
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+walking_2015 <- walking_2015 |>
+  filter(origin == 300 | 
+           origin == 301 | 
+           origin == 302 | 
+           origin == 303 | 
+           origin == 304 |
+           origin == 305 | 
+           origin == 306 | 
+           origin == 307 |
+           origin == 308 |
+           origin == 309 | 
+           origin == 310 |
+           origin == 311) |>
+  mutate(orig_label =
+           case_when(origin == 300 ~ "Home", 
+                     origin == 301 ~ "Work or school",
+                     origin == 302 ~ "Business",
+                     origin == 303 ~ "Other's home",
+                     origin == 304 ~ "In the neighbourhood",
+                     origin == 305 ~ "Outdoors",
+                     origin == 306 ~ "Grocery store, other stores or mall",
+                     origin == 308 ~ "Sports centre, field or arena",
+                     origin == 307 ~ "Library, museum or theatre",
+                     origin == 309 ~ "Restaurant, bar or club",
+                     origin == 310 ~ "Place of worship",
+                     origin == 311 ~ "Medical, dental or other health clinic"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the step before, we'll select the destinations of interest
+and create the label for the `destination` variable:
+
+```{r}
+walking_2015 <- walking_2015 |>  
+    filter(destination == 300 | 
+           destination == 301 | 
+           destination == 302 | 
+           destination == 303 |
+           destination == 304 |
+           destination == 305 |
+           destination == 306 | 
+           destination == 307 |
+           destination == 308 |
+           destination == 309 | 
+           destination == 310 |
+           destination == 311)  |>
+  # Label the destinations
+  mutate(dest_label =
+           case_when(destination == 300 ~ "Home", 
+                     destination == 301 ~ "Work or school",
+                     destination == 302 ~ "Business",
+                     destination == 303 ~ "Other's home",
+                     destination == 304 ~ "In the neighbourhood",
+                     destination == 305 ~ "Outdoors",
+                     destination == 306 ~ "Grocery store, other stores or mall",
+                     destination == 307 ~ "Library, museum or theatre",
+                     destination == 308 ~ "Sports centre, field or arena",
+                     destination == 309 ~ "Restaurant, bar or club",
+                     destination == 310 ~ "Place of worship",
+                     destination == 311 ~ "Medical, dental or other health clinic"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the column named
+`TUI_01` will be renamed to `ACTCODE` to ensure consistency with the
+naming conventions used in other years.
+
+```{r}
+walking_2015 <- walking_2015 |>
+  dplyr::select(PUMFID:ENDTIME, DURATION:dest_label) |>
+  mutate(YEAR = 2015,
+         MODE = "Walking") |>
+  dplyr::rename(ACTCODE = TUI_01)
+```
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST')]
+
+walking_2015 <- walking_2015 |> 
+  left_join(gss_m_2015, by = 'PUMFID') |>  # Merging the two tables
+  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+walking_2015 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+The table above shows that the most common destination for a walking trip
+that starts at home are `Home` and `Work or school`. It also shows that the second most common walking trip is from `Grocery store, other stores or mall` to `Home`. Notice, though,
+that quite a few trips start *and* end at Home. What are those supposed
+to be?
+
+Check those home-to-home trips:
+
+```{r echo = FALSE}
+walking_2015 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See `PUMFID` == 10041 and check the walking episode:
+
+```{r}
+gss_e_2015 |>
+  filter(PUMFID == 10041) |>
+  slice(unique(c(which(LOCATION == 315) - 1, 
+                 which(LOCATION == 315),
+                 which(LOCATION == 315) + 1))) |>
+  dplyr::select(PUMFID:LOCATION)
+```
+
+The person was at home doing personal care (code `27`), then went for
+walk that lasted 15 minutes, came back home and spent 180 minutes
+looking for work (code `9`). So, this was a recreational/leisure
+trip![^6]
+
+[^6]: `TUI_01` is an activity code of the episode (What were you doing
+    at minute). The list of main activity codes (001-095) can be found
+    in an appendix of the User Guide. According to this list, `27` is
+    "personal care", `7` is "Transport to or from activity" and `9` is
+    "Looking for work".
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(walking_2015, overwrite = TRUE)
+```
+
+### Cycling 2015
+
+Identifying the rows with cycling episodes and selecting the rows after
+and before the cycling episodes to obtain the origin and location
+variables:
+
+```{r}
+# Creating data of origins and destinations of cycling trip 2015
+inds <- which(gss_e_2015$LOCATION == 318)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with cycling episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+cycling_2015 <- gss_e_2015[unlist(rows),] |> 
+  dplyr::select(PUMFID, WGHT_EPI, TUI_01:LOCATION) |>
+  mutate(origin = lag(LOCATION, order_by = PUMFID)) |> 
+  mutate(destination = lead(LOCATION, order_by = PUMFID)) |>
+  #group_by(PUMFID) |>
+  filter(LOCATION == 318)
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+cycling_2015 <- cycling_2015 |>
+  filter(origin == 300 | 
+           origin == 301 | 
+           origin == 302 | 
+           origin == 303 | 
+           origin == 304 |
+           origin == 305 | 
+           origin == 306 | 
+           origin == 307 |
+           origin == 308 |
+           origin == 309 | 
+           origin == 310 |
+           origin == 311) |>
+  mutate(orig_label =
+           case_when(origin == 300 ~ "Home", 
+                     origin == 301 ~ "Work or school",
+                     origin == 302 ~ "Business",
+                     origin == 303 ~ "Other's home",
+                     origin == 304 ~ "In the neighbourhood",
+                     origin == 305 ~ "Outdoors",
+                     origin == 306 ~ "Grocery store, other stores or mall",
+                     origin == 308 ~ "Sports centre, field or arena",
+                     origin == 307 ~ "Library, museum or theatre",
+                     origin == 309 ~ "Restaurant, bar or club",
+                     origin == 310 ~ "Place of worship",
+                     origin == 311 ~ "Medical, dental or other health clinic"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the step before, we'll select the destinations of interest
+and create the label for the `destination` variable:
+
+```{r}
+# change destination and origins to text column
+cycling_2015 <- cycling_2015 |>  
+  # Choose destinations of interest
+  filter(destination == 300 | 
+           destination == 301 | 
+           destination == 302 | 
+           destination == 303 |
+           destination == 304 |
+           destination == 305 |
+           destination == 306 | 
+           destination == 307 |
+           destination == 308 |
+           destination == 309 | 
+           destination == 310 |
+           destination == 311)  |>
+  # Label the destinations
+  mutate(dest_label =
+           case_when(destination == 300 ~ "Home", 
+                     destination == 301 ~ "Work or school",
+                     destination == 302 ~ "Business",
+                     destination == 303 ~ "Other's home",
+                     destination == 304 ~ "In the neighbourhood",
+                     destination == 305 ~ "Outdoors",
+                     destination == 306 ~ "Grocery store, other stores or mall",
+                     destination == 307 ~ "Library, museum or theatre",
+                     destination == 308 ~ "Sports centre, field or arena",
+                     destination == 309 ~ "Restaurant, bar or club",
+                     destination == 310 ~ "Place of worship",
+                     destination == 311 ~ "Medical, dental or other health clinic"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the column named
+`TUI_01` will be renamed to `ACTCODE` to ensure consistency with the
+naming conventions used in other years.
+
+```{r}
+cycling_2015 <- cycling_2015 |>
+  dplyr::select(PUMFID:ENDTIME, DURATION:dest_label) |>
+  mutate(YEAR = 2015,
+         MODE = "Cycling") |>
+  dplyr::rename(ACTCODE = TUI_01)
+```
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST')]
+
+cycling_2015 <- cycling_2015 |> 
+  left_join(gss_m_2015, by = 'PUMFID') |>  # Merging the two tables
+  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+```
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+cycling_2015 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+The most common destination for a cycling trip that starts at home is
+`Work or school`. Again, we can notice that there are quite a few trips that
+start *and* end at Home. What are those supposed to be?
+
+Check those home-to-home trips:
+
+```{r echo = FALSE}
+cycling_2015 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See `PUMFID` == 16591 and check the cycling episode:
+
+```{r}
+gss_e_2015 |>
+  filter(PUMFID == 16591) |>
+  slice(unique(c(reduce(map(which(LOCATION == 318), ~ c(.x - 1, .x, .x + 1)), c)))) |>
+   dplyr::select(PUMFID:LOCATION)
+```
+
+The individual was at home engaged in personal care activities
+(`TUI_01` = `2`) before cycling for approximately 10 minutes to a grocery
+store. After spending 30 minutes at the store, they cycled back home.
+Upon returning, the person prepared a meal and cleaned the house for approximately 85 minutes. Subsequently, the individual embarked on
+another bicycle trip to the store, which took 10 minutes, and thereafter
+returned home.[^7]
+
+[^7]: Note: `TUI_01` is an activity code of the episode (What were you
+    doing in minutes?).The list of main activity codes (001-095) can be
+    found in an appendix of the User Guide.
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(cycling_2015, overwrite = TRUE)
+```
+
+As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+```{r}
+rm(gss_e_2015,gss_m_2015)
+```
+## GSS 2010
+
+Read the Episode and Main files of the 2010 GSS survey:
+
+```{r}
+# Episode File
+gss_e_2010 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2010/gss-12M0018-E-2010-c-24-tus-ef_F1.csv"))
+
+# Main File
+gss_m_2010 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2010/gss-12M0018-E-2010-c-24-tus-mf_F1.csv"))
+```
+
+### Walking 2010
+
+Identifying the rows with walking episodes and selecting the rows after
+and before the walking episodes to obtain the origin and location
+variables:
+
+```{r}
+# **walking 2010**
+# Creating data of origins and destinations of walking trip 2010
+inds <- which(gss_e_2010$PLACE == 14)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with walking episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+walking_2010 <- gss_e_2010[unlist(rows),] |> 
+  dplyr::select(RECID,WGHT_EPI, ACTCODE:ENDTIME,DURATION,PLACE) |>
+  mutate(origin = lag(PLACE, order_by = RECID)) |> 
+  mutate(destination = lead(PLACE, order_by = RECID)) |>
+  filter(PLACE == 14)
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+walking_2010 <- walking_2010 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3 | 
+           origin == 4 | 
+           origin == 5 |
+           origin == 6 | 
+           origin == 7 | 
+           origin == 8 |
+           origin == 9 |
+           origin == 10 ) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home",
+                     origin == 9 ~ "Outdoors",
+                     origin == 6 ~ "Grocery store, other stores or mall",
+                     origin == 10 ~ "Library, museum or theatre",
+                     origin == 4 ~ "Restaurant, bar or club",
+                     origin == 5 ~ "Place of worship",
+                     origin == 7 ~ "Grocery store, other stores or mall",                     
+                     origin == 8 ~ "Work or school"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the step before, we'll select the destinations of interest
+and create the label for the `destination` variable:
+
+```{r}
+walking_2010 <- walking_2010 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 | 
+           destination == 4 | 
+           destination == 5 |
+           destination == 6 | 
+           destination == 7 | 
+           destination == 8 |
+           destination == 9 |
+           destination == 10 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home",
+                     destination == 9 ~ "Outdoors",
+                     destination == 6 ~ "Grocery store, other stores or mall",
+                     destination == 10 ~ "Library, museum or theatre",
+                     destination == 4 ~ "Restaurant, bar or club",
+                     destination == 5 ~ "Place of worship",
+                     destination == 7 ~ "Grocery store, other stores or mall",                     
+                     destination == 8 ~ "Work or school"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+walking_2010 <- walking_2010 |>
+  dplyr::select(RECID, WGHT_EPI,ACTCODE, STARTIME:dest_label) |>
+  mutate(YEAR = 2010,
+         MODE = "Walking")
+walking_2010 <- walking_2010 %>% dplyr::rename(
+    PUMFID = RECID,
+    LOCATION = PLACE)
+```
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST')]
+
+walking_2010 <- walking_2010 |> 
+  left_join(gss_m_2010, by = c('PUMFID' = 'RECID')) |>  # Merging the two tables
+  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+walking_2010 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+For the year 2010, the most common destination for a walking trip that starts at home are
+`Home` to `Home`, followed by `Home` to `Work or school`. Again, we can check the home-to-home trips:
+
+```{r echo = FALSE}
+walking_2010 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See `RECID` == 3 and check the walking episode:
+
+```{r}
+
+gss_e_2010 %>%
+  filter(RECID == 3) %>%
+  slice(unique(c(reduce(map(which(PLACE == 14), ~ c(.x - 1, .x, .x + 1)), c)))) %>%
+  dplyr::select(RECID:PLACE)
+
+```
+
+The individual spent their time at home engaging in meal preparation
+(`ACTCODE` =`430`) for a duration of 15 minutes, followed by a walk
+lasting approximately 20 minutes to reach a grocery store. After
+spending 15 minutes there, the person walked an additional 10 minutes to
+another grocery store, where they stayed for 10 minutes before returning
+home in 20 minutes. Once home, the individual engaged in socialization
+for approximately 10 minutes (`ACTCODE`=`751`) before taking a 10-minute
+walk to another location. At this new location, the person undertook
+activities related to washing and dressing (`ACTCODE`=`400`) for around 10
+minutes, then went for a 10-minute walk, returning home after that.
+Subsequently, they dedicated 10 minutes to meal preparation
+(`ACTCODE`=`101`), followed by a 10-minute session of food (or meal) cleanup
+(`ACTCODE`=`110`). The individual then took a 15-minute walk, returned home,
+and spent 5 minutes on household management tasks, which included
+organizing and planning activities.[^8]
+
+[^8]: Note: `ACTCODE` is an activity code of the episode (What were you
+    doing in minute).The list of main activity codes can be found in an
+    appendix of the User Guide.
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(walking_2010, overwrite = TRUE)
+```
+
+### Cycling 2010
+
+Identifying the rows with cycling episodes and selecting the rows after
+and before the cycling episodes to obtain the origin and location
+variables:
+
+```{r}
+
+# **cycling 2010**
+# Creating data of origins and destinations of cycling trip 2010
+inds <- which(gss_e_2010$PLACE == 17)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+cycling_2010 <- gss_e_2010[unlist(rows),] |> 
+  dplyr::select(RECID:PLACE) |>
+  mutate(origin = lag(PLACE, order_by = RECID)) |> 
+  mutate(destination = lead(PLACE, order_by = RECID)) |>
+  group_by(RECID) |>
+  filter(PLACE == 17)
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+cycling_2010 <- cycling_2010 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3 | 
+           origin == 4 | 
+           origin == 5 |
+           origin == 6 | 
+           origin == 7 | 
+           origin == 8 |
+           origin == 9 |
+           origin == 10 ) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home",
+                     origin == 9 ~ "Outdoors",
+                     origin == 6 ~ "Grocery store, other stores or mall",
+                     origin == 10 ~ "Library, museum or theatre",
+                     origin == 4 ~ "Restaurant, bar or club",
+                     origin == 5 ~ "Place of worship",
+                     origin == 7 ~ "Grocery store, other stores or mall",                     
+                     origin == 8 ~ "Work or school"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the previous step, the description column will also be
+created for destinations.
+
+```{r}
+cycling_2010 <- cycling_2010 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 | 
+           destination == 4 | 
+           destination == 5 |
+           destination == 6 | 
+           destination == 7 | 
+           destination == 8 |
+           destination == 9 |
+           destination == 10 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home",
+                     destination == 9 ~ "Outdoors",
+                     destination == 6 ~ "Grocery store, other stores or mall",
+                     destination == 10 ~ "Library, museum or theatre",
+                     destination == 4 ~ "Restaurant, bar or club",
+                     destination == 5 ~ "Place of worship",
+                     destination == 7 ~ "Grocery store, other stores or mall",                     
+                     destination == 8 ~ "Work or school"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+cycling_2010 <- cycling_2010 |>
+  dplyr::select(RECID, WGHT_EPI,ACTCODE:ENDTIME, DURATION:dest_label) |>
+  mutate(YEAR = 2010,
+         MODE = "Cycling")
+cycling_2010 <- cycling_2010 %>% dplyr::rename(
+    PUMFID = RECID,
+    LOCATION = PLACE)
+```
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST')]
+
+cycling_2010 <- cycling_2010 |> 
+  left_join(gss_m_2010, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
+  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+```
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+cycling_2010 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+The most common destination for a cycling trip that starts at home is
+`Work or school`. Notice, though that there are some trips that start
+*and* end at Home. What are those supposed to be?
+
+Check those home-to-home trips:
+
+```{r echo = FALSE}
+cycling_2010 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See `RECID` == 6301 and check the walking episode:
+
+```{r}
+gss_e_2010 |>
+  filter(RECID == 6301) |>
+    slice(unique(c(reduce(map(which(PLACE == 17), ~ c(.x - 1, .x, .x + 1)), c)))) |>
+   dplyr::select(RECID,PLACE,ACTCODE,DURATION)
+```
+
+The individual engaged in watching television at their residence for
+approximately 160 minutes before cycling for about 15 minutes. Upon
+returning home, they socialized for roughly 165 minutes. Following this
+period of socialization at a private residence, the person embarked on
+another cycling session for 15 minutes, after which they returned home
+once more. Subsequently, the individual carried out various household
+chores for about 10 minutes.
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(cycling_2010, overwrite = TRUE)
+```
+As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+```{r}
+rm(gss_e_2010,gss_m_2010)
+```
+## GSS 2005
+
+Read the Episode and Main files of the 2005 GSS survey:
+
+```{r}
+# Episode File
+gss_e_2005 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2005/gss-12M0019-E-2005-c-19-e_F1.csv"))
+
+# Main File
+gss_m_2005 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2005/gss-12M0019-E-2005-c-19-m_F1.csv"))
+```
+
+### Walking 2005
+
+Identifying the rows with walking episodes and selecting the rows after
+and before the walking episodes to obtain the origin and location
+variables:
+
+```{r creating dataset for walking 2005 }
+
+# **walking 2005**
+# Creating data of origins and destinations of walking trip 2005
+inds = which(gss_e_2005$PLACE == 14)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with walking episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+walking_2005 <- gss_e_2005 [unlist(rows),] |>
+  dplyr::select(RECID:PLACE) |> 
+  mutate(origin = lag(PLACE, order_by = RECID)) |>
+  mutate(destination = lead(PLACE, order_by = RECID)) |> 
+  group_by(RECID) |> 
+  filter(PLACE == 14) 
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+walking_2005 <- walking_2005 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3 | 
+           origin == 4 | 
+           origin == 5 |
+           origin == 6 | 
+           origin == 7 | 
+           origin == 8 |
+           origin == 9 |
+           origin == 10 ) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home",
+                     origin == 9 ~ "Outdoors",
+                     origin == 6 ~ "Grocery store, other stores or mall",
+                     origin == 10 ~ "Library, museum or theatre",
+                     origin == 4 ~ "Restaurant, bar or club",
+                     origin == 5 ~ "Place of worship",
+                     origin == 7 ~ "Grocery store, other stores or mall",               
+                     origin == 8 ~ "Work or school"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the step before, we'll select the destinations of interest
+and create the label for the `destination` variable:
+
+```{r}
+walking_2005 <- walking_2005 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 | 
+           destination == 4 | 
+           destination == 5 |
+           destination == 6 | 
+           destination == 7 | 
+           destination == 8 |
+           destination == 9 |
+           destination == 10 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home",
+                     destination == 9 ~ "Outdoors",
+                     destination == 6 ~ "Grocery store, other stores or mall",
+                     destination == 10 ~ "Library, museum or theatre",
+                     destination == 4 ~ "Restaurant, bar or club",
+                     destination == 5 ~ "Place of worship",
+                     destination == 7 ~ "Grocery store, other stores or mall",                     
+                     destination == 8 ~ "Work or school"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+walking_2005 <- walking_2005 |>
+  dplyr::select(RECID, WGHT_EPI, ACTCODE:ENDTIME, DURATION:dest_label) |>
+  mutate(YEAR = 2005,
+         MODE = "Walking")
+walking_2005 <- walking_2005 |> dplyr::rename(
+    PUMFID = RECID,
+    LOCATION = PLACE) 
+```
+
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST')]
+
+walking_2005 <- walking_2005 |> 
+  left_join(gss_m_2005, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
+  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+walking_2005 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+The most common destination for a walking trip that starts at home are
+`work or school`, `Other's home` and `home`. 
+
+Check those home-to-home trips:
+
+```{r echo = FALSE}
+walking_2005 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See `RECID` == 89 and check the walking episode:
+
+```{r}
+gss_e_2005 |>
+  filter(RECID == 89) |>
+  slice(unique(c(reduce(map(which(PLACE == 14), ~ c(.x - 1, .x, .x + 1)), c)))) |>
+  dplyr::select(RECID,PLACE,ACTCODE,DURATION)
+```
+
+The individual engaged in personal grooming and dressing activities
+(`ACTCODE`= 400) before embarking on a brief walk lasting approximately 5
+minutes, after which they returned home. Subsequently, the person
+participated in religious activities at their residence, which included
+services, prayer, and Bible readings (`ACTCODE` = 640). Following these
+activities, the individual undertook another walk of around 5 minutes,
+returning home once more. At home, they engaged in various activities,
+including socializing with friends and relatives and sleeping. Later,
+the person walked for approximately 5 minutes to reach a different
+location and then spent an additional 5 minutes walking to return
+home.[^9]
+
+[^9]: Note: `ACTCODE` is an activity code of the episode (What were you
+    doing in minute).The list of main activity codes can be found in an
+    appendix of the User Guide.
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(walking_2005, overwrite = TRUE)
+```
+
+### Cycling 2005
+
+Identifying the rows with cycling episodes and selecting the rows after
+and before the cycling episodes to obtain the origin and location
+variables:
+
+```{r creating dataset for cycling 2005 }
+
+# **cycling 2005**
+# Creating data of origins and destinations of cycling trip 2005
+inds <- which(gss_e_2005$PLACE == 17)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with cycling episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+cycling_2005 <- gss_e_2005[unlist(rows),] |> 
+  dplyr::select(RECID:PLACE) |>
+  mutate(origin = lag(PLACE, order_by = RECID)) |> 
+  mutate(destination = lead(PLACE, order_by = RECID)) |>
+  group_by(RECID) |>
+  filter(PLACE == 17)
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+cycling_2005 <- cycling_2005 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3 | 
+           origin == 4 | 
+           origin == 5 |
+           origin == 6 | 
+           origin == 7 | 
+           origin == 8 |
+           origin == 9 |
+           origin == 10 ) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home",
+                     origin == 9 ~ "Outdoors",
+                     origin == 6 ~ "Grocery store, other stores or mall",
+                     origin == 10 ~ "Library, museum or theatre",
+                     origin == 4 ~ "Restaurant, bar or club",
+                     origin == 5 ~ "Place of worship",
+                     origin == 7 ~ "Grocery store, other stores or mall",                     
+                     origin == 8 ~ "Work or school"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the previous step, the description column will also be
+created for destinations.
+
+```{r}
+cycling_2005 <- cycling_2005 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 | 
+           destination == 4 | 
+           destination == 5 |
+           destination == 6 | 
+           destination == 7 | 
+           destination == 8 |
+           destination == 9 |
+           destination == 10 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home",
+                     destination == 9 ~ "Outdoors",
+                     destination == 6 ~ "Grocery store, other stores or mall",
+                     destination == 10 ~ "Library, museum or theatre",
+                     destination == 4 ~ "Restaurant, bar or club",
+                     destination == 5 ~ "Place of worship",
+                     destination == 7 ~ "Grocery store, other stores or mall",                     
+                     destination == 8 ~ "Work or school"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+cycling_2005 <- cycling_2005 |>
+  dplyr::select(RECID, WGHT_EPI, ACTCODE:ENDTIME, DURATION:dest_label) |>
+  mutate(YEAR = 2005,
+         MODE = "Cycling")
+cycling_2005 <- cycling_2005 |> dplyr::rename(
+    PUMFID = RECID,
+    LOCATION = PLACE) 
+```
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST')]
+
+cycling_2005 <- cycling_2005 |> 
+  left_join(gss_m_2005, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
+  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+cycling_2005 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+The most common destination for a cycling trip that starts at home is
+`Work or school`. Check those home-to-home trips:
+
+```{r echo = FALSE}
+cycling_2005 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See `RECID` == 1903 and check the cycling episode:
+
+```{r}
+gss_e_2005 |>
+  filter(RECID == 1903) |>
+  slice(unique(c(reduce(map(which(PLACE == 17), ~ c(.x - 1, .x, .x + 1)), c)))) |>  
+  dplyr::select(RECID,PLACE,ACTCODE,DURATION)
+```
+
+The individual remained at home, where they slept for approximately 420
+minutes. Subsequently, they ventured out for a 15-minute cycling session
+before returning home. Upon their return, they engaged in an activity
+labeled as `ACTCODE` = 11 for 465 minutes, which denotes working from home
+as their primary workplace. Following this work period, the person went
+out for another 15-minute cycling session, then returned home once more
+and spent 90 minutes watching television.
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(cycling_2005, overwrite = TRUE)
+```
+As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+```{r}
+rm(gss_e_2005,gss_m_2005)
+```
+## GSS 1998
+
+Read the Episode and Main files of the 1998 GSS survey:
+
+```{r}
+# Episode File
+gss_e_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-12M0012-E-1998-c-12e_F1.csv"))
+
+# Main File
+gss_m_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-12M0012-E-1998-c-12-m_F1.csv"))
+```
+
+
+### Walking 1998
+
+Identifying the rows with walking episodes and selecting the rows after
+and before the walking episodes to obtain the origin and location
+variables:
+
+```{r creating dataset for walking 1998 }
+
+# **walking 1998**
+# Creating data of origins and destinations of walking trip 1998
+inds = which(gss_e_1998$PLACE == 7)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with walking episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+walking_1998 <- gss_e_1998 [unlist(rows),] |>
+  dplyr::select(RECID:PLACE) |> 
+  mutate(origin = lag(PLACE, order_by = RECID)) |>
+  mutate(destination = lead(PLACE, order_by = RECID)) |> 
+  group_by(RECID) |> 
+  filter(PLACE == 7) 
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+walking_1998 <- walking_1998 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3 ) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the step before, we'll select the destinations of interest
+and create the label for the `destination` variable:
+
+```{r}
+walking_1998 <- walking_1998 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+walking_1998 <- walking_1998 |>
+  dplyr::select(RECID, WGHTEPI,ACTCODE: ENDTIME, DURATION:dest_label) |>
+  mutate(YEAR = 1998,
+         MODE = "Walking")
+walking_1998 <- walking_1998|> dplyr::rename(
+    PUMFID = RECID,
+    WGHT_EPI = WGHTEPI,
+    LOCATION = PLACE) 
+```
+
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_1998 <- gss_m_1998[,c('RECID','CMAPRV')]
+
+walking_1998 <- walking_1998 |> 
+  left_join(gss_m_1998, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
+  filter(CMAPRV %in% c(6,8,11,13,15)) # Selecting only respondents from CMA/CA
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+walking_1998 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+In this case, the most common destination for a walking trip that starts at home are
+`other's Home`.
+
+Check those home-to-home trips:
+
+```{r echo = FALSE}
+walking_1998 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See `RECID` == 2302 and check the walking episode:
+
+```{r}
+gss_e_1998 |>
+  filter(RECID == 2302) |>
+  slice(unique(c(reduce(map(which(PLACE == 7), ~ c(.x - 1, .x, .x + 1)), c)))) |>
+  dplyr::select(RECID,PLACE,ACTCODE,DURATION)
+
+```
+
+The person was at home doing food cleanup (`ACTCODE` = 110), then
+went for walking that lasted 30 minutes, came back home and spent 15 minutes relaxing/resting. Here have here another cas of a recreational/leisure trip!
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(walking_1998, overwrite = TRUE)
+```
+
+### Cycling 1998
+
+Identifying the rows with cycling episodes and selecting the rows after
+and before the cycling episodes to obtain the origin and location
+variables:
+
+```{r creating dataset for cycling 1998 }
+# **cycling 1998**
+# Creating data of origins and destinations of cycling trip 1998
+inds <- which(gss_e_1998$PLACE == 9)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with cycling episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+cycling_1998 <- gss_e_1998[unlist(rows),] |> 
+  dplyr::select(RECID:PLACE) |>
+  mutate(origin = lag(PLACE, order_by = RECID)) |> 
+  mutate(destination = lead(PLACE, order_by = RECID)) |>
+  group_by(RECID) |>
+  filter(PLACE == 9)
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+cycling_1998 <- cycling_1998 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3 ) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the previous step, the description column will also be
+created for destinations.
+
+```{r}
+cycling_1998 <- cycling_1998 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+cycling_1998 <- cycling_1998 |>
+  dplyr::select(RECID, WGHTEPI,ACTCODE: ENDTIME, DURATION:dest_label) |>
+  mutate(YEAR = 1998,
+         MODE = "Cycling")
+cycling_1998 <- cycling_1998|> dplyr::rename(
+    PUMFID = RECID,
+    WGHT_EPI = WGHTEPI,
+    LOCATION = PLACE) 
+```
+
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_1998 <- gss_m_1998[,c('RECID','CMAPRV')]
+
+cycling_1998 <- cycling_1998 |> 
+  left_join(gss_m_1998, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
+  filter(CMAPRV %in% c(6,8,11,13,15)) # Selecting only respondents from CMA/CA
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+cycling_1998 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+The most common destination for a cycling trip that starts at home is
+`Work or school`.
+
+Check those home-to-home trips:
+
+```{r echo = FALSE}
+cycling_1998 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See `RECID` == 4695 and check the cycling episode:
+
+```{r}
+gss_e_1998 |>
+  filter(RECID == 4695) |>
+  slice(unique(c(reduce(map(which(PLACE == 9), ~ c(.x - 1, .x, .x + 1)), c)))) |>  
+  dplyr::select(RECID,PLACE,ACTCODE,DURATION)
+```
+
+The person spent 165 minutes talking to someone (in person or on the phone, `ARTCODE` = 950), then embarked on a bike ride for 12 minutes. After that, the person spent 108 minutes shopping at home (`ARTCODE` = 380), cycled for another 12 minutes and came back to talk to someone for another 138 minutes (`ARTCODE` = 950). 
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(cycling_1998, overwrite = TRUE)
+```
+As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+```{r}
+rm(gss_e_1998,gss_m_1998)
+```
+## GSS 1992
+
+Read the Episode and Main files of the 1992 GSS survey:
+
+```{r}
+# Episode File
+gss_e_1992 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1992/gss-12M0007-E-1992-c-7-ep_F1.csv"))
+
+# Main File
+gss_m_1992 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1992/gss-12M0007-E-1992-c-7-m_F1.csv"))
+```
+
+### Walking 1992
+
+Identifying the rows with walking episodes and selecting the rows after
+and before the walking episodes to obtain the origin and location
+variables:
+
+```{r creating dataset for walking 1992 }
+
+# **walking 1992**
+# Creating data of origins and destinations of walking trip 1992
+inds = which(gss_e_1992$PLACE == 7)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with walking episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+walking_1992 <- gss_e_1992 [unlist(rows),] |>
+  dplyr::select(SEQNUM:PLACE,TIMEWGT) |> 
+  mutate(origin = lag(PLACE, order_by = SEQNUM)) |>
+  mutate(destination = lead(PLACE, order_by = SEQNUM)) |> 
+  group_by(SEQNUM) |> 
+  filter(PLACE == 7) 
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+walking_1992 <- walking_1992 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the step before, we'll select the destinations of interest
+and create the label for the `destination` variable:
+
+```{r}
+walking_1992 <- walking_1992 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+walking_1992 <- walking_1992 |>
+  dplyr::select(SEQNUM,TIMEWGT,ACTCODE:dest_label) |>
+  mutate(YEAR = 1992,
+         MODE = "Walking")
+walking_1992 <- walking_1992 |> dplyr::rename(
+    PUMFID = SEQNUM,
+    WGHT_EPI = TIMEWGT,
+    LOCATION = PLACE)
+```
+
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA')]
+
+walking_1992 <- walking_1992 |> 
+  left_join(gss_m_1992, by = c( 'PUMFID' = 'SEQNUM')) |>  # Merging the two tables
+  filter(DVCMA %in% c(6,8,11,13,15)) # Selecting only respondents from CMA/CA
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+walking_1992 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+The most common destination for a walking trip that starts at home is
+`Home`. Check these home-to-home trips:
+
+```{r echo = FALSE}
+walking_1992 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See SEQNUM == 1235 and check the walking episode:
+
+```{r}
+gss_e_1992 |>
+  filter(SEQNUM == 1235) |>
+  slice(unique(c(reduce(map(which(PLACE == 7), ~ c(.x - 1, .x, .x + 1)), c)))) |>
+  dplyr::select(SEQNUM,PLACE,ACTCODE,DURATION)
+
+```
+
+The person was at home reading newspapers (`ACTCODE` = 940), then went for walking that lasted 30 minutes, came back home and spent 90 minutes resting (`ACTCODE` = 470).[^10]
+
+[^10]: Note: ACTCODE is an activity code of the episode (What were you
+    doing in minute).The list of main activity codes can be found in an
+    appendix of the User Guide.
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(walking_1992, overwrite = TRUE)
+```
+
+### Cycling_1992
+
+Identifying the rows with cycling episodes and selecting the rows after
+and before the cycling episodes to obtain the origin and location
+variables:
+
+```{r creating dataset for cycling 1992 }
+# **cycling 1992**
+# Creating data of origins and destinations of cycling trip 1992
+inds <- which(gss_e_1992$PLACE == 9)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with cycling episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+cycling_1992 <- gss_e_1992[unlist(rows),] |> 
+  dplyr::select(SEQNUM:PLACE, TIMEWGT) |>
+  mutate(origin = lag(PLACE, order_by = SEQNUM)) |> 
+  mutate(destination = lead(PLACE, order_by = SEQNUM)) |>
+  group_by(SEQNUM) |>
+  filter(PLACE == 9)
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+cycling_1992 <- cycling_1992 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3 ) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the step before, we'll select the destinations of interest
+and create the label for the `destination` variable:
+
+```{r}
+cycling_1992 <- cycling_1992 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+cycling_1992 <- cycling_1992 |>
+  dplyr::select(SEQNUM,TIMEWGT,ACTCODE:dest_label) |>
+  mutate(YEAR = 1992,
+         MODE = "Cycling")
+cycling_1992 <- cycling_1992 |> dplyr::rename(
+    PUMFID = SEQNUM,
+    WGHT_EPI = TIMEWGT,
+    LOCATION = PLACE)
+```
+Now, let's select only the cases of respondents who live in a CMA or CA:
+```{r}
+gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA')]
+
+cycling_1992 <- cycling_1992 |> 
+  left_join(gss_m_1992, by = c( 'PUMFID' = 'SEQNUM')) |>  # Merging the two tables
+  filter(DVCMA %in% c(6,8,11,13,15)) # Selecting only respondents from CMA/CA
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+cycling_1992 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+The most common destination for a cycling trip that starts at home is
+`Work or school`.
+
+Check those home-to-home trips:
+
+```{r echo = FALSE}
+cycling_1992 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See SEQNUM == 8493 and check the cycling episode:
+
+```{r}
+gss_e_1992 |>
+  filter(SEQNUM == 8493) |>
+  slice(unique(c(reduce(map(which(PLACE == 9), ~ c(.x - 1, .x, .x + 1)), c)))) |> 
+  dplyr::select(SEQNUM,PLACE,ACTCODE,DURATION)
+```
+
+The person was at home Talking or having conversation on the phone (`ACTCODE` = 950), then went for cycling that lasted 60 minutes, came back home and spent 15 minutes washing and dressing (`ACTCODE` = 400). 
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(cycling_1992, overwrite = TRUE)
+```
+As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+```{r}
+rm(gss_e_1992,gss_m_1992)
+```
+
+## GSS 1986
+
+Read the Episode and Main files of the 1986 GSS survey:
+
+```{r}
+# Episode File
+gss_e_1986 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1986/gss-12M0002-E-1986-c-2-ep_F1.csv"))
+
+# Main File
+gss_m_1986 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1986/gss-12M0002-E-1986-c-2-main_F1.csv"))
+```
+
+### Walking 1986
+
+Identifying the rows with walking episodes and selecting the rows after
+and before the walking episodes to obtain the origin and location
+variables:
+
+```{r creating dataset for walking 1986}
+# **walking 1986**
+# Creating data of origins and destinations of walking trip 1986
+inds = which(gss_e_1986$PLACE == 5)
+rows <- lapply(inds, function(x) (x-1):(x+1))
+```
+
+Now, we'll select all the rows with walking episodes in the GSS survey,
+selecting the columns that we are interested, and already creating the
+origin and destination variables:
+
+```{r}
+walking_1986 <- gss_e_1986 [unlist(rows),] |>
+  dplyr::select(SEQNUM:PLACE,FWGT_MS) |> 
+  mutate(origin = lag(PLACE, order_by = SEQNUM)) |>
+  mutate(destination = lead(PLACE, order_by = SEQNUM)) |> 
+  group_by(SEQNUM) |> 
+  filter(PLACE == 5) 
+```
+
+Now, we'll select the origins of interest and create the label for the
+`origin` variable:
+
+```{r}
+walking_1986 <- walking_1986 |>
+  filter(origin == 1 | 
+           origin == 2 | 
+           origin == 3) |>
+  mutate(orig_label =
+           case_when(origin == 1 ~ "Home", 
+                     origin == 2 ~ "Work or school",
+                     origin == 3 ~ "Other's home"),
+         orig_label = factor(orig_label))
+```
+
+Similarly to the step before, we'll select the destinations of interest
+and create the label for the `destination` variable:
+
+```{r}
+walking_1986 <- walking_1986 |>
+  filter(destination == 1 | 
+           destination == 2 | 
+           destination == 3 ) |>
+  mutate(dest_label =
+           case_when(destination == 1 ~ "Home", 
+                     destination == 2 ~ "Work or school",
+                     destination == 3 ~ "Other's home"),
+         dest_label = factor(dest_label))
+```
+
+Creating the `year` and `mode` columns. Additionally, the columns
+`RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
+`LOCATION` to align with the names of the variables in 2015.
+
+```{r}
+walking_1986 <- walking_1986 |>
+  dplyr::select(SEQNUM,ACT_CODE:dest_label) |>
+  mutate(YEAR = 1986,
+         MODE = "Walking")
+
+walking_1986 <- walking_1986 |> dplyr::rename(
+    PUMFID = SEQNUM,
+    STARTIME= STRTTIME,
+    WGHT_EPI = FWGT_MS,
+    ACTCODE = ACT_CODE,
+    LOCATION = PLACE)
+```
+
+Now, let's evaluate the count of episodes between each combination of
+origin and destination:
+
+```{r}
+walking_1986 |> 
+  group_by(orig_label, 
+           dest_label) |>
+  count() |>
+  pivot_wider(names_from = "dest_label", values_from = "n")
+```
+
+One of the most common destination for a walking trip that starts at
+home is `HOME`. Notice, though that the most trips start *and* end at
+Home. What are those supposed to be?
+
+Check those home-to-home trips:
+
+```{r echo = FALSE}
+walking_1986 |>
+  filter(orig_label == "Home" & dest_label == "Home")
+```
+
+See SEQNUM == 26 and check the walking episode:
+
+```{r}
+gss_e_1986 |>
+  filter(SEQNUM == 68) |>
+  slice(unique(c(reduce(map(which(PLACE == 5), ~ c(.x - 1, .x, .x + 1)), c)))) |>
+  dplyr::select(SEQNUM,PLACE,ACT_CODE,DURATION)
+```
+
+The person was at home listening radio for 30 minutes (`ARTCODE` = 90), then went for walking that lasted 15 minutes, came back home and spent 90 minutes
+resting/relaxing (`ARTCODE` = 47).
+
+Save data in R format for later use:
+
+```{r}
+usethis::use_data(walking_1986, overwrite = TRUE)
+```
+As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+```{r}
+rm(gss_e_1986,gss_m_1986)
+```
+
+# Creating integrated dataset of walking and cycling trips
+
+To finish our pre-processing methodology, we will create a dataset named
+`trip` that will combine all the previous tables into a unique dataset:
+
+```{r creating an integrated data}
+# creating an integrated data frame from 1986 to 2015
+gss_episodes <- rbind(walking_2015[,1:13], cycling_2015[,1:13], walking_2010[,1:13], cycling_2010[,1:13], walking_2005[,1:13], cycling_2005[,1:13], cycling_1998[,1:13], walking_1998[,1:13], walking_1992[,1:13], cycling_1992[,1:13], walking_1986[,1:13])
+
+# Change the name of some values in the dest column in the dataset 
+# Ensure that 'dest_label' is the correct column name
+gss_episodes <- gss_episodes |>
+  mutate(dest_label = case_when(
+    dest_label == "Restaurant/bar" ~ "Restaurant, bar or club",
+    dest_label == "Outdoors away from home" ~ "Outdoors",
+    dest_label == "Grocery store, other stores or mall" ~ "Grocery store",
+    dest_label == "Restaurant, bar or club" ~ "Restaurant",
+    dest_label == "Sports centre, field or arena" ~ "Sport area",
+    dest_label == "Medical, dental or other health clinic" ~ "Health clinic",
+    dest_label == "In the neighbourhood" ~ "Outdoors",
+    dest_label == "Library, museum or theatre" ~ "Library",
+    TRUE ~ dest_label  # This line ensures other values remain unchanged
+  ))
+```
+
+Save this data frame in R format:
+
+```{r}
+usethis::use_data(gss_episodes, overwrite = TRUE)
+```

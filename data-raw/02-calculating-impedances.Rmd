@@ -1,0 +1,532 @@
+---
+title: "Calculating impedances for walking in cycling"
+author: "Bruno Santos, Mahdis Moghadasi & Antonio Paez"
+date: "`r Sys.Date()`"
+output:
+  tufte::tufte_html: default
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+  tufte::tufte_book:
+    citation_package: natbib
+    latex_engine: xelatex
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+# layout configuration 
+library(tufte)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+options(htmltools.dir.version = FALSE)
+rm(list=ls())
+```
+
+# Introduction
+
+This Rmarkdown file is part of the
+[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package. This
+package is one of the products developed by the [*Mobilizing
+Justice*](https://mobilizingjustice.ca/)[^1].
+
+[^1]: The Mobilizing Justice project is a multidisciplinary and
+    multi-sector collaboration with the objective of understand and
+    address transportation poverty in Canada and to improve the
+    well-being of Canadians at risk of transport poverty. The Social
+    Sciences and Humanities Research Council (SSRHC) has provided
+    funding for the project, which was created by an unprecedented
+    alliance of academics from various Canadian provinces and
+    institutions, transportation firms, and nonprofit organizations
+
+The main objective of the *ActiveCA* package is to identify the most
+appropriate impedance functions for active transportation modes for
+various destinations and time periods in Canada. To do achieve our
+objective, we analyzed historical data from the [General Social Survey
+(GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221)
+from 1986 to 2015 in Canada to calculate the impedance function for
+cycling and walking trips.
+
+In this R markdown, we'll calculate the impedance functions for walking and cycling for each GSS year (from 1986 to 2015). 
+
+# Coding
+
+To start processing the data, first load the `R` packages used in this
+notebook:
+
+```{r}
+library(dplyr)# A Grammar of Data Manipulation 
+library(fitdistrplus) # Help to Fit of a Parametric Distribution to Non-Censored or Censored Data
+library(scales) # Scale data column-wise in a computationally efficient way
+library(here) # enable easy file referencing in project-oriented workflows
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+```
+
+To exemplify the process of selecting the best impedance function, we will use the example of the 1986 GSS dataset, already pre-processed in the `00-Reading-Source-Files.Rmd`: 
+```{r}
+load(file = paste0(here(), "/data/walking_1986.Rda"))
+```
+
+First, we'll analyze the travel time variable (`DURATION`) of the 1986 dataset, using the `summary()` function.
+
+```{r}
+summary(walking_1986$DURATION)
+```
+The minimum duration value for walking trips is `1` minute,  while the maximum is `660` minutes. Additionally, the average and median duration for walking trips are `20.85` minutes and `10` minutes, respectively.
+
+Now, we'll see this variable displayed in a histogram:
+```{r}
+ggplot(walking_1986, aes(x = DURATION )) + 
+  geom_histogram(binwidth = 30) + 
+  geom_vline(aes(xintercept=mean(DURATION)), color="blue", linetype="dashed", linewidth=0.5) + 
+  geom_vline(aes(xintercept=median(DURATION)), color="green", linetype="dashed", linewidth=0.5)
+```
+
+A histogram is a graph that illustrates the frequency distribution of a dataset corresponding to a single variable. Histograms displays the distribution and variability of the dataset, typically organizing data into 'bins' or 'range groups,' tallying the quantity of data points within each bin.
+
+Analyzing the histogram above, we can identify that the just a few values of duration are higher than 1 hundred minutes.  To better visualize the variable distribution, let's use an other type of graph, the boxplot graph:
+
+```{r}
+ggplot(walking_1986, aes(y = DURATION, x = "")) + 
+  geom_boxplot() +
+  scale_y_continuous(breaks = seq(0, max(walking_1986$DURATION, na.rm = TRUE), by = 100)) +
+  xlab("")
+```
+We can see that just a few outliers present values higher than 100 minutes. In fact, the chunk below shows that from the 4347 instances of the dataset, 117 have values of duration higher than 100 minutes. Because of this, we'll analyze only individuals who engaged in walking for less than 100 minutes, focusing on their origins and destinations.
+
+```{r}
+length(walking_1986$DURATION)
+sum(walking_1986$DURATION > 100)
+```
+Visualizing the new summary:
+```{r}
+walking_1986 <- walking_1986 %>% filter(DURATION <= 100)
+summary(walking_1986$DURATION)
+```
+
+## Impedance functions
+
+The impedance function $f(c_{ij})$ reveals important information about
+the travel behavior of the population, as it represents the relationship
+between the "population" at an origin and where they usually go, want to
+go, or can go to reach the "opportunities" at the destinations.
+Because of this, defining the impedance function is extremely important.
+
+The decay rate of the impedance function needs to be calibrated if one
+wants the accessibility estimates to be representative of the people's
+travel behavior. In our case, we'll use the Census data in the
+calibration process.
+
+Soukhov and Páez [-@MJ-A2-0002] reviewed commonly used impedance
+functions $f(\bullet)$ in accessibility research, explaining their
+impacts on the summation of opportunities at specific travel costs
+$c_{ij}$. In this study, we will explore the following functions to
+determine the impedance function that best fits our data:
+[exponential](https://en.wikipedia.org/wiki/Exponential_distribution),
+[gamma](https://en.wikipedia.org/wiki/Gamma_distribution),
+[log-normal](https://en.wikipedia.org/wiki/Log-normal_distribution),
+[normal](https://en.wikipedia.org/wiki/Normal_distribution), and
+[uniform](https://en.wikipedia.org/wiki/Continuous_uniform_distribution).
+
+# Trip length distribution: exemplifying the case of the 1986 GSS
+
+All of the impedance functions mentioned require the analyst to define
+parameters. One useful technique is to create a trip length distribution
+(TLD) using empirically observed origin-destination travel survey data.
+A TLD reflects observed travel patterns: specifically, the probability
+of an observed trip of a given travel cost occurring for the population
+in a region of interest. Based on the TLD, we can select the most
+appropriate theoretical PDF forms (e.g., uniform, exponential, gamma),
+adjust the associated parameters, and use the calibrated theoretical PDF
+to incorporate the assumptions about the population's travel behavior
+into the accessibility calculation.
+
+Soukhov and Páez [-@MJ-A2-0002] demonstrated the process of calibrating
+and selecting the best distribution to represent an impedance function
+based on travel flows from workers who live and work (full-time) within
+the City of Hamilton. The authors used the data from the R data package
+[{TTS2016R}](https://soukhova.github.io/TTS2016R/) and the R package
+[{fitdistrplus}](https://cloud.r-project.org/web/packages/fitdistrplus/index.html)
+to generate parameters that best fit the TLD the parameters of the
+uniform, exponential, and gamma functions as closely to the TLD.
+
+The next chunks of code of this Rmarkdown explains the process of calibrating PDF
+functions for the Walking dataset of the 1986 GSS.
+
+## Empirical travel time
+
+Creating a data frame with the all empirical travel times:
+
+```{r empiric-travel-times}
+# Bind the empirical trip length distribution:
+tld_empirical <- walking_1986[, c("DURATION", "MODE", "destination", "WGHT_EPI","dest_label")] %>% 
+  mutate(MODE = factor(MODE, levels = c("Walking","Cycling")), 
+      distribution = "empirical") 
+
+tld_empirical$DURATION <- as.numeric(tld_empirical$DURATION)
+```
+
+
+## Theoretical travel time
+
+Now that we already have the travel times for each trip, we will try to create a impedance function that better
+describes the travel pattern of the respondents in each destination. To do so,
+we'll first create a function that based on the lowest Akaike
+Information Criterion (AIC)[^12], selects the better function between
+the distributions:
+[exponential](https://en.wikipedia.org/wiki/Exponential_distribution),
+[gamma](https://en.wikipedia.org/wiki/Gamma_distribution),
+[log-normal](https://en.wikipedia.org/wiki/Log-normal_distribution),
+[normal](https://en.wikipedia.org/wiki/Normal_distribution), and
+[uniform](https://en.wikipedia.org/wiki/Continuous_uniform_distribution).
+
+[^12]: The Akaike Information Criterion (AIC) estimates prediction error
+    and model quality for a given data set.
+
+We'll use the
+[{fitdistrplus}](https://cloud.r-project.org/web/packages/fitdistrplus/index.html)
+to determine the parameters that best fit the TLD. The Moment Matching Estimation (MME) fitting method and the Nelder-Mead
+direct optimization algorithm are used [@mullerdutang2015].
+
+```{r lowest-aic-function}
+# Select the distribution function based on the lowest AIC value
+lowest_aic <- function(values){
+  
+  min_aic <- min(values)
+  
+  if(!is.na(lnorm_$aic) & min_aic == lnorm_$aic){
+    choosen_f <- lnorm_
+  }
+  
+  else if  (!is.na(gamma_$aic) & min_aic == gamma_$aic){
+    choosen_f <- gamma_
+  }  
+  
+  else if  (!is.na(unif_$aic) & min_aic == unif_$aic){
+    choosen_f <- unif_
+  }  
+  
+  else if  (!is.na(norm_$aic) & min_aic == norm_$aic){
+    choosen_f <- norm_
+  }
+  else if  (!is.na(exp_$aic) & min_aic == exp_$aic){
+    choosen_f <- exp_
+  }
+  
+  return(choosen_f)
+}
+
+# Test the distributions
+test_distributions_weighted <- function(x, weights){
+  gamma_ <<- fitdistrplus::fitdist(data=x, "gamma", method="mme", weights = weights)
+  lnorm_ <<- fitdistrplus::fitdist(data=x, "lnorm", method="mme", weights = weights)
+  norm_ <<- fitdistrplus::fitdist(data=x, "norm", method="mme", weights = weights)
+  exp_ <<- fitdistrplus::fitdist(data=x, "exp", method="mme", weights = weights)
+  unif_ <<- fitdistrplus::fitdist(data=x, "unif", method="mme", weights = weights)
+  
+  values <- c(lnorm_$aic, gamma_$aic, unif_$aic, norm_$aic, exp_$aic)
+  values <- values[!is.na(values)]
+  
+  chosen_function <- lowest_aic(values)
+
+  return(chosen_function)
+}
+```
+
+Obtaining the theoretical impedance function for the each destination mode:
+```{r}
+for(destino in unique(tld_empirical$destination)){
+  assign(paste0("f_1986_Walking_dest", destino), 
+         test_distributions_weighted(
+           x = tld_empirical[tld_empirical$destination == destino, ]$DURATION,
+           weights = tld_empirical[tld_empirical$destination == destino, ]$WGHT_EPI))
+}
+```
+
+Based on the minimum AIC, the best function for the destination `1` (`Home`), considering walking as the mode of transportation, is the `Log-normal distribution`: 
+
+```{r}
+f_1986_Walking_dest1
+```
+
+Actually, the `Log-normal distribution` was the best fuction for the others two destination from the survey: `2` (`Work or school`) and `3` (`Other's home`).
+
+```{r}
+f_1986_Walking_dest2
+```
+
+```{r}
+f_1986_Walking_dest3
+```
+
+The chunk below aims to create functions to graphically display the
+theoretical values obtained in the chunks:
+
+```{r theoretical-impedance-functions}
+
+# For Displaying theoretical data
+
+visualize_impedance <- function(destination_function, travel_cost, name_destination){
+
+  x <- data.frame(t = seq(1, max(travel_cost), 1))
+
+  # lnorm impedance 
+  if(destination_function$distname == "lnorm"){
+      x <- x %>%
+      mutate(f = dlnorm(t,
+                    meanlog = destination_function$estimate[1],
+                    sdlog = destination_function$estimate[2]),
+         destination = name_destination)
+      
+  # Unif impedance 
+  } else if(destination_function$distname == "unif") {
+    x <- x %>%
+    mutate(f = dunif(t,
+                     min=0,
+                     max=destination_function$estimate[2]), #already scaled from 1 to 0
+         destination = name_destination)
+    
+  # Exponential impedance 
+  } else if(destination_function$distname == "exp") {
+    x <- x %>%
+    mutate(f = dexp(t,
+                    rate = destination_function$estimate), #|> scales::rescale(),
+         destination = name_destination)
+    
+  # Gamma impedance 
+  } else if (destination_function$distname == "gamma"){  
+    x <- x %>%
+        mutate(f = dgamma(t,
+                    shape = destination_function$estimate[1],
+                    rate = destination_function$estimate[2]),
+         destination = name_destination)
+    
+  # Norm impedance 
+  } else if (destination_function$distname == "norm"){
+        x <- x %>%
+        mutate(f = dnorm(t,
+                    mean = destination_function$estimate[1],
+                    sd = destination_function$estimate[2]),
+         destination = name_destination)
+        }
+  
+  return(x)
+}
+```
+
+Building the theoretical values for each destination based on the best
+impedance function for each destination:
+
+```{r theoretical-values}
+# Theoretical values for bike destination 
+tld_theoretical <- data.frame()
+
+for(destino in unique(tld_empirical$destination)){
+  
+  current_function <- paste0("f_1986_Walking_dest", destino)
+  
+  assign(paste0("theo_1986_Walking_dest", destino), 
+         visualize_impedance(destination_function = get(current_function),
+                             travel_cost = tld_empirical[tld_empirical$destination == destino, ]$DURATION,
+                             name_destination = destino))
+  
+  tld_theoretical <- rbind(tld_theoretical, get(paste0("theo_1986_Walking_dest", destino)))
+  }
+```
+
+Plotting the theoretical (black lines) and the empirical travel time
+distributions (bars):
+
+```{r travel-time-plots}
+par(mfrow = c(2, round(length(unique(tld_theoretical$destination))/2)))  # Arrange plots in 2 columns
+
+# Loop through each destination
+for (destination in unique(tld_empirical$destination)) {
+  # Subset empirical and theoretical data for the current destination
+  empirical_subset <- tld_empirical[tld_empirical$destination == destination, ]
+  theoretical_subset <- tld_theoretical[tld_theoretical$destination == destination, ]
+  
+  # Create histogram for empirical data
+  hist(empirical_subset$DURATION, freq = FALSE, col = "grey70", breaks = 20, main = paste(empirical_subset$dest_label[1]),
+       xlab = "Travel time from home to work (min)", ylab = "Density")
+  
+  # Add theoretical curve
+  lines(theoretical_subset$t, theoretical_subset$f)
+}
+
+# Reset plotting parameters
+par(mfrow = c(1, 1))
+```
+
+# Calculating for all GSS cicles
+
+```{r}
+load(file = paste0(here(), "/data/gss_episodes.Rda"))
+```
+
+
+```{r}
+gss_episodes <- gss_episodes %>%
+  filter(DURATION <= 100 & DURATION > 0) 
+
+gss_episodes <- gss_episodes %>%
+  group_by(MODE, YEAR, destination) %>%
+  mutate(count = n()) %>%
+  ungroup() %>%
+  filter(count > 1)
+
+gss_episodes$WGHT_EPI[is.na(gss_episodes$WGHT_EPI)] <- 1
+```
+
+
+```{r}
+
+for(year in unique(gss_episodes$YEAR)){
+  
+  for(destino in unique(gss_episodes$destination)){
+      
+    for(mode in unique(gss_episodes[gss_episodes$YEAR == year, ]$MODE)){
+      
+        gss_subset <-  gss_episodes[gss_episodes$destination == destino &
+                            gss_episodes$YEAR == year &
+                            gss_episodes$MODE == mode, ]
+        
+        if(nrow(gss_subset) > 0){
+          print(paste("Calculating the best function for ", 
+                    mode, ", destination ",  
+                    gss_subset$dest_label[1],
+                    ", for the ", year, " GSS cicle"))
+  
+          assign(paste0("f_",year, "_", mode, "_dest", destino),
+               test_distributions_weighted(
+               x = gss_subset$DURATION,
+               weights = round(gss_subset$WGHT_EPI)))
+        }
+    }
+  }
+}
+```
+
+```{r}
+# To generate the theoretical data
+generate_impedance <- function(destination_function, travel_cost){
+
+  f <- 0
+  
+  # lnorm impedance 
+  if(destination_function$distname == "lnorm"){
+  f <- dlnorm(travel_cost,
+                    meanlog = destination_function$estimate[1],
+                    sdlog = destination_function$estimate[2])
+  
+   estimate_1 <- destination_function$estimate[1]
+   estimate_2 <- destination_function$estimate[2]
+  }
+  
+  # Unif impedance 
+  else if(destination_function$distname == "unif") {
+   f <- dunif(travel_cost,
+                     min=0,
+                     max=destination_function$estimate[2])
+   
+   estimate_1 <- 0
+   estimate_2 <- destination_function$estimate[2]
+   
+  # Exponential impedance 
+  } else if(destination_function$distname == "exp") {
+    f <- rescale(dexp(travel_cost,
+                    rate = destination_function$estimate))
+    
+   estimate_1 <- destination_function$estimate
+   estimate_2 <- 0 
+   
+      # Gamma impedance 
+  } else if (destination_function$distname == "gamma"){  
+    f <- dgamma(travel_cost,
+                    shape = destination_function$estimate[1],
+                    rate = destination_function$estimate[2])
+    
+   estimate_1 <- destination_function$estimate[1]
+   estimate_2 <- destination_function$estimate[2]
+   
+  # Norm impedance 
+  } else if (destination_function$distname == "norm"){
+        f <- dnorm(travel_cost,
+                    mean = destination_function$estimate[1],
+                    sd = destination_function$estimate[2])
+    
+   estimate_1 <- destination_function$estimate[1]
+   estimate_2 <- destination_function$estimate[2]
+   
+  }
+  
+  df_f <- data.frame("f_name" = rep(destination_function$distname, length(f)),
+           "f" = f, 
+           "est_1" = rep(estimate_1, length(f)),
+           "est_2" = rep(estimate_2, length(f)))
+  
+  return(df_f)
+}
+```
+
+
+```{r}
+gss_episodes$f_name <- ''
+gss_episodes$f <- 0
+gss_episodes$est_1 <- 0
+gss_episodes$est_2 <- 0
+gss_episodes$loglik <- 0
+gss_episodes$aic <- 0
+gss_episodes$bic <- 0
+
+for(year in unique(gss_episodes$YEAR)){
+  
+  for(destino in unique(gss_episodes$destination)){
+      
+    for(mode in unique(gss_episodes[gss_episodes$YEAR == year, ]$MODE)){
+      
+        gss_subset <-  gss_episodes[gss_episodes$destination == destino &
+                            gss_episodes$YEAR == year &
+                            gss_episodes$MODE == mode ,
+                            ]
+        
+        if(nrow(gss_subset) > 0){
+          
+                    print(paste("Obtaining the values for ", 
+                    mode, ", destination ",  
+                    gss_subset$dest_label[1],
+                    ", for the ", year, " GSS cicle"))
+  
+        current_function <- paste0("f_",year, "_", mode, "_dest", destino)
+        
+        df_f <- generate_impedance(destination_function = get(current_function),
+                                   travel_cost = gss_subset$DURATION)
+  
+        gss_episodes[gss_episodes$destination == destino &
+                            gss_episodes$YEAR == year &
+                            gss_episodes$MODE == mode ,
+                            c("f_name","f","est_1","est_2")] <- df_f[,c("f_name","f","est_1","est_2")]
+        
+        gss_episodes[gss_episodes$destination == destino &
+                            gss_episodes$YEAR == year &
+                            gss_episodes$MODE == mode ,
+                            c("loglik", "aic", "bic")] <- list(get(current_function)$loglik, get(current_function)$aic, get(current_function)$bic)
+        }
+      }
+  }
+}
+
+```
+
+```{r}
+gss_impedances <- gss_episodes[,c("PUMFID","DURATION","LOCATION",
+                  "origin","destination","orig_label",
+                  "dest_label","YEAR","MODE","f_name",
+                  "f","est_1","est_2","loglik","aic","bic")]
+```
+
+Save this data frame in R format:
+
+```{r}
+usethis::use_data(gss_impedances, overwrite = TRUE)
+```
