@@ -367,7 +367,10 @@ load(file = paste0(here(), "/data/gss_episodes.Rda"))
 
 ```{r}
 gss_episodes <- gss_episodes %>%
-  filter(DURATION <= 100 & DURATION > 0) 
+  filter(DURATION <= 100 & 
+           DURATION > 0 & 
+           YEAR > 1986 & 
+           Pop_centre %in% c("CMA/CA", "CMA"))
 
 gss_episodes <- gss_episodes %>%
   group_by(MODE, YEAR, destination) %>%
@@ -520,7 +523,7 @@ for(year in unique(gss_episodes$YEAR)){
 
 ```{r}
 gss_impedances <- gss_episodes[,c("PUMFID","DURATION","LOCATION",
-                  "origin","destination","orig_label",
+                  "origin","destination","Province","Pop_centre","orig_label",
                   "dest_label","YEAR","MODE","f_name",
                   "f","est_1","est_2","loglik","aic","bic")]
 ```

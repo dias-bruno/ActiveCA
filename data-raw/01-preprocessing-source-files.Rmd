@@ -354,13 +354,29 @@ walking_2015 <- walking_2015 |>
          MODE = "Walking") |>
   dplyr::rename(ACTCODE = TUI_01)
 ```
+
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST')]
+gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST','PRV')]
 
 walking_2015 <- walking_2015 |> 
   left_join(gss_m_2015, by = 'PUMFID') |>  # Merging the two tables
-  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+  filter(LUC_RST %in% c(1,2,3)) |> 
+  mutate(Pop_centre =
+           case_when(LUC_RST == 1 ~ "CMA/CA",
+                     LUC_RST == 2 ~ "non CMA/CA",
+                     LUC_RST == 3 ~ "non CMA/CA"),
+         Province = 
+           case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia"))
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -521,11 +537,26 @@ cycling_2015 <- cycling_2015 |>
 ```
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST')]
+gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST','PRV')]
 
 cycling_2015 <- cycling_2015 |> 
   left_join(gss_m_2015, by = 'PUMFID') |>  # Merging the two tables
-  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+  filter(LUC_RST %in% c(1,2,3)) |> 
+  mutate(Pop_centre =
+           case_when(LUC_RST == 1 ~ "CMA/CA",
+                     LUC_RST == 2 ~ "non CMA/CA",
+                     LUC_RST == 3 ~ "non CMA/CA"),
+         Province = 
+           case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia"))
 ```
 Now, let's evaluate the count of episodes between each combination of
 origin and destination:
@@ -690,11 +721,26 @@ walking_2010 <- walking_2010 %>% dplyr::rename(
 ```
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST')]
+gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST','PRV')]
 
 walking_2010 <- walking_2010 |> 
   left_join(gss_m_2010, by = c('PUMFID' = 'RECID')) |>  # Merging the two tables
-  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+  filter(LUC_RST %in% c(1,2,3)) |> 
+  mutate(Pop_centre =
+           case_when(LUC_RST == 1 ~ "CMA/CA",
+                     LUC_RST == 2 ~ "non CMA/CA",
+                     LUC_RST == 3 ~ "non CMA/CA"),
+         Province = 
+           case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia"))
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -852,11 +898,26 @@ cycling_2010 <- cycling_2010 %>% dplyr::rename(
 ```
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST')]
+gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST','PRV')]
 
 cycling_2010 <- cycling_2010 |> 
   left_join(gss_m_2010, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
-  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+  filter(LUC_RST %in% c(1,2,3)) |> 
+  mutate(Pop_centre =
+           case_when(LUC_RST == 1 ~ "CMA/CA",
+                     LUC_RST == 2 ~ "non CMA/CA",
+                     LUC_RST == 3 ~ "non CMA/CA"),
+         Province = 
+           case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia"))
 ```
 Now, let's evaluate the count of episodes between each combination of
 origin and destination:
@@ -1020,11 +1081,26 @@ walking_2005 <- walking_2005 |> dplyr::rename(
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST')]
+gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST','PRV')]
 
 walking_2005 <- walking_2005 |> 
   left_join(gss_m_2005, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
-  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+  filter(LUC_RST %in% c(1,2,3)) |> 
+  mutate(Pop_centre =
+           case_when(LUC_RST == 1 ~ "CMA/CA",
+                     LUC_RST == 2 ~ "non CMA/CA",
+                     LUC_RST == 3 ~ "non CMA/CA"),
+         Province = 
+           case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia"))
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -1179,11 +1255,26 @@ cycling_2005 <- cycling_2005 |> dplyr::rename(
 ```
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST')]
+gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST','PRV')]
 
 cycling_2005 <- cycling_2005 |> 
   left_join(gss_m_2005, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
-  filter(LUC_RST == 1) # Selecting only respondents from CMA/CA
+  filter(LUC_RST %in% c(1,2,3)) |> 
+  mutate(Pop_centre =
+           case_when(LUC_RST == 1 ~ "CMA/CA",
+                     LUC_RST == 2 ~ "non CMA/CA",
+                     LUC_RST == 3 ~ "non CMA/CA"),
+         Province = 
+           case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia"))
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -1319,11 +1410,25 @@ walking_1998 <- walking_1998|> dplyr::rename(
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_1998 <- gss_m_1998[,c('RECID','CMAPRV')]
+gss_m_1998 <- gss_m_1998[,c('RECID','CMAPRV','PRV')]
 
 walking_1998 <- walking_1998 |> 
   left_join(gss_m_1998, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
-  filter(CMAPRV %in% c(6,8,11,13,15)) # Selecting only respondents from CMA/CA
+  mutate(Pop_centre =
+           case_when(CMAPRV %in% c(6,8,11,13,15) ~ "CMA",
+                     CMAPRV %in% c(1,2,3,4,5,7,9,10,12,14) ~ "non CMA"),
+         Province = 
+           case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia")) |> dplyr::rename(
+    LUC_RST = CMAPRV) 
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -1439,11 +1544,25 @@ cycling_1998 <- cycling_1998|> dplyr::rename(
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_1998 <- gss_m_1998[,c('RECID','CMAPRV')]
+gss_m_1998 <- gss_m_1998[,c('RECID','CMAPRV','PRV')]
 
 cycling_1998 <- cycling_1998 |> 
   left_join(gss_m_1998, by = c( 'PUMFID' = 'RECID')) |>  # Merging the two tables
-  filter(CMAPRV %in% c(6,8,11,13,15)) # Selecting only respondents from CMA/CA
+  mutate(Pop_centre =
+           case_when(CMAPRV %in% c(6,8,11,13,15) ~ "CMA",
+                     CMAPRV %in% c(1,2,3,4,5,7,9,10,12,14) ~ "non CMA"),
+         Province = 
+           case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia")) |> dplyr::rename(
+    LUC_RST = CMAPRV) 
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -1574,11 +1693,26 @@ walking_1992 <- walking_1992 |> dplyr::rename(
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA')]
+gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA','DVPROV')]
 
-walking_1992 <- walking_1992 |> 
+walking_1992 <- walking_1992  |> 
   left_join(gss_m_1992, by = c( 'PUMFID' = 'SEQNUM')) |>  # Merging the two tables
-  filter(DVCMA %in% c(6,8,11,13,15)) # Selecting only respondents from CMA/CA
+  mutate(Pop_centre =
+           case_when(DVCMA %in% c(6,8,11,13,15) ~ "CMA",
+                     DVCMA %in% c(1,2,3,4,5,7,9,10,12,14) ~ "non CMA"),
+         Province = 
+           case_when(DVPROV == 0 ~ "Newfoundland and Labrador",
+                     DVPROV == 1 ~ "Prince Edward Island",
+                     DVPROV == 2 ~ "Nova Scotia",
+                     DVPROV == 3 ~ "New Brunswick",
+                     DVPROV == 4 ~ "Quebec",
+                     DVPROV == 5 ~ "Ontario",
+                     DVPROV == 6 ~ "Manitoba",
+                     DVPROV == 7 ~ "Saskatchewan",
+                     DVPROV == 8 ~ "Alberta",
+                     DVPROV == 9 ~ "British Columbia")) |> dplyr::rename(
+    LUC_RST = DVCMA,
+    PRV = DVPROV) 
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -1694,11 +1828,26 @@ cycling_1992 <- cycling_1992 |> dplyr::rename(
 ```
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
-gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA')]
+gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA','DVPROV')]
 
 cycling_1992 <- cycling_1992 |> 
-  left_join(gss_m_1992, by = c( 'PUMFID' = 'SEQNUM')) |>  # Merging the two tables
-  filter(DVCMA %in% c(6,8,11,13,15)) # Selecting only respondents from CMA/CA
+left_join(gss_m_1992, by = c( 'PUMFID' = 'SEQNUM')) |>  # Merging the two tables
+  mutate(Pop_centre =
+           case_when(DVCMA %in% c(6,8,11,13,15) ~ "CMA",
+                     DVCMA %in% c(1,2,3,4,5,7,9,10,12,14) ~ "non CMA"),
+         Province = 
+           case_when(DVPROV == 0 ~ "Newfoundland and Labrador",
+                     DVPROV == 1 ~ "Prince Edward Island",
+                     DVPROV == 2 ~ "Nova Scotia",
+                     DVPROV == 3 ~ "New Brunswick",
+                     DVPROV == 4 ~ "Quebec",
+                     DVPROV == 5 ~ "Ontario",
+                     DVPROV == 6 ~ "Manitoba",
+                     DVPROV == 7 ~ "Saskatchewan",
+                     DVPROV == 8 ~ "Alberta",
+                     DVPROV == 9 ~ "British Columbia")) |> dplyr::rename(
+    LUC_RST = DVCMA,
+    PRV = DVPROV) 
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -1817,12 +1966,28 @@ Creating the `year` and `mode` columns. Additionally, the columns
 `LOCATION` to align with the names of the variables in 2015.
 
 ```{r}
+gss_m_1986 <- gss_m_1986[,c('SEQNUM','PROV')]
+
 walking_1986 <- walking_1986 |>
   dplyr::select(SEQNUM,ACT_CODE:dest_label) |>
+    left_join(gss_m_1986, by = c( 'SEQNUM' = 'SEQNUM')) |>  # Merging the two tables
   mutate(YEAR = 1986,
-         MODE = "Walking")
-
-walking_1986 <- walking_1986 |> dplyr::rename(
+         MODE = "Walking",
+         LUC_RST = 99,
+         Pop_centre = "No information available",
+         Province = 
+           case_when(PROV == 0 ~ "Newfoundland and Labrador",
+                     PROV == 1 ~ "Prince Edward Island",
+                     PROV == 2 ~ "Nova Scotia",
+                     PROV == 3 ~ "New Brunswick",
+                     PROV == 4 ~ "Quebec",
+                     PROV == 5 ~ "Ontario",
+                     PROV == 6 ~ "Manitoba",
+                     PROV == 7 ~ "Saskatchewan",
+                     PROV == 8 ~ "Alberta",
+                     PROV == 9 ~ "British Columbia")) |> 
+  dplyr::rename(
+    PRV = PROV,
     PUMFID = SEQNUM,
     STARTIME= STRTTIME,
     WGHT_EPI = FWGT_MS,
@@ -1882,7 +2047,7 @@ To finish our pre-processing methodology, we will create a dataset named
 
 ```{r creating an integrated data}
 # creating an integrated data frame from 1986 to 2015
-gss_episodes <- rbind(walking_2015[,1:13], cycling_2015[,1:13], walking_2010[,1:13], cycling_2010[,1:13], walking_2005[,1:13], cycling_2005[,1:13], cycling_1998[,1:13], walking_1998[,1:13], walking_1992[,1:13], cycling_1992[,1:13], walking_1986[,1:13])
+gss_episodes <- rbind(walking_2015, cycling_2015, walking_2010, cycling_2010, walking_2005, cycling_2005, cycling_1998, walking_1998, walking_1992, cycling_1992, walking_1986)
 
 # Change the name of some values in the dest column in the dataset 
 # Ensure that 'dest_label' is the correct column name
