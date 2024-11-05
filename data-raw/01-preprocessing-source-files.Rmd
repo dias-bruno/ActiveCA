@@ -2048,21 +2048,6 @@ To finish our pre-processing methodology, we will create a dataset named
 ```{r creating an integrated data}
 # creating an integrated data frame from 1986 to 2015
 gss_episodes <- rbind(walking_2015, cycling_2015, walking_2010, cycling_2010, walking_2005, cycling_2005, cycling_1998, walking_1998, walking_1992, cycling_1992, walking_1986)
-
-# Change the name of some values in the dest column in the dataset 
-# Ensure that 'dest_label' is the correct column name
-gss_episodes <- gss_episodes |>
-  mutate(dest_label = case_when(
-    dest_label == "Restaurant/bar" ~ "Restaurant, bar or club",
-    dest_label == "Outdoors away from home" ~ "Outdoors",
-    dest_label == "Grocery store, other stores or mall" ~ "Grocery store",
-    dest_label == "Restaurant, bar or club" ~ "Restaurant",
-    dest_label == "Sports centre, field or arena" ~ "Sport area",
-    dest_label == "Medical, dental or other health clinic" ~ "Health clinic",
-    dest_label == "In the neighbourhood" ~ "Outdoors",
-    dest_label == "Library, museum or theatre" ~ "Library",
-    TRUE ~ dest_label  # This line ensures other values remain unchanged
-  ))
 ```
 
 Save this data frame in R format:
