@@ -1,15 +1,17 @@
 Package: ActiveCA
-Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Title: Processed data to obtain impedance functions for active transportation modes in Canada
+Version: 0.0.0.9000
+Authors@R: 
+    c(person("Bruno", "Dos Santos", , "dossanb@mcmaster.ca", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6748-2038")),
+           person("Mahdis", "Moghadasi", , "moghadasi.mahdis@mcmaster.ca", role = c("aut"),
+           comment = c(ORCID = "0000-002-6748-2038")),
+           person("Antonio", "Paez", , "paezha@mcmaster.ca", role = c("aut"),
+           comment = c(ORCID = "0000-0001-6912-9919")))
+Description: The main objective of the ActiveCA package is to provide processed data to identify the most appropriate impedance functions for active transportation modes considering various destinations and time periods in Canada. To do achieve this objective, we processed historical data from the General Social Survey (GSS)(https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) from 1986 to 2015 in Canada. We also calculate impedance function for cycling and walking trips for the Census Agglomerations and Census Metropolitan Areas.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
-URL: https://github.com/dias-bruno/ActiveCA
-BugReports: https://github.com/dias-bruno/ActiveCA/issues
+Roxygen: list(markdown = TRUE)
 Depends: 
     R (>= 2.10)
+RoxygenNote: 7.3.2

@@ -10,6 +10,8 @@ output:
   tufte::tufte_book:
     citation_package: natbib
     latex_engine: xelatex
+bibliography: activeca.bib
+link-citations: yes
 editor_options: 
   markdown: 
     wrap: 72
@@ -26,29 +28,22 @@ rm(list=ls())
 # Introduction
 
 This Rmarkdown file is part of the
-[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package. This
-package is one of the products developed by the [*Mobilizing
-Justice*](https://mobilizingjustice.ca/)[^1].
-
-[^1]: The Mobilizing Justice project is a multidisciplinary and
-    multi-sector collaboration with the objective of understand and
-    address transportation poverty in Canada and to improve the
-    well-being of Canadians at risk of transport poverty. The Social
-    Sciences and Humanities Research Council (SSRHC) has provided
-    funding for the project, which was created by an unprecedented
-    alliance of academics from various Canadian provinces and
-    institutions, transportation firms, and nonprofit organizations
-
-The main objective of the *ActiveCA* package is to identify the most
+[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package. The main objective of the *ActiveCA* package is to identify the most
 appropriate impedance functions for active transportation modes for
-various destinations and time periods in Canada. To do achieve our
-objective, we analyzed historical data from the [General Social Survey
+various destinations and time periods in Canada. To do achieve this objective, we analyzed historical data from the [General Social Survey
 (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221)
 from 1986 to 2015 in Canada to calculate the impedance function for
 cycling and walking trips.
 
 In this R markdown, we read the GSS surveys and prepare the data set to
 the following analyses.
+
+## Suggested reading
+
+-   Soukhov, A., Páez, A. (2024). Accessibility analysis for planning
+    applications (Report No. MJ-A2-0002). Mobilizing Justice.
+    <https://github.com/soukhova/MJ-Accessibility-Blogs>
+
 
 # The General Social Surveys (GSS)
 
@@ -217,8 +212,6 @@ of the episode, we will create the following variables:
     `cycling`).
     
     
-Additionally, our analysis will focus on developing impedance functions considering only the population who lives in larger urban population centre (a Census Metropolitan Area (CMA) or Census Agglomeration (CA))^[For definitions of CMA and CA check the this [website](https://www12.statcan.gc.ca/census-recensement/2021/ref/dict/az/Definition-eng.cfm?ID=geo009).]. We decided to apply this restriction because the travel behavior among residents of the CMA and CA areas, in terms of active travel, tends to be very different from those outside these large urban population centers. The variable that informs if the respondent resides in a CMA or CA region is the variable named `LUC_RST`, present in the Main File survey. According to the Statistics Canada, `LUC_RST` = 1 indicates that the resident is from a CMA or CA region. 
-
 The file name pattern is as follows: `transportation mode`[^3] + `_` +
 `year of survey` [^4]. This means that, for instance, the file
 `walking_2015` refers to transportation mode table `walking` in the year
@@ -397,7 +390,7 @@ to be?
 
 Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 walking_2015 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -575,7 +568,7 @@ start *and* end at Home. What are those supposed to be?
 
 Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 cycling_2015 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -757,7 +750,7 @@ walking_2010 |>
 For the year 2010, the most common destination for a walking trip that starts at home are
 `Home` to `Home`, followed by `Home` to `Work or school`. Again, we can check the home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 walking_2010 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -936,7 +929,7 @@ The most common destination for a cycling trip that starts at home is
 
 Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 cycling_2010 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -1119,7 +1112,7 @@ The most common destination for a walking trip that starts at home are
 
 Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 walking_2005 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -1291,7 +1284,7 @@ cycling_2005 |>
 The most common destination for a cycling trip that starts at home is
 `Work or school`. Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 cycling_2005 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -1447,7 +1440,7 @@ In this case, the most common destination for a walking trip that starts at home
 
 Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 walking_1998 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -1581,7 +1574,7 @@ The most common destination for a cycling trip that starts at home is
 
 Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 cycling_1998 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -1729,7 +1722,7 @@ walking_1992 |>
 The most common destination for a walking trip that starts at home is
 `Home`. Check these home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 walking_1992 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -1866,7 +1859,7 @@ The most common destination for a cycling trip that starts at home is
 
 Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 cycling_1992 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```
@@ -2012,7 +2005,7 @@ Home. What are those supposed to be?
 
 Check those home-to-home trips:
 
-```{r echo = FALSE}
+```{r include=FALSE}
 walking_1986 |>
   filter(orig_label == "Home" & dest_label == "Home")
 ```

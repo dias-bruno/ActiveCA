@@ -1,5 +1,5 @@
 ---
-title: "Calculating impedances for walking in cycling"
+title: "Calculating impedances for CMA and CA areas from the GSS surveys"
 author: "Bruno Santos, Mahdis Moghadasi & Antonio Paez"
 date: "`r Sys.Date()`"
 output:
@@ -10,6 +10,8 @@ output:
   tufte::tufte_book:
     citation_package: natbib
     latex_engine: xelatex
+bibliography: activeca.bib
+link-citations: yes
 editor_options: 
   markdown: 
     wrap: 72
@@ -26,20 +28,7 @@ rm(list=ls())
 # Introduction
 
 This Rmarkdown file is part of the
-[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package. This
-package is one of the products developed by the [*Mobilizing
-Justice*](https://mobilizingjustice.ca/)[^1].
-
-[^1]: The Mobilizing Justice project is a multidisciplinary and
-    multi-sector collaboration with the objective of understand and
-    address transportation poverty in Canada and to improve the
-    well-being of Canadians at risk of transport poverty. The Social
-    Sciences and Humanities Research Council (SSRHC) has provided
-    funding for the project, which was created by an unprecedented
-    alliance of academics from various Canadian provinces and
-    institutions, transportation firms, and nonprofit organizations
-
-The main objective of the *ActiveCA* package is to identify the most
+[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package.The main objective of the *ActiveCA* package is to identify the most
 appropriate impedance functions for active transportation modes for
 various destinations and time periods in Canada. To do achieve our
 objective, we analyzed historical data from the [General Social Survey
@@ -48,6 +37,13 @@ from 1986 to 2015 in Canada to calculate the impedance function for
 cycling and walking trips.
 
 In this R markdown, we'll calculate the impedance functions for walking and cycling for each GSS year (from 1986 to 2015). 
+
+## Suggested reading
+
+-   Soukhov, A., Páez, A. (2024). Accessibility analysis for planning
+    applications (Report No. MJ-A2-0002). Mobilizing Justice.
+    <https://github.com/soukhova/MJ-Accessibility-Blogs>
+
 
 # Coding
 
@@ -62,7 +58,19 @@ library(here) # enable easy file referencing in project-oriented workflows
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 ```
 
+Soukhov and Páez [-@MJ-A2-0002] explained the process of selecting the best impedance function in detail in a report released by the [*Mobilizing Justice* partnership](https://mobilizingjustice.ca/)[^1] using data from the city of Hamilton, Ontario. Subsequently, Santos and Páez (2024) adapted the methodology to create [**CommuteCA**](https://github.com/dias-bruno/CommuteCA), a package to obtain accessibility measures for any Canadian city using the 2021 Population Census as the main data source. Here, we will apply the methodology developed by Santos and Páez (2024) to obtain the impedance functions of the GSS surveys. 
+
+[^1]: The Mobilizing Justice project is a multidisciplinary and
+    multi-sector collaboration with the objective of understand and
+    address transportation poverty in Canada and to improve the
+    well-being of Canadians at risk of transport poverty. The Social
+    Sciences and Humanities Research Council (SSRHC) has provided
+    funding for the project, which was created by an unprecedented
+    alliance of academics from various Canadian provinces and
+    institutions, transportation firms, and nonprofit organizations
+
 To exemplify the process of selecting the best impedance function, we will use the example of the 1986 GSS dataset, already pre-processed in the `00-Reading-Source-Files.Rmd`: 
+
 ```{r}
 load(file = paste0(here(), "/data/walking_1986.Rda"))
 ```
@@ -84,7 +92,7 @@ ggplot(walking_1986, aes(x = DURATION )) +
 
 A histogram is a graph that illustrates the frequency distribution of a dataset corresponding to a single variable. Histograms displays the distribution and variability of the dataset, typically organizing data into 'bins' or 'range groups,' tallying the quantity of data points within each bin.
 
-Analyzing the histogram above, we can identify that the just a few values of duration are higher than 1 hundred minutes.  To better visualize the variable distribution, let's use an other type of graph, the boxplot graph:
+Analyzing the histogram above, we can identify that the just a few values of duration are higher than 1 hundred minutes.  To better visualize the variable distribution, let's use an other type of graph, the box plot graph:
 
 ```{r}
 ggplot(walking_1986, aes(y = DURATION, x = "")) + 
@@ -103,6 +111,7 @@ Visualizing the new summary:
 walking_1986 <- walking_1986 %>% filter(DURATION <= 100)
 summary(walking_1986$DURATION)
 ```
+After excluding trip longer than 100 minutes duration, the minimum duration value for walking trips is `1` minute (same as before),  while the maximum is `95` minutes. The new average duration for walking trips is `17.03` minutes and the median is `10` minutes.
 
 ## Impedance functions
 
@@ -150,12 +159,10 @@ the City of Hamilton. The authors used the data from the R data package
 to generate parameters that best fit the TLD the parameters of the
 uniform, exponential, and gamma functions as closely to the TLD.
 
-The next chunks of code of this Rmarkdown explains the process of calibrating PDF
-functions for the Walking dataset of the 1986 GSS.
-
 ## Empirical travel time
 
-Creating a data frame with the all empirical travel times:
+The next chunks of code of this Rmarkdown explains the process of calibrating PDF
+functions for the Walking dataset of the 1986 GSS. Creating a data frame with the all empirical travel times:
 
 ```{r empiric-travel-times}
 # Bind the empirical trip length distribution:
@@ -187,6 +194,8 @@ We'll use the
 [{fitdistrplus}](https://cloud.r-project.org/web/packages/fitdistrplus/index.html)
 to determine the parameters that best fit the TLD. The Moment Matching Estimation (MME) fitting method and the Nelder-Mead
 direct optimization algorithm are used [@mullerdutang2015].
+
+The code below introduces two functions: `test_distributions_weighted` and `lowest_aic`. The first takes the time values as input and applies them to the distributions mentioned above, obtaining an AIC value for each distribution. In turn, `lowest_aic` compares the AIC values of each distribution and selects the function with the minimum AIC (the distribution with the best fit considering the time values provided). 
 
 ```{r lowest-aic-function}
 # Select the distribution function based on the lowest AIC value
@@ -233,7 +242,8 @@ test_distributions_weighted <- function(x, weights){
 }
 ```
 
-Obtaining the theoretical impedance function for the each destination mode:
+The next chunk selects the best impedance function, using the `test_distributions_weighted` and `lowest_aic` functions for each destination and transportation mode (in this case, walking since the 1986 survey does not have cycling as an mode option). The name pattern is as follows: `f_year_mode_dest` + `destination`, which means that `f_1986_Walking_dest1` displays the best function for the year 1986, walking mode, destination 1 (Home). 
+
 ```{r}
 for(destino in unique(tld_empirical$destination)){
   assign(paste0("f_1986_Walking_dest", destino), 
@@ -249,7 +259,7 @@ Based on the minimum AIC, the best function for the destination `1` (`Home`), co
 f_1986_Walking_dest1
 ```
 
-Actually, the `Log-normal distribution` was the best fuction for the others two destination from the survey: `2` (`Work or school`) and `3` (`Other's home`).
+Actually, the `Log-normal distribution` was the best function for the others two destination from the survey: `2` (`Work or school`) and `3` (`Other's home`).
 
 ```{r}
 f_1986_Walking_dest2
@@ -314,7 +324,7 @@ visualize_impedance <- function(destination_function, travel_cost, name_destinat
 }
 ```
 
-Building the theoretical values for each destination based on the best
+Obtaining the theoretical values for each destination based on the best
 impedance function for each destination:
 
 ```{r theoretical-values}
@@ -334,23 +344,26 @@ for(destino in unique(tld_empirical$destination)){
   }
 ```
 
+Visualizing the theoretical values (first 10 rows):
+```{r}
+tld_theoretical[1:10,]
+```
+
+
 Plotting the theoretical (black lines) and the empirical travel time
 distributions (bars):
 
 ```{r travel-time-plots}
-par(mfrow = c(2, round(length(unique(tld_theoretical$destination))/2)))  # Arrange plots in 2 columns
+par(mfrow = c(2, round(length(unique(tld_theoretical$destination))/2))) 
 
 # Loop through each destination
 for (destination in unique(tld_empirical$destination)) {
-  # Subset empirical and theoretical data for the current destination
   empirical_subset <- tld_empirical[tld_empirical$destination == destination, ]
   theoretical_subset <- tld_theoretical[tld_theoretical$destination == destination, ]
   
-  # Create histogram for empirical data
-  hist(empirical_subset$DURATION, freq = FALSE, col = "grey70", breaks = 20, main = paste(empirical_subset$dest_label[1]),
+hist(empirical_subset$DURATION, freq = FALSE, col = "grey70", breaks = 20, main = paste(empirical_subset$dest_label[1]),
        xlab = "Travel time from home to work (min)", ylab = "Density")
   
-  # Add theoretical curve
   lines(theoretical_subset$t, theoretical_subset$f)
 }
 
@@ -360,10 +373,14 @@ par(mfrow = c(1, 1))
 
 # Calculating for all GSS cicles
 
+After exemplifying the process of selecting the best impedance function for the 1986 GSS survey, we will obtain the function for all GSS cycles. First, we'll load the GSS episodes pre-processed in the first rmarkdown:
+
 ```{r}
 load(file = paste0(here(), "/data/gss_episodes.Rda"))
 ```
 
+
+Additionally, our analysis will focus on developing impedance functions considering only the population who lives in larger urban population centre (a Census Metropolitan Area (CMA) or Census Agglomeration (CA))^[For definitions of CMA and CA check the this [website](https://www12.statcan.gc.ca/census-recensement/2021/ref/dict/az/Definition-eng.cfm?ID=geo009).]. We decided to apply this restriction because the travel behavior among residents of the CMA and CA areas, in terms of active travel, tends to be very different from those outside these large urban population centers. The variable that informs if the respondent resides in a CMA or CA region is the variable named `Pop_centre`, obtained after some processing made with he Main File survey. 
 
 ```{r}
 gss_episodes <- gss_episodes %>%
@@ -371,7 +388,11 @@ gss_episodes <- gss_episodes %>%
            DURATION > 0 & 
            YEAR > 1986 & 
            Pop_centre %in% c("CMA/CA", "CMA"))
+```
 
+Furthermore, to calculate the function, we need a combination of `mode`, `year` and `destination` greater than 1, which means that we need at least two episodes to be able to fit a function. Consequently, combinations with a greater number of episodes will exhibit better functions in terms of AIC and will better represent the empirical values. 
+
+```{r}
 gss_episodes <- gss_episodes %>%
   group_by(MODE, YEAR, destination) %>%
   mutate(count = n()) %>%
@@ -381,7 +402,8 @@ gss_episodes <- gss_episodes %>%
 gss_episodes$WGHT_EPI[is.na(gss_episodes$WGHT_EPI)] <- 1
 ```
 
-
+Similar as we did before, the next chunk selects the best impedance function, using the `test_distributions_weighted` and `lowest_aic` functions for each destination, transportation mode and year. The name pattern is as follows: `f_year_mode_dest` + `destination`, which means that `f_1986_Walking_dest1` displays the best function for the year 1986, walking mode, destination 1 (Home).
+/000
 ```{r}
 
 for(year in unique(gss_episodes$YEAR)){
@@ -409,6 +431,7 @@ for(year in unique(gss_episodes$YEAR)){
   }
 }
 ```
+After selecting the best function for every combination of destination, transportation mode and year, the next two chunks will apply the functions in all surveys, adding the information with the best function and its parameters, AIC/BIC/loglik values, and count of episodes that were used to calculate the function: 
 
 ```{r}
 # To generate the theoretical data
@@ -520,12 +543,13 @@ for(year in unique(gss_episodes$YEAR)){
 }
 
 ```
+Creation of a new dataset called `gss_impedances`, to keep the original episode files as they are after the pre-processing stage:
 
 ```{r}
 gss_impedances <- gss_episodes[,c("PUMFID","DURATION","LOCATION",
                   "origin","destination","Province","Pop_centre","orig_label",
                   "dest_label","YEAR","MODE","f_name",
-                  "f","est_1","est_2","loglik","aic","bic")]
+                  "f","est_1","est_2","loglik","aic","bic","count")]
 ```
 
 Save this data frame in R format:
