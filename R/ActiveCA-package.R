@@ -1,4 +1,4 @@
-#' ActiveCA: Processed data to obtain impedance functions for active transportation modes in Canada
+#' ActiveCA: a data set to obtain impedance functions for active transportation modes in Canada
 #'
 #' The main objective of the *ActiveCA* package is to provide processed data to identify
 #' the most appropriate impedance functions for active transportation modes considering

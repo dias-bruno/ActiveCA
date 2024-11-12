@@ -3,7 +3,7 @@
 \docType{data}
 \name{ActiveCA-package}
 \alias{ActiveCA-package}
-\title{ActiveCA: Processed data to obtain impedance functions for active transportation modes in Canada}
+\title{ActiveCA: a data set to obtain impedance functions for active transportation modes in Canada}
 \description{
 The main objective of the \emph{ActiveCA} package is to provide processed data to identify
 the most appropriate impedance functions for active transportation modes considering

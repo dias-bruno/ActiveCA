@@ -394,7 +394,7 @@ Furthermore, to calculate the function, we need a combination of `mode`, `year` 
 
 ```{r}
 gss_episodes <- gss_episodes %>%
-  group_by(MODE, YEAR, destination) %>%
+  group_by(MODE, YEAR, dest_label) %>%
   mutate(count = n()) %>%
   ungroup() %>%
   filter(count > 1)
@@ -402,24 +402,23 @@ gss_episodes <- gss_episodes %>%
 gss_episodes$WGHT_EPI[is.na(gss_episodes$WGHT_EPI)] <- 1
 ```
 
-Similar as we did before, the next chunk selects the best impedance function, using the `test_distributions_weighted` and `lowest_aic` functions for each destination, transportation mode and year. The name pattern is as follows: `f_year_mode_dest` + `destination`, which means that `f_1986_Walking_dest1` displays the best function for the year 1986, walking mode, destination 1 (Home).
+Similar as we did before, the next chunk selects the best impedance function, using the `test_distributions_weighted` and `lowest_aic` functions for each destination, transportation mode and year. The name pattern is as follows: `f_year_mode_dest` + `dest_label`, which means that `f_1986_Walking_destHome` displays the best function for the year 1986, walking mode, Home destination.
 /000
 ```{r}
-
 for(year in unique(gss_episodes$YEAR)){
   
-  for(destino in unique(gss_episodes$destination)){
+  for(destino in unique(gss_episodes[gss_episodes$YEAR == year, ]$dest_label)){
       
-    for(mode in unique(gss_episodes[gss_episodes$YEAR == year, ]$MODE)){
+    for(mode in unique(gss_episodes[gss_episodes$YEAR == year & gss_episodes$dest_label == destino, ]$MODE)){
       
-        gss_subset <-  gss_episodes[gss_episodes$destination == destino &
+        gss_subset <-  gss_episodes[gss_episodes$dest_label == destino &
                             gss_episodes$YEAR == year &
                             gss_episodes$MODE == mode, ]
         
         if(nrow(gss_subset) > 0){
           print(paste("Calculating the best function for ", 
                     mode, ", destination ",  
-                    gss_subset$dest_label[1],
+                    destino,
                     ", for the ", year, " GSS cicle"))
   
           assign(paste0("f_",year, "_", mode, "_dest", destino),
@@ -507,11 +506,11 @@ gss_episodes$bic <- 0
 
 for(year in unique(gss_episodes$YEAR)){
   
-  for(destino in unique(gss_episodes$destination)){
+  for(destino in unique(gss_episodes[gss_episodes$YEAR == year, ]$dest_label)){
       
-    for(mode in unique(gss_episodes[gss_episodes$YEAR == year, ]$MODE)){
+    for(mode in unique(gss_episodes[gss_episodes$YEAR == year & gss_episodes$dest_label == destino, ]$MODE)){
       
-        gss_subset <-  gss_episodes[gss_episodes$destination == destino &
+        gss_subset <-  gss_episodes[gss_episodes$dest_label == destino &
                             gss_episodes$YEAR == year &
                             gss_episodes$MODE == mode ,
                             ]
@@ -520,7 +519,7 @@ for(year in unique(gss_episodes$YEAR)){
           
                     print(paste("Obtaining the values for ", 
                     mode, ", destination ",  
-                    gss_subset$dest_label[1],
+                    destino,
                     ", for the ", year, " GSS cicle"))
   
         current_function <- paste0("f_",year, "_", mode, "_dest", destino)
@@ -528,12 +527,12 @@ for(year in unique(gss_episodes$YEAR)){
         df_f <- generate_impedance(destination_function = get(current_function),
                                    travel_cost = gss_subset$DURATION)
   
-        gss_episodes[gss_episodes$destination == destino &
+        gss_episodes[gss_episodes$dest_label == destino &
                             gss_episodes$YEAR == year &
                             gss_episodes$MODE == mode ,
                             c("f_name","f","est_1","est_2")] <- df_f[,c("f_name","f","est_1","est_2")]
         
-        gss_episodes[gss_episodes$destination == destino &
+        gss_episodes[gss_episodes$dest_label == destino &
                             gss_episodes$YEAR == year &
                             gss_episodes$MODE == mode ,
                             c("loglik", "aic", "bic")] <- list(get(current_function)$loglik, get(current_function)$aic, get(current_function)$bic)

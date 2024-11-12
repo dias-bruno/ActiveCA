@@ -294,8 +294,8 @@ walking_2015 <- walking_2015 |>
                      origin == 304 ~ "In the neighbourhood",
                      origin == 305 ~ "Outdoors",
                      origin == 306 ~ "Grocery store, other stores or mall",
-                     origin == 308 ~ "Sports centre, field or arena",
                      origin == 307 ~ "Library, museum or theatre",
+                     origin == 308 ~ "Sports centre, field or arena",
                      origin == 309 ~ "Restaurant, bar or club",
                      origin == 310 ~ "Place of worship",
                      origin == 311 ~ "Medical, dental or other health clinic"),
@@ -660,13 +660,13 @@ walking_2010 <- walking_2010 |>
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
                      origin == 3 ~ "Other's home",
-                     origin == 9 ~ "Outdoors",
-                     origin == 6 ~ "Grocery store, other stores or mall",
-                     origin == 10 ~ "Library, museum or theatre",
                      origin == 4 ~ "Restaurant, bar or club",
                      origin == 5 ~ "Place of worship",
+                     origin == 6 ~ "Grocery store, other stores or mall",
                      origin == 7 ~ "Grocery store, other stores or mall",                     
-                     origin == 8 ~ "Work or school"),
+                     origin == 8 ~ "Work or school",
+                     origin == 9 ~ "Outdoors",
+                     origin == 10 ~ "Library, museum or theatre"),
          orig_label = factor(orig_label))
 ```
 
