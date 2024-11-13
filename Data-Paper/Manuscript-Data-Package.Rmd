@@ -1,5 +1,5 @@
 ---
-title: "ActiveCA: an open data product to obtain impedance functions for active transportation modes in Canada"
+title: "ActiveCA: an open data product on active transportation episodes in Canada"
 author:
   - name: "Anon1"
     email: "Anon1@anon.org"
@@ -18,7 +18,7 @@ footnote:
   - code: 1
     text: "Corresponding Author"
 abstract: 
-  "This article describes and visualizes the data contained in the {ActiveCA} R data package. {ActiveCA} contains open data products designed to obtain impedance functions for active transportation modes in Canada, retrieved from the General Social Survey collections from 1986 to 2015. The package provides data tables on walking and cycling episodes, detailing the trip origins, destinations, and duration of each episode. The origin and destination categories covers a wide variety of locations, such as home, work or school, libraries, museums, restaurants, bars, sports centers, health clinics, place of worship, and others. Addittionally, the package includes details on the respondent's region characteristics, specifying wheter they live in a metropolitan area and their province of residency. {ActiveCA} enables users to calculate the average travel time for each origin-destination combination for each survey year, considering the two active transportation modes: walking and cycling. For each Census Metropolitan and Agglomeration Area, we estimated distance decay curves (impedance functions) for each origin-destination. The package will continue to expand with contributions from the authors and the broader community through requests in the future. {ActiveCA} is freely accessible for exploration and download from the associated Github repository, where the documentation and code involved in creating and manipulating data and all open data products are detailed." 
+  "This paper describes the data set of the {ActiveCA} R data package. {ActiveCA} contains open data products to obtain impedance functions for active transportation modes in Canada, retrieved from the General Social Survey collections from 1986 to 2015. The package provides data tables on walking and cycling episodes, detailing the trip origins, destinations, and duration of each episode. The origin and destination categories covers a wide variety of locations, such as home, work or school, libraries, museums, restaurants, bars, sports centers, health clinics, place of worship, and others. Addittionally, the package details the respondent's region characteristics, specifying wheter they live in a metropolitan area and their province of residency. {ActiveCA} enables users to calculate the average travel time for each origin-destination combination for each survey year, considering the two active transportation modes: walking and cycling. For each Census Metropolitan and Agglomeration Area, we estimated distance-decay curves (impedance functions) for each destination, transportation mode and year. The package will continue to expand with contributions from the authors and the broader community through requests in the future. {ActiveCA} is freely accessible for exploration and download from the associated Github repository, where the documentation and code involved in creating and manipulating data and all open data products are detailed." 
     
 keywords: Active; mobility; walking; cycling; travel time; impedance; transportation; R 
 classoption:
@@ -29,12 +29,15 @@ bibliographystyle: sageh
 output:
   rticles::sage_article:
     keep_tex: yes
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r knitr-setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,
-  cache = TRUE,
+  cache = FALSE,
   warning = FALSE,
   comment = '', 
   out.width = "1\\linewidth")
@@ -54,67 +57,83 @@ library(ActiveCA)
 library(here)
 library(dplyr)
 library(tidyr)
-# library(fitdistrplus)
 library(ggplot2)
 library(kableExtra)
 library(reshape2)
-
-# library(patchwork)
-# library(sf)
-# library(scales)
-# library(stats)
-# library(ggspatial)
-# library(shadowtext)
-# library(tmap)
-# library(ggpmisc)
+library(rlang)
+library(scales)
+library(gridExtra)
+library(ggpubr)
+library(grid)
+library(stats)
 ```
 
 ```{r load-data, include = FALSE}
 load(paste0(here(), "/data/gss_episodes.Rda"))
 load(paste0(here(), "/data/gss_impedances.Rda"))
-
-
 ```
 
 # Introduction
 
-This manuscript presents the open data product {ActiveCA}. Open data products (ODPs) are the outcome of a transparent process that transforms raw data (open or not) into analysis-ready data, in which all stages of development follow open principles. ODPs differ from general open data due to their high utility, added value and open availability. The product presented in this document is an `R` data package that currently consists of processed data tables retrieved from the General Social Survey (GSS) collections from 1986 to 2015, to obtain impedance functions for active transportation modes in Canada.
+This paper presents the open data product {ActiveCA}. Open data products
+(ODPs) are the outcome of a transparent process that transforms raw data
+(open or not) into analysis-ready data, in which all stages of
+development follow open principles [@arribas-bel2021]. ODPs differ from
+general open data due to their high utility, added value and open
+availability. The product presented in this document is an `R` data
+package that currently consists of processed data tables retrieved from
+the Time Use collections of the General Social Surveys (GSS) from 1986
+to 2015 [@statisticscanada2024], aimed to obtain impedance functions for
+active transportation modes in Canada.
 
-To create this `R` data package, we collected the GSS surveys, cleaned them and processed them to make it ready for analysis. An `R` data package contains code, data and documentation in a standardized collection format that can be installed by `R` users via a centralized software repository, such as CRAN (Comprehensive R Archive Network) and GitHub. Although the GSS surveys are publicly sourced and managed by Statistic Canada, preparing them for analysis can be time-consuming, tedious and perhaps not even possible for those who try, due to a lack of documentation or prior knowledge. 
+To create this `R` data package, we collected, cleaned and processed the
+Time Use collections from the GSS surveys to make them ready for
+analysis. An `R` data package contains code, data and documentation in a
+standardized format that can be installed by `R` users via a centralized
+software repository, such as CRAN (Comprehensive R Archive Network) and
+GitHub. Although the GSS surveys are publicly sourced and managed by
+Statistic Canada, preparing them for analysis can be time-consuming,
+tedious and perhaps not even possible for those who try, due to a lack
+of documentation or prior knowledge.
 
-The aim of this paper is to walk readers through the data sets and invite others to experiment in its uses and applications. {ActiveCA} is freely available on GitHub for all to install and freely use in the spirit of open and reproducible research. Although {ActiveCA} was designed to obtain impedance functions, we admit and hope that its use can be adopted in various applications that even go beyond the range of possibilities we have imagined. Not only the data, but also all the code documenting the processing methodology is available for consultation and evaluation in its repository. This package contributes to reducing the barrier to using the information contained in GSS surveys to provide data-driven decisions in transportation analysis. 
+The aim of this paper is to walk readers through the data sets and
+invite others to experiment in its uses and applications. {ActiveCA} is
+freely available on GitHub for all to install and freely use in the
+spirit of open and reproducible research. Although {ActiveCA} was
+designed to obtain impedance functions, we admit and hope that its use
+can be adopted in various applications that even go beyond the range of
+possibilities we have imagined. Not only the data, but also all the code
+documenting the processing methodology is available for consultation and
+evaluation in its repository. This package contributes to reducing the
+barrier to using the information contained in GSS surveys to provide
+data-driven decisions in transportation analysis.
 
-# General Social Survey (GSS) collection 
+# General Social Survey (GSS) collection
 
-In Canada, Statistics Canada produces the General Social Surveys (GSS)
-to collect data on social trends in order to track changes in the living
-conditions of Canadians and well-being over time. This survey tracks
-changes in time and it is used to understand how Canadians spend and
-manage their time and what factors contribute to their happiness and
-stress. The survey was created in 1985 as a series of independent,
-annual, cross-sectional surveys, each covering one topic in depth.
-Caregiving, families, time use, social identity, volunteering, and
-victimization are among the current themes of the GSS.
+Statistics Canada [-@statisticscanada2024] conducts GSS surveys to
+obtain data on social trends to track changes in Canadians' living
+conditions and well-being over time. This survey is used to understand
+how citizens spend and manage their time and what factors contribute to
+their happiness and stress. Created in 1985, the survey is part of a
+series of independent, annual, and cross-sectional surveys.
 
-The six survey themes listed above are repeated every five years. In
-addition to the central topic, each cycle includes new content that
-addresses emerging and policy-relevant issues, collecting detailed
-socio-demographic information, such as age, gender, education, religion,
-ethnicity, income, etc. Time-use surveys collect data on all human
-activities and can inform a wide range of policies. In particular, three
-key themes have been identified as essential for policymaking and for
-which no other data source is adequate: unpaid work and non-market
-production, well-being, and gender equality. Leisure time, work-life
-balance, health, commuting, culture, and sports are among the other
-topics covered by time-use surveys. In addition, statistics Canada has
-been conducting time-use surveys at five to seven year intervals since
-1986, with the most recent being in 2015 (1986, 1992, 1998, 2005, 2010,
-and 2015). The time use collects information on participation of
-respondents and time spent on a wide range of day-to-day activities
-using a 24-hour retrospective diary. Also, information is collected on
-the location of these activities (e.g., at home, at work, etc.) and, for
+In addition to the main topic, each GSS cycle includes new content that
+addresses emerging and policy-relevant issues. Every five to seven
+years, the Time Use Surveys [@statisticscanada2022] collect data on
+respondents' participation and time spent on a wide range of everyday
+activities using a 24-hour retrospective diary, with information on the
+location of these activities (e.g. at home, at work, etc.) and, for
 non-personal activities, the people who were present with the respondent
-at the time of the activity.
+at the time of the activity. In addition, time-use surveys also cover
+topics related to leisure time, work-life balance, health, commuting,
+culture and sports, and many others.
+
+The most recent time use survey was carried out in 2022 [@wray2024].
+However, the 2022 dataset has not been fully published and, because of
+this, our analysis focused on the surveys from 1986 to 2015 (1986, 1992,
+1998, 2005, 2010 and 2015). Time Use surveys are composed of two data
+sets, the main one and the episode file, explained in the following
+subsections.
 
 ## The Main File
 
@@ -125,28 +144,40 @@ social interactions. This file documents the time and duration that
 respondents allocate to each activity and location. The Main File
 provides a overview of daily routines and social dynamics, not focusing
 on individual activity episodes. Additionally, this file categorizes
-activities into bigger groups and subcategories, enhancing the data's
+activities into bigger groups and subcategories, facilitating the data's
 analytical utility with additional metrics such as total transit time,
 duration spent with household members, and counts of activities and
-episodes. This file is aggregated and prohibits the direct association
-between specific activities with particular locations or companions.
+episodes.
 
 ## The Episode File
 
 The Episode File records detailed data for each activity episode
-reported by respondents. Each episode entry includes the start and end
-times, duration, location, and accompanying social context, informing
-when and where activities occurred and with whom. The file distinguishes
-itself by focusing on individual episodes rather than respondents, with
-the data structured around the numerous activity instances that compose
-a respondent's day. Although respondent-specific characteristics are not
-included within the Episode File, it is possible to link the Main File
-and the Episode File by using an identifiable variable present in both
-data sets.
+reported by respondents. The entry includes the start and end times,
+duration, location, and accompanying social context, informing when and
+where activities occurred and with whom. The file distinguishes itself
+by focusing on individual episodes rather than respondents, with the
+data structured around the numerous activity instances that compose a
+day of the respondent. Although respondent-specific characteristics are
+not included within the Episode File, it is possible to link the Main
+File and the Episode File by using an identifiable variable present in
+both data sets.
 
-# Average travel times
+# Descriptive statistics
 
-```{r ch03-make-table-01, echo=FALSE, cache=FALSE}
+For each year available from the Time Use surveys, we reviewed the
+episode files to identify cases with activities listed as walking or
+cycling and selected the activities immediately before and after the
+mobility episode. The {ActiveCA} package includes all
+`r nrow(gss_episodes)` episodes that recorded walking or cycling as a
+mode of transportation, with trip durations ranging from 0 to 900
+minutes. Among the analyses possible with this package, Table
+\ref{tab:table-01} presents descriptive statistics on walking and
+cycling trips between 1986 and 2015, including metrics such as the count
+of recorded trips (count), and measures of trip duration in minutes:
+maximum (max), mean, median, and minimum (min). The 1986 survey did not
+include bicycle trips.
+
+```{r table-01, echo=FALSE, cache=FALSE}
 
 # Calculate the count of trips for each mode and year
 # Summarize counts by year and mode
@@ -185,7 +216,7 @@ final_data <- final_data %>%
 # Generate the table with 'Statistic' as the second column
 styled_ch03_table_01 <- final_data %>%
   kable(format = "latex", booktabs = TRUE, longtable = TRUE, 
-        caption = "\\label{tab:ch03-table-01}Descriptive Analysis of Active Transportation Modes: Walking and Cycling Statistics from 1986 to 2015",  
+        caption = "\\label{tab:table-01}Descriptive statistics for episodes with active transport records",  
         align = c('l', 'l', rep('c', ncol(final_data) - 2))) %>%
   kable_styling(full_width = FALSE, font_size = 10) %>%
   column_spec(1, bold = TRUE) %>%
@@ -196,8 +227,23 @@ styled_ch03_table_01 <- final_data %>%
 styled_ch03_table_01
 ```
 
+Table \ref{tab:table-01} shows that the median values for walking trips
+range between 5 and 10 minutes, while cycling trips have a consistent
+median of 15 minutes since 1998. The table also highlights very high
+maximum values, particularly for walking trips, with recorded episodes
+exceeding 4 hours in all cases.
 
-```{r ch03-make-table-02, echo=FALSE, cache=FALSE, warning=FALSE, results="asis"}
+Table \ref{tab:table-02} and \ref{tab:table-03} provide descriptive
+statistics for the two modes of transportation, split by destination
+categories, from 1986 to 1998 and from 2005 to 2015, respectively. In
+Table \ref{tab:table-02}, one can observed that in 1986 and 1992,
+walking trips destined for `home` had the highest medians. However, by
+1998, the highest medians shifted to trips to `work or school`, a
+transition that also occurred for cycling trips between 1992 and 1998.
+Table \ref{tab:table-03} indicates that the median duration for trips to
+`home` and `work or school` remained at 10 minutes.
+
+```{r table-02, echo=FALSE, cache=FALSE, warning=FALSE, results="asis"}
 # Filter for selected years
 episodes_stats_before <- gss_episodes %>%
   filter(YEAR < 2005) %>%
@@ -227,7 +273,7 @@ wide_data <- episodes_stats_before %>%
     names_from = YEAR,
     values_from = c(min, median, max, Percentage)
   )  %>% 
-  arrange(MODE, desc(Percentage_1998))
+  arrange(dest_label, MODE, desc(Percentage_1998))
 
 wide_data <- wide_data %>%
   group_by(MODE) %>%
@@ -246,7 +292,7 @@ styled_ch03_table_02 <- wide_data %>%
     booktabs = TRUE, 
     longtable = TRUE, 
     align = c(rep("c", ncol(wide_data))),
-    caption = "\\label{tab:ch03-table-02}Comparative Trip Stats by Mode and Destination: 1986, 1992, 1998",
+    caption = "\\label{tab:table-02}Comparison of travel statistics by mode and destination: 1986, 1992, 1998",
     col.names = c("Destination", "Mode*","Min*","Med*","Max*", "(%)*", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
   ) %>%
   kable_styling(full_width = FALSE, 
@@ -259,13 +305,12 @@ styled_ch03_table_02 <- wide_data %>%
   row_spec(0, bold = TRUE, align = "c") %>%
   column_spec(6, border_right = TRUE) %>%
   column_spec(10, border_right = TRUE) %>% 
-  footnote(general = c("* The symbols used in this table represent the following: 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
+  footnote(general = c("* The symbols used in this table represent the following: `Min` denotes the minimum time to reach the destination; `Max` denotes the maximum time to reach the destination; `(%)` indicates a percentage of the total time to reach the destination; `Med` refers to the median time to reach the destination"), threeparttable = T)
 
 styled_ch03_table_02 
 ```
 
-
-```{r ch03-make-table-03,echo=FALSE, cache=FALSE, warning=FALSE}
+```{r table-03,echo=FALSE, cache=FALSE, warning=FALSE}
 # Rename certain 'dest_label' values
 gss_episodes_renamed <- gss_episodes %>%
   mutate(dest_label = case_when(
@@ -316,7 +361,7 @@ wide_data <- episodes_stats_after %>%
     min_2010, median_2010, max_2010, Percentage_2010,
     min_2015, median_2015, max_2015, Percentage_2015
   ) %>% 
-  arrange(MODE, desc(Percentage_2015)) %>%
+  arrange(dest_label, MODE, desc(Percentage_2015)) %>%
   group_by(MODE) %>%
   mutate(MODE = if_else(row_number() == 2, as.character(MODE), "")) %>%
   ungroup()
@@ -327,7 +372,7 @@ styled_ch03_table_03 <- wide_data %>%
     booktabs = TRUE, 
     longtable = TRUE, 
     align = c(rep("c", ncol(wide_data))),
-    caption = "\\label{tab:ch03-table-03}Comparative Trip Statistics by Transportation Mode and Destination: 2005, 2010, and 2015",
+    caption = "\\label{tab:table-03}Comparison of travel statistics by mode and destination: 2005, 2010, 2015",
     col.names = c("Destination", "Mode*","Min*","Med*","Max*", "(%)*", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
   ) %>%
   kable_styling(full_width = FALSE, 
@@ -340,13 +385,39 @@ styled_ch03_table_03 <- wide_data %>%
   row_spec(0, bold = TRUE, align = "c") %>%
   column_spec(6, border_right = TRUE) %>%
   column_spec(10, border_right = TRUE) %>% 
-  footnote(general = c("* The symbols used in this table represent the following: 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
+  footnote(general = c("* The symbols used in this table represent the following: `Min` denotes the minimum time to reach the destination; `Max` denotes the maximum time to reach the destination; `(%)` indicates a percentage of the total time to reach the destination; `Med` refers to the median time to reach the destination"), threeparttable = T)
 
 styled_ch03_table_03
 ```
 
+{ActiveCA} also enables visual analysis with traditional exploratory
+data analysis techniques. Figures \ref{fig:figure-01} and
+\ref{fig:figure-02} show walking and cycling trips from 1992 and 2015
+through heat maps. These maps use color gradients to represent the
+percentage of trips between various origins and destinations, with
+darker colors indicating higher percentages and lighter colors
+representing less frequent routes. To avoid overwhelming the reader, we
+omitted the heat maps for the other years analyzed.
 
-```{r ch03-make-Heatmap-walking_2015, echo=FALSE, cache=FALSE, include=FALSE}
+```{=html}
+<!---
+I`m not surte if this last phrase makes sense in english! "To avoid overwhelming the reader", "Para nao sobrecarregar o leitor" 
+-->
+```
+In 1992, walking trips with `home` as both the origin and destination
+made up the majority, accounting for about 30% of all walking trips.
+These trips often involved leisure activities, like short walks or dog
+walking. Following this, trips from `home` to `work or school` comprised
+18% of walking trips. Overall, `home` emerged as a crucial hub, either
+as an origin or destination, with only 5% of trips not involving `home.`
+By 2015, `home` remained a significant node, but new locations
+distributed the proportion of trips to areas not considered in 1992. In
+2015, the highest proportion of trips were from `home` to
+`work or school` (12%) and vice versa (11%). `home` to `home` accounted
+for 8% of trips, and `grocery stores` became a notable destination for
+those leaving `home` (6%), surpassing trips to `other's home` (4%).
+
+```{r heatmaps, echo=FALSE, cache=FALSE, include=FALSE}
 gss_heatmap <- gss_episodes_renamed %>%
   mutate(WGHT_EPI = ifelse(is.na(WGHT_EPI), 1, WGHT_EPI)) %>% 
   filter(YEAR %in% c(1992,2015))
@@ -393,6 +464,9 @@ for(year in unique(gss_heatmap$YEAR)){
                                        limits = c(0, ceiling(max(heatmap_melted$value, na.rm = TRUE))), 
                                        breaks =  c(0, ceiling(max(heatmap_melted$value, na.rm = TRUE))), 
                                        labels = c("0%", paste0(ceiling(max(heatmap_melted$value, na.rm = TRUE)), "%"))) +
+                  geom_text(data = subset(heatmap_melted, !is.na(value) & value >= 0), 
+                      aes(label = round(value)), 
+                      size = 4, color = "black") +
                   labs(x = "Destination", y = "Origin", fill = "Percentage", caption = year) +
                   theme_minimal() +
                   theme(
@@ -402,12 +476,12 @@ for(year in unique(gss_heatmap$YEAR)){
                   legend.title = element_text(size = 16, margin = margin(b = 15)), 
                   legend.text = element_text(size = 16),
                   plot.caption = element_text(hjust = 0.5, size = 20, face = "bold", margin = margin(t = 28.35, unit = "pt")))
+             
              ) 
   
-  } 
-}
+  }
+} 
 ```
-
 
 ```{r make-figs, include=FALSE}
 heatmap_plot_2015_Walking <- heatmap_plot_2015_Walking +
@@ -439,7 +513,7 @@ heatmap_plot_1992_Walking <- heatmap_plot_1992_Walking +
     axis.text.y = element_text(size = 14)) 
 
 # Combine the plots with adjusted spacing
-walking_hm_fig <- cowplot::plot_grid(heatmap_plot_1992_Cycling, heatmap_plot_2015_Walking, ncol = 2, align = 'hv',  rel_widths = c(1, 1))
+walking_hm_fig <- cowplot::plot_grid(heatmap_plot_1992_Walking, heatmap_plot_2015_Walking, ncol = 2, align = 'hv',  rel_widths = c(1, 1))
 
 # Save the combined plot to a file
 ggsave(file = paste0(here::here(),"/Data-Paper/Manuscript-figures/walking_hm_fig.jpg"), 
@@ -450,7 +524,7 @@ ggsave(file = paste0(here::here(),"/Data-Paper/Manuscript-figures/walking_hm_fig
        dpi = 300)
 
 # Combine the plots with adjusted spacing
-cycling_hm_fig <- cowplot::plot_grid(heatmap_plot_1992_Walking, heatmap_plot_2015_Cycling, ncol = 2, align = 'hv',  rel_widths = c(1, 1))
+cycling_hm_fig <- cowplot::plot_grid(heatmap_plot_1992_Cycling, heatmap_plot_2015_Cycling, ncol = 2, align = 'hv',  rel_widths = c(1, 1))
 
 # Save the combined plot to a file
 ggsave(file = paste0(here::here(),"/Data-Paper/Manuscript-figures/cycling_hm_fig.jpg"), 
@@ -461,44 +535,283 @@ ggsave(file = paste0(here::here(),"/Data-Paper/Manuscript-figures/cycling_hm_fig
        dpi = 300)
 ```
 
-```{r echo=FALSE, out.width="100%", fig.cap="Percentage of walking Trips Categorized by Origin and Destination", fig.align="center"}
+```{r figure-01, echo=FALSE, out.width="100%", fig.cap="Percentage of walking Trips Categorized by Origin and Destination", fig.align="center"}
 
 knitr::include_graphics(paste0(here::here(),"/Data-Paper/Manuscript-figures/walking_hm_fig.jpg"))
 ```
 
-```{r  echo=FALSE, out.width="100%", fig.cap="Percentage of walking Trips Categorized by Origin and Destination", fig.align="center"}
+For cycling trips, Figure \ref{fig:figure-02}, shows that in 1992, when
+this mode of transportation was first included as an activity, the
+majority of trips were from `home` to `work or school`, accounting for
+about 25% of cases. This pattern remained in 2015, with these trips
+representing 30% of the cases. However, a notable change occurred in
+`home` to `home` trips, which decreased significantly from 19% in 1992
+to 5% in 2015.
+
+```{r  figure-02, echo=FALSE, out.width="100%", fig.cap="Percentage of walking Trips Categorized by Origin and Destination", fig.align="center"}
 
 knitr::include_graphics(paste0(here::here(),"/Data-Paper/Manuscript-figures/cycling_hm_fig.jpg"))
 ```
 
+# Impedance functions for Canadians Metropolitan and Census Agglomerations areas
 
-# Impedance function for Canadians Metropolitan and Census Agglomerations areas 
+Impedance functions reveals important information about the travel
+behavior of the population, by describing the relationship between the
+population at an origin and their likelihood or ability to travel to
+specific destinations to access opportunities [@soukhov2024].
 
-```{r echo=FALSE, cache=FALSE, warning=FALSE}
-gss_impedances %>% 
-filter(dest_label == "Work or school", MODE == "Walking") %>%
-  dplyr::select("YEAR", "f_name", "est_1", "est_2", "loglik", "aic", "bic","count") %>%
-  mutate(across(c(est_1, est_2), ~ round(., digits = 2)))  %>%
-  mutate(across(c(loglik, aic, bic), ~ round(., digits = 0)))  %>%
-  unique() %>% 
-  kable(format = "latex",
-        booktabs = TRUE,
-        caption = "\\label{tab:ch03-table-04}Impedance functions and selection criteria for walking trips considering 'Work or school' as destination")
+Impedance functions are commonly used in accessibility analysis to
+calculate the cost of travel between different locations [@hansen1959;
+@páez2012; @palacios2022]. However, these functions need to be
+calibrated in order to accurately represent travel behavior. One
+effective way of calibrating an impedance function is by using the trip
+length distribution (TLD) obtained from origin-destination data
+[@soukhov2024]. The TLD represents the probability that a certain
+proportion of trips will be made at a specific cost, such as travel
+time. In this data set, low travel times are associated with a higher
+proportion of trips, while high travel times are associated with a lower
+proportion of trips.
+
+{ActiveCA} provides calibrated impedance functions for Canadian
+Metropolitan and Census Agglomeration areas. For each combination of
+year, destination, and transportation mode, we fitted the most suitable
+impedance function based on empirical data from the GSS surveys.
+{ActiveCA} includes a total of
+`r nrow(unique(gss_impedances[,c("YEAR","dest_label","f_name","MODE")]))`
+distance-decay functions. These were estimated using the `fitdistrplus`
+package [@mullerdutang2015], selecting the distribution with the lowest
+Akaike information criterion (AIC) among exponential, gamma, log-normal,
+normal, and uniform types.
+
+Table \ref{tab:table-04} shows the best impedance functions for walking
+trips to `Work or school` across survey years, where all distributions,
+except for a gamma function in 1998, are log-normal. Figure
+\ref{fig:figure-03} illustrates these fitted functions (red line)
+alongside histograms of empirical travel times (grey bars). As for the
+others functions, these examples enable to calculate gravity-based
+accessibility measures for active transportation modes across various
+destinations and temporal scales in Canadian urban areas.
+
+```{r include = FALSE}
+visualize_impedance <- function(df_functions, travel_cost){
+  
+  x <- data.frame(t = seq(1, travel_cost, 1))
+  
+  for (year in unique(df_functions$YEAR)) { 
+    
+    name_function <- df_functions[df_functions$YEAR == year, ]$f_name
+    
+    subset <- df_functions %>% 
+      filter(YEAR == year)
+    
+    # Nome da nova coluna com o valor de year
+    column_name <- paste0("year_", year)
+    
+    # lnorm impedance 
+    if (name_function == "lnorm") {
+      x <- x %>%
+        mutate(!!sym(column_name) := dlnorm(t,
+                                             meanlog = subset$est_1[1],
+                                             sdlog = subset$est_2[1]))
+    
+    # Gamma impedance 
+    } else if (name_function == "gamma") {  
+
+      x <- x %>%
+        mutate(!!sym(column_name) := dgamma(t,
+                                             shape = subset$est_1[1],
+                                             rate = subset$est_2[1]))
+    }else if (name_function == "norm") {  
+      x <- x %>%
+        mutate(!!sym(column_name) := dnorm(t,
+                                             mean = subset$est_1[1],
+                                             sd = subset$est_2[1]))
+    }else if (name_function == "exp") {  
+      x <- x %>%
+        mutate(!!sym(column_name) := dexp(t,
+                                             exp = subset$est_1[1]))
+    }else if (name_function == "unif") {  
+      x <- x %>%
+        mutate(!!sym(column_name) := dunif(t,
+                                             min = subset$est_1[1],
+                                             max = subset$est_2[1]))
+    }
+  }
+  
+  return(x)
+}
 ```
 
-```{r}
-gss_impedances %>% 
-filter(dest_label == "Work or school", MODE == "Walking") %>%
-  dplyr::select("YEAR", "f_name", "est_1", "est_2", "loglik", "aic", "bic","count") %>%
+```{r , include=FALSE}
+
+max_time <- 100 
+
+for(destino in unique(gss_impedances$orig_label)){
+
+  for(mode in unique(gss_impedances[gss_impedances$orig_label == destino, ]$MODE)){
+  
+  selected_functions <-  gss_impedances %>% 
+  filter(dest_label == destino, MODE == mode) %>%
+  dplyr::select("YEAR", "f_name", "est_1", "est_2", "loglik", "aic", "bic") %>%
   mutate(across(c(est_1, est_2), ~ round(., digits = 2)))  %>%
   mutate(across(c(loglik, aic, bic), ~ round(., digits = 0)))  %>%
   unique()
+  
+  if(nrow(selected_functions) > 0){
+    tld_theoretical <- visualize_impedance(df_functions = selected_functions, travel_cost = max_time)
+  
+  # Create an empty list to store the plots
+  plots <- list()
+
+# Loop through each unique year
+  
+  for(year in unique(gss_impedances$YEAR)){
+    
+    # Subset empirical and theoretical data for the current year
+    empirical_subset <- gss_impedances %>% 
+      filter(dest_label == destino, MODE == mode, YEAR == year, DURATION <= max_time)
+    
+    if(nrow(empirical_subset) > 1 ){
+
+      print(paste0(mode," - ", destino," - ", year))
+ 
+      theoretical_subset <- tld_theoretical %>%
+      dplyr::select(t, matches(as.character(year)))
+    
+    
+      # Create the ggplot
+      plots[[as.character(year)]] <- ggplot(empirical_subset, aes(x = DURATION)) +
+        geom_histogram(aes(y = ..density..), binwidth = 5, fill = "#dce1e3", color = "#adb1b3") +
+        geom_line(data = theoretical_subset, aes(x = t, y = theoretical_subset[[2]]), color = "#b52640", size = 0.80) +
+        labs(title = paste(year)) +
+        theme_minimal() +
+        scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
+        theme(axis.title.x = element_blank(),
+            axis.title.y = element_blank(), 
+            plot.title = element_text(size = 10, face="bold"))
+
+  }
+
+    
+# Use gridExtra to arrange the plots in a 2x3 layout and add overall axis labels
+    
+    if(length(plots) == 1){
+      combined_plot <- grid.arrange(
+      grobs = plots,
+      ncol = 1,
+      bottom = text_grob(paste0("Travel time to `", destino ,"` (in minutes) considering `", mode,"` as transportation mode.")),
+      left = text_grob("Density", rot = 90)
+    )
+      ggsave(file = paste0(here::here(),"/Data-Paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"), 
+       plot = combined_plot,
+       width = 9, 
+       height = 4, 
+       units = "in", 
+       dpi = 300)
+      
+    } else if(length(plots) == 3){
+      combined_plot <- grid.arrange(
+      grobs = plots,
+      ncol = 3,
+      bottom = text_grob(paste0("Travel time to `", destino ,"` (in minutes) considering `", mode,"` as transportation mode.")),
+      left = text_grob("Density", rot = 90)
+    )
+      ggsave(file = paste0(here::here(),"/Data-Paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"), 
+       plot = combined_plot,
+       width = 9, 
+       height = 4, 
+       units = "in", 
+       dpi = 300)
+    }else {
+      combined_plot <- grid.arrange(
+      grobs = plots,
+      ncol = 3,
+      bottom = textGrob(paste0("Travel time to `", destino ,"` (in minutes) considering `", mode,"` as transportation mode."), gp = gpar(fontsize = 16)),
+      left = textGrob("Density", rot = 90, gp = gpar(fontsize = 16))
+    )
+      ggsave(file = paste0(here::here(),"/Data-Paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"), 
+       plot = combined_plot,
+       width = 14, 
+       height = 8, 
+       units = "in", 
+       dpi = 300)
+    }
+  }
+}
+}
+} 
 ```
 
+```{r table-04, echo=FALSE, cache=FALSE, warning=FALSE}
+mode <- "Walking" 
+destino <- "Work or school"
+
+gss_impedances %>% 
+filter(dest_label == destino, MODE == mode) %>%
+  dplyr::select("YEAR","f_name", "est_1","est_2","aic") %>%
+  mutate(across(c(est_1, est_2), ~ round(., digits = 2)))  %>%
+  mutate(across(c(aic), ~ round(., digits = 0)))  %>%
+  unique() %>% 
+  kable(format = "latex",
+        booktabs = TRUE,
+        caption = paste0("\\label{table-04}Impedance functions and AIC for `", mode ,"` trips considering `", destino,"` as destination."), 
+        col.names = c("Year", "Impedance function*","Parameter 1*","Parameter 2*", "AIC")) %>% 
+    kable_styling(full_width = FALSE, 
+                latex_options=c("scale_down"),
+                font_size = 10) %>% 
+  row_spec(0, bold = TRUE, align = "c") %>% 
+  footnote(general = c("* `lnorm` refers to the log-normal distribution. For `lnorm` distributions, `Parameter 1` and `Parameter 2` refer to the mean and standard deviation of the distribution on the logarithmic scaler, respectively. For the `gamma` distribution, `Parameter 1` and `Parameter 2` refer to the rate and shape of the distribution, respectively. `AIC` means Akaike information criterion."), threeparttable = T)
+```
+
+```{r figure-03, echo=FALSE, out.width="100%", fig.cap=paste0("Percentage of walking Trips Categorized by Origin and Destination", mode), fig.align="center"}
+
+knitr::include_graphics(paste0(here::here(),"/Data-Paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"))
+```
 
 # Concluding remarks
 
+This article introduces {ActiveCA}, an open data product in the form of
+an R data package, developed after the collection, cleaning, and
+processing of General Social Survey data ranging from 1986 to 2015. The
+package provides analysis-ready data on active transportation episodes,
+focusing on walking and cycling activities, with information on trip
+origins, destinations, and duration. Additionally, the package includes
+a series of impedance functions calibrated for various destinations,
+considering the different transportation modes and time periods.
 
+The value of {ActiveCA} lies in its transparency, accessibility, and
+open infrastructure, which facilitates the addition of complementary
+data sets in the future. R users can seamlessly explore GSS walking and
+cycling episodes along with calibrated impedance functions, with the
+option to suggest enhancements to the package as needed. This article
+adopts the structure proposed by Anastasia and Páez [-@soukhov2023],
+whose work provided essential guidance for the creation of this package.
+Similarly, we aim to contribute to the academic community by promoting
+transparent research practices that encourage replication and innovation
+in related fields. We believe that {ActiveCA} will serve as a basis for
+further research on GSS and for the integration of additional data by
+the authors or the wider open source community.
+
+# Declaration of Conflicting Interests
+
+The author(s) declared no potential conflicts of interest with respect
+to the research, authorship, and/or publication of this article.
+
+# Funding
+
+The author(s) disclosed receipt of the following financial support for
+the research, authorship, and/or publication of this article: This work
+was supported by the Social Sciences and Humanities Research Council of
+Canada (*More description about the funding source after the review
+process*).
+
+# ORCID
+
+Author 1 Author 2 Author 3
+
+# Data availability statement
+
+The {ActiceCA} R data package can be found and installed on Github
+(*link*).
 
 # References {#references .unnumbered}
-
