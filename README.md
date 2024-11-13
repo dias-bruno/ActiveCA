@@ -3,10 +3,16 @@
 
 # ActiveCA
 
-<!-- badges: start -->
-<!-- badges: end -->
-
-The goal of ActiveCA is to …
+{ActiveCA} is an open data product in the form of an R data package,
+developed after the collection, cleaning, and processing of [General
+Social Survey
+(GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221)
+data ranging from 1986 to 2015. The main objective of the {ActiveCA}
+package is to identify the most appropriate impedance functions for
+active transportation modes for various destinations and time periods in
+Canada. The package also provides analysis-ready data on active
+transportation episodes, focusing on walking and cycling activities,
+with information on trip origins, destinations, and duration.
 
 ## Installation
 
@@ -17,36 +23,3 @@ You can install the development version of ActiveCA from
 # install.packages("pak")
 pak::pak("dias-bruno/ActiveCA")
 ```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-#library(ActiveCA)
-## basic example code
-```
-
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
