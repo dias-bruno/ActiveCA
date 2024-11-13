@@ -1,18 +1,8 @@
-#' ActiveCA: a data set to obtain impedance functions for active transportation modes in Canada
-#'
-#' The main objective of the *ActiveCA* package is to provide processed data to identify
-#' the most appropriate impedance functions for active transportation modes considering
-#' various destinations and time periods in Canada. To do achieve this objective,
-#' we processed historical data from the [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221)
-#' from 1986 to 2015 in Canada. We also calculate impedance function for cycling
-#' and walking trips for the Census Agglomerations and Census Metropolitan Areas.
-#'
-#' @docType data
-#' @name ActiveCA-package
-#' @author Bruno Dos Santos, School of Earth, Environment and Society, McMaster University \email{dossanb@@mcmaster.ca}
-#' @author Mahdis Moghadasi, School of Earth, Environment and Society, McMaster University \email{paezha@@mcmaster.ca}
-#' @author Antonio Paez, School of Earth, Environment and Society, McMaster University \email{paezha@@mcmaster.ca}
-#' @references \url{https://github.com/dias-bruno/ActiveCA}
+#' @keywords internal
+"_PACKAGE"
+
+## usethis namespace: start
+## usethis namespace: end
 NULL
 
 ##############################################

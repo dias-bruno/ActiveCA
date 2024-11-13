@@ -604,6 +604,7 @@ As we have already processed this year's data, we will clear the Episode and Mai
 ```{r}
 rm(gss_e_2015,gss_m_2015)
 ```
+
 ## GSS 2010
 
 Read the Episode and Main files of the 2010 GSS survey:
