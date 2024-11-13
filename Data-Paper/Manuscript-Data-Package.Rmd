@@ -273,7 +273,7 @@ wide_data <- episodes_stats_before %>%
     names_from = YEAR,
     values_from = c(min, median, max, Percentage)
   )  %>% 
-  arrange(dest_label, MODE, desc(Percentage_1998))
+  arrange(MODE, dest_label, desc(Percentage_1998))
 
 wide_data <- wide_data %>%
   group_by(MODE) %>%
@@ -331,7 +331,6 @@ gss_episodes_renamed <- gss_episodes %>%
     orig_label == "Library, museum or theatre" ~ "Cultural venues",
     TRUE ~ orig_label))
 
-# Filter for walking and cycling trips, selected years, and duration <= 90
 episodes_stats_after <- gss_episodes_renamed %>%
   filter(YEAR > 2000) %>%
   group_by(YEAR, dest_label, MODE) %>%
@@ -361,10 +360,10 @@ wide_data <- episodes_stats_after %>%
     min_2010, median_2010, max_2010, Percentage_2010,
     min_2015, median_2015, max_2015, Percentage_2015
   ) %>% 
-  arrange(dest_label, MODE, desc(Percentage_2015)) %>%
-  group_by(MODE) %>%
-  mutate(MODE = if_else(row_number() == 2, as.character(MODE), "")) %>%
-  ungroup()
+  arrange(MODE, dest_label, desc(Percentage_2015)) %>%
+   group_by(MODE) %>%
+   mutate(MODE = if_else(row_number() == 2, as.character(MODE), "")) %>%
+   ungroup()
 
 styled_ch03_table_03 <- wide_data %>%
   kable(
