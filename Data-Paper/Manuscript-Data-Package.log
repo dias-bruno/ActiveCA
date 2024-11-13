@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.11)  12 NOV 2024 22:03
+=======
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.11)  12 NOV 2024 21:48
+>>>>>>> 952af50f3fbd15abd18030fcdd03cc6d1881a24f
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -757,9 +761,15 @@ Package pdftex.def Info: Manuscript-figures/impf_Work or school_Walking.jpg  use
 (pdftex.def)             Requested size: 352.81416pt x 201.58269pt.
 
 
+<<<<<<< HEAD
 [7]
 
 [8 <./Manuscript-figures/impf_Work or school_Walking.jpg>] (./Manuscript-Data-Package.bbl
+=======
+[7] (./Manuscript-Data-Package.bbl
+
+[8 <./Manuscript-figures/impf_Work or school_Walking.jpg>]
+>>>>>>> 952af50f3fbd15abd18030fcdd03cc6d1881a24f
 Underfull \hbox (badness 10000) in paragraph at lines 40--44
 []\OT1/ptm/m/n/9 Palacios MS and El-geneidy A (2022) Cumu-la-tive ver-sus gravity-based
  []
@@ -779,11 +789,17 @@ Overfull \hbox (86.23537pt too wide) in paragraph at lines 40--44
 \OT1/pcr/m/n/9 32444-[]cumulative-[]versus-[]gravity-[]based-[]accessibility-[]measures-[]which-[]one-[]to-[]use$[][]\OT1/ptm/m/n/9 .
  []
 
+<<<<<<< HEAD
 
 
 [9])
 
 [10] (./Manuscript-Data-Package.aux)
+=======
+)
+
+[9] (./Manuscript-Data-Package.aux)
+>>>>>>> 952af50f3fbd15abd18030fcdd03cc6d1881a24f
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -795,18 +811,31 @@ Package rerunfilecheck Info: File `Manuscript-Data-Package.out' has not changed.
 (rerunfilecheck)             Checksum: 3907528294C1793BAA8147B2552435E4;1935.
  ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
  14970 strings out of 475322
  241617 string characters out of 5768591
+=======
+ 14969 strings out of 475322
+ 241610 string characters out of 5768591
+>>>>>>> 952af50f3fbd15abd18030fcdd03cc6d1881a24f
  717747 words of memory out of 5000000
  37462 multiletter control sequences out of 15000+600000
  606172 words of font info for 129 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,12n,79p,1069b,624s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+<<<<<<< HEAD
 Output written on Manuscript-Data-Package.pdf (10 pages, 3387780 bytes).
 PDF statistics:
  240 PDF objects out of 1000 (max. 8388607)
  206 compressed objects within 3 object streams
  53 named destinations out of 1000 (max. 500000)
+=======
+Output written on Manuscript-Data-Package.pdf (9 pages, 3387288 bytes).
+PDF statistics:
+ 236 PDF objects out of 1000 (max. 8388607)
+ 203 compressed objects within 3 object streams
+ 52 named destinations out of 1000 (max. 500000)
+>>>>>>> 952af50f3fbd15abd18030fcdd03cc6d1881a24f
  104 words of extra memory for PDF output out of 10000 (max. 10000000)
 
