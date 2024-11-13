@@ -535,7 +535,7 @@ ggsave(file = paste0(here::here(),"/Data-Paper/Manuscript-figures/cycling_hm_fig
        dpi = 300)
 ```
 
-```{r figure-01, echo=FALSE, out.width="100%", fig.cap="Percentage of walking Trips Categorized by Origin and Destination", fig.align="center"}
+```{r figure-01, echo=FALSE, out.width="100%", fig.cap="Percentage of walking trips categorized by origin and destination", fig.align="center"}
 
 knitr::include_graphics(paste0(here::here(),"/Data-Paper/Manuscript-figures/walking_hm_fig.jpg"))
 ```
@@ -548,7 +548,7 @@ representing 30% of the cases. However, a notable change occurred in
 `home` to `home` trips, which decreased significantly from 19% in 1992
 to 5% in 2015.
 
-```{r  figure-02, echo=FALSE, out.width="100%", fig.cap="Percentage of walking Trips Categorized by Origin and Destination", fig.align="center"}
+```{r  figure-02, echo=FALSE, out.width="100%", fig.cap="Percentage of cycling trips categorized by origin and destination", fig.align="center"}
 
 knitr::include_graphics(paste0(here::here(),"/Data-Paper/Manuscript-figures/cycling_hm_fig.jpg"))
 ```
@@ -763,7 +763,7 @@ filter(dest_label == destino, MODE == mode) %>%
   footnote(general = c("* `lnorm` refers to the log-normal distribution. For `lnorm` distributions, `Parameter 1` and `Parameter 2` refer to the mean and standard deviation of the distribution on the logarithmic scaler, respectively. For the `gamma` distribution, `Parameter 1` and `Parameter 2` refer to the rate and shape of the distribution, respectively. `AIC` means Akaike information criterion."), threeparttable = T)
 ```
 
-```{r figure-03, echo=FALSE, out.width="100%", fig.cap=paste0("Percentage of walking Trips Categorized by Origin and Destination", mode), fig.align="center"}
+```{r figure-03, echo=FALSE, out.width="100%", fig.cap=paste0("Empirical data and impedance functions fitted for walking trips with `work or school` as destination."), fig.align="center"}
 
 knitr::include_graphics(paste0(here::here(),"/Data-Paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"))
 ```
