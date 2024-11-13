@@ -8,7 +8,7 @@ Authors@R:
            comment = c(ORCID = "0000-002-6748-2038")),
        person("Antonio", "Paez", , "paezha@mcmaster.ca", role = c("aut"),
            comment = c(ORCID = "0000-0001-6912-9919")))
-Description: ActiveCA is an Open Data Product that provides analysis-ready data from the General Social Survey of Canada Cycles XX (YEAR), XX (YEAR), XX (YEAR), XX (YEAR), and XX (YEAR) regarding active travel. These data can be used to study walking and cycling in Canada for various purposes over time, and to calculate impedance functions for accessibility analysis. The package provides pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas.
+Description: ActiveCA is an Open Data Product that provides analysis-ready data from the General Social Survey of Canada Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) regarding active travel. These data can be used to study walking and cycling in Canada for various purposes over time, and to calculate impedance functions for accessibility analysis. The package provides pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas.
 License: CC BY 4.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
