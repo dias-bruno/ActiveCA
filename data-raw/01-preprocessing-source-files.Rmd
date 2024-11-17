@@ -115,8 +115,7 @@ In this R markdown, our aim is to generate a table in the appropriate
 format to perform the subsequent analyses, after reading and processing
 the GSS episode surveys.
 
-For the purpose of our analyses, the following definitions are
-important:
+For the purpose of our analyses, the following definitions are important:
 
 | **Code** | **Location**                           | **Year** | **Description**                                                |
 |-------------|------------------|-------------|------------------------------|
@@ -417,10 +416,18 @@ trip![^6]
     "personal care", `7` is "Transport to or from activity" and `9` is
     "Looking for work".
 
+Label the activity ("7" is "Transport to or from activity") and drop the LOCATION because it is already coded as MODE:    
+```{r}
+walking_2015 <- walking_2015 |>
+  mutate(act_label = "Transport to or from activity") |>
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```
+
 Save data in R format for later use:
 
 ```{r}
-usethis::use_data(walking_2015, overwrite = TRUE)
+usethis::use_data(walking_2015, 
+                  overwrite = TRUE)
 ```
 
 ### Cycling 2015
@@ -528,6 +535,7 @@ cycling_2015 <- cycling_2015 |>
          MODE = "Cycling") |>
   dplyr::rename(ACTCODE = TUI_01)
 ```
+
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
 gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST','PRV')]
@@ -551,6 +559,7 @@ cycling_2015 <- cycling_2015 |>
                      PRV == 48 ~ "Alberta",
                      PRV == 59 ~ "British Columbia"))
 ```
+
 Now, let's evaluate the count of episodes between each combination of
 origin and destination:
 
@@ -592,11 +601,18 @@ returned home.[^7]
 [^7]: Note: `TUI_01` is an activity code of the episode (What were you
     doing in minutes?).The list of main activity codes (001-095) can be
     found in an appendix of the User Guide.
+    
+Label the activity ("7" is "Transport to or from activity") and drop the LOCATION because it is already coded as MODE:    
+```{r}
+cycling_2015 <- cycling_2015 |>
+  mutate(act_label = "Transport to or from activity") |>
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```    
 
 Save data in R format for later use:
-
 ```{r}
-usethis::use_data(cycling_2015, overwrite = TRUE)
+usethis::use_data(cycling_2015, 
+                  overwrite = TRUE)
 ```
 
 As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
@@ -713,6 +729,7 @@ walking_2010 <- walking_2010 %>% dplyr::rename(
     PUMFID = RECID,
     LOCATION = PLACE)
 ```
+
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
 gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST','PRV')]
@@ -786,11 +803,65 @@ organizing and planning activities.[^8]
 [^8]: Note: `ACTCODE` is an activity code of the episode (What were you
     doing in minute).The list of main activity codes can be found in an
     appendix of the User Guide.
+    
+
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+```{r}
+walking_2010 <- walking_2010 |>
+  mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
+                               ACTCODE == 12 ~ "Work for pay at other job(s)", # p. 156
+                               ACTCODE == 22 ~ "Looking for work", # p. 156
+                               ACTCODE == 23 ~ "Unpaid work in a family business or farm", # p. 156
+                               ACTCODE == 30 ~ "Travel during work", # p. 156
+                               ACTCODE == 60 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 90 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 101 ~ "Meal preparation", # p. 164
+                               ACTCODE == 110 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 130 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164 
+                               ACTCODE == 171 ~ "Gardening/grounds maintenance", # p. 
+                               ACTCODE == 172 ~ "Pet care (walking, grooming, feeding)", # p. 164
+                               ACTCODE == 190 ~ "Travel to/from unpaid household work", # p. 164
+                               ACTCODE == 200 ~ "Baby care/child care (infant to 4 years old)", # p. 174
+                               ACTCODE == 210 ~ "Child care", # p. 177 
+                               ACTCODE == 240 ~ "Play with children", # p. 177
+                               ACTCODE == 291 ~ "Travel to/from personal care activities for household children", # p.177
+                               ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
+                               ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
+                               ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
+                               ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
+                               ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
+                               ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
+                               ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
+                               ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
+                               ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
+                               ACTCODE == 822 ~ "Bicycling", # p. 244
+                               ACTCODE == 831 ~ "Hobbies done mainly for pleasure (painting, sketching, photography)", # p. 244
+                               ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
+                               ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
+                               ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
+                               ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
+                               ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
+                               ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
+                               ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```    
 
 Save data in R format for later use:
 
 ```{r}
-usethis::use_data(walking_2010, overwrite = TRUE)
+usethis::use_data(walking_2010, 
+                  overwrite = TRUE)
 ```
 
 ### Cycling 2010
@@ -890,6 +961,7 @@ cycling_2010 <- cycling_2010 %>% dplyr::rename(
     PUMFID = RECID,
     LOCATION = PLACE)
 ```
+
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
 gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST','PRV')]
@@ -913,6 +985,7 @@ cycling_2010 <- cycling_2010 |>
                      PRV == 48 ~ "Alberta",
                      PRV == 59 ~ "British Columbia"))
 ```
+
 Now, let's evaluate the count of episodes between each combination of
 origin and destination:
 
@@ -952,16 +1025,70 @@ another cycling session for 15 minutes, after which they returned home
 once more. Subsequently, the individual carried out various household
 chores for about 10 minutes.
 
-Save data in R format for later use:
-
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
 ```{r}
-usethis::use_data(cycling_2010, overwrite = TRUE)
+cycling_2010 <- cycling_2010 |>
+  mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
+                               ACTCODE == 12 ~ "Work for pay at other job(s)", # p. 156
+                               ACTCODE == 22 ~ "Looking for work", # p. 156
+                               ACTCODE == 23 ~ "Unpaid work in a family business or farm", # p. 156
+                               ACTCODE == 30 ~ "Travel during work", # p. 156
+                               ACTCODE == 60 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 90 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 101 ~ "Meal preparation", # p. 164
+                               ACTCODE == 110 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 130 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164 
+                               ACTCODE == 171 ~ "Gardening/grounds maintenance", # p. 
+                               ACTCODE == 172 ~ "Pet care (walking, grooming, feeding)", # p. 164
+                               ACTCODE == 190 ~ "Travel to/from unpaid household work", # p. 164
+                               ACTCODE == 200 ~ "Baby care/child care (infant to 4 years old)", # p. 174
+                               ACTCODE == 210 ~ "Child care", # p. 177 
+                               ACTCODE == 240 ~ "Play with children", # p. 177
+                               ACTCODE == 291 ~ "Travel to/from personal care activities for household children", # p.177
+                               ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
+                               ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
+                               ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
+                               ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
+                               ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
+                               ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
+                               ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
+                               ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
+                               ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
+                               ACTCODE == 822 ~ "Bicycling", # p. 244
+                               ACTCODE == 831 ~ "Hobbies done mainly for pleasure (painting, sketching, photography)", # p. 244
+                               ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
+                               ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
+                               ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
+                               ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
+                               ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
+                               ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
+                               ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```    
+
+Save data in R format for later use:
+```{r}
+usethis::use_data(cycling_2010, 
+                  overwrite = TRUE)
 ```
+
 As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
 
 ```{r}
 rm(gss_e_2010,gss_m_2010)
 ```
+
 ## GSS 2005
 
 Read the Episode and Main files of the 2005 GSS survey:
@@ -1143,10 +1270,62 @@ home.[^9]
     doing in minute).The list of main activity codes can be found in an
     appendix of the User Guide.
 
-Save data in R format for later use:
-
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
 ```{r}
-usethis::use_data(walking_2005, overwrite = TRUE)
+walking_2005 <- walking_2005 |>
+  mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
+                               ACTCODE == 12 ~ "Work for pay at other job(s)", # p. 156
+                               ACTCODE == 22 ~ "Looking for work", # p. 156
+                               ACTCODE == 23 ~ "Unpaid work in a family business or farm", # p. 156
+                               ACTCODE == 30 ~ "Travel during work", # p. 156
+                               ACTCODE == 60 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 90 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 101 ~ "Meal preparation", # p. 164
+                               ACTCODE == 110 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 130 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164 
+                               ACTCODE == 171 ~ "Gardening/grounds maintenance", # p. 
+                               ACTCODE == 172 ~ "Pet care (walking, grooming, feeding)", # p. 164
+                               ACTCODE == 190 ~ "Travel to/from unpaid household work", # p. 164
+                               ACTCODE == 200 ~ "Baby care/child care (infant to 4 years old)", # p. 174
+                               ACTCODE == 210 ~ "Child care", # p. 177 
+                               ACTCODE == 240 ~ "Play with children", # p. 177
+                               ACTCODE == 291 ~ "Travel to/from personal care activities for household children", # p.177
+                               ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
+                               ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
+                               ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
+                               ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
+                               ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
+                               ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
+                               ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
+                               ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
+                               ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
+                               ACTCODE == 822 ~ "Bicycling", # p. 244
+                               ACTCODE == 831 ~ "Hobbies done mainly for pleasure (painting, sketching, photography)", # p. 244
+                               ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
+                               ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
+                               ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
+                               ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
+                               ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
+                               ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
+                               ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```    
+
+Save data in R format for later use:
+```{r}
+usethis::use_data(walking_2005,
+                  overwrite = TRUE)
 ```
 
 ### Cycling 2005
@@ -1247,6 +1426,7 @@ cycling_2005 <- cycling_2005 |> dplyr::rename(
     PUMFID = RECID,
     LOCATION = PLACE) 
 ```
+
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
 gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST','PRV')]
@@ -1307,16 +1487,69 @@ as their primary workplace. Following this work period, the person went
 out for another 15-minute cycling session, then returned home once more
 and spent 90 minutes watching television.
 
-Save data in R format for later use:
-
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
 ```{r}
-usethis::use_data(cycling_2005, overwrite = TRUE)
+cycling_2005 <- cycling_2005 |>
+  mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
+                               ACTCODE == 12 ~ "Work for pay at other job(s)", # p. 156
+                               ACTCODE == 22 ~ "Looking for work", # p. 156
+                               ACTCODE == 23 ~ "Unpaid work in a family business or farm", # p. 156
+                               ACTCODE == 30 ~ "Travel during work", # p. 156
+                               ACTCODE == 60 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 90 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 101 ~ "Meal preparation", # p. 164
+                               ACTCODE == 110 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 130 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164 
+                               ACTCODE == 171 ~ "Gardening/grounds maintenance", # p. 
+                               ACTCODE == 172 ~ "Pet care (walking, grooming, feeding)", # p. 164
+                               ACTCODE == 190 ~ "Travel to/from unpaid household work", # p. 164
+                               ACTCODE == 200 ~ "Baby care/child care (infant to 4 years old)", # p. 174
+                               ACTCODE == 210 ~ "Child care", # p. 177 
+                               ACTCODE == 240 ~ "Play with children", # p. 177
+                               ACTCODE == 291 ~ "Travel to/from personal care activities for household children", # p.177
+                               ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
+                               ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
+                               ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
+                               ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
+                               ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
+                               ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
+                               ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
+                               ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
+                               ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
+                               ACTCODE == 822 ~ "Bicycling", # p. 244
+                               ACTCODE == 831 ~ "Hobbies done mainly for pleasure (painting, sketching, photography)", # p. 244
+                               ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
+                               ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
+                               ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
+                               ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
+                               ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
+                               ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
+                               ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```
+
+Save data in R format for later use:
+```{r}
+usethis::use_data(cycling_2005, 
+                  overwrite = TRUE)
 ```
 As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
 
 ```{r}
 rm(gss_e_2005,gss_m_2005)
 ```
+
 ## GSS 1998
 
 Read the Episode and Main files of the 1998 GSS survey:
@@ -1457,12 +1690,65 @@ gss_e_1998 |>
 ```
 
 The person was at home doing food cleanup (`ACTCODE` = 110), then
-went for walking that lasted 30 minutes, came back home and spent 15 minutes relaxing/resting. Here have here another cas of a recreational/leisure trip!
+went for walking that lasted 30 minutes, came back home and spent 15 minutes relaxing/resting. Here have here another case of a recreational/leisure trip!
+
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+```{r}
+walking_1998 <- walking_1998 |>
+  mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
+                               ACTCODE == 12 ~ "Work for pay at other job(s)", # p. 156
+                               ACTCODE == 22 ~ "Looking for work", # p. 156
+                               ACTCODE == 23 ~ "Unpaid work in a family business or farm", # p. 156
+                               ACTCODE == 30 ~ "Travel during work", # p. 156
+                               ACTCODE == 60 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 90 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 101 ~ "Meal preparation", # p. 164
+                               ACTCODE == 110 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 130 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164 
+                               ACTCODE == 171 ~ "Gardening/grounds maintenance", # p. 
+                               ACTCODE == 172 ~ "Pet care (walking, grooming, feeding)", # p. 164
+                               ACTCODE == 190 ~ "Travel to/from unpaid household work", # p. 164
+                               ACTCODE == 200 ~ "Baby care/child care (infant to 4 years old)", # p. 174
+                               ACTCODE == 210 ~ "Child care", # p. 177 
+                               ACTCODE == 240 ~ "Play with children", # p. 177
+                               ACTCODE == 291 ~ "Travel to/from personal care activities for household children", # p.177
+                               ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
+                               ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
+                               ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
+                               ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
+                               ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
+                               ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
+                               ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
+                               ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
+                               ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
+                               ACTCODE == 822 ~ "Bicycling", # p. 244
+                               ACTCODE == 831 ~ "Hobbies done mainly for pleasure (painting, sketching, photography)", # p. 244
+                               ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
+                               ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
+                               ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
+                               ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
+                               ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
+                               ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
+                               ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```
 
 Save data in R format for later use:
 
 ```{r}
-usethis::use_data(walking_1998, overwrite = TRUE)
+usethis::use_data(walking_1998, 
+                  overwrite = TRUE)
 ```
 
 ### Cycling 1998
@@ -1591,16 +1877,70 @@ gss_e_1998 |>
 
 The person spent 165 minutes talking to someone (in person or on the phone, `ARTCODE` = 950), then embarked on a bike ride for 12 minutes. After that, the person spent 108 minutes shopping at home (`ARTCODE` = 380), cycled for another 12 minutes and came back to talk to someone for another 138 minutes (`ARTCODE` = 950). 
 
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+```{r}
+cycling_1998 <- cycling_1998 |>
+  mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
+                               ACTCODE == 12 ~ "Work for pay at other job(s)", # p. 156
+                               ACTCODE == 22 ~ "Looking for work", # p. 156
+                               ACTCODE == 23 ~ "Unpaid work in a family business or farm", # p. 156
+                               ACTCODE == 30 ~ "Travel during work", # p. 156
+                               ACTCODE == 60 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 90 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 101 ~ "Meal preparation", # p. 164
+                               ACTCODE == 110 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 130 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164 
+                               ACTCODE == 171 ~ "Gardening/grounds maintenance", # p. 
+                               ACTCODE == 172 ~ "Pet care (walking, grooming, feeding)", # p. 164
+                               ACTCODE == 190 ~ "Travel to/from unpaid household work", # p. 164
+                               ACTCODE == 200 ~ "Baby care/child care (infant to 4 years old)", # p. 174
+                               ACTCODE == 210 ~ "Child care", # p. 177 
+                               ACTCODE == 240 ~ "Play with children", # p. 177
+                               ACTCODE == 291 ~ "Travel to/from personal care activities for household children", # p.177
+                               ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
+                               ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
+                               ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
+                               ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
+                               ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
+                               ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
+                               ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
+                               ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
+                               ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
+                               ACTCODE == 822 ~ "Bicycling", # p. 244
+                               ACTCODE == 831 ~ "Hobbies done mainly for pleasure (painting, sketching, photography)", # p. 244
+                               ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
+                               ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
+                               ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
+                               ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
+                               ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
+                               ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
+                               ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```
+
 Save data in R format for later use:
 
 ```{r}
-usethis::use_data(cycling_1998, overwrite = TRUE)
+usethis::use_data(cycling_1998, 
+                  overwrite = TRUE)
 ```
 As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
 
 ```{r}
 rm(gss_e_1998,gss_m_1998)
 ```
+
 ## GSS 1992
 
 Read the Episode and Main files of the 1992 GSS survey:
@@ -1744,10 +2084,62 @@ The person was at home reading newspapers (`ACTCODE` = 940), then went for walki
     doing in minute).The list of main activity codes can be found in an
     appendix of the User Guide.
 
-Save data in R format for later use:
-
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
 ```{r}
-usethis::use_data(walking_1992, overwrite = TRUE)
+walking_1992 <- walking_1992 |>
+  mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
+                               ACTCODE == 12 ~ "Work for pay at other job(s)", # p. 156
+                               ACTCODE == 22 ~ "Looking for work", # p. 156
+                               ACTCODE == 23 ~ "Unpaid work in a family business or farm", # p. 156
+                               ACTCODE == 30 ~ "Travel during work", # p. 156
+                               ACTCODE == 60 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 90 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 101 ~ "Meal preparation", # p. 164
+                               ACTCODE == 110 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 130 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164 
+                               ACTCODE == 171 ~ "Gardening/grounds maintenance", # p. 
+                               ACTCODE == 172 ~ "Pet care (walking, grooming, feeding)", # p. 164
+                               ACTCODE == 190 ~ "Travel to/from unpaid household work", # p. 164
+                               ACTCODE == 200 ~ "Baby care/child care (infant to 4 years old)", # p. 174
+                               ACTCODE == 210 ~ "Child care", # p. 177 
+                               ACTCODE == 240 ~ "Play with children", # p. 177
+                               ACTCODE == 291 ~ "Travel to/from personal care activities for household children", # p.177
+                               ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
+                               ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
+                               ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
+                               ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
+                               ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
+                               ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
+                               ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
+                               ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
+                               ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
+                               ACTCODE == 822 ~ "Bicycling", # p. 244
+                               ACTCODE == 831 ~ "Hobbies done mainly for pleasure (painting, sketching, photography)", # p. 244
+                               ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
+                               ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
+                               ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
+                               ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
+                               ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
+                               ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
+                               ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```
+
+Save data in `R` format for later use:
+```{r}
+usethis::use_data(walking_1992, 
+                  overwrite = TRUE)
 ```
 
 ### Cycling_1992
@@ -1820,6 +2212,7 @@ cycling_1992 <- cycling_1992 |> dplyr::rename(
     WGHT_EPI = TIMEWGT,
     LOCATION = PLACE)
 ```
+
 Now, let's select only the cases of respondents who live in a CMA or CA:
 ```{r}
 gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA','DVPROV')]
@@ -1874,15 +2267,67 @@ gss_e_1992 |>
   dplyr::select(SEQNUM,PLACE,ACTCODE,DURATION)
 ```
 
-The person was at home Talking or having conversation on the phone (`ACTCODE` = 950), then went for cycling that lasted 60 minutes, came back home and spent 15 minutes washing and dressing (`ACTCODE` = 400). 
+The person was at home Talking or having conversation on the phone (`ACTCODE` = 950), then went for cycling (`ACTCODE` = 822) that lasted 60 minutes, came back home and spent 15 minutes washing and dressing (`ACTCODE` = 400). 
+
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+```{r label-activity-codes-1992-cycling}
+cycling_1992 <- cycling_1992 |>
+  mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
+                               ACTCODE == 12 ~ "Work for pay at other job(s)", # p. 156
+                               ACTCODE == 22 ~ "Looking for work", # p. 156
+                               ACTCODE == 23 ~ "Unpaid work in a family business or farm", # p. 156
+                               ACTCODE == 30 ~ "Travel during work", # p. 156
+                               ACTCODE == 60 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 90 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 101 ~ "Meal preparation", # p. 164
+                               ACTCODE == 110 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 130 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164 
+                               ACTCODE == 171 ~ "Gardening/grounds maintenance", # p. 
+                               ACTCODE == 172 ~ "Pet care (walking, grooming, feeding)", # p. 164
+                               ACTCODE == 190 ~ "Travel to/from unpaid household work", # p. 164
+                               ACTCODE == 200 ~ "Baby care/child care (infant to 4 years old)", # p. 174
+                               ACTCODE == 210 ~ "Child care", # p. 177 
+                               ACTCODE == 240 ~ "Play with children", # p. 177
+                               ACTCODE == 291 ~ "Travel to/from personal care activities for household children", # p.177
+                               ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
+                               ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
+                               ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
+                               ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
+                               ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
+                               ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
+                               ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
+                               ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
+                               ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
+                               ACTCODE == 822 ~ "Bicycling", # p. 244
+                               ACTCODE == 831 ~ "Hobbies done mainly for pleasure (painting, sketching, photography)", # p. 244
+                               ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
+                               ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
+                               ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
+                               ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
+                               ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
+                               ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
+                               ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```
 
 Save data in R format for later use:
-
 ```{r}
-usethis::use_data(cycling_1992, overwrite = TRUE)
+usethis::use_data(cycling_1992, 
+                  overwrite = TRUE)
 ```
-As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
 
+As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
 ```{r}
 rm(gss_e_1992,gss_m_1992)
 ```
@@ -1957,7 +2402,9 @@ walking_1986 <- walking_1986 |>
 
 Creating the `year` and `mode` columns. Additionally, the columns
 `RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
-`LOCATION` to align with the names of the variables in 2015.
+`LOCATION` to align with the names of the variables in 2015. 
+
+**IMPORTANT:** See p. A96 of the User's Guide for Cycle 2. The `WGHT_EPI` values, which give the number of people a record represents, (in this case the `FWGT_MS`) are given as a 9 digit integer with 4 decimals, like so: XXXXX.XXXX. We cannot just copy `FWGT_MS` to `WGHT_EPI` below, we must divide first by 10,000:
 
 ```{r}
 gss_m_1986 <- gss_m_1986[,c('SEQNUM','PROV')]
@@ -1986,7 +2433,8 @@ walking_1986 <- walking_1986 |>
     STARTIME= STRTTIME,
     WGHT_EPI = FWGT_MS,
     ACTCODE = ACT_CODE,
-    LOCATION = PLACE)
+    LOCATION = PLACE) |>
+  mutate(WGHT_EPI = WGHT_EPI/10000)
 ```
 
 Now, let's evaluate the count of episodes between each combination of
@@ -2017,16 +2465,107 @@ See SEQNUM == 26 and check the walking episode:
 gss_e_1986 |>
   filter(SEQNUM == 68) |>
   slice(unique(c(reduce(map(which(PLACE == 5), ~ c(.x - 1, .x, .x + 1)), c)))) |>
-  dplyr::select(SEQNUM,PLACE,ACT_CODE,DURATION)
+  dplyr::select(SEQNUM, PLACE, ACT_CODE, DURATION)
 ```
 
-The person was at home listening radio for 30 minutes (`ARTCODE` = 90), then went for walking that lasted 15 minutes, came back home and spent 90 minutes
-resting/relaxing (`ARTCODE` = 47).
+The person was at home listening radio for 30 minutes (`ARTCODE` = 90), then went for a walk for gardening/pet care (`ACT_CODE` = 17) that lasted 15 minutes, came back home and spent 90 minutes resting/relaxing (`ARTCODE` = 47).
 
-Save data in R format for later use:
+```{r include=FALSE}
+walking_1986 |>
+  filter(orig_label == "Home" & dest_label == "Other's home")
+```
+
+See SEQNUM == 26 and check the walking episode:
 
 ```{r}
-usethis::use_data(walking_1986, overwrite = TRUE)
+gss_e_1986 |>
+  filter(SEQNUM == 68) |>
+  slice(unique(c(reduce(map(which(PLACE == 5), ~ c(.x - 1, .x, .x + 1)), c)))) |>
+  dplyr::select(SEQNUM, PLACE, ACT_CODE, DURATION)
+```
+
+
+
+Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+```{r label-activity-codes-1986-walking}
+walking_1986 <- walking_1986 |>
+  mutate(act_label = case_when(ACTCODE == 1 ~ "Work for Pay",
+                               ACTCODE == 2 ~ "Overtime/looking for work", # p. 156
+                               ACTCODE == 3 ~ "Travel during work", # p. 156
+                               ACTCODE == 5 ~ "Meals/snacks at work", # p. 156
+                               ACTCODE == 6 ~ "Idle time before/after work", # p. 156
+                               ACTCODE == 7 ~ "Coffee/other breaks at work", # p. 156
+                               ACTCODE == 8 ~ "Other work activity", # p. 156
+                               ACTCODE == 9 ~ "Travel to/from paid work", # p. 156
+                               ACTCODE == 10 ~ "Meal preparation", # p. 164
+                               ACTCODE == 11 ~ "Food (or meal) cleanup", # p. 164
+                               ACTCODE == 12 ~ "Indoor cleaning", # p. 164
+                               ACTCODE == 13 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164
+                               ACTCODE == 17 ~ "Gardening, pet care", # p. 164 
+                               ACTCODE == 18 ~ "Other housework", # p. 164
+                               ACTCODE == 19 ~ "Travel to/from unpaid household work", # p.164
+                               ACTCODE == 20 ~ "Baby care/child care (infant to 4 years old)",  # p.177
+                               ACTCODE == 21 ~ "Child care", # p. 177
+                               ACTCODE == 22 ~ "Helping/teaching/reprimanding", # p. 177
+                               ACTCODE == 23 ~ "Reading/talking/conversation with child", # p. 177
+                               ACTCODE == 28 ~ "Other child care (unpaid babysitting)", # p. 177
+                               ACTCODE == 29 ~ "Travel to/from personal care activities for household members", # p. 177 
+                               ACTCODE == 30 ~ "Everyday Shopping", # p. 188
+                               ACTCODE == 33 ~ "Government and financial services", # p. 188
+                               ACTCODE == 34 ~ "Adult medical and dental care (outside home)", # p. 188
+                               ACTCODE == 36 ~ "Repair services (cleaning, auto, appliance)", # p. 
+                               ACTCODE == 38 ~ "Other shopping and services", # p. 188
+                               ACTCODE == 39 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 40 ~ "Washing, dressing", # p. 202 
+                               ACTCODE == 41 ~ "Adult medical care (at home)", # p. 202
+                               ACTCODE == 43 ~ "Meals at home/snacks/coffee", # p. 202
+                               ACTCODE == 44 ~ "Meals at restaurant", # p. 202 
+                               ACTCODE == 45 ~ "Night sleep/essential sleep", # p. 202
+                               ACTCODE == 47 ~ "Relaxing, thinking, resting, smoking", # p. 202 
+                               ACTCODE == 48 ~ "Other personal care or private activities (e.g. washroom activities, sex)", # p. 202
+                               ACTCODE == 49 ~ "Travel to/from personal activities", # p. 202
+                               ACTCODE == 50 ~ "Full-time classes", # p. 208
+                               ACTCODE == 51 ~ "Other classes – part-time", # p. 208 
+                               ACTCODE == 53 ~ "Homework (course, career, self-development)", # p. 208
+                               ACTCODE == 54 ~ "Meals/snacks/coffee at school", # p. 208
+                               ACTCODE == 55 ~ "Breaks/waiting for class", # p. 208
+                               ACTCODE == 56 ~ "Leisure and special interest classes", # p. 208
+                               ACTCODE == 58 ~ "Other study", # p. 208 
+                               ACTCODE == 59 ~ "Travel to/from school education activities", # p. 208
+                               ACTCODE == 62 ~ "Child, youth, family organizations (e.g. scout leader, school volunteer)", # p. 215
+                               ACTCODE == 63 ~ "Religious meetings, organizations (e.g. choir practice, church socials)", # p. 215
+                               ACTCODE == 64 ~ "Religious services/prayer/Bible readings", # p. 215
+                               ACTCODE == 66 ~ "Volunteer work, helping", # p. 215
+                               ACTCODE == 69 ~ "Travel to/from organizational activities", # p. 216 
+                               ACTCODE == 72 ~ "Movies/films at a theatre/cinema, art films, drive-in movies", # p. 234
+                               ACTCODE == 75 ~ "Visits, entertaining friends/relatives", # p. 234
+                               ACTCODE == 76 ~ "Socializing at bars, clubs", # p. 234
+                               ACTCODE == 78 ~ "Other social gatherings", # p. 234
+                               ACTCODE == 79 ~ "Travel to/from entertainment activities", # p. 234
+                               ACTCODE == 80 ~ "Sports, physical exercise, coaching", # p. 243
+                               ACTCODE == 81 ~ "Hunt, fish, camp", # p. 244
+                               ACTCODE == 82 ~ "Walk, hike", # p. 244
+                               ACTCODE == 85 ~ "Music, theatre, dance", # p. 244
+                               ACTCODE == 86 ~ "Games, cards, arcade", # p. 244
+                               ACTCODE == 87 ~ "Pleasure drives, sightseeing", # p. 245
+                               ACTCODE == 88 ~ "Other leisure activity", # p. 245
+                               ACTCODE == 89 ~ "Travel to/from sports, hobbies", # p. 245
+                               ACTCODE == 91 ~ "Television, rented movies", # p. 266 
+                               ACTCODE == 92 ~ "Listening to CD’s, cassette tapes or records", # p. 266
+                               ACTCODE == 93 ~ "Reading books, magazines", # p. 266
+                               ACTCODE == 95 ~ "Talking, conversation with household member only (face-to-face)", # p. 266
+                               ACTCODE == 96 ~ "Letters and mail", # p. 266
+                               ACTCODE == 97 ~ "Refused information", # p. 303
+                               ACTCODE == 98 ~ "Other media or communication", # p. 266
+                               ACTCODE == 99 ~ "Travel to/from media or communication activities", # p. 266
+                               )) |> 
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+```
+
+Save data in R format for later use:
+```{r}
+usethis::use_data(walking_1986, 
+                  overwrite = TRUE)
 ```
 As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
 
@@ -2047,5 +2586,6 @@ gss_episodes <- rbind(walking_2015, cycling_2015, walking_2010, cycling_2010, wa
 Save this data frame in R format:
 
 ```{r}
-usethis::use_data(gss_episodes, overwrite = TRUE)
+usethis::use_data(gss_episodes, 
+                  overwrite = TRUE)
 ```

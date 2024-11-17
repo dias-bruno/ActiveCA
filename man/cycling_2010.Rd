@@ -8,12 +8,12 @@
 A data frame containing 236 rows and 17 variables; each row represents a unique episode.
 \describe{
 \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
-\item{WGHT_EPI}{Episode weight.}
+\item{WGHT_EPI}{Episode weight. in 2010, the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 14 of Cycle 24's Documentation and User's Guide))}
 \item{ACTCODE}{Activity code of the episode.}
+\item{act_label}{Activity (labeled).}
 \item{STARTIME}{Start time (in minutes) of the episode.}
 \item{ENDTIME}{End time (in minutes) of the episode.}
 \item{DURATION}{Duration (in minutes) of the episode.}
-\item{LOCATION}{Location/mode of transport of the episode.}
 \item{origin}{Place of origin of the episode (in code).}
 \item{destination}{Place of destination of the episode (in code).}
 \item{orig_label}{Place of origin of the episode (labeled).}
@@ -27,7 +27,9 @@ A data frame containing 236 rows and 17 variables; each row represents a unique 
 }
 }
 \source{
-"\href{https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221}{General Social Survey (GSS)} / \href{http://odesi2.scholarsportal.info/webview/}{Odesi}"
+\href{https://www150.statcan.gc.ca/n1/pub/45-25-0001/index-eng.htm#a7}{General Social Survey (GSS)} / \href{http://odesi2.scholarsportal.info/webview/}{Odesi}
+
+Adapted from Statistics Canada, General Social Survey Cycle 24, 2010 This does not constitute an endorsement by Statistics Canada of this product.
 }
 \usage{
 data(cycling_2010)
@@ -37,6 +39,9 @@ This dataset contains all the cycling episodes from the 2010 GSS Survey.
 We identified the cycling episodes and selected the places of origin
 and destination, measuring the time spent, weight and other
 information about the activities.
+}
+\seealso{
+Cycle 24: Time-Stress and Well-Being . Public Use Microdata File \href{https://www150.statcan.gc.ca/n1/pub/45-25-0001/cat7/c24_2010.zip}{Documentation and User’s Guide}
 }
 \keyword{2010}
 \keyword{cycling}

@@ -17,5 +17,10 @@ Authors:
   \item Antonio Paez \email{paezha@mcmaster.ca} (\href{https://orcid.org/0000-0001-6912-9919}{ORCID})
 }
 
+Other contributors:
+\itemize{
+  \item Statistics Canada (Copyright holder of the Public Use Microdata Files of the General Social Survey. These files are released using Statistics Canada Open Licence) [copyright holder]
+}
+
 }
 \keyword{internal}

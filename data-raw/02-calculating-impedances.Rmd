@@ -72,7 +72,7 @@ Soukhov and Páez [-@MJ-A2-0002] explained the process of selecting the best imp
 To exemplify the process of selecting the best impedance function, we will use the example of the 1986 GSS dataset, already pre-processed in the `00-Reading-Source-Files.Rmd`: 
 
 ```{r}
-load(file = paste0(here(), "/data/walking_1986.Rda"))
+load(file = paste0(here(), "/data/walking_1986.rda"))
 ```
 
 First, we'll analyze the travel time variable (`DURATION`) of the 1986 dataset, using the `summary()` function.
@@ -249,7 +249,7 @@ for(destino in unique(tld_empirical$destination)){
   assign(paste0("f_1986_Walking_dest", destino), 
          test_distributions_weighted(
            x = tld_empirical[tld_empirical$destination == destino, ]$DURATION,
-           weights = tld_empirical[tld_empirical$destination == destino, ]$WGHT_EPI))
+           weights = round(tld_empirical[tld_empirical$destination == destino, ]$WGHT_EPI)))
 }
 ```
 
@@ -376,7 +376,7 @@ par(mfrow = c(1, 1))
 After exemplifying the process of selecting the best impedance function for the 1986 GSS survey, we will obtain the function for all GSS cycles. First, we'll load the GSS episodes pre-processed in the first rmarkdown:
 
 ```{r}
-load(file = paste0(here(), "/data/gss_episodes.Rda"))
+load(file = paste0(here(), "/data/gss_episodes.rda"))
 ```
 
 
@@ -545,10 +545,10 @@ for(year in unique(gss_episodes$YEAR)){
 Creation of a new dataset called `gss_impedances`, to keep the original episode files as they are after the pre-processing stage:
 
 ```{r}
-gss_impedances <- gss_episodes[,c("PUMFID","DURATION","LOCATION",
-                  "origin","destination","Province","Pop_centre","orig_label",
-                  "dest_label","YEAR","MODE","f_name",
-                  "f","est_1","est_2","loglik","aic","bic","count")]
+gss_impedances <- gss_episodes[,c("PUMFID","DURATION",
+                                  "origin","destination","Province","Pop_centre","orig_label",
+                                  "dest_label","YEAR","MODE","f_name",
+                                  "f","est_1","est_2","loglik","aic","bic","count")]
 ```
 
 Save this data frame in R format:

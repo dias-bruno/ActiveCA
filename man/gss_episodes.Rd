@@ -10,10 +10,10 @@ A data frame containing 21748 rows and 17 variables; each row represents a uniqu
 \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 \item{WGHT_EPI}{Episode weight.}
 \item{ACTCODE}{Activity code of the episode.}
+\item{act_label}{Activity (labeled).}
 \item{STARTIME}{Start time (in minutes) of the episode.}
 \item{ENDTIME}{End time (in minutes) of the episode.}
 \item{DURATION}{Duration (in minutes) of the episode.}
-\item{LOCATION}{Location/mode of transport of the episode.}
 \item{origin}{Place of origin of the episode (in code).}
 \item{destination}{Place of destination of the episode (in code).}
 \item{orig_label}{Place of origin of the episode (labeled).}
@@ -27,7 +27,7 @@ A data frame containing 21748 rows and 17 variables; each row represents a uniqu
 }
 }
 \source{
-"\href{https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221}{General Social Survey (GSS)} / \href{http://odesi2.scholarsportal.info/webview/}{Odesi}"
+\href{https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221}{General Social Survey (GSS)} / \href{http://odesi2.scholarsportal.info/webview/}{Odesi}
 }
 \usage{
 data(gss_episodes)

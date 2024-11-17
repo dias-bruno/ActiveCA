@@ -9,7 +9,6 @@ A data frame containing 12113 rows and 18 variables; each row represents a uniqu
 \describe{
 \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 \item{DURATION}{Duration (in minutes) of the episode.}
-\item{LOCATION}{Location/mode of transport of the episode.}
 \item{origin}{Place of origin of the episode (in code).}
 \item{destination}{Place of destination of the episode (in code).}
 \item{Province}{Name of the Province or Territory.}
@@ -29,7 +28,7 @@ A data frame containing 12113 rows and 18 variables; each row represents a uniqu
 }
 }
 \source{
-"\href{https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221}{General Social Survey (GSS)} / \href{http://odesi2.scholarsportal.info/webview/}{Odesi}"
+\href{https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221}{General Social Survey (GSS)} / \href{http://odesi2.scholarsportal.info/webview/}{Odesi}
 }
 \usage{
 data(gss_impedances)
