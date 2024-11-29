@@ -545,7 +545,7 @@ for(year in unique(gss_episodes$YEAR)){
 Creation of a new dataset called `gss_impedances`, to keep the original episode files as they are after the pre-processing stage:
 
 ```{r}
-gss_impedances <- gss_episodes[,c("PUMFID","DURATION",
+gss_impedances <- gss_episodes[,c("PUMFID","WGHT_EPI","DURATION",
                                   "origin","destination","Province","Pop_centre","orig_label",
                                   "dest_label","YEAR","MODE","f_name",
                                   "f","est_1","est_2","loglik","aic","bic","count")]

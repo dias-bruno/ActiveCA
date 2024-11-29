@@ -451,6 +451,7 @@ NULL
 #' @format A data frame containing 12113 rows and 18 variables; each row represents a unique episode.
 #'   \describe{
 #'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{WGHT_EPI}{Episode weight.}
 #'   \item{DURATION}{Duration (in minutes) of the episode.}
 #'   \item{origin}{Place of origin of the episode (in code).}
 #'   \item{destination}{Place of destination of the episode (in code).}
