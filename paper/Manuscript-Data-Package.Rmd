@@ -18,7 +18,7 @@ footnote:
   - code: 1
     text: "Corresponding Author"
 abstract: 
-  "This paper describes the open data product, {ActiveCA}, with Canadian time use data about active travel. {ActiveCA} is an `R` data package that contains analysis-ready data from cycles  General Social Survey cicles regarding active travel in Canada. The package provides data set detailing active trip origins, destinations, and duration, covering a wide variety of locations, such as home, work or school, libraries, museums, restaurants, bars, sports centers, health clinics, place of worship, and others. The package also details the respondent's region characteristics, specifying wheter they live in a metropolitan area and their province of residency. {ActiveCA} also provides pre-estimated impedance functions for active travel for Canadian Metropolitan Area and Census Agglomerations, which can be used in accessibility analysis to calculate the cost of travel between different locations. The package will continue to expand with contributions from the authors and the broader community through requests in the future. {ActiveCA} is freely accessible for exploration and download from the associated Github repository, where the documentation and code involved in creating and manipulating data are detailed." 
+  "This paper describes the open data product `ActiveCA`, with Canadian time use data about active travel. `ActiveCA` is an `R` data package that contains analysis-ready data from cycles  General Social Survey cicles regarding active travel in Canada. The package provides data set detailing active trip origins, destinations, and duration, covering a wide variety of locations, such as home, work or school, libraries, museums, restaurants, bars, sports centers, health clinics, place of worship, and others. The package also details the respondent's region characteristics, specifying wheter they live in a metropolitan area and their province of residency. `ActiveCA` also provides pre-estimated impedance functions for active travel for Canadian Metropolitan Area and Census Agglomerations, which can be used in accessibility analysis to calculate the cost of travel between different locations. The package will continue to expand with contributions from the authors and the broader community through requests in the future. `ActiveCA` is freely accessible for exploration and download from the associated Github repository, where the documentation and code involved in creating and manipulating data are detailed." 
     
 keywords: Active; mobility; walking; cycling; travel time; impedance; transportation; R 
 classoption:
@@ -41,6 +41,8 @@ knitr::opts_chunk$set(
   warning = FALSE,
   comment = '', 
   out.width = "1\\linewidth")
+
+opts <- options(knitr.kable.NA = "")
 ```
 
 ```{r install-data-package, include=FALSE}
@@ -75,16 +77,58 @@ load(paste0(here(), "/data/gss_episodes.Rda"))
 load(paste0(here(), "/data/gss_impedances.Rda"))
 ```
 
+
+```{r rename-labels, include = FALSE}
+# Renaming 'dest_label' and 'orig_label' values to reduce table space
+gss_episodes_renamed <- gss_episodes %>%
+  mutate(dest_label = case_when(
+    dest_label == "Grocery store, other stores or mall" ~ "Grocery store",
+    dest_label == "Restaurant, bar or club" ~ "Restaurant",
+    dest_label == "Sports centre, field or arena" ~ "Sport area",
+    dest_label == "Medical, dental or other health clinic" ~ "Health clinic",
+    dest_label == "In the neighbourhood" ~ "Neighbourhood",
+    dest_label == "Library, museum or theatre" ~ "Cultural venues",
+    TRUE ~ dest_label  # Keep all other values as they are
+  ), 
+  orig_label = case_when(
+    orig_label == "Grocery store, other stores or mall" ~ "Grocery store",
+    orig_label == "Restaurant, bar or club" ~ "Restaurant",
+    orig_label == "Sports centre, field or arena" ~ "Sport area",
+    orig_label == "Medical, dental or other health clinic" ~ "Health clinic",
+    orig_label == "In the neighbourhood" ~ "Neighbourhood",
+    orig_label == "Library, museum or theatre" ~ "Cultural venues",
+    TRUE ~ orig_label))
+
+gss_impedances_renamed <- gss_impedances %>%
+  mutate(dest_label = case_when(
+    dest_label == "Grocery store, other stores or mall" ~ "Grocery store",
+    dest_label == "Restaurant, bar or club" ~ "Restaurant",
+    dest_label == "Sports centre, field or arena" ~ "Sport area",
+    dest_label == "Medical, dental or other health clinic" ~ "Health clinic",
+    dest_label == "In the neighbourhood" ~ "Neighbourhood",
+    dest_label == "Library, museum or theatre" ~ "Cultural venues",
+    TRUE ~ dest_label  # Keep all other values as they are
+  ), 
+  orig_label = case_when(
+    orig_label == "Grocery store, other stores or mall" ~ "Grocery store",
+    orig_label == "Restaurant, bar or club" ~ "Restaurant",
+    orig_label == "Sports centre, field or arena" ~ "Sport area",
+    orig_label == "Medical, dental or other health clinic" ~ "Health clinic",
+    orig_label == "In the neighbourhood" ~ "Neighbourhood",
+    orig_label == "Library, museum or theatre" ~ "Cultural venues",
+    TRUE ~ orig_label))
+```
+
 # Introduction
 
-This paper presents the open data product {ActiveCA}. Open data products
+This paper presents the open data product `ActiveCA`. Open data products
 (ODPs) are the outcome of a transparent process that transforms raw data
 (open or not) into analysis-ready data, in which all stages of
 development follow open principles [@arribas-bel2021]. ODPs differ from
 general open data due to their high utility, added value and open
 availability. 
 
-{ActiveCA} is an `R` data package that provides analysis-ready data from the General Social Survey of Canada Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) [@statisticscanada2024] regarding active travel. These data can be used to study walking and cycling in Canada for various purposes over time, and to calculate impedance functions for accessibility analysis. The package provides pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas.
+`ActiveCA` is an `R` data package that provides analysis-ready data from the General Social Survey of Canada Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) [@statisticscanada2024] regarding active travel. These data can be used to study walking and cycling in Canada for various purposes over time, and to calculate impedance functions for accessibility analysis. The package provides pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas.
 
 To create this `R` data package, we collected, cleaned and processed the
 Time Use collections from the GSS surveys to make them ready for
@@ -95,9 +139,9 @@ GitHub. Although the GSS surveys are publicly sourced managed by
 Statistic Canada [@statisticscanada2024], preparing them for analysis can be time-consuming, tedious and perhaps not even possible for those who try, due to a lack of documentation or prior knowledge.
 
 The aim of this paper is to walk readers through the data sets and
-invite others to experiment in its uses and applications. {ActiveCA} is
+invite others to experiment in its uses and applications. `ActiveCA` is
 freely available on GitHub for all to install and freely use in the
-spirit of open and reproducible research. In addition of enabling to obtain impedance functions, {ActiveCA} can be adopted in various applications that even go beyond the range of possibilities we have imagined. Not only the data, but also all the code documenting the processing methodology is available for consultation and
+spirit of open and reproducible research. In addition of enabling to obtain impedance functions, `ActiveCA` can be adopted in various applications that even go beyond the range of possibilities we have imagined. Not only the data, but also all the code documenting the processing methodology is available for consultation and
 evaluation in its repository. This package contributes to reducing the
 barrier to using the information contained in GSS surveys to provide
 data-driven decisions in transportation analysis.
@@ -173,7 +217,7 @@ For each combination of year, destination, and transportation mode (walking or c
 
 ## Descriptive statistics
 
-Considering GSS Cycles analyzed, we identified `r nrow(gss_episodes)` episodes that recorded active travel episodes, with trip duration ranging from 0 to 900 minutes, to twelve different destinations. {ActiveCA} includes all these episodes ready for analysis. Table \ref{tab:table-01} presents descriptive statistics on walking and cycling trips between 1986 and 2015, including metrics such as the count
+Considering GSS Cycles analyzed, we identified `r nrow(gss_episodes)` episodes that recorded active travel episodes, with trip duration ranging from 0 to 900 minutes, to twelve different destinations. `ActiveCA` includes all these episodes ready for analysis. Table \ref{tab:table-01} presents descriptive statistics on walking and cycling trips between 1986 and 2015, including metrics such as the count
 of recorded trips (count), and measures of trip duration in minutes:
 maximum (max), mean, median, and minimum (min). The 1986 survey did not
 include bicycle trips.
@@ -182,8 +226,8 @@ include bicycle trips.
 # Calculate the count of trips for each mode and year
 episodes_counts <- gss_episodes %>%
   group_by(YEAR, MODE) %>%
-  summarise(count = n(), .groups = "drop") %>%
-  pivot_wider(names_from = YEAR, values_from = count)
+  summarise(Count = n(), .groups = "drop") %>%
+  pivot_wider(names_from = YEAR, values_from = Count)
 
 # Calculate min, mean, and max statictis (duration)
 stats_data <- gss_episodes %>%
@@ -193,14 +237,15 @@ stats_data <- gss_episodes %>%
     mean = mean(DURATION),
     median = median(DURATION),
     max = max(DURATION),
+    std = sd(DURATION),
     .groups = "drop"
   ) %>%
-  pivot_longer(cols = c(min, mean, median, max), names_to = "Statistic", values_to = "Value") %>%
+  pivot_longer(cols = c(min, mean, median, max, std), names_to = "Statistic", values_to = "Value") %>%
   pivot_wider(names_from = YEAR, values_from = Value)
 
 # Combine counts and stats into one data frame
 final_data <- bind_rows(
-  episodes_counts %>% mutate(Statistic = "count"),
+  episodes_counts %>% mutate(Statistic = "Count"),
   stats_data
 ) %>%
   mutate(MODE = factor(MODE, levels = c("Walking", "Cycling"))) %>%
@@ -208,10 +253,19 @@ final_data <- bind_rows(
   mutate(across(where(is.numeric), ~ round(.x, 0)))
 
 # Rename the 'MODE' column to 'Mode' before generating the table
-final_data <- final_data %>%
+final_data <- final_data%>% 
+  arrange(MODE) %>%
   rename(Mode = MODE) %>%
-  dplyr::select(Mode, Statistic, everything())
-
+  dplyr::select(Mode, Statistic, everything()) %>% 
+   mutate(Statistic = case_when(
+    Statistic == "max" ~ "Maximum",
+    Statistic == "min" ~ "Minimum",
+    Statistic == "mean" ~ "Mean",
+    Statistic == "median" ~ "Median",
+    Statistic == "std" ~ "Standard deviation",
+    TRUE ~ Statistic  # Keep all other values as they are
+  ))
+  
 # Creating a latex table
 styled_ch03_table_01 <- final_data %>%
   kable(format = "latex", booktabs = TRUE, longtable = TRUE, 
@@ -275,15 +329,13 @@ wide_data <- episodes_stats_before %>%
   arrange(MODE, dest_label, desc(Percentage_1998))
 
 wide_data <- wide_data %>%
-  group_by(MODE) %>%
-  mutate(MODE = if_else(row_number() == 2, as.character(MODE), "")) %>%
-  ungroup() %>%
  dplyr::select(
-    dest_label, MODE,
+    MODE, dest_label,
     min_1986, median_1986, max_1986, Percentage_1986,
     min_1992, median_1992, max_1992, Percentage_1992,
     min_1998, median_1998, max_1998, Percentage_1998
-  )
+  ) %>% 
+  arrange(MODE, dest_label)
 
 # Latex table
 styled_ch03_table_02 <- wide_data %>%
@@ -304,33 +356,14 @@ styled_ch03_table_02 <- wide_data %>%
   add_header_above(c(" " = 2, "1986" = 4, "1992" = 4, "1998" = 4)) %>%
   row_spec(0, bold = TRUE, align = "c") %>%
   column_spec(6, border_right = TRUE) %>%
-  column_spec(10, border_right = TRUE) %>% 
-  footnote(general = c("* The symbols used in this table represent the following: `Min` denotes the minimum time to reach the destination; `Max` denotes the maximum time to reach the destination; `(%)` indicates a percentage of the total time to reach the destination; `Med` refers to the median time to reach the destination"), threeparttable = T)
+  column_spec(10, border_right = TRUE) %>%
+  collapse_rows(columns = 1, valign = "top", latex_hline = "major") %>% 
+  footnote(general = c("* The symbols used in this table represent the following: 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
 
 styled_ch03_table_02 
 ```
 
 ```{r table-03,echo=FALSE, cache=FALSE, warning=FALSE}
-# Renaming 'dest_label' and 'orig_label' values to reduce table space
-gss_episodes_renamed <- gss_episodes %>%
-  mutate(dest_label = case_when(
-    dest_label == "Grocery store, other stores or mall" ~ "Grocery store",
-    dest_label == "Restaurant, bar or club" ~ "Restaurant",
-    dest_label == "Sports centre, field or arena" ~ "Sport area",
-    dest_label == "Medical, dental or other health clinic" ~ "Health clinic",
-    dest_label == "In the neighbourhood" ~ "Neighbourhood",
-    dest_label == "Library, museum or theatre" ~ "Cultural venues",
-    TRUE ~ dest_label  # Keep all other values as they are
-  ), 
-  orig_label = case_when(
-    orig_label == "Grocery store, other stores or mall" ~ "Grocery store",
-    orig_label == "Restaurant, bar or club" ~ "Restaurant",
-    orig_label == "Sports centre, field or arena" ~ "Sport area",
-    orig_label == "Medical, dental or other health clinic" ~ "Health clinic",
-    orig_label == "In the neighbourhood" ~ "Neighbourhood",
-    orig_label == "Library, museum or theatre" ~ "Cultural venues",
-    TRUE ~ orig_label))
-
 # Selecting surveys after 2000 and calculating trip duration statistics 
 episodes_stats_after <- gss_episodes_renamed %>%
   filter(YEAR > 2000) %>%
@@ -356,15 +389,12 @@ wide_data <- episodes_stats_after %>%
     values_from = c(min, median, max, Percentage)
   ) %>%
  dplyr::select(
-    dest_label, MODE,
+    MODE, dest_label,
     min_2005, median_2005, max_2005, Percentage_2005,
     min_2010, median_2010, max_2010, Percentage_2010,
     min_2015, median_2015, max_2015, Percentage_2015
   ) %>% 
-  arrange(MODE, dest_label, desc(Percentage_2015)) %>%
-   group_by(MODE) %>%
-   mutate(MODE = if_else(row_number() == 2, as.character(MODE), "")) %>%
-   ungroup()
+  arrange(MODE, dest_label)
 
 # Latex table
 styled_ch03_table_03 <- wide_data %>%
@@ -374,24 +404,25 @@ styled_ch03_table_03 <- wide_data %>%
     longtable = TRUE, 
     align = c(rep("c", ncol(wide_data))),
     caption = "\\label{tab:table-03}Comparison of travel statistics by mode and destination: 2005, 2010, 2015",
-    col.names = c("Destination", "Mode*","Min*","Med*","Max*", "(%)*", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
+    col.names = c("Destination", "Mode","Min*","Med*","Max*", "(%)*", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
   ) %>%
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
                 font_size = 6) %>%
-  column_spec(1, width = "2cm") %>%  # Set width of 'Dest' column to 1.5cm
-  column_spec(2:14, width = "0.4cm") %>%  # Set width of remaining columns to 0.7cm
+  #column_spec(1, width = "2cm") %>%  # Set width of 'Dest' column to 1.5cm
+  #column_spec(2:14, width = "0.4cm") %>%  # Set width of remaining columns to 0.7cm
   add_header_above(c(" " = 2, "2005" = 4, "2010" = 4, "2015" = 4)) %>%
   row_spec(0, bold = TRUE, align = "c") %>%
   column_spec(6, border_right = TRUE) %>%
   column_spec(10, border_right = TRUE) %>% 
-  footnote(general = c("* The symbols used in this table represent the following: `Min` denotes the minimum time to reach the destination; `Max` denotes the maximum time to reach the destination; `(%)` indicates a percentage of the total time to reach the destination; `Med` refers to the median time to reach the destination"), threeparttable = T)
+  collapse_rows(columns = 1, valign = "top", latex_hline = "major") %>% 
+  footnote(general = c("* The symbols used in this table represent the following: 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
 
 styled_ch03_table_03
 ```
 
-{ActiveCA} also enables visual analysis of active travel in Canada using traditional exploratory data analysis techniques. Figures \ref{fig:figure-01} and
+`ActiveCA` also enables visual analysis of active travel in Canada using traditional exploratory data analysis techniques. Figures \ref{fig:figure-01} and
 \ref{fig:figure-02} show walking and cycling trips from 1992 and 2015
 through heat maps. These maps use color gradients to represent the
 percentage of trips between various origins and destinations, with
@@ -467,9 +498,9 @@ for(year in unique(gss_heatmap$YEAR)){
                                        limits = c(0, ceiling(max(heatmap_melted$value, na.rm = TRUE))), 
                                        breaks =  c(0, ceiling(max(heatmap_melted$value, na.rm = TRUE))), 
                                        labels = c("0%", paste0(ceiling(max(heatmap_melted$value, na.rm = TRUE)), "%"))) +
-                  geom_text(data = subset(heatmap_melted, !is.na(value) & value >= 0), 
-                      aes(label = round(value)), 
-                      size = 4, color = "black") +
+                  #geom_text(data = subset(heatmap_melted, !is.na(value) & value >= 0), 
+                  #    aes(label = round(value)), 
+                  #    size = 4, color = "black") +
                   labs(x = "Destination", y = "Origin", fill = "Percentage", caption = year) +
                   theme_minimal() +
                   theme(
@@ -558,209 +589,222 @@ knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/cycling_h
 
 ## Pre-estimated impedance functions for active travel in Canada
 
-{ActiveCA} includes a total of
+`ActiveCA` includes a total of
 `r nrow(unique(gss_impedances[,c("YEAR","dest_label","f_name","MODE")]))`
-pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas. Table \ref{tab:table-04} shows the best impedance functions for walking trips to `Work or school` across survey years, where all distributions, except for a gamma function in 1998, are log-normal. Figure
+pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas. Table \ref{tab:table-04} shows the best impedance functions for walking trips to `Work or school` across survey years, where all distributions, except for a gamma function in 1998, are log-normal.
+
+```{r table-04, echo=FALSE, cache=FALSE, warning=FALSE}
+# selecting mode and destination to display impedance functions
+mode <- c("Walking","Cycling")
+destino <- "Work or school"
+
+# filtering the impedance functions in accordance with the mode/destination setted in the step before and creating a latex table 
+selected_functions <- gss_impedances_renamed %>%
+  filter(dest_label == destino, MODE %in% mode) %>%
+  group_by(MODE, YEAR, dest_label) %>% 
+  summarise(Function = first(f_name), 
+            est_1 = first(est_1),
+            est_2 = first(est_2),
+            AIC = first(aic),
+            f_name = first(f_name),
+            count = first(count),
+            .groups = "drop") %>% 
+  mutate(Function = case_when(
+    Function == "lnorm" ~ "Lognormal",
+    Function == "gamma" ~ "Gamma",
+    Function == "unif" ~ "Uniform",
+    TRUE ~ Function), 
+  across(c(est_1,est_2), ~ round(., digits = 2)), 
+  across(c(AIC), ~ round(., digits = 0))) %>% 
+  rename(Mode = MODE, Year = YEAR, Destination = dest_label) %>%
+  unique() %>% 
+  arrange(Mode, Year) %>%
+  select(Mode, Year, Function, est_1, est_2, AIC, count)
+
+selected_functions_tab <- selected_functions %>% 
+  kable(format = "latex",
+        booktabs = TRUE,
+        caption = paste0("\\label{table-04}Impedance functions and AIC for `", mode ,"` trips considering `", destino,"` as destination."), 
+        col.names = c("Mode", "Year", "Impedance function","Parameter 1*","Parameter 2*", "AIC","Count")) %>% 
+    kable_styling(full_width = FALSE, 
+                latex_options=c("scale_down"),
+                font_size = 10) %>% 
+  row_spec(0, bold = TRUE, align = "c") %>% 
+  collapse_rows(columns = 1, valign = "top", latex_hline = "major") %>%
+  footnote(general = c("*For lognormal distributions, 'Parameter 1' and 'Parameter 2' refer to the mean and standard deviation of the distribution on the logarithmic scaler, respectively. For gamma distribution, 'Parameter 1' and 'Parameter 2' refer to the rate and shape of the distribution, respectively. `AIC` means Akaike information criterion."), threeparttable = T)
+
+selected_functions_tab
+```
+
+Figure
 \ref{fig:figure-03} illustrates these fitted functions (red line)
 alongside histograms of empirical travel times (grey bars). As for the
 others pre-estimated functions, these examples allow to calculate gravity-based
 accessibility measures for active travel across various destinations and temporal scales in Canadian urban areas.
 
-```{r include = FALSE}
-# Function to visualize impedance functions
-visualize_impedance <- function(df_functions, travel_cost){
+```{r theoretical_impedance_values, include = FALSE}
+theoretical_impedance <- function(df_functions, travel_cost) {
   
-  x <- data.frame(t = seq(1, travel_cost, 1))
+  # Initialize the main data frame to store results
+  result <- data.frame()
   
-  for (year in unique(df_functions$YEAR)) { 
+  # Create the 't' sequence
+  t_seq <- seq(1, travel_cost, 1)
+  
+  for (mode in unique(df_functions$Mode)){
     
-    name_function <- df_functions[df_functions$YEAR == year, ]$f_name
-    
-    subset <- df_functions %>% 
-      filter(YEAR == year)
-    
-    # new colunm with the year information in the name
-    column_name <- paste0("year_", year)
-    
-    # lnorm distribution 
-    if (name_function == "lnorm") {
-      x <- x %>%
-        mutate(!!sym(column_name) := dlnorm(t,
-                                             meanlog = subset$est_1[1],
-                                             sdlog = subset$est_2[1]))
-    
-    # Gamma distribution 
-    } else if (name_function == "gamma") {  
-
-      x <- x %>%
-        mutate(!!sym(column_name) := dgamma(t,
-                                             shape = subset$est_1[1],
-                                             rate = subset$est_2[1]))
-
-    # Norm distribution 
-
-    }else if (name_function == "norm") {  
-      x <- x %>%
-        mutate(!!sym(column_name) := dnorm(t,
-                                             mean = subset$est_1[1],
-                                             sd = subset$est_2[1]))
+    for (year in unique(df_functions[df_functions$Mode == mode, ]$Year)){ 
       
-    # Exponential distribution  
-
-    }else if (name_function == "exp") {  
-      x <- x %>%
-        mutate(!!sym(column_name) := dexp(t,
-                                             exp = subset$est_1[1]))
+      for (destino in unique(df_functions[df_functions$Year == year & df_functions$Mode == mode, ]$Destination)){
+        
+      name_function <- df_functions[df_functions$Year == year & 
+                                      df_functions$Mode == mode & 
+                                      df_functions$Destination == destino, ]$f_name
       
-    # Uniform distribution 
+      print(paste0("YEAR: ", year, " MODE: ", mode," Destination: ", destino))
       
-    }else if (name_function == "unif") {  
-      x <- x %>%
-        mutate(!!sym(column_name) := dunif(t,
-                                             min = subset$est_1[1],
-                                             max = subset$est_2[1]))
+      subset <- df_functions %>% 
+        filter(Year == year & Mode == mode & Destination == destino)
+      
+      # Temporary data frame for this iteration
+      temp_df <- data.frame(t = t_seq)
+      
+      # Add the appropriate distribution
+      if (name_function == "lnorm") {
+        temp_df$f <- dlnorm(temp_df$t,
+                            meanlog = subset$est_1[1],
+                            sdlog = subset$est_2[1])
+        
+      } else if (name_function == "gamma") {  
+        temp_df$f <- dgamma(temp_df$t,
+                            shape = subset$est_1[1],
+                            rate = subset$est_2[1])
+        
+      } else if (name_function == "norm") {  
+        temp_df$f <- dnorm(temp_df$t,
+                           mean = subset$est_1[1],
+                           sd = subset$est_2[1])
+        
+      } else if (name_function == "exp") {  
+        temp_df$f <- dexp(temp_df$t,
+                          rate = subset$est_1[1])
+        
+      } else if (name_function == "unif") {  
+        temp_df$f <- dunif(temp_df$t,
+                           min = subset$est_1[1],
+                           max = subset$est_2[1])
+      }
+      
+      # Add mode, year and destination columns
+      temp_df$MODE <- mode
+      temp_df$YEAR <- year
+      temp_df$dest_label <- destino
+        
+      # Append to the result data frame
+      result <- rbind(result, temp_df)
     }
   }
-  
-  return(x)
 }
+  return(result)
+}
+
+max_duration <- 100
+
+selected_functions <- gss_impedances_renamed %>% 
+  group_by(MODE, YEAR, dest_label) %>% 
+  summarise(Function = first(f_name), 
+            est_1 = first(est_1),
+            est_2 = first(est_2),
+            AIC = first(aic),
+            f_name = first(f_name),
+            count = first(count),
+            .groups = "drop") %>% 
+  mutate(Function = case_when(
+    Function == "lnorm" ~ "Lognormal",
+    Function == "gamma" ~ "Gamma",
+    Function == "unif" ~ "Uniform",
+    TRUE ~ Function), 
+  across(c(est_1,est_2), ~ round(., digits = 2)), 
+  across(c(AIC), ~ round(., digits = 0))) %>% 
+  rename(Mode = MODE, Year = YEAR, Destination = dest_label)
+
+theoretical_values <- theoretical_impedance(selected_functions, travel_cost = max_duration)
 ```
 
-```{r , include=FALSE}
-# Setting the maximum time to be considered to plot the impedance graphs
-max_time <- 100 
+```{r include = FALSE}
 
-# Loop to generate all impedance plots at once 
-for(destino in unique(gss_impedances$orig_label)){
-
-  for(mode in unique(gss_impedances[gss_impedances$orig_label == destino, ]$MODE)){
+for(destino in unique(gss_impedances_renamed$dest_label)){
   
-  selected_functions <-  gss_impedances %>% 
-  filter(dest_label == destino, MODE == mode) %>%
-  dplyr::select("YEAR", "f_name", "est_1", "est_2", "loglik", "aic", "bic") %>%
-  mutate(across(c(est_1, est_2), ~ round(., digits = 2)))  %>%
-  mutate(across(c(loglik, aic, bic), ~ round(., digits = 0)))  %>%
-  unique()
+  medianas <- gss_impedances_renamed %>%
+    filter(dest_label == destino) %>%
+    group_by(MODE) %>%
+    summarise(mediana_duracao = median(DURATION, na.rm = TRUE), .groups = 'drop')
   
-  if(nrow(selected_functions) > 0){
-    tld_theoretical <- visualize_impedance(df_functions = selected_functions, travel_cost = max_time)
+  maximos <- theoretical_values %>%
+    filter(dest_label == destino) %>%
+    group_by(MODE, YEAR) %>%
+    filter(f == max(f)) %>%
+    slice(which.max(t)) %>%
+    ungroup()
   
-  plots <- list()
+combined_plot <- gss_impedances_renamed %>% 
+  filter(dest_label == destino) %>%
+  mutate(dest_label = factor(dest_label, levels = destination_order)) %>%
+  ggplot(aes(x= DURATION)) +
+  geom_histogram(aes(y = ..density.., colour = MODE, fill = MODE), bins = 20, alpha=0.1, position="identity") + 
+  geom_line(data = theoretical_values[theoretical_values$dest_label == destino, ], aes(x = t, y = f, colour = MODE), size = 0.8) +   
+  geom_vline(data = medianas, aes(xintercept = mediana_duracao, color = MODE), linetype = "dashed") + 
+  geom_point(data = maximos, aes(x = t, y = f, colour = MODE), size = 3) + 
+  geom_label(data = maximos, aes(x = t, y = f, label = round(t, 2), colour = MODE), 
+            vjust = 0, size = 3) +
+  theme_minimal() +
+  facet_wrap(~YEAR) + 
+  labs(x = "Trip duration (in minutes)", y = "Density", colour = "Transportation Mode", fill = "Transportation Mode") +
+  theme(legend.position="right", 
+    strip.text = element_text(face = "bold", hjust = 0))
 
-# Loop through each unique year
-  for(year in unique(gss_impedances$YEAR)){
-    
-    # Subset empirical and theoretical data for the current year
-    empirical_subset <- gss_impedances %>% 
-      filter(dest_label == destino, MODE == mode, YEAR == year, DURATION <= max_time)
-    
-    if(nrow(empirical_subset) > 1 ){
-
-      print(paste0(mode," - ", destino," - ", year))
+  plots <- length(unique(gss_impedances_renamed[gss_impedances_renamed$dest_label == destino, ]$YEAR))
  
-      theoretical_subset <- tld_theoretical %>%
-      dplyr::select(t, matches(as.character(year)))
-    
-    
-      # Create the ggplot
-      plots[[as.character(year)]] <- ggplot(empirical_subset, aes(x = DURATION)) +
-        geom_histogram(aes(y = ..density..), binwidth = 5, fill = "#dce1e3", color = "#adb1b3") +
-        geom_line(data = theoretical_subset, aes(x = t, y = theoretical_subset[[2]]), color = "#b52640", size = 0.80) +
-        labs(title = paste(year)) +
-        theme_minimal() +
-        scale_y_continuous(labels = scales::number_format(accuracy = 0.01)) +
-        theme(axis.title.x = element_blank(),
-            axis.title.y = element_blank(), 
-            plot.title = element_text(size = 10, face="bold"))
-
-  }
-
-# Use gridExtra to arrange the plots in accordance with the number of survey years (some destination exits only in specific surveys)
-    
-    # Case of only one year 
-    if(length(plots) == 1){
-      combined_plot <- grid.arrange(
-      grobs = plots,
-      ncol = 1,
-      bottom = text_grob(paste0("Travel time to `", destino ,"` (in minutes) considering `", mode,"` as transportation mode.")),
-      left = text_grob("Density", rot = 90)
-    )
-      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"), 
+  # Case of only one year 
+    if(plots == 1){
+      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,".jpg"), 
        plot = combined_plot,
-       width = 9, 
+       width = 7, 
        height = 4, 
        units = "in", 
        dpi = 300)
     
     # Destination present in 3 surveys  
-    } else if(length(plots) == 3){
-      combined_plot <- grid.arrange(
-      grobs = plots,
-      ncol = 3,
-      bottom = text_grob(paste0("Travel time to `", destino ,"` (in minutes) considering `", mode,"` as transportation mode.")),
-      left = text_grob("Density", rot = 90)
-    )
-      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"), 
+    } else if(plots == 3){
+      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,".jpg"), 
        plot = combined_plot,
-       width = 9, 
+       width = 14, 
        height = 4, 
        units = "in", 
        dpi = 300)
       
   # Destination present in 5 surveys  
     }else {
-      combined_plot <- grid.arrange(
-      grobs = plots,
-      ncol = 3,
-      bottom = textGrob(paste0("Travel time to `", destino ,"` (in minutes) considering `", mode,"` as transportation mode."), gp = gpar(fontsize = 16)),
-      left = textGrob("Density", rot = 90, gp = gpar(fontsize = 16))
-    )
-      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"), 
+      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,".jpg"), 
        plot = combined_plot,
        width = 14, 
-       height = 8, 
+       height = 9, 
        units = "in", 
        dpi = 300)
     }
-  }
 }
-}
-} 
 ```
 
-```{r table-04, echo=FALSE, cache=FALSE, warning=FALSE}
-# selecting mode and destination to display impedance functions
-mode <- "Walking" 
-destino <- "Work or school"
+```{r figure-03, echo=FALSE, out.width="100%", fig.cap=paste0("Empirical data and impedance functions fitted for `work or school` as destination."), fig.align="center"}
 
-# filtering the impedance functions in accordance with the mode/destination setted in the step before and creating a latex table 
-gss_impedances %>% 
-filter(dest_label == destino, MODE == mode) %>%
-  dplyr::select("YEAR","f_name", "est_1","est_2","aic") %>%
-  mutate(across(c(est_1, est_2), ~ round(., digits = 2)))  %>%
-  mutate(across(c(aic), ~ round(., digits = 0)))  %>%
-  unique() %>% 
-  kable(format = "latex",
-        booktabs = TRUE,
-        caption = paste0("\\label{table-04}Impedance functions and AIC for `", mode ,"` trips considering `", destino,"` as destination."), 
-        col.names = c("Year", "Impedance function*","Parameter 1*","Parameter 2*", "AIC")) %>% 
-    kable_styling(full_width = FALSE, 
-                latex_options=c("scale_down"),
-                font_size = 10) %>% 
-  row_spec(0, bold = TRUE, align = "c") %>% 
-  footnote(general = c("* `lnorm` refers to the log-normal distribution. For `lnorm` distributions, `Parameter 1` and `Parameter 2` refer to the mean and standard deviation of the distribution on the logarithmic scaler, respectively. For the `gamma` distribution, `Parameter 1` and `Parameter 2` refer to the rate and shape of the distribution, respectively. `AIC` means Akaike information criterion."), threeparttable = T)
-```
-
-```{r figure-03, echo=FALSE, out.width="100%", fig.cap=paste0("Empirical data and impedance functions fitted for walking trips with `work or school` as destination."), fig.align="center"}
-
-knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,"_",mode,".jpg"))
+knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/impf_Work or school.jpg"))
 ```
 
 # Concluding remarks
 
-This article presents {ActiveCA}, an open data product that provides analysis-ready data from Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) of the GSS surveys on active travel in Canada. In the form of an `R` data package, {ActiveCA} was developed after collecting, cleaning, and processing the survey data, providing information on origins, destinations, and duration of active travel, as well other information. Additionally, the package includes a series of pre-estimated impedance functions for walking and cycling trips, considering various destinations and time periods, for Canadian Metropolitan and Census Agglomeration areas.
+This article presents `ActiveCA`, an open data product that provides analysis-ready data from Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) of the GSS surveys on active travel in Canada. In the form of an `R` data package, `ActiveCA` was developed after collecting, cleaning, and processing the survey data, providing information on origins, destinations, and duration of active travel, as well other information. Additionally, the package includes a series of pre-estimated impedance functions for walking and cycling trips, considering various destinations and time periods, for Canadian Metropolitan and Census Agglomeration areas.
 
-The value of {ActiveCA} lies in its transparency, accessibility, and
+The value of `ActiveCA` lies in its transparency, accessibility, and
 open infrastructure, which facilitates the addition of complementary
 data sets in the future. R users can seamlessly explore GSS walking and
 cycling episodes along with calibrated impedance functions, with the
@@ -769,7 +813,7 @@ adopts the structure proposed by Anastasia and Páez [-@soukhov2023],
 whose work provided essential guidance for the creation of this package.
 Similarly, we aim to contribute to the academic community by promoting
 transparent research practices that encourage replication and innovation
-in related fields. We believe that {ActiveCA} will serve as a basis for
+in related fields. We believe that `ActiveCA` will serve as a basis for
 further research on GSS and for the integration of additional data by
 the authors or the wider open source community.
 
