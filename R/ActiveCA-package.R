@@ -18,7 +18,7 @@ NULL
 #'
 #' @format A data frame containing 4347 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 1986 the episode weight is the same as the summary weight, and is the number of persons that a record represents (see p. 18 of Cycle 2's Documentation and User's Guide)}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -54,7 +54,7 @@ NULL
 #'
 #' @format A data frame containing 1500 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 1992 the episode weight is the same as the summary weight, and is the number of persons that a record represents (see p. 9 of Cycle 7's Documentation and User's Guide)}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -90,7 +90,7 @@ NULL
 #'
 #' @format A data frame containing 1670 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 1998 the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 9 of Cycle 12's Documentation and User's Guide).}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -126,7 +126,7 @@ NULL
 #'
 #' @format A data frame containing 5533 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 2005 the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 956 of Cycle 19's Documentation and User's Guide).}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -162,7 +162,7 @@ NULL
 #'
 #' @format A data frame containing 4379 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. in 2010, the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 14 of Cycle 24's Documentation and User's Guide)}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -198,7 +198,7 @@ NULL
 #'
 #' @format A data frame containing 3251 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 2015 the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 10 of Cycle 29's Documentation and User's Guide)}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -234,7 +234,7 @@ NULL
 #'
 #' @format A data frame containing 135 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 1992 the episode weight is the same as the summary weight, and is the number of persons that a record represents (see p. 9 of Cycle 7's Documentation and User's Guide)}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -270,7 +270,7 @@ NULL
 #'
 #' @format A data frame containing 119 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 1998 the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 9 of Cycle 12's Documentation and User's Guide).}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -306,7 +306,7 @@ NULL
 #'
 #' @format A data frame containing 333 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 2005 the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 956 of Cycle 19's Documentation and User's Guide).}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -342,7 +342,7 @@ NULL
 #'
 #' @format A data frame containing 236 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. in 2010, the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 14 of Cycle 24's Documentation and User's Guide))}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -378,7 +378,7 @@ NULL
 #'
 #' @format A data frame containing 245 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight. In 2015 the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 10 of Cycle 29's Documentation and User's Guide)}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -414,7 +414,7 @@ NULL
 #'
 #' @format A data frame containing 21748 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight.}
 #'   \item{ACTCODE}{Activity code of the episode.}
 #'   \item{act_label}{Activity (labeled).}
@@ -450,7 +450,7 @@ NULL
 #'
 #' @format A data frame containing 12113 rows and 18 variables; each row represents a unique episode.
 #'   \describe{
-#'   \item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+#'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight.}
 #'   \item{DURATION}{Duration (in minutes) of the episode.}
 #'   \item{origin}{Place of origin of the episode (in code).}

@@ -7,7 +7,7 @@
 \format{
 A data frame containing 245 rows and 17 variables; each row represents a unique episode.
 \describe{
-\item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+\item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 \item{WGHT_EPI}{Episode weight. In 2015 the episode weight indicates the number of time use episodes that a record on the Episode File represents (see p. 10 of Cycle 29's Documentation and User's Guide)}
 \item{ACTCODE}{Activity code of the episode.}
 \item{act_label}{Activity (labeled).}

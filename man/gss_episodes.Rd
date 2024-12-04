@@ -7,7 +7,7 @@
 \format{
 A data frame containing 21748 rows and 17 variables; each row represents a unique episode.
 \describe{
-\item{PUMFID}{Uniquely identifies the episode. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
+\item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 \item{WGHT_EPI}{Episode weight.}
 \item{ACTCODE}{Activity code of the episode.}
 \item{act_label}{Activity (labeled).}
