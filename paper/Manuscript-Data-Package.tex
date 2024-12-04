@@ -44,89 +44,106 @@ to Study Active Travel}
 
 
 \begin{abstract}
-This paper describes the open data product \texttt{ActiveCA}, with
-Canadian time use data about active travel. \texttt{ActiveCA} is an
-\texttt{R} data package that contains analysis-ready data from cycles
-General Social Survey cicles regarding active travel in Canada. The
-package provides data set detailing active trip origins, destinations,
-and duration, covering a wide variety of locations, such as home, work
-or school, libraries, museums, restaurants, bars, sports centers, health
-clinics, place of worship, and others. The package also details the
-respondent's region characteristics, specifying wheter they live in a
-metropolitan area and their province of residency. \texttt{ActiveCA}
-also provides pre-estimated impedance functions for active travel for
-Canadian Metropolitan Area and Census Agglomerations, which can be used
-in accessibility analysis to calculate the cost of travel between
-different locations. The package will continue to expand with
-contributions from the authors and the broader community through
-requests in the future. \texttt{ActiveCA} is freely accessible for
-exploration and download from the associated Github repository, where
-the documentation and code involved in creating and manipulating data
-are detailed.
+This paper describes \{ActiveCA\}, and open data product with Canadian
+time use data. \{ActiveCA\} is an \texttt{R} data package that contains
+analysis-ready data related to active travel spanning almost 40 years,
+extracted from cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24
+(2010), and 29 (2015) of Canada's General Social Survey. Active travel
+is characterized by mode, with walking being part of every cycle and
+bicycling starting in 1992. The attributes of active trips are the types
+of locations of origins and destinations, the duration of trips, and
+episode weights for expanding the trips to population-wide estimates.
+Based on the year of the survey, a variety of locations are coded. In
+earlier cycles, these include home, work or school, and other's home,
+whereas in later cycles these are augmented with locations such as
+grocery stores, restaurants, outdoor destinations, and others. The
+geographical resolution includes the province and whether the episode
+was in an urban or rural setting.
 \end{abstract}
 
-\keywords{Active; mobility; walking; cycling; travel time; impedance;
-transportation; R}
+\keywords{Active; mobility; walking; cycling; travel time; time-use;
+General Social Survey}
 
 \maketitle
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\section{Introduction}\label{introduction}
 
-This paper presents the open data product \texttt{ActiveCA}. Open data
-products (ODPs) are the outcome of a transparent process that transforms
-raw data (open or not) into analysis-ready data, in which all stages of
-development follow open principles \citep{arribas-bel2021}. ODPs differ
-from general open data due to their high utility, added value and open
-availability.
+The objective of this paper is to introduce \{ActiveCA\}, an open data
+product with time use data from Canada's General Social Surveys. Open
+data products (ODPs) are the outcome of a process that transforms raw
+data (open or not) into analysis-ready data, following a transparent
+process in which all stages of development follow open principles
+\citep{arribas-bel2021}. ODPs, while still open, differ from general
+open data in their degree of ease of access, their heightened usability,
+and potentially the value they add to the raw data.
 
-\texttt{ActiveCA} is an \texttt{R} data package that provides
-analysis-ready data from the General Social Survey of Canada Cycles 2
-(1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015)
-\citep{statisticscanada2024} regarding active travel. These data can be
-used to study walking and cycling in Canada for various purposes over
-time, and to calculate impedance functions for accessibility analysis.
-The package provides pre-estimated impedance functions for cycling and
-walking trips for Census Agglomerations and Census Metropolitan Areas.
+\{ActiveCA\} provides analysis-ready data concerning active travel in
+Canada spanning a period of almost 40 years. The source of these data is
+Canada's program of General Social Surveys (GSSs). This program is
+designed to provide cross-sectional data on topics of interest to
+improve the well-being of Canadians. As part of this program, every five
+to seven years the survey is done on the topic of time use. Concretely,
+\{ActiveCA\} covers Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24
+(2010), and 29 (2015) of the GSS. Time use data in these surveys is
+coded using a very fine grain, from time spent in chores, leisure, and
+sleeping, to time spent working or at school. These surveys have proved
+valuable in investigations of mobility and quality of life
+\citep{spinneyTransport2009}, the relationship between active travel and
+transit use \citep{lachapelleLonger2016}, and travel behavior and time
+poverty \citep{kimFacing2024}, to name but a few examples.
 
-To create this \texttt{R} data package, we collected, cleaned and
-processed the Time Use collections from the GSS surveys to make them
-ready for analysis. An \texttt{R} data package contains code, data and
-documentation in a standardized format that can be installed by
-\texttt{R} users via a centralized software repository, such as CRAN
-(Comprehensive R Archive Network) and GitHub. Although the GSS surveys
-are publicly sourced managed by Statistic Canada
-\citep{statisticscanada2024}, preparing them for analysis can be
-time-consuming, tedious and perhaps not even possible for those who try,
-due to a lack of documentation or prior knowledge.
+For \{ActiveCA\}, data we extracted all data needed to characterize
+active travel in Canada, namely, episodes where the activity was
+identified as moving between an origin and a destination, either by
+walking or cycling. Although Statistics Canada offers Public Use
+Microdata Files and documentation for the GSS program
+\citep[see][]{statisticscanada2024}, accessing these files, and
+preparing them for analysis is not a straightforward matter, given their
+size and complexity. The process of extracting information of interest
+from the source files is time-consuming, tedious, and challenging and/or
+prone to error due to the expertise required to work with these files.
+To create \{ActiveCA\} we collected, cleaned, and processed the cycles
+of the GSS surveys concerning time use to make them ready for analysis.
 
-The aim of this paper is to walk readers through the data sets and
-invite others to experiment in its uses and applications.
-\texttt{ActiveCA} is freely available on GitHub for all to install and
-freely use in the spirit of open and reproducible research. In addition
-of enabling to obtain impedance functions, \texttt{ActiveCA} can be
-adopted in various applications that even go beyond the range of
-possibilities we have imagined. Not only the data, but also all the code
-documenting the processing methodology is available for consultation and
-evaluation in its repository. This package contributes to reducing the
-barrier to using the information contained in GSS surveys to provide
-data-driven decisions in transportation analysis.
+\{ActiveCA\} is distributed as an \texttt{R} package with a number of
+data objects and their documentation. \texttt{R} packages contain code,
+data, and documentation in a standardized format that can be installed
+by \texttt{R} users via a software repository, such as CRAN
+(Comprehensive R Archive Network) or GitHub, which makes them an adroit
+medium to distribute analysis-ready data.
 
-\hypertarget{general-social-survey-gss-collection}{%
+Given the level of interest in active travel
+\citep[e.g.,][]{mccurdySupport2023}, reducing the barriers to using data
+contained in rich, but difficult to access and use surveys, such as
+Canada's GSSs, is a worthy endeavour that can only improve data-driven
+decisions in transportation, urban, and health policy.
+
+The rest of this paper discusses the sources of data, and the process
+implemented to retrieve and package them. Then, we explain how to use
+the package and show some selected examples of analysis to whet the
+imagination of potential users. This ODP provides not only data that are
+easy to use, but also all the code and documentation that make this a
+reproducible research project. In summary, \{ActiveCA\} aims to
+implement and inspire the best principles of open spatial sciences
+\citep{paez_open_2021, brunsdon_opening_2021}.
+
 \section{General Social Survey (GSS)
-collection}\label{general-social-survey-gss-collection}}
+collection}\label{general-social-survey-gss-collection}
 
 Statistics Canada \citeyearpar{statisticscanada2024} conducts GSS
 surveys to obtain data on social trends to track changes in Canadians'
-living conditions and well-being over time. This survey is used to
-understand how citizens spend and manage their time and what factors
-contribute to their happiness and stress. Created in 1985, the survey is
-part of a series of independent, annual, and cross-sectional surveys.
+living conditions and well-being over time. The series of survey on time
+use are used to understand how Canadian residents spend and manage their
+time, and what factors contribute to their happiness and stress. The GSS
+program was created in 1985, and is serialized to provide a collection
+of annual, representative cross-sectional surveys.
 
-In addition to the main topic, each GSS cycle includes new content that
-addresses emerging and policy-relevant issues. Every five to seven
-years, the Time Use Surveys \citep{statisticscanada2022} collect data on
-respondents' participation and time spent on a wide range of everyday
+The topics of the survey cycle every few years to cover topics that
+include family, health, social identity, and every five to seven years
+time use. The first Canadian time use survey done as part of the GSS
+program was conducted in 1986, and the most recent was completed in
+2015. These Time Use Surveys \citep{statisticscanada2022} collect data
+on respondents' participation and time spent on a wide range of everyday
 activities using a 24-hour retrospective diary, with information on the
 location of these activities (e.g.~at home, at work, etc.) and, for
 non-personal activities, the people who were present with the respondent
@@ -134,85 +151,56 @@ at the time of the activity. In addition, time-use surveys also cover
 topics related to leisure time, work-life balance, health, commuting,
 culture and sports, and many others.
 
-The most recent time use survey was carried out in 2022
-\citep{wray2024}. However, the 2022 dataset has not been fully published
-and, because of this, our analysis focused on the surveys from 1986 to
-2015 (1986, 1992, 1998, 2005, 2010 and 2015). Time Use surveys are
-composed of two data sets, the main one and the episode file, explained
-in the following subsections.
+The Public Use Microdata are released by Statistics Canada in two files:
+a \emph{Main File} and an \emph{Episode File}. The files are linked by
+keys that identify households, individuals, and episodes (i.e.,
+activities) conducted by individuals. We discuss these files in more
+detail in the following section.
 
-\hypertarget{the-main-file}{%
-\subsection{The Main File}\label{the-main-file}}
+\subsection{The Main File}\label{the-main-file}
 
-The main file compiles an large array of aggregated data, summarizing
-the answers to the questionnaire and derived variables that summarize
-the respondents' time use across different activities, locations, and
-social interactions. This file documents the time and duration that
-respondents allocate to each activity and location. The Main File
-provides a overview of daily routines and social dynamics, not focusing
-on individual activity episodes. Additionally, this file categorizes
-activities into bigger groups and subcategories, facilitating the data's
-analytical utility with additional metrics such as total transit time,
-duration spent with household members, and counts of activities and
-episodes.
+The main file of the time use survey compiles a large array of
+aggregated data, summarizing the answers to the questionnaire that
+describe households and individuals, as well as derived variables that
+summarize the respondents' use of time use across different activities,
+locations, and social interactions. This file documents the time and
+duration that respondents allocate to each activity and location. The
+Main File provides a overview of daily routines and social dynamics, not
+focusing on individual activity episodes. Additionally, this file
+categorizes activities into bigger groups and subcategories,
+facilitating the data's analytical utility with additional metrics such
+as total transit time, time spent with household members, and counts of
+activities and episodes.
 
-\hypertarget{the-episode-file}{%
-\subsection{The Episode File}\label{the-episode-file}}
+\subsection{The Episode File}\label{the-episode-file}
 
-The episode file records detailed data for each activity episode
-reported by respondents. The entry includes the start and end times,
-duration, location, and accompanying social context, informing when and
-where activities occurred and with whom. The file distinguishes itself
-by focusing on individual episodes rather than respondents, with the
-data structured around the numerous activity instances that compose a
-day of the respondent. Although respondent-specific characteristics are
-not included within the episode file, it is possible to link the main
-file and the episode file by using an identifiable variable present in
-both data sets.
+The episode is a much bigger file that records detailed data for each
+activity episode reported by respondents. Each episode represents a
+single activity and its duration, and the sum of all episodes throughout
+the day adds up to 24 hours. Each entry in this file includes the start
+and end times of the activity, the duration, location, and accompanying
+social context, informing when and where activities occurred and with
+whom. The focus of the Episode File is not on the characteristics of the
+respondents, but on the characteristics of the activities, and the data
+are structured around the numerous activity instances that compose a day
+of the respondent. Although respondent-specific characteristics are not
+included within the episode file, it is possible to link the main file
+and the episode file by using a key present in both the Main and Episode
+Files.
 
-\hypertarget{methodology}{%
-\section{Methodology}\label{methodology}}
+\section{Methods}\label{methods}
 
 For each selected cycle of the GSS surveys, we reviewed the episode
-files to identify cases with activities listed as walking or cycling,
-selecting the activities immediately before and after the mobility
-episode. After that, we labeled the code variables with their
-appropriate descriptions, identifying each origin and destination,
-transportation mode, as well the province and urban classification of
-the respondent's residency.
+files to identify episodes of movement that involved walking or cycling.
+This allowed us to select the activities immediately before and after
+the movement episode. After that, we labeled the code variables with
+their appropriate descriptions, identifying each origin and destination,
+mode of travel, as well the province and urban classification of the
+episode.
 
-Additionally, for Census Agglomerations and Census Metropolitan Areas we
-pre-estimated impedance functions for cycling and walking trips.
-Impedance functions reveals important information about the travel
-behavior of the population, by describing the relationship between the
-population at an origin and their likelihood or ability to travel to
-specific destinations to access opportunities \citep{soukhov2024}.
+\section{How to use \{ActiveCA\}}\label{how-to-use-activeca}
 
-Impedance functions are commonly used in accessibility analysis to
-calculate the cost of travel between different locations
-\citep{hansen1959, páez2012, palacios2022}. However, these functions
-need to be calibrated in order to accurately represent travel behavior.
-One effective way of calibrating an impedance function is by using the
-trip length distribution (TLD) obtained from origin-destination data
-\citep{soukhov2024}. The TLD represents the probability that a certain
-proportion of trips will be made at a specific cost, such as travel
-time. In this data set, low travel times are associated with a higher
-proportion of trips, while high travel times are associated with a lower
-proportion of trips.
-
-For each combination of year, destination, and transportation mode
-(walking or cycling), we fitted the most suitable impedance function
-based on empirical data from the GSS surveys. We used the
-\texttt{fitdistrplus} package \citep{mullerdutang2015} to estimate the
-functions, selecting the distribution with the lowest Akaike information
-criterion (AIC) among exponential, gamma, log-normal, normal, and
-uniform types.
-
-\hypertarget{results}{%
-\section{Results}\label{results}}
-
-\hypertarget{descriptive-statistics}{%
-\subsection{Descriptive statistics}\label{descriptive-statistics}}
+\subsection{Descriptive statistics}\label{descriptive-statistics}
 
 Considering GSS Cycles analyzed, we identified 21748 episodes that
 recorded active travel episodes, with trip duration ranging from 0 to
@@ -373,14 +361,14 @@ remained at 10 minutes.
 \end{ThreePartTable}
 \endgroup{}
 
-\texttt{ActiveCA} also enables visual analysis of active travel in
-Canada using traditional exploratory data analysis techniques. Figures
+\{ActiveCA\} also enables visual analysis of active travel in Canada
+using traditional exploratory data analysis techniques. Figures
 \ref{fig:figure-01} and \ref{fig:figure-02} show walking and cycling
 trips from 1992 and 2015 through heat maps. These maps use color
 gradients to represent the percentage of trips between various origins
 and destinations, with darker colors indicating higher percentages and
-lighter colors representing less frequent routes. To avoid overwhelming
-the reader, we omitted the heat maps for the other years analyzed.
+lighter colors representing less frequent routes. For conciseness, we
+omitted the heat maps for the other years analyzed.
 
 In 1992, walking trips with \texttt{home} as both the origin and
 destination made up the majority, accounting for about 30\% of all
@@ -423,109 +411,50 @@ significantly from 19\% in 1992 to 5\% in 2015.
 \caption{Percentage of cycling trips categorized by origin and destination}\label{fig:figure-02}
 \end{figure}
 
-\hypertarget{pre-estimated-impedance-functions-for-active-travel-in-canada}{%
-\subsection{Pre-estimated impedance functions for active travel in
-Canada}\label{pre-estimated-impedance-functions-for-active-travel-in-canada}}
+\section{Python integration}\label{python-integration}
 
-\texttt{ActiveCA} includes a total of 64 pre-estimated impedance
-functions for cycling and walking trips for Census Agglomerations and
-Census Metropolitan Areas. Table \ref{tab:table-04} shows the best
-impedance functions for walking trips to \texttt{Work\ or\ school}
-across survey years, where all distributions, except for a gamma
-function in 1998, are log-normal.
+CAN WE PROVIDE PYTHON INTEGRATION? See here:
 
-\begin{table}
-\centering
-\caption{\label{tab:table-04}\label{table-04}Impedance functions and AIC for `Walking` trips considering `Work or school` as destination.}
-\caption{\label{tab:table-04}\label{table-04}Impedance functions and AIC for `Cycling` trips considering `Work or school` as destination.}
-\centering
-\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\fontsize{10}{12}\selectfont
-\begin{threeparttable}
-\begin{tabular}[t]{lrlrrrr}
-\toprule
-\multicolumn{1}{c}{\textbf{Mode}} & \multicolumn{1}{c}{\textbf{Year}} & \multicolumn{1}{c}{\textbf{Impedance function}} & \multicolumn{1}{c}{\textbf{Parameter 1*}} & \multicolumn{1}{c}{\textbf{Parameter 2*}} & \multicolumn{1}{c}{\textbf{AIC}} & \multicolumn{1}{c}{\textbf{Count}}\\
-\midrule
- & 1992 & Gamma & 3.00 & 0.17 & 433582 & 19\\
+\url{https://github.com/paezha/idealista18/tree/master/Python}
 
- & 1998 & Gamma & 3.37 & 0.10 & 481536 & 19\\
+\section{Concluding remarks}\label{concluding-remarks}
 
- & 2005 & Lognormal & 2.93 & 0.70 & 888655 & 64\\
-
- & 2010 & Lognormal & 2.65 & 0.77 & 1292760 & 53\\
-
-\multirow[t]{-5}{*}{\raggedright\arraybackslash Cycling} & 2015 & Lognormal & 3.03 & 0.41 & 1162876 & 63\\
-\cmidrule{1-7}
- & 1992 & Lognormal & 2.38 & 0.70 & 2319400 & 113\\
-
- & 1998 & Gamma & 1.23 & 0.09 & 2318752 & 109\\
-
- & 2005 & Lognormal & 2.13 & 0.79 & 8182691 & 724\\
-
- & 2010 & Lognormal & 2.21 & 0.78 & 7917431 & 494\\
-
-\multirow[t]{-5}{*}{\raggedright\arraybackslash Walking} & 2015 & Lognormal & 2.55 & 0.64 & 6612061 & 407\\
-\bottomrule
-\end{tabular}
-\begin{tablenotes}
-\item \textit{Note: } 
-\item *For lognormal distributions, 'Parameter 1' and 'Parameter 2' refer to the mean and standard deviation of the distribution on the logarithmic scaler, respectively. For gamma distribution, 'Parameter 1' and 'Parameter 2' refer to the rate and shape of the distribution, respectively. `AIC` means Akaike information criterion.
-\end{tablenotes}
-\end{threeparttable}}
-\end{table}
-
-Figure \ref{fig:figure-03} illustrates these fitted functions (red line)
-alongside histograms of empirical travel times (grey bars). As for the
-others pre-estimated functions, these examples allow to calculate
-gravity-based accessibility measures for active travel across various
-destinations and temporal scales in Canadian urban areas.
-
-\begin{figure}
-
-{\centering \includegraphics[width=1\linewidth]{Manuscript-figures/impf_Work or school} 
-
-}
-
-\caption{Empirical data and impedance functions fitted for `work or school` as destination.}\label{fig:figure-03}
-\end{figure}
-
-\hypertarget{concluding-remarks}{%
-\section{Concluding remarks}\label{concluding-remarks}}
-
-This article presents \texttt{ActiveCA}, an open data product that
+This paper presents \texttt{ActiveCA}, an open data product that
 provides analysis-ready data from Cycles 2 (1986), 7 (1992), 12 (1998),
 19 (2005), 24 (2010), and 29 (2015) of the GSS surveys on active travel
-in Canada. In the form of an \texttt{R} data package, \texttt{ActiveCA}
-was developed after collecting, cleaning, and processing the survey
-data, providing information on origins, destinations, and duration of
-active travel, as well other information. Additionally, the package
-includes a series of pre-estimated impedance functions for walking and
-cycling trips, considering various destinations and time periods, for
-Canadian Metropolitan and Census Agglomeration areas.
+in Canada. In the form of an \texttt{R} data package, \{ActiveCA\} was
+developed after collecting, cleaning, and processing the survey data,
+providing information on origins, destinations, and duration of active
+travel, as well other information.
 
-The value of \texttt{ActiveCA} lies in its transparency, accessibility,
-and open infrastructure, which facilitates the addition of complementary
-data sets in the future. R users can seamlessly explore GSS walking and
-cycling episodes along with calibrated impedance functions, with the
-option to suggest enhancements to the package as needed. This article
-adopts the structure proposed by Anastasia and Páez
-\citeyearpar{soukhov2023}, whose work provided essential guidance for
-the creation of this package. Similarly, we aim to contribute to the
-academic community by promoting transparent research practices that
-encourage replication and innovation in related fields. We believe that
-\texttt{ActiveCA} will serve as a basis for further research on GSS and
-for the integration of additional data by the authors or the wider open
-source community.
+It is important to remark that the present version of \{ActiveCA\}
+covers all Canadian time use surveys up to 2015. While the most recent
+time use survey was carried out in 2022 \citep{wray2024}, the Public Use
+Microdata Files are currently unavailable, and at the moment it is
+estimated that they will only be published in the later part of 2025.
+The \texttt{R} package will be updated once these files become
+available.
 
-\hypertarget{declaration-of-conflicting-interests}{%
+The value of \{ActiveCA\} lies in its transparency, accessibility, and
+ease of use, which facilitates the addition of complementary data sets
+in the future. \texttt{R} users can seamlessly explore GSS walking and
+cycling episodes , with the option to suggest enhancements to the
+package as needed. This article adopts the structure proposed by
+Anastasia and Páez \citeyearpar{soukhov2023}, whose work provided
+essential guidance for the creation of this package. Similarly, we aim
+to contribute to the academic community by promoting transparent
+research practices that encourage replication and innovation in related
+fields. We believe that \{ActiveCA\} will serve as a basis for further
+research on GSS and for the integration of additional data by the
+authors or the wider open source community.
+
 \section{Declaration of Conflicting
-Interests}\label{declaration-of-conflicting-interests}}
+Interests}\label{declaration-of-conflicting-interests}
 
 The author(s) declared no potential conflicts of interest with respect
 to the research, authorship, and/or publication of this article.
 
-\hypertarget{funding}{%
-\section{Funding}\label{funding}}
+\section{Funding}\label{funding}
 
 The author(s) disclosed receipt of the following financial support for
 the research, authorship, and/or publication of this article: This work
@@ -533,8 +462,7 @@ was supported by the Social Sciences and Humanities Research Council of
 Canada (\emph{More description about the funding source after the review
 process}).
 
-\hypertarget{orcid}{%
-\section{ORCID}\label{orcid}}
+\section{ORCID}\label{orcid}
 
 Author 1
 
@@ -542,11 +470,9 @@ Author 2
 
 Author 3
 
-\hypertarget{data-availability-statement}{%
-\section{Data availability
-statement}\label{data-availability-statement}}
+\section{Data availability statement}\label{data-availability-statement}
 
-The \{ActiceCA\} R data package can be found and installed on Github
+The \{ActiveCA\} R data package can be found and installed on Github
 (\emph{link}).
 
 \bibliographystyle{sageh}

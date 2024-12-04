@@ -6,3 +6,6 @@
 ^data-raw$
 ^README\.Rmd$
 ^paper$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
