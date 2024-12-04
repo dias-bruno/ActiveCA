@@ -254,7 +254,7 @@ using a key present in both the Main and Episode Files.
 Maybe here provide an example of the structure of this table?
 -->
 
-# Methods
+# Data extraction
 
 For each selected cycle of the GSS surveys, we reviewed the episode files to 
 identify episodes of movement that involved walking or cycling. This allowed us 
