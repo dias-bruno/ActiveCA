@@ -1,0 +1,685 @@
+---
+title: "Reading main files and preparing data sets"
+author: "Bruno Santos, Mahdis Moghadasi & Antonio Paez"
+date: "`r Sys.Date()`"
+output:
+  tufte::tufte_html: default
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+  tufte::tufte_book:
+    citation_package: natbib
+    latex_engine: xelatex
+bibliography: activeca.bib
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+# layout configuration 
+library(tufte)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+options(htmltools.dir.version = FALSE)
+rm(list=ls())
+```
+
+# Introduction
+
+This Rmarkdown file is part of the
+[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package. The main objective of the *ActiveCA* package is to identify the most
+appropriate impedance functions for active transportation modes for
+various destinations and time periods in Canada. To do achieve this objective, we analyzed historical data from the [General Social Survey
+(GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221)
+from 1986 to 2015 in Canada to calculate the impedance function for
+cycling and walking trips.
+
+In this R markdown, we read the main files of GSS surveys and prepare the data set to
+the following analyses.
+
+# The General Social Surveys (GSS)
+
+In Canada, Statistics Canada produces the General Social Surveys (GSS)
+to collect data on social trends in order to track changes in the living
+conditions of Canadians and well-being over time. This survey tracks
+changes in time and it is used to understand how Canadians spend and
+manage their time and what factors contribute to their happiness and
+stress. The survey was created in 1985 as a series of independent,
+annual, cross-sectional surveys, each covering one topic in depth.
+Caregiving, families, time use, social identity, volunteering, and
+victimization are among the current themes of the GSS.
+
+The six survey themes listed above are repeated every five years. In
+addition to the central topic, each cycle includes new content that
+addresses emerging and policy-relevant issues, collecting detailed
+socio-demographic information, such as age, gender, education, religion,
+ethnicity, income, etc. Time-use surveys collect data on all human
+activities and can inform a wide range of policies. In particular, three
+key themes have been identified as essential for policymaking and for
+which no other data source is adequate: unpaid work and non-market
+production, well-being, and gender equality. Leisure time, work-life
+balance, health, commuting, culture, and sports are among the other
+topics covered by time-use surveys. In addition, statistics Canada has
+been conducting time-use surveys at five to seven year intervals since
+1986, with the most recent being in 2015 (1986, 1992, 1998, 2005, 2010,
+and 2015). The time use collects information on participation of
+respondents and time spent on a wide range of day-to-day activities
+using a 24-hour retrospective diary. Also, information is collected on
+the location of these activities (e.g., at home, at work, etc.) and, for
+non-personal activities, the people who were present with the respondent
+at the time of the activity.
+
+The surveys (obtained from
+[here](http://odesi2.scholarsportal.info/webview/)) consist of two
+files: a main file and an episode file.
+
+## The Main File
+
+The Main File compiles an large array of aggregated data, summarizing
+the answers to the questionnaire and derived variables that summarize
+the respondents' time use across different activities, locations, and
+social interactions. This file documents the time and duration that
+respondents allocate to each activity and location. The Main File
+provides a overview of daily routines and social dynamics, not focusing
+on individual activity episodes. Additionally, this file categorizes
+activities into bigger groups and subcategories, enhancing the data's
+analytical utility with additional metrics such as total transit time,
+duration spent with household members, and counts of activities and
+episodes. This file is aggregated and prohibits the direct association
+between specific activities with particular locations or companions.
+
+# Reading and processing the GSS files
+
+In this R markdown, our aim is to generate a table in the appropriate
+format to perform the subsequent analyses, after reading and processing
+the GSS main surveys.
+
+To start processing the data, first load the `R` packages used in this
+notebook:
+
+```{r read-libraries}
+library(dplyr) # A Grammar of Data Manipulation
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(here) # A Simpler Way to Find Your Files
+library(readxl) # Read Excel Files
+library(tidyr) # Tidy Messy Data
+library(usethis) # Automate Package and Project Setup
+library(purrr) # Provides a complete and consistent set of tools for working with functions and vectors
+```
+
+For each survey year, the process of preparing the data is very similar
+and, in the end, we will obtain a table in which each row represents an
+specific respondent, and each column a variable. Since every survey introduced different variables, 
+we will not try to align the name columns and values between the tables. 
+
+The file name pattern is as follows: `gss_main_` +
+`year of survey` [^4]. This means that, for instance, the file
+`gss_main_20105` refers to the main file of the 2005 GSS survey.
+
+## GSS 2015
+
+Read the Main files of the 2015 GSS survey:
+
+```{r reading-2015-main-file}
+# Main File
+gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv"))
+```
+
+Select only the socioeconomic variables: 
+
+```{r filtering-variables-2015}
+gss_main_2015 <- gss_m_2015 %>%
+  select(PUMFID:DVTDAY)
+```
+
+Labeling socioeconomic variables: 
+
+```{r SURVMNTH}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # SURVMNTH: Survey month of data collection from April 2015 to March 2016
+    SURVMNTH = 
+           case_when(SURVMNTH == 1 ~ "January", 
+                     SURVMNTH == 2 ~ "February",
+                     SURVMNTH == 3 ~ "March",
+                     SURVMNTH == 4 ~ "April",
+                     SURVMNTH == 5 ~ "May",
+                     SURVMNTH == 6  ~ "June",
+                     SURVMNTH == 7 ~ "July",
+                     SURVMNTH == 8 ~ "August",
+                     SURVMNTH == 9 ~ "September",
+                     SURVMNTH == 10 ~ "October",
+                     SURVMNTH == 11 ~ "November",
+                     SURVMNTH == 12 ~ "Devember",
+                     SURVMNTH == 96 ~ "Valid skip",
+                     SURVMNTH == 97 ~ "Don't know",
+                     SURVMNTH == 98 ~ "Refusal",
+                     SURVMNTH == 99 ~ "Not stated"), 
+    SURVMNTH = factor(SURVMNTH)) 
+
+summary(gss_main_2015$SURVMNTH)
+```
+
+```{r AGEGR10}
+values_ordered <- c("15 to 24 years","25 to 34 years","35 to 44 years",
+                    "45 to 54 years", "55 to 64 years","65 to 74 years","75 years and over")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # AGEGR10: Age group of respondent (groups of 10)
+    AGEGR10 = 
+           case_when(AGEGR10 == 1 ~ "15 to 24 years", 
+                     AGEGR10 == 2 ~ "25 to 34 years",
+                     AGEGR10 == 3 ~ "35 to 44 years",
+                     AGEGR10 == 4 ~ "45 to 54 years",
+                     AGEGR10 == 5 ~ "55 to 64 years",
+                     AGEGR10 == 6  ~ "65 to 74 years",
+                     AGEGR10 == 7 ~ "75 years and over",
+                     AGEGR10 == 96 ~ "Valid skip",
+                     AGEGR10 == 97 ~ "Don't know",
+                     AGEGR10 == 98 ~ "Refusal",
+                     AGEGR10 == 99 ~ "Not stated"), 
+    AGEGR10 = factor(AGEGR10, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2015$AGEGR10)
+```
+
+```{r SEX}
+values_ordered <- c("Male", "Female")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # SEX: Sex of respondent
+    SEX = 
+           case_when(SEX == 1 ~ "Male", 
+                     SEX == 2 ~ "Female",
+                     SEX == 96 ~ "Valid skip",
+                     SEX == 97 ~ "Don't know",
+                     SEX == 98 ~ "Refusal",
+                     SEX == 99 ~ "Not stated"), 
+    SEX = factor(SEX, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2015$SEX)
+```
+
+```{r MARSTAT}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # MARSTAT: Marital status of the respondent
+    MARSTAT = 
+           case_when(MARSTAT == 1 ~ "Married", 
+                     MARSTAT == 2 ~ "Living common-law",
+                     MARSTAT == 3 ~ "Widowed",
+                     MARSTAT == 4 ~ "Separated",
+                     MARSTAT == 5 ~ "Divorced",
+                     MARSTAT == 6  ~ "Single, never married",
+                     MARSTAT == 96 ~ "Valid skip",
+                     MARSTAT == 97 ~ "Don't know",
+                     MARSTAT == 98 ~ "Refusal",
+                     MARSTAT == 99 ~ "Not stated"), 
+    MARSTAT = factor(MARSTAT))
+
+summary(gss_main_2015$MARSTAT)
+```
+
+
+```{r AGEPRGRD}
+values_ordered <- c("Respondent is 11 + years older", 
+                    "Respondent is 6 - 10 years older",
+                    "Respondent is 5 years older",
+                    "Respondent is 4 years older",
+                    "Respondent is 3 years older",
+                    "Respondent is 2 years older",
+                    "Respondent is 1 years older",
+                    "Respondent and spouse/partner are the same age",
+                    "Respondent is 1 years younger",
+                    "Respondent is 2 years younger",
+                    "Respondent is 3 years younger",
+                    "Respondent is 4 years younger",
+                    "Respondent is 5 years younger",
+                    "Respondent is 6 - 10 years younger",
+                    "Respondent is 11 + years younger",
+                    "Valid skip")
+                    
+                    
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # AGEPRGRD: Age difference between respondent and spouse/partner.
+    AGEPRGRD = 
+           case_when(AGEPRGRD == 1 ~ "Respondent is 11 + years older", 
+                     AGEPRGRD == 2 ~ "Respondent is 6 - 10 years older",
+                     AGEPRGRD == 3 ~ "Respondent is 5 years older",
+                     AGEPRGRD == 4 ~ "Respondent is 4 years older",
+                     AGEPRGRD == 5 ~ "Respondent is 3 years older",
+                     AGEPRGRD == 6  ~ "Respondent is 2 years older",
+                     AGEPRGRD == 7  ~ "Respondent is 1 years older",
+                     AGEPRGRD == 8  ~ "Respondent and spouse/partner are the same age",
+                     AGEPRGRD == 9  ~ "Respondent is 1 years younger",
+                     AGEPRGRD == 10  ~ "Respondent is 2 years younger",
+                     AGEPRGRD == 11  ~ "Respondent is 3 years younger",
+                     AGEPRGRD == 12  ~ "Respondent is 4 years younger",
+                     AGEPRGRD == 13  ~ "Respondent is 5 years younger",
+                     AGEPRGRD == 14  ~ "Respondent is 6 - 10 years younger",
+                     AGEPRGRD == 15  ~ "Respondent is 11 + years younger",
+                     AGEPRGRD == 96 ~ "Valid skip",
+                     AGEPRGRD == 97 ~ "Don't know",
+                     AGEPRGRD == 98 ~ "Refusal",
+                     AGEPRGRD == 99 ~ "Not stated"), 
+    AGEPRGRD = factor(AGEPRGRD, levels = rev(values_ordered), ordered = TRUE)) 
+
+summary(gss_main_2015$AGEPRGRD)
+```
+
+
+
+```{r SEXPR}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # SEXPR: Sex of respondent's spouse/partner living in the household.
+    SEXPR = 
+           case_when(SEXPR == 1 ~ "Male spouse/partner in the household", 
+                     SEXPR == 2 ~ "Female spouse/partner in the household",
+                     SEXPR == 6 ~ "Valid skip",
+                     SEXPR == 7 ~ "Don't know",
+                     SEXPR == 8 ~ "Refusal",
+                     SEXPR == 9 ~ "Not stated"), 
+    SEXPR = factor(SEXPR)) 
+
+summary(gss_main_2015$SEXPR)
+```
+
+```{r PRTYPEC}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # PRTYPEC: Type of partner respondent has living in the household.
+    PRTYPEC = 
+           case_when(PRTYPEC == 1 ~ "Opposite sex married partner in the household", 
+                     PRTYPEC == 2 ~ "Opposite sex common-law partner in the household",
+                     PRTYPEC == 3 ~ "Same sex married or common-law partner in the household",
+                     PRTYPEC == 6 ~ "Valid skip",
+                     PRTYPEC == 7 ~ "Don't know",
+                     PRTYPEC == 8 ~ "Refusal",
+                     PRTYPEC == 9 ~ "Not stated"), 
+    PRTYPEC = factor(PRTYPEC)) 
+
+summary(gss_main_2015$PRTYPEC)
+```
+
+
+```{r CXRFLAG}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # CXRFLAG:  Child(ren) of the respondent living in the household.
+    CXRFLAG = 
+           case_when(CXRFLAG == 1 ~ "Yes", 
+                     CXRFLAG == 2 ~ "No",
+                     CXRFLAG == 6 ~ "Valid skip",
+                     CXRFLAG == 7 ~ "Don't know",
+                     CXRFLAG == 8 ~ "Refusal",
+                     CXRFLAG == 9 ~ "Not stated"), 
+    CXRFLAG = factor(CXRFLAG)) 
+
+summary(gss_main_2015$CXRFLAG)
+```
+
+```{r AGECXRYG}
+values_ordered <- c( "Valid skip", "5 to 4", "5 to 9","10 to 14",
+                     "15 to 19","20 to 24",
+                     "25 years and older")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # AGECXRYG: Age of respondent's youngest child in household
+    AGECXRYG = 
+           case_when(AGECXRYG == 1 ~ "5 to 4", 
+                     AGECXRYG == 2 ~ "5 to 9",
+                     AGECXRYG == 3 ~ "10 to 14",
+                     AGECXRYG == 4 ~ "15 to 19",
+                     AGECXRYG == 5 ~ "20 to 24",
+                     AGECXRYG == 6  ~ "25 years and older",
+                     AGECXRYG == 96 ~ "Valid skip",
+                     AGECXRYG == 97 ~ "Don't know",
+                     AGECXRYG == 98 ~ "Refusal",
+                     AGECXRYG == 99 ~ "Not stated"), 
+    AGECXRYG = factor(AGECXRYG, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2015$AGECXRYG)
+```
+```{r CHINHSDC}
+values_ordered <- c("None", 
+                     "One",
+                     "Two",
+                     "Three",
+                     "Four or more")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # CHINHSDC: Respondent’s child(ren) in household - Any age/marital status
+    CHINHSDC = 
+           case_when(CHINHSDC == 0 ~ "None", 
+                     CHINHSDC == 1 ~ "One",
+                     CHINHSDC == 2 ~ "Two",
+                     CHINHSDC == 3 ~ "Three",
+                     CHINHSDC == 4 ~ "Four or more",
+                     CHINHSDC == 6 ~ "Valid skip",
+                     CHINHSDC == 7 ~ "Don't know",
+                     CHINHSDC == 8 ~ "Refusal",
+                     CHINHSDC == 9 ~ "Not stated"), 
+    CHINHSDC = factor(CHINHSDC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2015$CHINHSDC)
+```
+
+```{r CXR0014C}
+values_ordered <- c("None", 
+                     "One",
+                     "Two",
+                     "Three or more")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # CXR0014C:  Respondent's child(ren) in household - 0 to 14 years
+    CXR0014C = 
+           case_when(CXR0014C == 0 ~ "None", 
+                     CXR0014C == 1 ~ "One",
+                     CXR0014C == 2 ~ "Two",
+                     CXR0014C == 3 ~ "Three or more",
+                     CXR0014C == 6 ~ "Valid skip",
+                     CXR0014C == 7 ~ "Don't know",
+                     CXR0014C == 8 ~ "Refusal",
+                     CXR0014C == 9 ~ "Not stated"), 
+    CXR0014C = factor(CXR0014C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2015$CXR0014C)
+```
+
+```{r CHH0014C}
+values_ordered <- c("None", 
+                     "One",
+                     "Two",
+                     "Three or more")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # CHH0014C:  Child(ren) in household - 0 to 14 years
+    CHH0014C = 
+           case_when(CHH0014C == 0 ~ "None", 
+                     CHH0014C == 1 ~ "One",
+                     CHH0014C == 2 ~ "Two",
+                     CHH0014C == 3 ~ "Three or more",
+                     CHH0014C == 6 ~ "Valid skip",
+                     CHH0014C == 7 ~ "Don't know",
+                     CHH0014C == 8 ~ "Refusal",
+                     CHH0014C == 9 ~ "Not stated"), 
+    CHH0014C = factor(CHH0014C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2015$CHH0014C)
+```
+
+
+```{r CXRTIME6}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # CXRTIME6:  Age group of respondent’s child(ren) in household
+    CXRTIME6 = 
+           case_when(CXRTIME6 == 1 ~ "No child under 19 years of age at home",
+                     CXRTIME6 == 2 ~ "All children under 5 years of age",
+                     CXRTIME6 == 3 ~ "All children between 5 and 12 years of age",
+                     CXRTIME6 == 4 ~ "All children 13 years of age and older",
+                     CXRTIME6 == 5 ~ "At least one child under 5 years of age but not all
+children",
+                     CXRTIME6 == 6 ~ "Other",
+                     CXRTIME6 == 96 ~ "Valid skip",
+                     CXRTIME6 == 97 ~ "Don't know",
+                     CXRTIME6 == 98 ~ "Refusal",
+                     CXRTIME6 == 99 ~ "Not stated"), 
+    CXRTIME6 = factor(CXRTIME6))
+
+summary(gss_main_2015$CXRTIME6)
+```
+
+```{r PARNUM}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # PARNUM: Number of parents the respondent has in household
+    PARNUM = 
+           case_when(PARNUM == 0 ~ "None",
+                     PARNUM == 1 ~ "One parent",
+                     PARNUM == 2 ~ "Two parents",
+                     PARNUM == 6 ~ "Valid skip",
+                     PARNUM == 7 ~ "Don't know",
+                     PARNUM == 8 ~ "Refusal",
+                     PARNUM == 9 ~ "Not stated"), 
+    PARNUM = factor(PARNUM)) 
+
+summary(gss_main_2015$PARNUM)
+```
+
+```{r LIVARR08}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # LIVARR08: Living arrangement of respondent’s household (8 categories)
+    LIVARR08 = 
+           case_when(LIVARR08 == 1 ~ "Under 25 years - Not living with parents",
+                     LIVARR08 == 2 ~ "Under 25 years - Living with both parents",
+                     LIVARR08 == 3 ~ "Under 25 years - Living with mother only",
+                     LIVARR08 == 4 ~ "Under 25 years - Living with father only",
+                     LIVARR08 == 5 ~ "25 years of age or older - Not living with parents",
+                     LIVARR08 == 6 ~ "25 years of age or older - Living with both parents",
+                     LIVARR08 == 7 ~ "25 years of age or older - Living with mother only",
+                     LIVARR08 == 8 ~ "25 years of age or older - Living with father only",
+                     LIVARR08 == 96 ~ "Valid skip",
+                     LIVARR08 == 97 ~ "Don't know",
+                     LIVARR08 == 98 ~ "Refusal",
+                     LIVARR08 == 99 ~ "Not stated"), 
+    LIVARR08 = factor(LIVARR08)) 
+
+summary(gss_main_2015$LIVARR08)
+```
+
+```{r LIVARR11} 
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # LIVARR11: Living arrangement of respondent’s household (11 categories)
+    LIVARR11 = 
+           case_when(LIVARR11 == 1 ~ "Living alone",
+                     LIVARR11 == 2 ~ "Living with sponse only",
+                     LIVARR11 == 3 ~ "Living with spouse and child(ren) < 25 years",
+                     LIVARR11 == 4 ~ "Living with spouse and child(ren) 25 years or older",
+                     LIVARR11 == 5 ~ "Living with spouse and other",
+                     LIVARR11 == 6 ~ "Living without spouse but with chil(ren) < 25 years",
+                     LIVARR11 == 7 ~ "Living without spouse but with chil(ren) 25 years and older",
+                     LIVARR11 == 8 ~ "Living with two parents",
+                     LIVARR11 == 9 ~ "Living with one parent",
+                     LIVARR11 == 10 ~ "Multiple person household - Other living arrangement",
+                     LIVARR11 == 11 ~ "Multiple person household - Relationships undefined",
+                     LIVARR11 == 96 ~ "Valid skip",
+                     LIVARR11 == 97 ~ "Don't know",
+                     LIVARR11 == 98 ~ "Refusal",
+                     LIVARR11 == 99 ~ "Not stated"), 
+    LIVARR11 = factor(LIVARR11)) 
+
+summary(gss_main_2015$LIVARR11)
+```
+
+
+```{r HSDSIZEC}
+values_ordered <- c("One person household",
+                   "Two person household",
+                   "Three person household",
+                   "Four person household",
+                   "Five person household",
+                   "Six or more person household")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # HSDSIZEC: Household size of respondent
+    HSDSIZEC = 
+           case_when(HSDSIZEC == 1 ~ "One person household",
+                     HSDSIZEC == 2 ~ "Two person household",
+                     HSDSIZEC == 3 ~ "Three person household",
+                     HSDSIZEC == 4 ~ "Four person household",
+                     HSDSIZEC == 5 ~ "Five person household",
+                     HSDSIZEC == 6 ~ "Six or more person household",
+                     HSDSIZEC == 96 ~ "Valid skip",
+                     HSDSIZEC == 97 ~ "Don't know",
+                     HSDSIZEC == 98 ~ "Refusal",
+                     HSDSIZEC == 99 ~ "Not stated"), 
+    HSDSIZEC = factor(HSDSIZEC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2015$HSDSIZEC)
+```
+
+```{r HSDELIGC}
+values_ordered <- c("One member",
+                     "Two members",
+                     "Three members",
+                     "Four or more members")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # HSDELIGC: Number of members in respondent’s household 15 years of age or older
+    HSDELIGC = 
+           case_when(HSDELIGC == 1 ~ "One member",
+                     HSDELIGC == 2 ~ "Two members",
+                     HSDELIGC == 3 ~ "Three members",
+                     HSDELIGC == 4 ~ "Four or more members",
+                     HSDELIGC == 6 ~ "Valid skip",
+                     HSDELIGC == 7 ~ "Don't know",
+                     HSDELIGC == 8 ~ "Refusal",
+                     HSDELIGC == 9 ~ "Not stated"), 
+    HSDELIGC = factor(HSDELIGC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2015$HSDELIGC)
+```
+
+```{r MULTIGEN}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # MULTIGEN:  Three generations or more in the respondent’s household
+    MULTIGEN = 
+           case_when(MULTIGEN == 1 ~ "Yes", 
+                     MULTIGEN == 2 ~ "No",
+                     MULTIGEN == 6 ~ "Valid skip",
+                     MULTIGEN == 7 ~ "Don't know",
+                     MULTIGEN == 8 ~ "Refusal",
+                     MULTIGEN == 9 ~ "Not stated"), 
+    MULTIGEN = factor(MULTIGEN))
+
+summary(gss_main_2015$MULTIGEN)
+```
+
+
+```{r PRV}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # PRV: Province of residence
+    PRV = 
+      case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia",
+                     PRV == 96 ~ "Valid skip",
+                     PRV == 97 ~ "Don't know",
+                     PRV == 98 ~ "Refusal",
+                     PRV == 99 ~ "Not stated"),
+    PRV = factor(PRV)) 
+
+summary(gss_main_2015$PRV) 
+```
+
+```{r LUC_RST}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # LUC_RST:  Population centre indicator
+    LUC_RST = 
+      case_when(LUC_RST == 1 ~ "CMA/CA",
+                     LUC_RST == 2 ~ "non CMA/CA",
+                     LUC_RST == 3 ~ "Prince Edward Island",
+                     LUC_RST == 6 ~ "Valid skip",
+                     LUC_RST == 7 ~ "Don't know",
+                     LUC_RST == 8 ~ "Refusal",
+                     LUC_RST == 9 ~ "Not stated"),
+    LUC_RST = factor(LUC_RST)) 
+
+summary(gss_main_2015$LUC_RST)
+```
+
+
+```{r GTU_110}
+values_ordered <- c("Every day",
+                    "A few times a week",
+                    "About once a week",
+                    "About once a month",
+                    "Less than once a month",
+                    "Never", 
+                    "Don't know")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # GTU_110: How often do you feel rushed? Would you say it is...?
+    GTU_110 = 
+      case_when(GTU_110 == 1 ~ "Every day",
+                     GTU_110 == 2 ~ "A few times a week",
+                     GTU_110 == 3 ~ "About once a week",
+                     GTU_110 == 4 ~ "About once a month",
+                     GTU_110 == 5 ~ "Less than once a month",
+                     GTU_110 == 6 ~ "Never",
+                     GTU_110 == 96 ~ "Valid skip",
+                     GTU_110 == 97 ~ "Don't know",
+                     GTU_110 == 98 ~ "Refusal",
+                     GTU_110 == 99 ~ "Not stated"),
+    GTU_110 = factor(GTU_110, levels = rev(values_ordered), ordered = TRUE)) 
+
+summary(gss_main_2015$GTU_110)
+```
+
+```{r GTU_130}
+values_ordered <- c("Every day",
+                    "A few times a week",
+                    "About once a week",
+                    "About once a month",
+                    "Less than once a month",
+                    "Never", 
+                    "Don't know")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # GTU_130: How often do you feel you have time on your hands that you don’t know what to do with?
+    GTU_130 = 
+      case_when(GTU_130 == 1 ~ "Every day",
+                     GTU_130 == 2 ~ "A few times a week",
+                     GTU_130 == 3 ~ "About once a week",
+                     GTU_130 == 4 ~ "About once a month",
+                     GTU_130 == 5 ~ "Less than once a month",
+                     GTU_130 == 6 ~ "Never",
+                     GTU_130 == 96 ~ "Valid skip",
+                     GTU_130 == 97 ~ "Don't know",
+                     GTU_130 == 98 ~ "Refusal",
+                     GTU_130 == 99 ~ "Not stated"),
+    GTU_130 = factor(GTU_130, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_2015$GTU_130)
+```
+
+```{r DVTDAY}
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # DVTDAY: Diary - Reference day - Type
+    DVTDAY = 
+      case_when(DVTDAY == 1 ~ "Weekday",
+                     DVTDAY == 2 ~ "Saturday",
+                     DVTDAY == 3 ~ "Sunday",
+                     DVTDAY == 96 ~ "Valid skip",
+                     DVTDAY == 97 ~ "Don't know",
+                     DVTDAY == 98 ~ "Refusal",
+                     DVTDAY == 99 ~ "Not stated"),
+    DVTDAY = factor(DVTDAY)) 
+
+summary(gss_main_2015$DVTDAY)
+```
+Save data in R format for later use:
+```{r}
+usethis::use_data(cycling_2015, 
+                  overwrite = TRUE)
+```
+
+## GSS 2010
+
+Read the Main files of the 2010 GSS survey:
+
+```{r reading-2010-main-file}
+# Main File
+gss_m_2010 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2010/gss-12M0018-E-2010-c-24-tus-mf_F1.csv"))
+```
+
+Select only the socioeconomic variables: 
+
+```{r filtering-variables-2010}
+gss_main_2010 <- gss_m_2010 %>%
+  select(RECID:DVTDAY)
+```
+

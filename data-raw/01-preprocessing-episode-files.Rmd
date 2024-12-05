@@ -1,5 +1,5 @@
 ---
-title: "Reading source files and preparing data sets"
+title: "Reading episode files and preparing data sets"
 author: "Bruno Santos, Mahdis Moghadasi & Antonio Paez"
 date: "`r Sys.Date()`"
 output:
