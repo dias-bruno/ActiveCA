@@ -150,7 +150,7 @@ gss_main_2015 <- gss_main_2015 %>%
                      SURVMNTH == 9 ~ "September",
                      SURVMNTH == 10 ~ "October",
                      SURVMNTH == 11 ~ "November",
-                     SURVMNTH == 12 ~ "Devember",
+                     SURVMNTH == 12 ~ "December",
                      SURVMNTH == 96 ~ "Valid skip",
                      SURVMNTH == 97 ~ "Don't know",
                      SURVMNTH == 98 ~ "Refusal",
@@ -183,7 +183,7 @@ gss_main_2015 <- gss_main_2015 %>%
 summary(gss_main_2015$AGEGR10)
 ```
 
-```{r SEX}
+```{r SEX-2015}
 values_ordered <- c("Male", "Female")
 
 gss_main_2015 <- gss_main_2015 %>% 
@@ -820,6 +820,7 @@ gss_main_2010 <- gss_main_2010 %>%
 
 summary(gss_main_2010$SEXPR)
 ```
+
 ```{r PRTYPEC-2010}
 gss_main_2010 <- gss_main_2010 %>% 
   mutate( # PRTYPEC: Type of partner respondent has living in the household.
@@ -857,6 +858,7 @@ gss_main_2010 <- gss_main_2010 %>%
 
 summary(gss_main_2010$CHRFLAG)
 ```
+
 ```{r CHRINHSDC-2010}
 values_ordered <- c("None", "One",
                      "Two",
@@ -890,6 +892,7 @@ gss_main_2010 <- gss_main_2010 %>%
     CHR0014C = factor(CHR0014C, levels = values_ordered, ordered = TRUE)) 
 summary(gss_main_2010$CHR0014C)
 ```
+
 ```{r CHRTIME6-2010}
 gss_main_2010 <- gss_main_2010 %>% 
   mutate( # CHRTIME6:  Age group of respondent’s child(ren) in household
@@ -904,6 +907,7 @@ gss_main_2010 <- gss_main_2010 %>%
 
 summary(gss_main_2010$CHRTIME6)
 ```
+
 ```{r CHH0512C-2010}
 values_ordered <- c("None", "One",
                      "Two",
@@ -919,6 +923,8 @@ gss_main_2010 <- gss_main_2010 %>%
     CHH0512C = factor(CHH0512C, levels = values_ordered, ordered = TRUE)) 
 summary(gss_main_2010$CHH0512C)
 ```
+
+
 ```{r CHH0014C-2010}
 values_ordered <- c("None", "One",
                      "Two",
@@ -1330,7 +1336,7 @@ summary(gss_main_2005$PRTYPEC)
 ```
 
 
-```{r AGECHRYC}
+```{r AGECHRYC-2005}
 
 values_ordered <- c(as.character(0:24),"25 and over","Not asked - no children in the household")
 
@@ -1354,6 +1360,7 @@ gss_main_2005 <- gss_main_2005 %>%
 
 summary(gss_main_2005$CHRFLAG)
 ```
+
 ```{r CHRINHSDC-2005}
 values_ordered <- c("None", "One",
                      "Two",
@@ -1387,6 +1394,7 @@ gss_main_2005 <- gss_main_2005 %>%
     CHR0014C = factor(CHR0014C, levels = values_ordered, ordered = TRUE)) 
 summary(gss_main_2005$CHR0014C)
 ```
+
 ```{r CHRTIME6-2005}
 gss_main_2005 <- gss_main_2005 %>% 
   mutate( # CHRTIME6:  Age group of respondent’s child(ren) in household
@@ -1521,6 +1529,7 @@ gss_main_2005 <- gss_main_2005 %>%
 
 summary(gss_main_2005$PRV) 
 ```
+
 ```{r REGION-2005}
 gss_main_2005 <- gss_main_2005 %>% 
   mutate( # REGION:  Region of residence of the respondent.
@@ -1571,6 +1580,7 @@ gss_main_2005 <- gss_main_2005 %>%
 
 summary(gss_main_2005$GTU_Q110)
 ```
+
 ```{r GTU_Q120-2005}
 values_ordered <- c("More rushed",
                     "About the same",
@@ -1669,6 +1679,1014 @@ usethis::use_data(gss_main_2005,
 ```
 
 ## GSS 1998
+
+Read the Main files of the 2010 GSS survey:
+
+```{r reading-1998-main-file}
+# Main File
+gss_m_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-12M0012-E-1998-c-12-m_F1.csv"))
+```
+
+Select only the socioeconomic variables: 
+
+```{r filtering-variables-1998}
+gss_main_1998 <- gss_m_1998 %>%
+  select(RECID:DVTDAY)
+```
+
+
+```{r SURVMNTH-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # SURVMNTH: Survey month of data collection from February 1998 to January 1999
+    SURVMNTH = 
+           case_when(SURVMNTH == 1 ~ "January", 
+                     SURVMNTH == 2 ~ "February",
+                     SURVMNTH == 3 ~ "March",
+                     SURVMNTH == 4 ~ "April",
+                     SURVMNTH == 5 ~ "May",
+                     SURVMNTH == 6  ~ "June",
+                     SURVMNTH == 7 ~ "July",
+                     SURVMNTH == 8 ~ "August",
+                     SURVMNTH == 9 ~ "September",
+                     SURVMNTH == 10 ~ "October",
+                     SURVMNTH == 11 ~ "November",
+                     SURVMNTH == 12 ~ "December"), 
+    SURVMNTH = factor(SURVMNTH)) 
+
+summary(gss_main_1998$SURVMNTH)
+```
+```{r LANINT-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # LANINT: Language of interview.
+    LANINT = 
+           case_when(LANINT == 1 ~ "English", 
+                     LANINT == 2 ~ "French"), 
+    LANINT = factor(LANINT)) 
+
+summary(gss_main_1998$LANINT)
+```
+```{r AGEGR5-1998}
+values_ordered <- c("15 to 17 years","18 to 19 years","20 to 24 years",
+                    "25 to 29 years","30 to 34 years","35 to 39 year","40 to 44 years",
+                    "45 to 49 years","50 to 54 years","55 to 59 year","60 to 64 years",
+                    "65 to 69 years","70 to 74 years","75 to 79 year","80 years and over")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # AGEGR5: Age group of respondent (groups of 5)
+    AGEGR5 = 
+           case_when(AGEGR5 == 1 ~ "15 to 17 years",
+                     AGEGR5 == 2 ~ "18 to 19 years",
+                     AGEGR5 == 3 ~ "20 to 24 years",
+                     AGEGR5 == 4 ~ "25 to 29 years",
+                     AGEGR5 == 5 ~ "30 to 34 years",
+                     AGEGR5 == 6  ~ "35 to 39 year",
+                     AGEGR5 == 7 ~ "40 to 44 years",
+                     AGEGR5 == 8 ~ "45 to 49 years",
+                     AGEGR5 == 9 ~ "50 to 54 years",
+                     AGEGR5 == 10 ~ "55 to 59 year",
+                     AGEGR5 == 11 ~ "60 to 64 years",
+                     AGEGR5 == 12 ~ "65 to 69 years",
+                     AGEGR5 == 13 ~ "70 to 74 years",
+                     AGEGR5 == 14 ~ "75 to 79 year",
+                     AGEGR5 == 15 ~ "80 years and over"), 
+    AGEGR5 = factor(AGEGR5, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$AGEGR5)
+```
+
+
+```{r AGEGR10-1998}
+values_ordered <- c("15 to 24 years","25 to 34 years","35 to 44 years",
+                    "45 to 54 years", "55 to 64 years","65 to 74 years","75 to 84 years", "85 years and over")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # AGEGR10: Age group of respondent (groups of 10)
+    AGEGR10 = 
+           case_when(AGEGR10 == 1 ~ "15 to 24 years", 
+                     AGEGR10 == 2 ~ "25 to 34 years",
+                     AGEGR10 == 3 ~ "35 to 44 years",
+                     AGEGR10 == 4 ~ "45 to 54 years",
+                     AGEGR10 == 5 ~ "55 to 64 years",
+                     AGEGR10 == 6  ~ "65 to 74 years",
+                     AGEGR10 == 7 ~ "75 to 84 years",
+                     AGEGR10 == 8 ~ "85 years and over"), 
+    AGEGR10 = factor(AGEGR10, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$AGEGR10)
+```
+
+```{r SEX-1998}
+values_ordered <- c("Male", "Female")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # SEX: Sex of respondent
+    SEX = 
+           case_when(SEX == 1 ~ "Male", 
+                     SEX == 2 ~ "Female"), 
+    SEX = factor(SEX, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$SEX)
+```
+
+```{r MARSTAT}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # MARSTAT: Marital status of the respondent
+    MARSTAT = 
+           case_when(MARSTAT == 1 ~ "Married", 
+                     MARSTAT == 2 ~ "Living common-law",
+                     MARSTAT == 3 ~ "Widowed",
+                     MARSTAT == 4 ~ "Separated",
+                     MARSTAT == 5 ~ "Divorced",
+                     MARSTAT == 6  ~ "Single, never married",
+                     MARSTAT == 8 ~ "Don't know",
+                     MARSTAT == 9 ~ "Not stated"), 
+    MARSTAT = factor(MARSTAT))
+
+summary(gss_main_1998$MARSTAT)
+```
+
+```{r AGEPRGR5-1998}
+values_ordered <- c("Not Asked","15 to 19 years","20 to 24 years",
+                    "25 to 29 years","30 to 34 years","35 to 39 year","40 to 44 years",
+                    "45 to 49 years","50 to 54 years","55 to 59 year","60 to 64 years",
+                    "65 to 69 years","70 to 74 years","75 to 79 year","80 years and over")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # AGEPRGR5: Age group of respondent (groups of 5)
+    AGEPRGR5 = 
+           case_when(AGEPRGR5 == 97 ~ "Not Asked",
+                     AGEPRGR5 == 1 ~  "15 to 19 years",
+                     AGEPRGR5 == 2 ~ "20 to 24 years",
+                     AGEPRGR5 == 3 ~ "25 to 29 years",
+                     AGEPRGR5 == 4 ~ "30 to 34 years",
+                     AGEPRGR5 == 5  ~ "35 to 39 year",
+                     AGEPRGR5 == 6 ~ "40 to 44 years",
+                     AGEPRGR5 == 7 ~ "45 to 49 years",
+                     AGEPRGR5 == 8 ~ "50 to 54 years",
+                     AGEPRGR5 == 9 ~ "55 to 59 year",
+                     AGEPRGR5 == 10 ~ "60 to 64 years",
+                     AGEPRGR5 == 11 ~ "65 to 69 years",
+                     AGEPRGR5 == 12 ~ "70 to 74 years",
+                     AGEPRGR5 == 13 ~ "75 to 79 year",
+                     AGEPRGR5 == 14 ~ "80 years and over"), 
+    AGEPRGR5 = factor(AGEPRGR5, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$AGEPRGR5)
+```
+```{r PRTYPEC-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # PRTYPEC: Type of partner respondent has living in the household.
+    PRTYPEC = 
+           case_when(PRTYPEC == 1 ~ "Respondent has a married partner in the household", 
+                     PRTYPEC == 2 ~ "Respondent has a common-law partner in the household",
+                     PRTYPEC == 0 ~ "Respondent has no spouse/partner in the household"), 
+    PRTYPEC = factor(PRTYPEC)) 
+
+summary(gss_main_1998$PRTYPEC)
+```
+```{r CHRFLAG-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHRFLAG:  Child(ren) of the respondent living in the household.
+    CHRFLAG = 
+           case_when(CHRFLAG == 1 ~ "Yes", 
+                     CHRFLAG == 2 ~ "No"), 
+    CHRFLAG = factor(CHRFLAG)) 
+
+summary(gss_main_1998$CHRFLAG)
+```
+```{r AGECHRYC-1998}
+
+values_ordered <- c(as.character(0:24),"25 and over","Not asked - no children in the household")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # AGECHRYC: Age of respondent's youngest child in household
+           AGECHRYC = case_when(AGECHRYC == 25 ~ "25 and over",
+                     AGECHRYC == 97 ~ "Not asked - no children in the household",
+                     TRUE ~ as.character(AGECHRYC)), 
+    AGECHRYC = factor(AGECHRYC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$AGECHRYC)
+```
+
+```{r CHR0004C-1998}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHR0004C: Number of respondent’s children 0 to 4 years of age living in the household.
+    CHR0004C = 
+           case_when(CHR0004C == 0 ~ "None",
+                     CHR0004C == 1 ~ "One child",
+                     CHR0004C == 2 ~ "Two or more children"), 
+    CHR0004C = factor(CHR0004C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$CHR0004C)
+```
+
+
+```{r CHR0512C-1998}
+values_ordered <- c("None", "One",
+                     "Two",
+                     "Three or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHR0512C: Number of children aged from 5 to 12 years living in the respondent's household.
+    CHR0512C = 
+           case_when(CHR0512C == 0 ~ "None",
+                     CHR0512C == 1 ~ "One",
+                     CHR0512C == 2 ~ "Two",
+                     CHR0512C == 3 ~ "Three or more children"), 
+    CHR0512C = factor(CHR0512C, levels = values_ordered, ordered = TRUE)) 
+summary(gss_main_1998$CHR0512C)
+```
+
+
+```{r CHR1314C-1998}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHR1314C: Number of respondent’s children 13 to 14 years of age living in the household.
+    CHR1314C = 
+           case_when(CHR1314C == 0 ~ "None",
+                     CHR1314C == 1 ~ "One child",
+                     CHR1314C == 2 ~ "Two or more children"), 
+    CHR1314C = factor(CHR1314C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$CHR1314C)
+```
+
+```{r CHR1518C-1998}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHR1518C: Number of respondent’s children 15 to 18 years of age living in the household.
+    CHR1518C = 
+           case_when(CHR1518C == 0 ~ "None",
+                     CHR1518C == 1 ~ "One child",
+                     CHR1518C == 2 ~ "Two or more children"), 
+    CHR1518C = factor(CHR1518C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$CHR1518C)
+```
+
+```{r CHR1924C-1998}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHR1924C: Number of respondent’s children 19 to 24 years of age living in the household.
+    CHR1924C = 
+           case_when(CHR1924C == 0 ~ "None",
+                     CHR1924C == 1 ~ "One child",
+                     CHR1924C == 2 ~ "Two or more children"), 
+    CHR1924C = factor(CHR1924C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$CHR1924C)
+```
+```{r CHR25UPC-1998}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHR25UPC: Number of respondent’s children 25 years of age and older living in the household.
+    CHR25UPC = 
+           case_when(CHR25UPC == 0 ~ "None",
+                     CHR25UPC == 1 ~ "One child",
+                     CHR25UPC == 2 ~ "Two or more children"), 
+    CHR25UPC = factor(CHR25UPC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$CHR25UPC)
+```
+```{r CHH0004C-1998}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHH0004C: Number of children aged from 0 to 4 living in the respondent’s household.
+    CHH0004C = 
+           case_when(CHH0004C == 0 ~ "None",
+                     CHH0004C == 1 ~ "One child",
+                     CHH0004C == 2 ~ "Two or more children"), 
+    CHH0004C = factor(CHH0004C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$CHH0004C)
+```
+
+```{r CHH1314C-1998}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHH1314C: Number of children aged from 13 to 14 living in the respondent’s household.
+    CHH1314C = 
+           case_when(CHH1314C == 0 ~ "None",
+                     CHH1314C == 1 ~ "One child",
+                     CHH1314C == 2 ~ "Two or more children"), 
+    CHH1314C = factor(CHH1314C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$CHH1314C)
+```
+```{r CHH0512C-1998}
+values_ordered <- c("None", "One child",
+                     "Two children","Three or more children")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CHH0512C: Number of children aged from 13 to 14 living in the respondent’s household.
+    CHH0512C = 
+           case_when(CHH0512C == 0 ~ "None",
+                     CHH0512C == 1 ~ "One child",
+                     CHH0512C == 2 ~ "Two children",
+                     CHH0512C == 3 ~ "Three or more children",), 
+    CHH0512C = factor(CHH0512C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$CHH0512C)
+```
+
+```{r CHRTIME6-2005}
+gss_main_2005 <- gss_main_2005 %>% 
+  mutate( # CHRTIME6:  Age group of respondent’s child(ren) in household
+    CHRTIME6 = 
+           case_when(CHRTIME6 == 1 ~ "No child under 19 years of age at home",
+                     CHRTIME6 == 2 ~ "All children under 5 years of age",
+                     CHRTIME6 == 3 ~ "All children between 5 and 12 years of age",
+                     CHRTIME6 == 4 ~ "All children 13 years of age and older",
+                     CHRTIME6 == 5 ~ "At least one child under 5 years of age but not all children",
+                     CHRTIME6 == 6 ~ "Other"), 
+    CHRTIME6 = factor(CHRTIME6))
+
+summary(gss_main_2005$CHRTIME6)
+```
+
+```{r PARHSDC}
+gss_main_2005 <- gss_main_2005 %>% 
+  mutate( # PARHSDC: Type of parents the respondent has within the household.
+    PARHSDC = 
+           case_when(PARHSDC == 1 ~ "Two biological parents",
+                     PARHSDC == 2 ~ "Two parents (biological/adoptive/step)",
+                     PARHSDC == 3 ~ "Only one parent",
+                     PARHSDC == 7 ~ "Not asked - no parents in the household"), 
+    PARHSDC = factor(PARHSDC)) 
+
+summary(gss_main_2005$PARHSDC)
+```
+
+```{r LIVARR08-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # LIVARR08: Living arrangement of respondent’s household (8 categories)
+    LIVARR08 = 
+           case_when(LIVARR08 == 1 ~ "Under 25 years - Not living with parents",
+                     LIVARR08 == 2 ~ "Under 25 years - Living with both parents",
+                     LIVARR08 == 3 ~ "Under 25 years - Living with mother only",
+                     LIVARR08 == 4 ~ "Under 25 years - Living with father only",
+                     LIVARR08 == 5 ~ "25 years of age or older - Not living with parents",
+                     LIVARR08 == 6 ~ "25 years of age or older - Living with both parents",
+                     LIVARR08 == 7 ~ "25 years of age or older - Living with mother only",
+                     LIVARR08 == 8 ~ "25 years of age or older - Living with father only"), 
+    LIVARR08 = factor(LIVARR08)) 
+
+summary(gss_main_1998$LIVARR08)
+```
+
+```{r LIVARR12-1998} 
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # LIVARR12: Living arrangement of respondent’s household (12 categories)
+    LIVARR12 = 
+           case_when(LIVARR12 == 1 ~ "Living alone",
+                     LIVARR12 == 2 ~ "Living with sponse only",
+                     LIVARR12 == 3 ~ "Living with spouse and single child < 25 years",
+                     LIVARR12 == 4 ~ "Living with spouse and single child 25 years or older",
+                     LIVARR12 == 5 ~ "Living with spouse and non-child(ren)",
+                     LIVARR12 == 6 ~ "Living with spouse and other",
+                     LIVARR12 == 7 ~ "Living without spouse and single child  < 25 years",
+                     LIVARR12 == 8 ~ "Living without spouse and single child 25 years or older",
+                     LIVARR12 == 9 ~ "No spouse and non-single child(ren)",
+                     LIVARR12 == 10 ~ "Living with two parents",
+                     LIVARR12 == 11 ~ "Living with one parent",
+                     LIVARR12 == 12 ~ "Other living arrangement"), 
+    LIVARR12 = factor(LIVARR12)) 
+
+summary(gss_main_1998$LIVARR12)
+```
+
+```{r HSDSIZEC-1998}
+values_ordered <- c("One household member",
+                   "Two household members",
+                   "Three household members",
+                   "Four household members",
+                   "Five household members",
+                   "Six household members",
+                   "Seven household members", 
+                   "Eight household members or more")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # HSDSIZEC: Household size of respondent
+    HSDSIZEC = 
+           case_when(HSDSIZEC == 1 ~ "One household member",
+                     HSDSIZEC == 2 ~ "Two household members",
+                     HSDSIZEC == 3 ~ "Three household members",
+                     HSDSIZEC == 4 ~ "Four household members",
+                     HSDSIZEC == 5 ~ "Five household members",
+                     HSDSIZEC == 6 ~ "Six household members",
+                     HSDSIZEC == 7 ~ "Seven household members",
+                     HSDSIZEC == 8 ~ "Eight household members or more"), 
+    HSDSIZEC = factor(HSDSIZEC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1998$HSDSIZEC)
+```
+
+```{r FAMTYPE-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # FAMTYPE: Respondent's type of family structure.
+    FAMTYPE = 
+           case_when(FAMTYPE == 1 ~ "Couple only", 
+                     FAMTYPE == 2 ~ "Intact family",
+                     FAMTYPE == 3 ~ "Step family with common child",
+                     FAMTYPE == 4 ~ "Step family without a common child",
+                     FAMTYPE == 5 ~ "Lone parent family",
+                     FAMTYPE == 7 ~ "Not asked"), 
+    FAMTYPE = factor(FAMTYPE))
+
+summary(gss_main_1998$FAMTYPE)
+```
+
+```{r MULTIGEN-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # MULTIGEN:  Three generations or more in the respondent’s household
+    MULTIGEN = 
+           case_when(MULTIGEN == 1 ~ "Yes", 
+                     MULTIGEN == 2 ~ "No"), 
+    MULTIGEN = factor(MULTIGEN))
+
+summary(gss_main_1998$MULTIGEN)
+```
+
+
+```{r PRV-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # PRV: Province of residence
+    PRV = 
+      case_when(PRV == 10 ~ "Newfoundland and Labrador",
+                     PRV == 11 ~ "Prince Edward Island",
+                     PRV == 12 ~ "Nova Scotia",
+                     PRV == 13 ~ "New Brunswick",
+                     PRV == 24 ~ "Quebec",
+                     PRV == 35 ~ "Ontario",
+                     PRV == 46 ~ "Manitoba",
+                     PRV == 47 ~ "Saskatchewan",
+                     PRV == 48 ~ "Alberta",
+                     PRV == 59 ~ "British Columbia"),
+    PRV = factor(PRV)) 
+
+summary(gss_main_1998$PRV) 
+```
+
+```{r REGION-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # REGION:  Region of residence of the respondent.
+    REGION = 
+      case_when(REGION == 1 ~ "Atlantic region",
+                     REGION == 2 ~ "Quebec",
+                     REGION == 3 ~ "Ontario",
+                     REGION == 4 ~ "Prairie region",
+                     REGION == 5 ~ "British Columbia"),
+    REGION = factor(REGION)) 
+
+summary(gss_main_1998$REGION)
+```
+
+```{r CMAPRV}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # CMAPRV:  Population centre indicator
+    CMAPRV = 
+      case_when(CMAPRV %in% c(6,8,11,13,15) ~ "CMA",
+                     CMAPRV %in% c(1,2,3,4,5,7,9,10,12,14) ~ "non CMA"),
+    CMAPRV = factor(CMAPRV)) 
+
+summary(gss_main_1998$CMAPRV)
+```
+
+```{r A2-1998}
+values_ordered <- c("Every day",
+                    "A few times a week",
+                    "About once a week",
+                    "About once a month",
+                    "Less than once a month",
+                    "Never", 
+                    "Not stated")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # A2: How often do you feel rushed?
+    A2 = 
+      case_when(A2 == 1 ~ "Every day",
+                     A2 == 2 ~ "A few times a week",
+                     A2 == 3 ~ "About once a week",
+                     A2 == 4 ~ "About once a month",
+                     A2 == 5 ~ "Less than once a month",
+                     A2 == 6 ~ "Never",
+                     A2 == 9 ~ "Not stated"),
+    A2 = factor(A2, levels = rev(values_ordered), ordered = TRUE)) 
+
+summary(gss_main_1998$A2)
+```
+
+```{r A3-1998}
+values_ordered <- c("More rushed",
+                    "About the same",
+                    "Less rushed",
+                    "Don't know","Not stated")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # A3: Compared to five years ago, do you feel...
+    A3 = 
+      case_when(A3 == 1 ~ "More rushed",
+                     A3 == 2 ~  "About the same",
+                     A3 == 3 ~ "Less rushed",
+                     A3 == 8 ~ "Don't know",
+                     A3 == 9 ~ "Not stated"),
+    A3 = factor(A3, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_1998$A3)
+```
+
+```{r GTU_130-1998}
+values_ordered <- c("Every day",
+                    "A few times a week",
+                    "About once a week",
+                    "About once a month",
+                    "Less than once a month",
+                    "Never", 
+                    "Not stated")
+
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # A4: How often do you feel you have time on your hands that you don’t know what to do with?
+    A4 = 
+      case_when(A4 == 1 ~ "Every day",
+                     A4 == 2 ~ "A few times a week",
+                     A4 == 3 ~ "About once a week",
+                     A4 == 4 ~ "About once a month",
+                     A4 == 5 ~ "Less than once a month",
+                     A4 == 6 ~ "Never",
+                     A4 == 9 ~ "Not stated"),
+    A4 = factor(A4, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_1998$A4)
+```
+
+```{r A5-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # A5:  Do you feel that the days are just too short to do all the things you want?
+    A5 = 
+           case_when(A5 == 1 ~ "Yes", 
+                     A5 == 2 ~ "No",
+                     A5 == 9 ~ "Not stated", 
+                     A5 == 8  ~ "Don't know"), 
+    A5 = factor(A5)) 
+
+summary(gss_main_1998$A5)
+```
+
+```{r A6-1998}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # A6: On which main activity would you choose to spend more time on
+    A6 = 
+      case_when(A6 == 1 ~ "Time with family and friends (spouse, children, boy-friend - girl-friend)",
+                     A6 == 2 ~ "Relaxation - personal time",
+                     A6 == 3 ~ "Practising sports",
+                     A6 == 4 ~ "Crafts or hobbies",
+                     A6 == 5 ~ "Outdoor activities",
+                     A6 == 6 ~ "Reading - writing",
+                     A6 == 7 ~ "Studies",
+                     A6 == 8 ~ "Work",
+                     A6 == 9 ~ "Domestic work",
+                     A6 == 10 ~ "Holiday/Travel",
+                     A6 == 11 ~ "Volunteer",
+                     A6 == 12  ~ "Other",
+                     A6 == 97  ~ "Not asked",
+                     A6 == 98 ~ "Not stated",
+                     A6 == 99 ~ "Don't know",
+),
+    A6 = factor(A6)) 
+
+summary(gss_main_1998$A6)
+```
+```{r DDAY}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # DDAY: Diary - Reference day - Type
+    DDAY = 
+      case_when(DDAY == 1 ~ "Sunday",
+                     DDAY == 2 ~ "Monday",
+                     DDAY == 3 ~ "Tuesday",
+                     DDAY == 4 ~ "Wednesday",
+                     DDAY == 5 ~ "Thursday",
+                     DDAY == 6 ~ "Friday",
+                     DDAY == 7 ~ "Saturday"),
+    DDAY = factor(DDAY)) 
+
+summary(gss_main_1998$DDAY)
+```
+
+```{r DIARYREC}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # DIARYREC: Recall of diary interview
+    DIARYREC = 
+      case_when(DIARYREC == 1 ~ "Diary completed the day following the designated day (24 hrs recall)",
+                     DIARYREC == 2 ~ "Diary completed the 2nd day following the designated day (48 hrs recall)",
+                     DIARYREC == 3 ~ "Diary completed in 2 days (24 to 48 hrs recall)"),
+    DIARYREC = factor(DIARYREC)) 
+
+summary(gss_main_1998$DIARYREC)
+```
+
+
+```{r DVTDAY}
+gss_main_1998 <- gss_main_1998 %>% 
+  mutate( # DVTDAY: Diary - Reference day - Type
+    DVTDAY = 
+      case_when(DVTDAY == 1 ~ "Weekday",
+                     DVTDAY == 2 ~ "Saturday",
+                     DVTDAY == 3 ~ "Sunday"),
+    DVTDAY = factor(DVTDAY)) 
+
+summary(gss_main_1998$DVTDAY)
+```
+
+
+## GSS 1992
+
+Read the Main files of the 2010 GSS survey:
+
+```{r reading-1992-main-file}
+# Main File
+gss_m_1992 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1992/gss-12M0007-E-1992-c-7-m_F1.csv"))
+```
+
+Select only the socioeconomic variables: 
+
+```{r filtering-variables-1998}
+gss_main_1992 <- gss_m_1992 %>%
+  select(c("SEQNUM", 
+ "FWGHT", 
+ "SURMNTH", 
+ "FORMTYPE",
+ "A4", 
+ "A5", 
+ "A6",
+ "C2", 
+ "DVAGEGR", 
+ "DVSEX", 
+ "DVMS", 
+ "DVHHSCAP",
+ "DVPROV", 
+ "DVCMA", 
+ "DVLVGRGR", 
+ "DVAGRYC", 
+ "RESC0004", 
+ "RESC0512", 
+ "RESC1318", 
+ "RESC1924", 
+ "RESC2596", 
+ "DVAGRSP"))
+```
+
+```{r C2-1992}
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # C2:  Respondent has child(ren) <15?
+    C2 = 
+           case_when(C2 == 1 ~ "Yes", 
+                     C2 == 2 ~ "No"), 
+    C2 = factor(C2)) 
+
+summary(gss_main_1992$C2)
+```
+
+```{r SURMNTH-1992}
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # SURMNTH: Survey month of data collection from April 1992 to March 2016
+    SURMNTH = 
+           case_when(SURMNTH == 1 ~ "January", 
+                     SURMNTH == 2 ~ "February",
+                     SURMNTH == 3 ~ "March",
+                     SURMNTH == 4 ~ "April",
+                     SURMNTH == 5 ~ "May",
+                     SURMNTH == 6  ~ "June",
+                     SURMNTH == 7 ~ "July",
+                     SURMNTH == 8 ~ "August",
+                     SURMNTH == 9 ~ "September",
+                     SURMNTH == 10 ~ "October",
+                     SURMNTH == 11 ~ "November",
+                     SURMNTH == 12 ~ "December"), 
+    SURMNTH = factor(SURMNTH)) 
+
+summary(gss_main_1992$SURMNTH)
+```
+
+```{r FORMTYPE-1992}
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # FORMTYPE: Language of interview.
+    FORMTYPE = 
+           case_when(FORMTYPE == 1 ~ "English", 
+                     FORMTYPE == 2 ~ "French"), 
+    FORMTYPE = factor(FORMTYPE)) 
+
+summary(gss_main_1992$FORMTYPE)
+```
+
+```{r A4-1992}
+values_ordered <- c("Every day",
+                    "A few times a week",
+                    "About once a week",
+                    "About once a month",
+                    "Less than once a month",
+                    "Never", 
+                    "Not stated")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # A4: How often do you feel rushed?
+    A4 = 
+      case_when(A4 == 1 ~ "Every day",
+                     A4 == 2 ~ "A few times a week",
+                     A4 == 3 ~ "About once a week",
+                     A4 == 4 ~ "About once a month",
+                     A4 == 5 ~ "Less than once a month",
+                     A4 == 6 ~ "Never",
+                     A4 == 9 ~ "Not stated"),
+    A4 = factor(A4, levels = rev(values_ordered), ordered = TRUE)) 
+
+summary(gss_main_1992$A4)
+```
+
+```{r A5-1992}
+values_ordered <- c("More rushed",
+                    "About the same",
+                    "Less rushed","Not stated")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # A5: Compared to five years ago, do you feel...
+    A5 = 
+      case_when(A5 == 1 ~ "More rushed",
+                     A5 == 2 ~  "About the same",
+                     A5 == 3 ~ "Less rushed",
+                     A5 == 9 ~ "Not stated"),
+    A5 = factor(A5, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_1992$A5)
+```
+
+```{r GTU_130-1992}
+values_ordered <- c("Every day",
+                    "A few times a week",
+                    "About once a week",
+                    "About once a month",
+                    "Less than once a month",
+                    "Never", 
+                    "Not stated")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # A6: How often do you feel you have time on your hands that you don’t know what to do with?
+    A6 = 
+      case_when(A6 == 1 ~ "Every day",
+                     A6 == 2 ~ "A few times a week",
+                     A6 == 3 ~ "About once a week",
+                     A6 == 4 ~ "About once a month",
+                     A6 == 5 ~ "Less than once a month",
+                     A6 == 6 ~ "Never",
+                     A6 == 9 ~ "Not stated"),
+    A6 = factor(A6, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_1992$A6)
+```
+```{r DVAGEGR-1992}
+values_ordered <- c("15 to 17 years","18 to 19 years","20 to 24 years",
+                    "25 to 29 years","30 to 34 years","35 to 39 year","40 to 44 years",
+                    "45 to 49 years","50 to 54 years","55 to 59 year","60 to 64 years",
+                    "65 to 69 years","70 to 74 years","75 to 79 year","80 years and over")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # DVAGEGR: Age group of respondent (groups of 5)
+    DVAGEGR = 
+           case_when(DVAGEGR == 1 ~ "15 to 17 years",
+                     DVAGEGR == 2 ~ "18 to 19 years",
+                     DVAGEGR == 3 ~ "20 to 24 years",
+                     DVAGEGR == 4 ~ "25 to 29 years",
+                     DVAGEGR == 5 ~ "30 to 34 years",
+                     DVAGEGR == 6  ~ "35 to 39 year",
+                     DVAGEGR == 7 ~ "40 to 44 years",
+                     DVAGEGR == 8 ~ "45 to 49 years",
+                     DVAGEGR == 9 ~ "50 to 54 years",
+                     DVAGEGR == 10 ~ "55 to 59 year",
+                     DVAGEGR == 11 ~ "60 to 64 years",
+                     DVAGEGR == 12 ~ "65 to 69 years",
+                     DVAGEGR == 13 ~ "70 to 74 years",
+                     DVAGEGR == 14 ~ "75 to 79 year",
+                     DVAGEGR == 15 ~ "80 years and over"), 
+    DVAGEGR = factor(DVAGEGR, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1992$DVAGEGR)
+```
+
+```{r DVSEX-1992}
+values_ordered <- c("Male", "Female")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # DVSEX: DVSEX of respondent
+    DVSEX = 
+           case_when(DVSEX == 1 ~ "Male", 
+                     DVSEX == 2 ~ "Female"), 
+    DVSEX = factor(DVSEX, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1992$DVSEX)
+```
+
+```{r DVMS}
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # DVMS: Marital status of the respondent
+    DVMS = 
+           case_when(DVMS == 1 ~ "Married or common-law",
+                     DVMS == 2 ~ "Widowed",
+                     DVMS == 3 ~ "Separated or Divorced",
+                     DVMS == 4  ~ "Single, never married",
+                     DVMS == 9 ~ "Not stated"), 
+    DVMS = factor(DVMS))
+
+summary(gss_main_1992$DVMS)
+```
+
+```{r DVHHSCAP-1992}
+values_ordered <- c("One household member",
+                   "Two household members",
+                   "Three household members",
+                   "Four household members",
+                   "Five household members",
+                   "Six household members",
+                   "Seven members or more")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # DVHHSCAP: Household size of respondent
+    DVHHSCAP = 
+           case_when(DVHHSCAP == 1 ~ "One household member",
+                     DVHHSCAP == 2 ~ "Two household members",
+                     DVHHSCAP == 3 ~ "Three household members",
+                     DVHHSCAP == 4 ~ "Four household members",
+                     DVHHSCAP == 5 ~ "Five household members",
+                     DVHHSCAP == 6 ~ "Six household members",
+                     DVHHSCAP == 7 ~ "Seven members or more"), 
+    DVHHSCAP = factor(DVHHSCAP, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1992$DVHHSCAP)
+```
+
+```{r DVPROV-1992}
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # DVPROV: Province of residence
+    DVPROV = 
+      case_when(DVPROV == 0 ~ "Newfoundland and Labrador",
+                     DVPROV == 1 ~ "Prince Edward Island",
+                     DVPROV == 2 ~ "Nova Scotia",
+                     DVPROV == 3 ~ "New Brunswick",
+                     DVPROV == 4 ~ "Quebec",
+                     DVPROV == 5 ~ "Ontario",
+                     DVPROV == 6 ~ "Manitoba",
+                     DVPROV == 7 ~ "Saskatchewan",
+                     DVPROV == 8 ~ "Alberta",
+                     DVPROV == 9 ~ "British Columbia"),
+    DVPROV = factor(DVPROV)) 
+
+summary(gss_main_1992$DVPROV) 
+```
+
+```{r DVCMA-1992}
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # DVCMA:  Population centre indicator
+    DVCMA = 
+      case_when(DVCMA %in% c(6,8,11,13,15) ~ "CMA",
+                     DVCMA %in% c(1,2,3,4,5,7,9,10,12,14) ~ "non CMA"),
+    DVCMA = factor(DVCMA)) 
+
+summary(gss_main_1992$DVCMA)
+```
+```{r DVLVGRGR-1992} 
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # DVLVGRGR: Living arrangement of respondent’s household (12 categories)
+    DVLVGRGR = 
+           case_when(DVLVGRGR == 1 ~ "Living alone",
+                     DVLVGRGR == 2 ~ "Living with sponse only",
+                     DVLVGRGR == 3 ~ "Living with spouse and single child < 25 years",
+                     DVLVGRGR == 4 ~ "Living with spouse and single child 25 years or older",
+                     DVLVGRGR == 5 ~ "Living with spouse and non-child(ren)",
+                     DVLVGRGR == 6 ~ "Living with spouse and other",
+                     DVLVGRGR == 7 ~ "Living without spouse and single child  < 25 years",
+                     DVLVGRGR == 8 ~ "Living without spouse and single child 25 years or older",
+                     DVLVGRGR == 9 ~ "No spouse and non-single child(ren)",
+                     DVLVGRGR == 10 ~ "Living with two parents",
+                     DVLVGRGR == 11 ~ "Living with one parent",
+                     DVLVGRGR == 12 ~ "Other living arrangement"), 
+    DVLVGRGR = factor(DVLVGRGR)) 
+
+summary(gss_main_1992$DVLVGRGR)
+```
+
+```{r RESC0004C-1992}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # RESC0004: Number of respondents single children aged 0-4.
+    RESC0004 = 
+           case_when(RESC0004 == 0 ~ "None",
+                     RESC0004 == 1 ~ "One child",
+                     RESC0004 == 2 ~ "Two or more children"), 
+    RESC0004 = factor(RESC0004, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1992$RESC0004)
+```
+```{r RESC0512C-1992}
+values_ordered <- c("None", "One",
+                     "Two",
+                     "Three or more children")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # RESC0512: Number of children aged from 5 to 12 years living in the respondent's household.
+    RESC0512 = 
+           case_when(RESC0512 == 0 ~ "None",
+                     RESC0512 == 1 ~ "One",
+                     RESC0512 == 2 ~ "Two",
+                     RESC0512 == 3 ~ "Three or more children"), 
+    RESC0512 = factor(RESC0512, levels = values_ordered, ordered = TRUE)) 
+summary(gss_main_1992$RESC0512)
+```
+
+
+```{r RESC1318-1992}
+values_ordered <- c("None", "One child",
+                     "Two children", "Three or more children")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # RESC1318: Number of respondent’s children 15 to 18 years of age living in the household.
+    RESC1318 = 
+           case_when(RESC1318 == 0 ~ "None",
+                     RESC1318 == 1 ~ "One child",
+                     RESC1318 == 2 ~ "Two children", 
+                     RESC1318 == 3 ~ "Three or more children"), 
+    RESC1318 = factor(RESC1318, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1992$RESC1318)
+```
+
+```{r RESC1924-1992}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # RESC1924: Number of respondent’s children 19 to 24 years of age living in the household.
+    RESC1924 = 
+           case_when(RESC1924 == 0 ~ "None",
+                     RESC1924 == 1 ~ "One child",
+                     RESC1924 == 2 ~ "Two or more children"), 
+    RESC1924 = factor(RESC1924, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1992$RESC1924)
+```
+
+```{r RESC2596C-1992}
+values_ordered <- c("None", "One child",
+                     "Two or more children")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # RESC2596: Number of respondent’s children 25 years of age and older living in the household.
+    RESC2596 = 
+           case_when(RESC2596 == 0 ~ "None",
+                     RESC2596 == 1 ~ "One child",
+                     RESC2596 == 2 ~ "Two or more children"), 
+    RESC2596 = factor(RESC2596, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1992$RESC2596)
+```
+```{r DVAGRSP-1992}
+values_ordered <- c("SPOUSE NOT LIVING IN HOUSEHOLD",
+                    "NOT APPLICABLE",
+                    "NOT STATED",
+                    "15 to 24 years","25 to 34 years","35 to 44 years",
+                    "45 to 54 years", "55 to 64 years","65 to 74 years","75 years and over")
+
+gss_main_1992 <- gss_main_1992 %>% 
+  mutate( # DVAGRSP: Age group of the respondents spouse.
+    DVAGRSP = 
+           case_when(DVAGRSP == 1 ~ "15 to 24 years", 
+                     DVAGRSP == 2 ~ "25 to 34 years",
+                     DVAGRSP == 3 ~ "35 to 44 years",
+                     DVAGRSP == 4 ~ "45 to 54 years",
+                     DVAGRSP == 5 ~ "55 to 64 years",
+                     DVAGRSP == 6  ~ "65 to 74 years",
+                     DVAGRSP == 7 ~ "75 years and over",
+                     DVAGRSP == 8 ~ "SPOUSE NOT LIVING IN HOUSEHOLD", 
+                     DVAGRSP == 0 ~ "NOT APPLICABLE", 
+                     DVAGRSP == 9 ~ "NOT STATED"), 
+    DVAGRSP = factor(DVAGRSP, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_1992$DVAGRSP)
+```
 
 
 ### Aqui 
