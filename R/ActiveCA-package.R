@@ -476,3 +476,263 @@ NULL
 #' @usage data(gss_impedances)
 #' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
 "gss_impedances"
+
+#' Selection of socioeconomic variables from the 1986 GSS Time Use Survey (Cycle 2).
+#'
+#' This dataset contains some socioeconomic variables obtained
+#' from the main file of the 1986 GSS Time Use Survey (Cycle 2). We labeled
+#' variables according to the Public Use Micro Data File Documentation and User's Guide (gss-12M0002-E-1986-c-2-main).
+#'
+#' @format A data frame containing 16390 rows and 9 variables; each row represents a unique respondent.
+#'   \describe{
+#'   \item{SEQNUM}{Record identification.}
+#'   \item{FWGT_OS}{Final Weight for Main File.}
+#'   \item{DVAGEGR}{Age group of respondent.}
+#'   \item{DVSEX}{Sex of the respondent.}
+#'   \item{DVMARST}{Marital status of the respondent.}
+#'   \item{DVHHLDSZ}{Household size.}
+#'   \item{PROV}{Province of residence of the respondent.}
+#'   \item{DVCHILD}{Number of children.}
+#'}
+#' @docType data
+#' @keywords gss main respondent socio economic 1986
+#' @name gss_main_1986
+#' @usage data(gss_main_1986)
+#' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
+"gss_main_1986"
+
+#' Selection of socioeconomic variables from the 1992 GSS Time Use Survey (Cycle 7).
+#'
+#' This dataset contains some socioeconomic variables obtained
+#' from the main file of the 1992 GSS Time Use Survey (Cycle 7). We labeled
+#' variables according to the Public Use Micro Data File Documentation and User's Guide (gss-12M0007-E-1992-c-7-m).
+#'
+#' @format A data frame containing 9815 rows and 9 variables; each row represents a unique respondent.
+#'   \describe{
+#'   \item{SEQNUM}{Record identification.}
+#'   \item{FWGHT}{Final Weight for Main File.}
+#'   \item{SURMNTH}{Survey Month of Questionnaire.}
+#'   \item{FORMTYPE}{Form Type - English or French.}
+#'   \item{A4}{How often do you feel rushed? Would you say it is.}
+#'   \item{A5}{Compared to 5 years ago, do you feel more rushed?.}
+#'   \item{A6}{How often do you feel you have time on your hands?.}
+#'   \item{C2}{Respondent has child(ren) <15?.}
+#'   \item{DVAGEGR}{Age group of respondent.}
+#'   \item{DVSEX}{Sex of respondent.}
+#'   \item{DVMS}{Marital status of respondent.}
+#'   \item{DVHHSCAP}{Total number of persons living in the household.}
+#'   \item{DVPROV}{Province of residence of respondent.}
+#'   \item{DVCMA}{Derived Census metropolitan area.}
+#'   \item{DVLVGRGR}{Grouped living arrangement of the respondent.}
+#'   \item{DVAGRYC}{Age of respondents youngest single child.}
+#'   \item{RESC0004}{Number of respondents single children aged 0-4.}
+#'   \item{RESC0512}{Number of respondents single children aged 5-12.}
+#'   \item{RESC1318}{Number of respondents single children aged 13-18.}
+#'   \item{RESC1924}{Number of respondents single children aged 19-24.}
+#'   \item{RESC2596}{Number of respondents single children aged 25+.}
+#'   \item{DVAGRSP}{Age group of the respondents spouse.}
+#'}
+#' @docType data
+#' @keywords gss main respondent socio economic 1992
+#' @name gss_main_1992
+#' @usage data(gss_main_1992)
+#' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
+"gss_main_1992"
+
+#' Selection of socioeconomic variables from the 1998 GSS Time Use Survey (Cycle 12).
+#'
+#' This dataset contains some socioeconomic variables obtained
+#' from the main file of the 1998 GSS Time Use Survey (Cycle 12). We labeled
+#' variables according to the Public Use Micro Data File Documentation and User's Guide (gss-12M0012-E-1998-c-12-m).
+#'
+#' @format A data frame containing 10749 rows and 22 variables; each row represents a unique respondent.
+#'   \describe{
+#'   \item{RECID}{Record identification.}
+#'   \item{WGHTFIN}{Final Person Weight.}
+#'   \item{SURVMNTH}{Survey month of data collection.}
+#'   \item{LANINT}{Language of interview.}
+#'   \item{AGEC}{Age of respondent.}
+#'   \item{AGEGR5}{Age group of respondent in group of 5.}
+#'   \item{AGEGR10}{Age group of respondent in group of 10.}
+#'   \item{SEX}{Sex of respondent.}
+#'   \item{MARSTAT}{Marital status of respondent.}
+#'   \item{AGEPRGR5}{Age group of respondent's spouse/partner.}
+#'   \item{PRTYPEC}{Type of partner the respondent has within the household.}
+#'   \item{CHRFLAG}{Child(ren) of the respondent living in the household.}
+#'   \item{AGECHRYC}{Age of respondent's youngest single child living in the household.}
+#'   \item{CHR0004C}{Number of respondent's children 0 to 4 years living in the household.}
+#'   \item{CHR0512C}{Number of respondent's children 5 to 12 years living in the household.}
+#'   \item{CHR1314C}{Number of respondent's children 13 to 14 years living in the household.}
+#'   \item{CHR1518C}{Number of respondent's children 15 to 18 years living in the household.}
+#'   \item{CHR1924C}{Number of respondent's children 19 to 24 years living in the household.}
+#'   \item{CHR25UPC}{Number of respondent's children 25 years and older years living in the household.}
+#'   \item{CHH0004C}{Number of children aged from 0 to 4 living in respondent's household.}
+#'   \item{CHH0512C}{Number of children aged from 5 to 12 living in respondent's household.}
+#'   \item{CHH1314C}{Number of children aged from 5 to 12 living in respondent's household.}
+#'   \item{CHRTIME6}{Number of respondents children living at home.}
+#'   \item{PARHSD}{Type of parents the respondent has within the household.}
+#'   \item{LIVARR12}{Living arrangement of respondent's household (in group of 12).}
+#'   \item{LIVARR08}{Living arrangement of respondent's household (in group of 8).}
+#'   \item{HSDSIZEC}{Household size of respondent.}
+#'   \item{FAMTYPE}{Respondent's type of family structure.}
+#'   \item{MULTIGEN}{Three-generation family in respondent's household.}
+#'   \item{PRV}{Province of residence of the respondent.}
+#'   \item{REGION}{Region of residence of the respondent.}
+#'   \item{CMAPRV}{Census Metropolitan Area (CMA) of the respondent.}
+#'   \item{A2}{How often do you feel rushed?.}
+#'   \item{A3}{Compared to five years ago, do you feel.}
+#'   \item{A4}{How often do you feel you have time on your hands.}
+#'   \item{A5}{Do you feel that weekdays are just too short.}
+#'   \item{A6}{On which main activity would you choose to spend more time on.}
+#'   \item{DDAY}{Designated day of interview.}
+#'   \item{DIARYDAY}{Date of interview.}
+#'   \item{DIARYREC}{Recall of diary interview.}
+#'   \item{DVTDAY}{Type of day of interview.}
+#'}
+#' @docType data
+#' @keywords gss main respondent socio economic 1998
+#' @name gss_main_1998
+#' @usage data(gss_main_1998)
+#' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
+"gss_main_1998"
+
+#' Selection of socioeconomic variables from the 2005 GSS Time Use Survey (Cycle 19).
+#'
+#' This dataset contains some socioeconomic variables obtained
+#' from the main file of the 2005 GSS Time Use Survey (Cycle 19). We labeled
+#' variables according to the Public Use Micro Data File Documentation and User's Guide (Product No.12M0019-GPE).
+#'
+#' @format A data frame containing 19597 rows and 32 variables; each row represents a unique respondent.
+#'   \describe{
+#'   \item{RECID}{Record identification.}
+#'   \item{WGHT_PER}{Person weight.}
+#'   \item{WGHT_HSD}{Household weight.}
+#'   \item{WGHT_CSP}{Culture, sport and physical activity sample weight.}
+#'   \item{WGHT_SNT}{Social networks sample weight.}
+#'   \item{AGEGR5}{Age group of the respondent (group of 5).}
+#'   \item{AGEGR10}{Age group of the respondent (group of 10).}
+#'   \item{SEX}{Sex of respondent.}
+#'   \item{MARSTAT}{Marital status of the respondent.}
+#'   \item{AGEPRGRDIF}{Age difference between respondent and spouse/partner.}
+#'   \item{SEXPR}{Sex of the respondent's spouse/partner within the household.}
+#'   \item{PRTYPEC}{Type of partner the respondent has within the household.}
+#'   \item{AGECHRYC}{Age of respondent's youngest single child living in the household.}
+#'   \item{CHRFLAG}{Single child(ren) of the respondent living in the household.}
+#'   \item{CHRINHSDC}{Number of respondent's child(ren) living in the household(any age or marital status).}
+#'   \item{CHR0014C}{Number of respondent's child(ren) 0 to 14 years of age living in the household.}
+#'   \item{CHRTIME6}{Number of respondent's child(ren) living at home.}
+#'   \item{PARHSDC}{Type of parents the respondent has within the household.}
+#'   \item{LIVARR08}{Living arrangement of respondent's household (in group of 12)}
+#'   \item{LIVARR12}{Living arrangement of respondent's household (in group of 8)}
+#'   \item{HSDSIZEC}{Household size of respondent.}
+#'   \item{FAMTYPE}{Respondent's type of family structure.}
+#'   \item{MULTIGEN}{Three-generation or more family in respondent's household.}
+#'   \item{PRV}{Province of residence of the respondent.}
+#'   \item{REGION}{Region of residence of the respondent.}
+#'   \item{LUC_RST}{Urban/Rural indicator.}
+#'   \item{GTU_Q110}{How often do you feel rushed? Would you say it is:}
+#'   \item{GTU_Q120}{Compared to five years ago, do you feel more rushed, about the same or less rushed?}
+#'   \item{GTU_Q130}{How often do you feel you have time on your hands that you Don't know what to do with? Would you say it is:}
+#'   \item{GTU_Q140}{Do you feel that the days are just too short to do all the things you want?}
+#'   \item{GTU_Q150}{On which main activity would you choose to spend more time if you could?}
+#'   \item{DVTDAY}{Type of day of the designated day of interview.}
+#'}
+#' @docType data
+#' @keywords gss main respondent socio economic 2005
+#' @name gss_main_2005
+#' @usage data(gss_main_2005)
+#' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
+"gss_main_2005"
+
+#' Selection of socioeconomic variables from the 2010 GSS Time Use Survey (Cycle 29).
+#'
+#' This dataset contains some socioeconomic variables obtained
+#' from the main file of the 2010 GSS Time Use Survey (Cycle 29). We labeled
+#' variables according to the Public Use Micro Data File Documentation and User's Guide (file: gss-89M0034-E-2015-c-29-main).
+#'
+#' @format A data frame containing 17390 rows and 28 variables; each row represents a unique respondent.
+#'   \describe{
+#'   \item{RECID}{Record identification.}
+#'   \item{WGHT_PER}{Person weight.}
+#'   \item{WGHT_HSD}{Household weight.}
+#'   \item{WGHT_CSP}{Culture, sport and physical activity sample weight.}
+#'   \item{WGHT_SNT}{Social networks sample weight.}
+#'   \item{AGEGR5}{Age group of the respondent (group of 5).}
+#'   \item{AGEGR10}{Age group of the respondent (group of 10).}
+#'   \item{SEX}{Sex of respondent.}
+#'   \item{MARSTAT}{Marital status of the respondent.}
+#'   \item{AGEPRGRDIF}{Age difference between respondent and spouse/partner.}
+#'   \item{SEXPR}{Sex of the respondent's spouse/partner within the household.}
+#'   \item{PRTYPEC}{Type of partner the respondent has within the household.}
+#'   \item{AGECHRYC}{Age of respondent's youngest single child living in the household.}
+#'   \item{CHRFLAG}{Single child(ren) of the respondent living in the household.}
+#'   \item{AGEHSDYC}{Age of youngest household member living in the respondent's household.}
+#'   \item{CHRINHSDC}{Number of respondent's children living in the household (any age or marital status).}
+#'   \item{CHR0014C}{Number of respondent's single (never married) children 0 to 14 years of age living in the household.}
+#'   \item{CHRTIME6}{Number of respondent's single child(ren) living in the household.}
+#'   \item{CHH0512C}{Number of children aged from 5 to 12 years living in the respondent's household.}
+#'   \item{CHH0014C}{Number of children aged from 0 to 14 years living in the respondent's household.}
+#'   \item{PARHSDC}{Type of parents the respondent has within the household.}
+#'   \item{LIVARR08}{Living arrangement of respondent's household (in group of 12)}
+#'   \item{LIVARR12}{Living arrangement of respondent's household (in group of 8)}
+#'   \item{HSDSIZEC}{Household size of respondent.}
+#'   \item{HSDELIGC}{Number of members in respondent's household 15 years of age or older.}
+#'   \item{FAMTYPE}{Respondent's type of family structure.}
+#'   \item{MULTIGEN}{Three generations or more family in respondent's household.}
+#'   \item{PRV}{Province of residence of the respondent.}
+#'   \item{REGION}{Region of residence of the respondent.}
+#'   \item{LUC_RST}{Population centres indicator.}
+#'   \item{GTU_Q110}{How often do you feel rushed? Would you say it is:}
+#'   \item{GTU_Q130}{How often do you feel you have time on your hands that you Don't know what to do with? Would you say it is:}
+#'   \item{DVTDAY}{Type of day of the designated day of interview.}
+#'}
+#' @docType data
+#' @keywords gss main respondent socio economic 2010
+#' @name gss_main_2010
+#' @usage data(gss_main_2010)
+#' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
+"gss_main_2010"
+
+#' Selection of socioeconomic variables from the 2015 GSS Time Use Survey (Cycle 24).
+#'
+#' This dataset contains some socioeconomic variables obtained
+#' from the main file of the 2015 GSS Time Use Survey (Cycle 24). We labeled
+#' variables according to the Public Use Micro Data File Documentation and User's Guide (Catalogue no. 12M0024X).
+#'
+#' @format A data frame containing 15390 rows and 33 variables; each row represents a unique respondent.
+#'   \describe{
+#'   \item{PUMFID}{Record identification.}
+#'   \item{WGHT_PER}{Person weight.}
+#'   \item{SURVMNTH}{Survey month of data collection.}
+#'   \item{AGEGR10}{Age group of the respondent (group of 10)..}
+#'   \item{SEX}{Sex of respondent..}
+#'   \item{MARSTAT}{Marital status of the respondent..}
+#'   \item{PHSDFLG}{Respondent has a spouse/partner living in the household.}
+#'   \item{AGEPRGRD}{Age difference between respondent and spouse/partner..}
+#'   \item{SEXPR}{Sex of the respondent's spouse/partner within the household..}
+#'   \item{PRTYPEC}{Sex of the respondent's spouse/partner within the household..}
+#'   \item{CXRFLAG}{Type of partner the respondent has within the household..}
+#'   \item{AGECXRYG}{Age of respondent’s youngest child in household.}
+#'   \item{AGEHSDYC}{Age of youngest household member in respondent’s household.}
+#'   \item{CHINHSDC}{Respondent’s child(ren) in household - Any age/marital status.}
+#'   \item{CXR0014C}{Respondent’s child(ren) in household - 0 to 14 years.}
+#'   \item{CXRTIME6}{Age group of respondent’s child(ren) in household.}
+#'   \item{CHH0014C}{Child(ren) in household - 0 to 14 years.}
+#'   \item{PARNUM}{Number of parents the respondent has in household.}
+#'   \item{LIVARR08}{Living arrangement of respondent's household (in group of 12).}
+#'   \item{LIVARR11}{Living arrangement of respondent's household (in group of 8).}
+#'   \item{HSDSIZEC}{Household size of respondent.}
+#'   \item{HSDELIGC}{Number of members in respondent’s household 15 years of age or older.}
+#'   \item{MULTIGEN}{Three generations or more family in respondent's household..}
+#'   \item{PRV}{Province of residence of the respondent..}
+#'   \item{LUC_RST}{Population centres indicator..}
+#'   \item{GTU_110}{How often do you feel rushed? Would you say it is:.}
+#'   \item{GTU_130}{How often do you feel you have time on your hands that you Don't know what to do with? Would you say it is:.}
+#'   \item{DVTDAY}{Type of day of the designated day of interview..}
+#'}
+#' @docType data
+#' @keywords gss main respondent socio economic 2015
+#' @name gss_main_2015
+#' @usage data(gss_main_2015)
+#' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
+"gss_main_2015"
