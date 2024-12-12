@@ -92,18 +92,19 @@ valuable in investigations of mobility and quality of life
 transit use \citep{lachapelleLonger2016}, and travel behavior and time
 poverty \citep{kimFacing2024}, to name but a few examples.
 
-For \{ActiveCA\}, data we extracted all data needed to characterize
-active travel in Canada, namely, episodes where the activity was
-identified as moving between an origin and a destination, either by
-walking or cycling. Although Statistics Canada offers Public Use
-Microdata Files and documentation for the GSS program
-\citep[see][]{statisticscanada2024}, accessing these files, and
-preparing them for analysis is not a straightforward matter, given their
-size and complexity. The process of extracting information of interest
-from the source files is time-consuming, tedious, and challenging and/or
-prone to error due to the expertise required to work with these files.
-To create \{ActiveCA\} we collected, cleaned, and processed the cycles
-of the GSS surveys concerning time use to make them ready for analysis.
+For \{ActiveCA\} and using GSS Public Use Microdata Files (PUMFs), we
+extracted all data needed to characterize active travel in Canada,
+namely, episodes where the activity was identified as moving between an
+origin and a destination, either by walking or cycling. Although
+Statistics Canada offers Public Use Microdata Files and documentation
+for the GSS program \citep[see][]{statisticscanada2024}, accessing these
+files, and preparing them for analysis is not a straightforward matter,
+given their size and complexity. The process of extracting information
+of interest from the source files is time-consuming, tedious, and
+challenging and/or prone to error due to the expertise required to work
+with these files. To create \{ActiveCA\} we collected, cleaned, and
+processed the cycles of the GSS surveys concerning time use to make them
+ready for analysis.
 
 \{ActiveCA\} is distributed as an \texttt{R} package with a number of
 data objects and their documentation. \texttt{R} packages contain code,
@@ -172,6 +173,56 @@ facilitating the data's analytical utility with additional metrics such
 as total transit time, time spent with household members, and counts of
 activities and episodes.
 
+The table \ref{tab:main-2015-unprocessed} shows the first ten lines and
+the first 6 variables of the GSS PUMF 2015 main file (Cycle 29). Each
+line of the table refers to a respondent in a survey and the columns
+refer respectively to the record identification (\texttt{PUMFID}), the
+person's weight (\texttt{WGHT\_PER}), the month the survey data was
+collected (\texttt{SURVMNTH}), the respondent's age group
+(\texttt{AGEGR10}), the respondent's sex (\texttt{SEX}), and the
+respondent's marital status (\texttt{MARSTAT}). In total, the main file
+of the 2015 GSS surveys has 17,390 respondents corresponding to
+\ensuremath{2.9766399\times 10^{7}} people and 848 variables. For the
+discrete variables, Statistic Canada has created codes for the possible
+values and each value has its own label. For example, for the variable
+\texttt{SURVMNTH}, the value \texttt{1} means \texttt{January\ 2016},
+while 2 means \texttt{February\ 2016}, 3 is \texttt{March\ 2016} and so
+on. As you can see from the example in Table
+\ref{tab:main-2015-unprocessed}, the variables are not labeled. In
+addition, the format of the tables (comma separated) does not allow you
+to specify the type of each variable (whether it is continuous or
+discrete, for example), which can cause confusion for an analyst with
+relatively little experience in handling PUMFs.
+
+\begingroup\fontsize{8}{10}\selectfont
+
+\begin{ThreePartTable}
+\begin{TableNotes}
+\item \textit{Note: } 
+\item Legend: `PUMFID`: record identification. `WGHT\_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent.
+\end{TableNotes}
+\begin{longtable}[t]{cccccc}
+\caption{\label{tab:gss-main-file-2015}\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the main file of the 2015 GSS.}\\
+\toprule
+PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
+\midrule
+10000 & 616.6740 & 7 & 5 & 1 & 5\\
+10001 & 8516.6140 & 7 & 5 & 1 & 1\\
+10002 & 371.7520 & 1 & 4 & 2 & 1\\
+10003 & 1019.3135 & 3 & 6 & 2 & 5\\
+10004 & 1916.0708 & 9 & 2 & 1 & 6\\
+\addlinespace
+10005 & 1952.2015 & 4 & 1 & 1 & 6\\
+10006 & 5761.5528 & 8 & 1 & 1 & 6\\
+10007 & 466.0426 & 6 & 5 & 2 & 3\\
+10008 & 2479.2991 & 2 & 2 & 2 & 1\\
+10009 & 1436.1641 & 8 & 6 & 1 & 3\\
+\bottomrule
+\insertTableNotes
+\end{longtable}
+\end{ThreePartTable}
+\endgroup{}
+
 \subsection{The Episode File}\label{the-episode-file}
 
 The episode is a much bigger file that records detailed data for each
@@ -188,7 +239,67 @@ included within the episode file, it is possible to link the main file
 and the episode file by using a key present in both the Main and Episode
 Files.
 
-\section{Methods}\label{methods}
+Similarly to Table \ref{tab:main-2015-unprocessed} that displayed an
+example of the main file structure, Table \ref{tab:ep-2015-unprocessed}
+shows the first seven episodes for the record identification number
+\texttt{10041} and some variables of the GSS PUMF 2015 episode file
+(Cycle 29). Each line of the table refers to an episode of the
+especified record identification (\texttt{PUMFID\ =\ 10041}), the
+episode's weight (\texttt{WGHT\_EPI}), the episode number
+(\texttt{EPINO}), the activity code (\texttt{TUI\_01}), the episode's
+duration (\texttt{DURATION}) and the episode's location
+(\texttt{LOCATION}). In total, the episode file of the 2015 GSS surveys
+has 274,108 records corresponding to \ensuremath{4.6183762\times 10^{8}}
+episodes and 527 variables that detail the episodes. As similar to the
+main file, Statistic Canada has created codes for the possible values of
+the discrete variables with each value has its own label. Considering
+the case displayed in Table \ref{tab:ep-2015-unprocessed}, this person
+started the diary description while sleeping at home
+(\texttt{TUI\_01\ =\ 1} and \texttt{LOCATION\ =\ 300}) for 210 minutes,
+then engaged in personal hygiene for 40 minutes
+(\texttt{TUI\_01\ =\ 2}), then spent 15 minutes getting personal care
+(which can be getting ready for school, supervising homework, reading,
+playing, reprimanding, educational, or emotional help, sinalized by the
+\texttt{TUI\_01\ =\ 27}). After this, this person had an activity travel
+episode, walking for 15 minutes (\texttt{TUI\_01\ =\ 7} and
+\texttt{LOCATION\ =\ 315}) in which the origin and destination was their
+own house. Cases like this, where the trip starts and finishes at home
+refers to recreational and leisure trips. After that, the person spent 3
+hours looking for a job (\texttt{TUI\_01\ =\ 9}), had break for a lunch
+of 15 minutes duration (\texttt{TUI\_01\ =\ 6}) and cleaned the house
+(\texttt{TUI\_01\ =\ 18}) for two hours. Table
+\ref{tab:ep-2015-unprocessed} shows only six variables from the 527
+possible cases. As you can see, since that data set is not labeled,
+figuring out the codes for every variable can be time consuming and
+difficult.
+
+\begingroup\fontsize{8}{10}\selectfont
+
+\begin{ThreePartTable}
+\begin{TableNotes}
+\item \textit{Note: } 
+\item Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
+\end{TableNotes}
+\begin{longtable}[t]{cccccc}
+\caption{\label{tab:gss-epi-file-2015}\label{tab:main-2015-unprocessed}Visualization of the seven first episodes of the record number `10041`.}\\
+\toprule
+PUMFID & EPINO & WGHT\_EPI & TUI\_01 & DURATION & LOCATION\\
+\midrule
+10041 & 1 & 1353.818 & 1 & 210 & 300\\
+10041 & 2 & 1353.818 & 2 & 40 & 300\\
+10041 & 3 & 1353.818 & 27 & 15 & 300\\
+10041 & 4 & 1353.818 & 7 & 15 & 315\\
+10041 & 5 & 1353.818 & 9 & 180 & 300\\
+\addlinespace
+10041 & 6 & 1353.818 & 6 & 15 & 300\\
+10041 & 7 & 1353.818 & 18 & 120 & 300\\
+\bottomrule
+\insertTableNotes
+\end{longtable}
+\end{ThreePartTable}
+\endgroup{}
+
+\section{Data extraction}\label{data-extraction}
 
 For each selected cycle of the GSS surveys, we reviewed the episode
 files to identify episodes of movement that involved walking or cycling.

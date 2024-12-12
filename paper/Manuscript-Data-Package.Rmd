@@ -93,6 +93,11 @@ library(stats)
 # Load data
 data("gss_episodes")
 data("gss_impedances")
+data("gss_main_2015")
+
+gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv"))
+
+gss_e_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-e.csv"))
 ```
 
 
@@ -160,7 +165,7 @@ mobility and quality of life [@spinneyTransport2009], the relationship between
 active travel and transit use [@lachapelleLonger2016], and travel behavior and time
 poverty [@kimFacing2024], to name but a few examples.
 
-For {ActiveCA}, data we extracted all data needed to characterize active travel 
+For {ActiveCA} and using GSS Public Use Microdata Files (PUMFs), we extracted all data needed to characterize active travel 
 in Canada, namely, episodes where the activity was identified as moving between 
 an origin and a destination, either by walking or cycling. Although Statistics 
 Canada offers Public Use Microdata Files and documentation for the GSS program 
@@ -181,10 +186,6 @@ Given the level of interest in active travel [e.g., @mccurdySupport2023], reduci
 the barriers to using data contained in rich, but difficult to access and use surveys,
 such as Canada's GSSs, is a worthy endeavour that can only improve data-driven 
 decisions in transportation, urban, and health policy. 
-
-<!-- 
-is an `R` data package that provides analysis-ready data from the General Social Survey of Canada  [@statisticscanada2024] regarding active travel. These data can be used to study walking and cycling in Canada for various purposes over time, and to calculate impedance functions for accessibility analysis. The package provides pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas.
--->
 
 The rest of this paper discusses the sources of data, and the process implemented
 to retrieve and package them. Then, we explain how to use the package and show
@@ -232,9 +233,29 @@ categorizes activities into bigger groups and subcategories, facilitating the
 data's analytical utility with additional metrics such as total transit time, time 
 spent with household members, and counts of activities and episodes.
 
-<!-- 
-Maybe here provide an example of the structure of this table?
--->
+Table \ref{tab:main-2015-unprocessed} shows the first ten rows and first six variables of the GSS PUMF 2015 main file (Cycle 29). Each row in the table correspond to a survey respondent, while the columns refer the following information: record identification (`PUMFID`), the person's weight (`WGHT_PER`), the month the survey data was collected (`SURVMNTH`), the respondent's age group (`AGEGR10`), the respondent's sex (`SEX`), and the respondent's marital status (`MARSTAT`).
+
+The main file of the 2015 GSS surveys includes a total of 17,390 respondents, representing `r sum(gss_m_2015$WGHT_PER)` individuals and 848 variables.  For discrete variables, Statistics Canada has assigned specific codes to the possible values, with each code accompanied by a label. For instance, in the case of the variable `SURVMNTH`, a value of `1` means `January 2016`, 2 means `February 2016`, 3 corresponds to `March 2016`, and so on. 
+
+As shown in Table \ref{tab:main-2015-unprocessed}, the variables are not labeled. Adittionaly, the format of the tables (comma-separated values) does not allow for the specification of variable types (whether a variable is continuous or discrete), which can lead to mistakes analysts who have limited experience working with PUMFs.
+
+```{r gss-main-file-2015}
+main_2015_unprocessed <- gss_m_2015[1:10, 1:6]  %>%
+  kable(
+    format = "latex", 
+    booktabs = TRUE, 
+    longtable = TRUE, 
+    align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
+    caption = "\\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the main file of the 2015 GSS.") %>%
+  kable_styling(full_width = FALSE, 
+                #latex_options=c("striped", "scale_down"), 
+                latex_options=c("scale_down"),
+                 font_size = 8) %>%
+  footnote(general = c("Legend: `PUMFID`: record identification. `WGHT_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent."), threeparttable = T)
+
+main_2015_unprocessed
+```
+
 
 ## The Episode File
 
@@ -250,46 +271,67 @@ respondent. Although respondent-specific characteristics are not included within
 the episode file, it is possible to link the main file and the episode file by 
 using a key present in both the Main and Episode Files.
 
-<!-- 
-Maybe here provide an example of the structure of this table?
--->
+Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an example of the main file structure, Table \ref{tab:ep-2015-unprocessed} presents the first seven episodes for the record identification number `10041` and some variables from the GSS PUMF 2015 episode file (Cycle 29). Each row in the table corresponds to an episode associated with the specified record identification (`PUMFID = 10041`), including the episode's weight (`WGHT_EPI`), the episode number (`EPINO`), the activity code (`TUI_01`), the episode's duration (`DURATION`), and the episode's location (`LOCATION`).
+
+In total, the episode file of the 2015 GSS surveys contains 274,108 records, representing `r sum(gss_e_2015$WGHT_EPI)` episodes and 527 variables that detail the episodes. Similar to the main file, Statistics Canada has created codes for the discrete variables, where each value has a corresponding label.
+
+In the case illustrated in Table \ref{tab:ep-2015-unprocessed}, this respondent began the diary description while sleeping at home (`TUI_01 = 1` and `LOCATION = 300`) for 210 minutes, followed by 40 minutes of personal hygiene (`TUI_01 = 2`). The respondent then spent 15 minutes on personal care activities, such as getting ready for school, supervising homework, reading, playing, reprimanding, or providing educational or emotional support, as indicated by `TUI_01 = 27`. Next, they recorded a travel episode, walking for 15 minutes (`TUI_01 = 7` and `LOCATION = 315`), where the origin and destination were both their home. Such trips, where the journey starts and finishes at home, are classified as recreational and leisure trips.
+
+In sequence, the respondent spent 3 hours searching for a job (`TUI_01 = 9`), took a 15-minute lunch break (`TUI_01 = 6`), and then cleaned the house (`TUI_01 = 18`) for two hours. Table \ref{tab:ep-2015-unprocessed} displays only six variables out of the 527 available. As shown, since the dataset does not label the variable's values, decoding the values for each variable can be a time-consuming and a challenging task.
+
+```{r gss-epi-file-2015}
+main_2015_unprocessed <- gss_e_2015 |>
+  filter(PUMFID == 10041 & EPINO <= 7) %>%
+  dplyr::select(PUMFID, EPINO,WGHT_EPI,TUI_01, DURATION, LOCATION) %>%
+  kable(
+    format = "latex", 
+    booktabs = TRUE, 
+    longtable = TRUE, 
+    align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
+    caption = "\\label{tab:ep-2015-unprocessed}Visualization of the seven first episodes of the record number `10041`.") %>%
+  kable_styling(full_width = FALSE, 
+                #latex_options=c("striped", "scale_down"), 
+                latex_options=c("scale_down"),
+                 font_size = 8) %>%
+  footnote(general = c("Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT_EPI: episode's weight. TUI_01: activity code. DURATION: episode's duration. LOCATION: episode's location."), threeparttable = T)
+
+main_2015_unprocessed
+```
 
 # Data extraction
 
-For each selected cycle of the GSS surveys, we reviewed the episode files to 
-identify episodes of movement that involved walking or cycling. This allowed us 
-to select the activities immediately before and after the movement episode. After
-that, we labeled the code variables with their appropriate descriptions, identifying
-each origin and destination, mode of travel, as well the province and urban 
-classification of the episode. 
+For each selected cycle of the GSS surveys, we reviewed the episode files to identify episodes of movement that involved walking or cycling. This allowed us to select the activities immediately before and after the movement episode. After that, we labeled the code variables with their appropriate descriptions, identifying each origin and destination, mode of travel, time spent in the active trip, as well the province and urban classification of the episode.
 
-<!-- 
+The active trips (walking and cycling) were identified by the their correspondent activity code, considering the differences between the survey cycles. Identifying the proceeding and succeeding activities of each activity episode helps to understand the motivation of the trip and also enables to obtain the origin and destination of the trips.
 
-Show a graphical example of this process: how were active trips identified? 
-What was the purpose of finding the preceding and succeeding activities?
+For each GSS main files, we selected some socioeconomic variables for helping profiling the individuals engaged in active trip episodes. We selected valuable socioeconomic variables, such as age group of the respondent, sex of the respondent, marital status, number of children, between many others. After that, and similar to as we did to episode files, we labeled the code variables with their appropriate descriptions. 
 
--->
+# How to use `ActiveCA`
+
+The code chunk below demonstrates how you can install the `ActiveCA` in R:
+
+```{r instal-ActiveCA}
+if (!require("ActiveCA", character.only = TRUE)) {
+      remotes::install_github("dias-bruno/ActiveCA")
+}
+```
+
+After installing `ActiveCA` R package, you can load the package according to the following code:
+
+```{r load-ActiveCA, warning=FALSE}
+library(ActiveCA)
+```
+
+By running `?ActiveCA` in `R`, you can access all the package documentation. The documentation includes the description of the package, information about the authors and maintainers, and visualize all data sets already processed included in the package.
+
+Figure X, display the documentation for the walking episodes of the 2015 GSS (`walking_2015.rda`). The documentation provides a brief description of the data set, how to load the package, also including the description of the format of the file and the description of all variables (already labeled). 
 
 
-<!--
+After restart your R session, you can access the data set by loading each of them. The chunk below displays how to load 2015 GSS episodes cycles. 
 
-Not needed in this paper:
-
-Additionally, for Census Agglomerations and Census Metropolitan Areas we pre-estimated impedance functions for cycling and walking trips. Impedance functions reveals important information about the travel behavior of the population, by describing the relationship between the population at an origin and their likelihood or ability to travel to specific destinations to access opportunities [@soukhov2024].
-
-Impedance functions are commonly used in accessibility analysis to calculate the cost of travel between different locations [@hansen1959; @páez2012; @palacios2022]. However, these functions need to be calibrated in order to accurately represent travel behavior. One effective way of calibrating an impedance function is by using the trip length distribution (TLD) obtained from origin-destination data [@soukhov2024]. The TLD represents the probability that a certain proportion of trips will be made at a specific cost, such as travel time. In this data set, low travel times are associated with a higher proportion of trips, while high travel times are associated with a lower proportion of trips.
-
-For each combination of year, destination, and transportation mode (walking or cycling), we fitted the most suitable impedance function based on empirical data from the GSS surveys. We used the `fitdistrplus` package [@mullerdutang2015] to estimate the functions, selecting the distribution with the lowest Akaike information criterion (AIC) among exponential, gamma, log-normal, normal, and uniform types.
-
--->
-
-# How to use {ActiveCA}
-
-<!-- 
-
-The paper does not really need to report "Results". There are too many potential use cases and we would rather let users find their own results depending on what they are interested in. Instead of results, a section on "How to use the package" is appropriate. There are a number of points to highlight here, for example, how to load the package, call the data sets, in particular the use of episode weights to make sure that any statistical analysis is valid.
-
--->
+```{r load-ActiveCA, warning=FALSE}
+load(walking_2015)
+```
 
 ## Descriptive statistics
 
