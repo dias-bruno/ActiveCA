@@ -2583,6 +2583,12 @@ To finish our pre-processing methodology, we will create a dataset named
 gss_episodes <- rbind(walking_2015, cycling_2015, walking_2010, cycling_2010, walking_2005, cycling_2005, cycling_1998, walking_1998, walking_1992, cycling_1992, walking_1986)
 ```
 
+Cases of episodes with `NA` weight values will be updated to value 1, meaning that since there's no weighting value for this observation, this episode only represent itself:
+
+```{r fixing-NA-weights}
+gss_episodes$WGHT_EPI[is.na(gss_episodes$WGHT_EPI)] <- 1
+```
+
 Save this data frame in R format:
 
 ```{r}

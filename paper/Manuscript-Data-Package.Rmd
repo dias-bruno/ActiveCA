@@ -60,6 +60,14 @@ knitr::opts_chunk$set(
   comment = '', 
   out.width = "1\\linewidth")
 
+knitr::knit_hooks$set(inline = function(x) {
+  if (is.numeric(x)) {
+    format(x, big.mark = ",", scientific = FALSE)
+  } else {
+    x
+  }
+})
+
 opts <- options(knitr.kable.NA = "")
 ```
 
@@ -87,6 +95,7 @@ library(gridExtra)
 library(ggpubr)
 library(grid)
 library(stats)
+library(Hmisc)
 ```
 
 ```{r load-data, include = FALSE}
@@ -95,9 +104,19 @@ data("gss_episodes")
 data("gss_impedances")
 data("gss_main_2015")
 
-gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv"))
 
+# Original main and episode files from 2015 to display table examples
+
+gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv"))
 gss_e_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-e.csv"))
+
+# Processed main files
+data("gss_main_2015")
+data("gss_main_2010")
+data("gss_main_2005")
+data("gss_main_1998")
+data("gss_main_1992")
+data("gss_main_1986")
 ```
 
 
@@ -271,16 +290,14 @@ respondent. Although respondent-specific characteristics are not included within
 the episode file, it is possible to link the main file and the episode file by 
 using a key present in both the Main and Episode Files.
 
-Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an example of the main file structure, Table \ref{tab:ep-2015-unprocessed} presents the first seven episodes for the record identification number `10041` and some variables from the GSS PUMF 2015 episode file (Cycle 29). Each row in the table corresponds to an episode associated with the specified record identification (`PUMFID = 10041`), including the episode's weight (`WGHT_EPI`), the episode number (`EPINO`), the activity code (`TUI_01`), the episode's duration (`DURATION`), and the episode's location (`LOCATION`).
+Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an example of the main file structure, Table \ref{tab:ep-2015-unprocessed} presents the first seven episodes for the record identification number `10041` and some variables from the GSS PUMF 2015 episode file (Cycle 29). Each row in the table corresponds to an episode associated with the specified record identification (`PUMFID = 10041`), including the episode's weight (`WGHT_EPI`), episode number (`EPINO`), activity code (`TUI_01`), episode duration (`DURATION`), and episode location (`LOCATION`).
 
-In total, the episode file of the 2015 GSS surveys contains 274,108 records, representing `r sum(gss_e_2015$WGHT_EPI)` episodes and 527 variables that detail the episodes. Similar to the main file, Statistics Canada has created codes for the discrete variables, where each value has a corresponding label.
+In total, the episode file of the 2015 GSS surveys contains 274,108 records, representing `r sum(gss_e_2015$WGHT_EPI)` episodes and 527 variables detailing the episodes. Similar to the main file, Statistics Canada has created codes for the discrete variables, with each value corresponding to a label.
 
-In the case illustrated in Table \ref{tab:ep-2015-unprocessed}, this respondent began the diary description while sleeping at home (`TUI_01 = 1` and `LOCATION = 300`) for 210 minutes, followed by 40 minutes of personal hygiene (`TUI_01 = 2`). The respondent then spent 15 minutes on personal care activities, such as getting ready for school, supervising homework, reading, playing, reprimanding, or providing educational or emotional support, as indicated by `TUI_01 = 27`. Next, they recorded a travel episode, walking for 15 minutes (`TUI_01 = 7` and `LOCATION = 315`), where the origin and destination were both their home. Such trips, where the journey starts and finishes at home, are classified as recreational and leisure trips.
-
-In sequence, the respondent spent 3 hours searching for a job (`TUI_01 = 9`), took a 15-minute lunch break (`TUI_01 = 6`), and then cleaned the house (`TUI_01 = 18`) for two hours. Table \ref{tab:ep-2015-unprocessed} displays only six variables out of the 527 available. As shown, since the dataset does not label the variable's values, decoding the values for each variable can be a time-consuming and a challenging task.
+In the case illustrated in Table \ref{tab:ep-2015-unprocessed}, this respondent began the diary description by sleeping at home (`TUI_01 = 1` and `LOCATION = 300`) for 210 minutes, followed by 40 minutes of personal hygiene (`TUI_01 = 2`). The respondent then spent 15 minutes on personal care activities, such as getting ready for school, supervising homework, reading, playing, reprimanding, or providing educational or emotional support, as indicated by `TUI_01 = 27`. Next, they recorded a travel episode, walking for 15 minutes (`TUI_01 = 7` and `LOCATION = 315`), where both the origin and destination were their home. Such trips, where the journey starts and finishes at home, can be classified as recreational or leisure trips. Next, the respondent spent 3 hours searching for a job (`TUI_01 = 9`), took a 15-minute lunch break (`TUI_01 = 6`), and then cleaned the house (`TUI_01 = 18`) for two hours. Table \ref{tab:ep-2015-unprocessed} displays only six variables out of the 527 available. As shown, since the dataset does not label the variable values, decoding them can be both time-consuming and challenging.
 
 ```{r gss-epi-file-2015}
-main_2015_unprocessed <- gss_e_2015 |>
+ep_2015_unprocessed <- gss_e_2015 |>
   filter(PUMFID == 10041 & EPINO <= 7) %>%
   dplyr::select(PUMFID, EPINO,WGHT_EPI,TUI_01, DURATION, LOCATION) %>%
   kable(
@@ -295,65 +312,183 @@ main_2015_unprocessed <- gss_e_2015 |>
                  font_size = 8) %>%
   footnote(general = c("Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT_EPI: episode's weight. TUI_01: activity code. DURATION: episode's duration. LOCATION: episode's location."), threeparttable = T)
 
-main_2015_unprocessed
+ep_2015_unprocessed
 ```
 
 # Data extraction
 
 For each selected cycle of the GSS surveys, we reviewed the episode files to identify episodes of movement that involved walking or cycling. This allowed us to select the activities immediately before and after the movement episode. After that, we labeled the code variables with their appropriate descriptions, identifying each origin and destination, mode of travel, time spent in the active trip, as well the province and urban classification of the episode.
 
-The active trips (walking and cycling) were identified by the their correspondent activity code, considering the differences between the survey cycles. Identifying the proceeding and succeeding activities of each activity episode helps to understand the motivation of the trip and also enables to obtain the origin and destination of the trips.
+The active trips (walking and cycling) were identified by their corresponding activity codes, accounting for differences between the survey cycles. Identifying the preceding and succeeding activities of each activity episode helps to understand the motivation for the trip and also determine the origin and destination of the trips.
 
-For each GSS main files, we selected some socioeconomic variables for helping profiling the individuals engaged in active trip episodes. We selected valuable socioeconomic variables, such as age group of the respondent, sex of the respondent, marital status, number of children, between many others. After that, and similar to as we did to episode files, we labeled the code variables with their appropriate descriptions. 
+For each GSS main file, we selected socioeconomic variables to help profile the individuals engaged in active trip episodes. We included key socioeconomic variables such as the respondent’s age group, sex, marital status, and number of children, among others. After this, as we did with the episode files, we labeled the code variables with their appropriate descriptions. 
 
 # How to use `ActiveCA`
 
-The code chunk below demonstrates how you can install the `ActiveCA` in R:
+This section presents some potential applications of the `ActiveCA` R package. In fact, we expect that the application of this package to extend beyond our pre-imagined range of uses. 
 
-```{r instal-ActiveCA}
-if (!require("ActiveCA", character.only = TRUE)) {
+To start the demonstration, it is first necessary to install the package. The code chunk below demonstrates how to install the `ActiveCA` package in R:
+
+```{r instal-ActiveCA, echo=TRUE}
+if(!require("ActiveCA", character.only = TRUE)) {
       remotes::install_github("dias-bruno/ActiveCA")
 }
 ```
 
-After installing `ActiveCA` R package, you can load the package according to the following code:
+After installing the `ActiveCA` R package, you can load it using the following code:
 
-```{r load-ActiveCA, warning=FALSE}
+```{r load-ActiveCA, echo=TRUE}
 library(ActiveCA)
 ```
 
-By running `?ActiveCA` in `R`, you can access all the package documentation. The documentation includes the description of the package, information about the authors and maintainers, and visualize all data sets already processed included in the package.
+By running `?ActiveCA` in `R`, you can access the complete package documentation. The documentation includes a description of the package, information about the authors and maintainers, and an overview of all pre-processed data sets included in the package.
 
-Figure X, display the documentation for the walking episodes of the 2015 GSS (`walking_2015.rda`). The documentation provides a brief description of the data set, how to load the package, also including the description of the format of the file and the description of all variables (already labeled). 
+Figure \ref{fig:walking_documentation} displays the documentation for the walking episodes from the 2015 GSS (`walking_2015.rda`). The documentation provides a brief description of the dataset, instructions on how to load the package, as well as details about the file format and descriptions of all variables (already labeled).
+
+```{r walking_documentation, echo=FALSE, out.width="100%", fig.cap=paste0("Documentation for the dataset of walking episodes from 2015."), fig.align="center"}
+
+knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/walking-2015-documentation.png"))
+```
+
+The chunk below shows how to load the walking episodes from the 2015 GSS (Cycle 29):
+
+```{r load-walking-2015-episodes, echo=TRUE}
+data(walking_2015)
+```
+
+The GSS surveys apply a probability sampling methodology, in which each episode or person selected in the sample represents several other episodes or persons not in the sample. The number of episodes and persons represented by a episode or person is determined by the weight or weighting factor. Because of this, every estimates of the number of episodes or persons need to be calculated applying the corresponding weighting factors. 
+
+For instance, if someone wants to calculate the percentage of respondents from the 2015 GSS survey with active travel episodes, it is necessary to account for the person's weights. In 2015, the weight variable is represented by `WGHT_PER.` The code chunk below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the dplyr package to manipulate the data.
+
+The process begins by creating a dataset that sums the population by age group. Then, it joins the 2015 episodes with the 2015 main file. Note that in both operations, the code sums the person weight variable (`WGHT_PER`) to obtain the correct population values. After this, a new dataset, `Active_percentage`, is created by merging both previous datasets. The percentage of active travel episodes by age group is calculated by dividing the total population by the population with active trip episodes, then multiplying by 100.
+
+The result shows that the age group with the highest share of active trips is those between 15 and 20 years old, with almost 37%, followed by those between 25 and 34 years old with around 33%. There is a significant drop in percentage for the following groups, with the percentage falling to between 15% and 18% for the remaining age groups.
+
+```{r percentages-act, echo=TRUE}
+# Load the dplyr library for data manipulation
+library('dplyr')
+
+# Load the episodes dataset
+data(gss_episodes) 
+
+# Calculate the total population for each age group
+Total_population <- gss_main_2015 %>% 
+  group_by(AGEGR10) %>% 
+  summarise(Total_population  = sum(WGHT_PER))
+
+# Calculate the active population for each age group
+Active_population <- gss_episodes %>% 
+      filter(YEAR == 2015) %>% 
+  left_join(gss_main_2015, by = c("PUMFID"="PUMFID")) %>% 
+  group_by(AGEGR10) %>% 
+  summarise(Active_population  = sum(WGHT_PER))
+
+# Combine total and active population and calculate the percentage
+Active_percentage <- Total_population %>% 
+  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) %>%
+  mutate(Percentage = round(Active_population/Total_population  * 100, 2))
+
+# Display the final result
+Active_percentage
+```
+
+## Processed data set
+
+```{r processed-files, include=FALSE}
+df_main_processed <- data.frame(
+  'Survey' = c("Main","Main","Main","Main","Main","Main"),
+  'Year' = c(2015, 2010, 2005, 1998, 1992, 1986),
+  'Count' = c(nrow(gss_main_2015),
+              nrow(gss_main_2010),
+              nrow(gss_main_2005),
+              nrow(gss_main_1998),
+              nrow(gss_main_1992),
+              nrow(gss_main_1986)),
+  'Weighted' = c(sum(gss_main_2015$WGHT_PER),
+              sum(gss_main_2010$WGHT_PER),
+              sum(gss_main_2005$WGHT_PER),
+              sum(gss_main_1998$WGHTFIN),
+              sum(gss_main_1992$FWGHT),
+              sum(gss_main_1986$FWGT_OS/10000)))
 
 
-After restart your R session, you can access the data set by loading each of them. The chunk below displays how to load 2015 GSS episodes cycles. 
+df_ep_processed <- gss_episodes %>% 
+  group_by(YEAR) %>%
+  summarise(Survey = 'Episode', 
+            Count = n(), 
+            Weighted = sum(WGHT_EPI)) %>%
+  rename(Year = YEAR) %>%
+  dplyr::select(Survey, Year, Count, Weighted) %>% 
+  arrange(-Year)
 
-```{r load-ActiveCA, warning=FALSE}
-load(walking_2015)
+
+df_processed <- rbind(df_main_processed,df_ep_processed)
+```
+
+
+Table \ref{tab:processed-obs} displays the total number of observations processed for main and episode files. For the main files, a total of `r sum(df_main_processed$Count)` observations were processed, referring to all observations from the Time Use Surveys from 1986 to 2015, that together represents more of `r sum(df_main_processed$Weighted)` respondents (`r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2015',]$Weighted)` for 2015, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2010',]$Weighted)` for 2010, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2005',]$Weighted)` for 2005, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1998',]$Weighted)` for 1998, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1992',]$Weighted)` for 1992, and  for 2005, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1998',]$Weighted)` for 1998, and `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1992',]$Weighted)` for 1986). Table X also presents the total cases of active trips episodes identified. In total `r sum(df_ep_processed$Count)` observations with register of active travel activity. Together, these observations account for `r sum(df_ep_processed$Weighted)` episodes (`r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '2015',]$Weighted)` for 2015, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '2010',]$Weighted)` for 2010, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '2005',]$Weighted)` for 2005, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '1998',]$Weighted)` for 1998, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '1992',]$Weighted)` for 1992, and  for 2005, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '1998',]$Weighted)` for 1998, and `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '1992',]$Weighted)` for 1986).
+
+```{r table_df_processed}
+
+table_df_processed <- df_processed %>%
+  kable(format = "latex", booktabs = TRUE, longtable = TRUE, 
+        caption = "\\label{tab:processed-obs}Total number and weighted sum of observations processed.") %>%
+  kable_styling(full_width = FALSE, font_size = 10) %>%
+  add_header_above(c(" " = 2, "Observations" = ncol(df_processed) - 2)) %>%
+  collapse_rows(columns = 1, valign = "top", latex_hline = "major")
+
+table_df_processed
+```
+
+Table \ref{tab:main-2015-processed} shows the first ten rows and first six variables of the GSS PUMF 2015 main file (Cycle 29), displayed in \ref{tab:main-2015-unprocessed} before our processing. Table \ref{tab:ep-2015-processed} presents the walking episodes for the record identification number `10041` from the GSS PUMF 2015 episode file (Cycle 29), previously displayed in Table \ref{tab:ep-2015-unprocessed}. Only active travel episodes appear in Table \ref{tab:ep-2015-processed} since the observations were filtered to select cases with walking or cycling episodes. For both cases, Tables \ref{tab:main-2015-processed} and \ref{tab:ep-2015-processed} contain labeled variables, facilitating the interpretation of the data.
+
+```{r gss-processed-file-2015, echo=FALSE, cache=FALSE}
+main_2015_processed <- gss_main_2015[1:10, 1:6]  %>%
+  kable(
+    format = "latex", 
+    booktabs = TRUE, 
+    longtable = TRUE, 
+    align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
+    caption = "\\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the main file of the 2015 GSS.") %>%
+  kable_styling(full_width = FALSE, 
+                #latex_options=c("striped", "scale_down"), 
+                latex_options=c("scale_down"),
+                 font_size = 8) %>%
+  footnote(general = c("Legend: `PUMFID`: record identification. `WGHT_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent."), threeparttable = T)
+
+main_2015_processed
+
+ep_2015_unprocessed <- gss_episodes_renamed |>
+  filter(PUMFID == 10041 & YEAR == 2015) %>%
+  dplyr::select(PUMFID, WGHT_EPI, act_label, DURATION, orig_label, dest_label, MODE) %>%
+  kable(
+    format = "latex", 
+    booktabs = TRUE, 
+    longtable = TRUE, 
+    caption = "\\label{tab:ep-2015-processed}Visualization of active travel episodes of the record number `10041` for the 2015 GSS survey.", 
+       col.names = c("PUMFID", "WGHT_EPI","Activity","Duration","Origin", "Destination", "Mode")) %>% 
+  kable_styling(full_width = FALSE, 
+                #latex_options=c("striped", "scale_down"), 
+                latex_options=c("scale_down"),
+                 font_size = 8) %>%
+  footnote(general = c("Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT_EPI: episode's weight. TUI_01: activity code. DURATION: episode's duration. LOCATION: episode's location."), threeparttable = T)
+
+ep_2015_unprocessed
 ```
 
 ## Descriptive statistics
 
-Considering GSS Cycles analyzed, we identified `r nrow(gss_episodes)` episodes that recorded active travel episodes, with trip duration ranging from 0 to 900 minutes, to twelve different destinations. `ActiveCA` includes all these episodes ready for analysis. Table \ref{tab:table-01} presents descriptive statistics on walking and cycling trips between 1986 and 2015, including metrics such as the count
-of recorded trips (count), and measures of trip duration in minutes:
-maximum (max), mean, median, and minimum (min). The 1986 survey did not
+Considering GSS Cycles analyzed, we identified `r nrow(gss_episodes)` episodes that recorded active travel episodes, with trip duration ranging from 0 to 900 minutes, to twelve different destinations. `ActiveCA` includes all these episodes ready for analysis. Table \ref{tab:table-01} presents descriptive statistics on walking and cycling trips between 1986 and 2015, with measures of trip duration in minutes: maximum (max), mean, median, and minimum (min). The 1986 survey did not
 include bicycle trips.
 
 ```{r table-01, echo=FALSE, cache=FALSE}
-# Calculate the count of trips for each mode and year
-episodes_counts <- gss_episodes %>%
+# Calculate min, mean, and max statistic (duration)
+stats_data <- gss_episodes_renamed %>%
   group_by(YEAR, MODE) %>%
-  summarise(Count = n(), .groups = "drop") %>%
-  pivot_wider(names_from = YEAR, values_from = Count)
-
-# Calculate min, mean, and max statictis (duration)
-stats_data <- gss_episodes %>%
-  group_by(YEAR, MODE) %>%
-  summarise(
+  dplyr::summarise(
     min = min(DURATION),
-    mean = mean(DURATION),
-    median = median(DURATION),
+    mean = sum(DURATION * WGHT_EPI)/sum(WGHT_EPI),
+    median =  Hmisc::wtd.quantile(DURATION, weights = WGHT_EPI, probs = 0.5),
     max = max(DURATION),
     std = sd(DURATION),
     .groups = "drop"
@@ -362,17 +497,13 @@ stats_data <- gss_episodes %>%
   pivot_wider(names_from = YEAR, values_from = Value)
 
 # Combine counts and stats into one data frame
-final_data <- bind_rows(
-  episodes_counts %>% mutate(Statistic = "Count"),
-  stats_data
-) %>%
+stats_data <- stats_data %>%
   mutate(MODE = factor(MODE, levels = c("Walking", "Cycling"))) %>%
   arrange(MODE, Statistic) %>%
   mutate(across(where(is.numeric), ~ round(.x, 0)))
 
 # Rename the 'MODE' column to 'Mode' before generating the table
-final_data <- final_data%>% 
-  arrange(MODE) %>%
+stats_data <- stats_data %>%
   rename(Mode = MODE) %>%
   dplyr::select(Mode, Statistic, everything()) %>% 
    mutate(Statistic = case_when(
@@ -381,28 +512,23 @@ final_data <- final_data%>%
     Statistic == "mean" ~ "Mean",
     Statistic == "median" ~ "Median",
     Statistic == "std" ~ "Standard deviation",
-    TRUE ~ Statistic  # Keep all other values as they are
-  ))
+    TRUE ~ Statistic))
   
 # Creating a latex table
-styled_ch03_table_01 <- final_data %>%
+styled_ch03_table_01 <- stats_data %>%
   kable(format = "latex", booktabs = TRUE, longtable = TRUE, 
         caption = "\\label{tab:table-01}Descriptive statistics for episodes with active transport records",  
-        align = c('l', 'l', rep('c', ncol(final_data) - 2))) %>%
+        align = c('l', 'l', rep('c', ncol(stats_data) - 2))) %>%
   kable_styling(full_width = FALSE, font_size = 10) %>%
   column_spec(1, bold = TRUE) %>%
-  add_header_above(c(" " = 2, "Year" = ncol(final_data) - 2)) %>%
+  add_header_above(c(" " = 2, "Year" = ncol(stats_data) - 2)) %>%
   collapse_rows(columns = 1, valign = "top", latex_hline = "major")
 
 # Print the table
 styled_ch03_table_01
 ```
 
-Table \ref{tab:table-01} shows that the median values for walking trips
-range between 5 and 10 minutes, while cycling trips have a consistent
-median of 15 minutes since 1998. The table also highlights very high
-maximum values, particularly for walking trips, with recorded episodes
-exceeding 4 hours in all cases.
+Table \ref{tab:table-01} shows that, in general, the median values for walking trips is 10 minutes, except for 1998 when the median was 5 minutes. In the case of cycling trips, the duration fluctuated over the years, ranging from 10 to 20 minutes. The table also highlights very high maximum values, particularly for walking trips, with recorded episodes exceeding 4 hours in all cases.
 
 Table \ref{tab:table-02} and \ref{tab:table-03} provide descriptive
 statistics for the two modes of transportation, split by destination
@@ -411,7 +537,7 @@ Table \ref{tab:table-02}, one can observed that in 1986 and 1992,
 walking trips destined for `home` had the highest medians. However, by
 1998, the highest medians shifted to trips to `work or school`, a
 transition that also occurred for cycling trips between 1992 and 1998.
-Table \ref{tab:table-03} indicates that the median duration for trips to
+Table \ref{tab:table-03} indicates that the median duration for walking trips to
 `home` and `work or school` remained at 10 minutes.
 
 ```{r table-02, echo=FALSE, cache=FALSE, warning=FALSE, results="asis"}
@@ -419,10 +545,10 @@ Table \ref{tab:table-03} indicates that the median duration for trips to
 episodes_stats_before <- gss_episodes %>%
   filter(YEAR < 2005) %>%
   group_by(YEAR, dest_label, MODE) %>%
-  summarise(
-    count = n(),
+  dplyr::summarise(
+    count = sum(WGHT_EPI),
     min = min(DURATION),
-    median = median(DURATION),
+    median = Hmisc::wtd.quantile(DURATION, weights = WGHT_EPI, probs = 0.5),
     max = max(DURATION),
     .groups = "drop"
   )
@@ -463,7 +589,7 @@ styled_ch03_table_02 <- wide_data %>%
     longtable = TRUE, 
     align = c(rep("c", ncol(wide_data))),
     caption = "\\label{tab:table-02}Comparison of travel statistics by mode and destination: 1986, 1992, 1998",
-    col.names = c("Destination", "Mode*","Min*","Med*","Max*", "(%)*", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
+    col.names = c("Destination", "Mode","Min","Med","Max", "(%)", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
   ) %>%
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
@@ -476,7 +602,7 @@ styled_ch03_table_02 <- wide_data %>%
   column_spec(6, border_right = TRUE) %>%
   column_spec(10, border_right = TRUE) %>%
   collapse_rows(columns = 1, valign = "top", latex_hline = "major") %>% 
-  footnote(general = c("* The symbols used in this table represent the following: 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
+  footnote(general = c("'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
 
 styled_ch03_table_02 
 ```
@@ -486,10 +612,10 @@ styled_ch03_table_02
 episodes_stats_after <- gss_episodes_renamed %>%
   filter(YEAR > 2000) %>%
   group_by(YEAR, dest_label, MODE) %>%
-  summarise(
-    count = n(),
+   dplyr::summarise(
+    count = sum(WGHT_EPI),
     min = min(DURATION),
-    median = median(DURATION),
+    median = Hmisc::wtd.quantile(DURATION, weights = WGHT_EPI, probs = 0.5),
     max = max(DURATION),
     .groups = "drop"
   )
@@ -522,7 +648,7 @@ styled_ch03_table_03 <- wide_data %>%
     longtable = TRUE, 
     align = c(rep("c", ncol(wide_data))),
     caption = "\\label{tab:table-03}Comparison of travel statistics by mode and destination: 2005, 2010, 2015",
-    col.names = c("Destination", "Mode","Min*","Med*","Max*", "(%)*", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
+    col.names = c("Destination", "Mode","Min","Med","Max", "(%)", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
   ) %>%
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
@@ -535,24 +661,12 @@ styled_ch03_table_03 <- wide_data %>%
   column_spec(6, border_right = TRUE) %>%
   column_spec(10, border_right = TRUE) %>% 
   collapse_rows(columns = 1, valign = "top", latex_hline = "major") %>% 
-  footnote(general = c("* The symbols used in this table represent the following: 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
+  footnote(general = c("'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
 
 styled_ch03_table_03
 ```
 
-{ActiveCA} also enables visual analysis of active travel in Canada using traditional 
-exploratory data analysis techniques. Figures \ref{fig:figure-01} and \ref{fig:figure-02}
-show walking and cycling trips from 1992 and 2015 through heat maps. These maps 
-use color gradients to represent the percentage of trips between various origins
-and destinations, with darker colors indicating higher percentages and lighter 
-colors representing less frequent routes. For conciseness, we omitted the heat maps
-for the other years analyzed.
-
-```{=html}
-<!---
-I`m not surte if this last phrase makes sense in english! "To avoid overwhelming the reader", "Para nao sobrecarregar o leitor" 
--->
-```
+{ActiveCA} also enables visual analysis of active travel in Canada using traditional exploratory data analysis techniques. Figures \ref{fig:figure-01} and \ref{fig:figure-02} show walking and cycling trips from 1992 and 2015 through heat maps. These maps use color gradients to represent the percentage of trips between various origins and destinations, with darker colors indicating higher percentages and lighter colors representing less frequent routes. For conciseness, we omitted the heat maps for the other years analyzed.
 
 In 1992, walking trips with `home` as both the origin and destination
 made up the majority, accounting for about 30% of all walking trips.
@@ -581,7 +695,7 @@ for(year in unique(gss_heatmap$YEAR)){
     trip_counts <- gss_heatmap %>%
       filter(YEAR == year, MODE == mode) %>% 
       group_by(orig_label, dest_label) %>%
-      summarize(count_each_trip = n(), 
+        dplyr::summarise(count_each_trip = n(), 
                 weighted_count = sum(WGHT_EPI), .groups = "drop")
 
       # Calculate the total weighted count
@@ -705,229 +819,43 @@ to 5% in 2015.
 knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/cycling_hm_fig.jpg"))
 ```
 
+`ActiveCA` also enables obtaining insights from the main processed files. Figure \ref{fig:figure-stress} present how the level of stress varied among respondents depending on their marital status in 2015. According to this plot, married respondents reported the highest level of stress, with 17% of possible cases. 
+
+```{r main_stress_figure}
+main_stress_figure <- gss_main_2015 %>%
+  filter(!is.na(MARSTAT), !is.na(GTU_110)) %>%
+  group_by(MARSTAT, GTU_110) %>%
+  dplyr::summarise(n = sum(WGHT_PER), .groups = "drop") %>%
+  mutate(percentage = n / sum(n) * 100) %>%
+  ungroup() %>%
+  ggplot(aes(x = MARSTAT,
+    y = GTU_110)) +
+    geom_tile(aes(fill = percentage)) +
+    labs(x = "Marital status of the respondent",
+    y = "How often do you feel rushed?",
+    fill = "Percentage (%)") + 
+    geom_text(aes(label = round(percentage)), color = "black", size = 3) + 
+    theme_bw() + 
+    scale_fill_gradientn(colors = RColorBrewer::brewer.pal(9, "YlOrRd")) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+# Save the combined plot to a file
+ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/main_stress_figure.jpg"), 
+       plot = main_stress_figure,
+       width = 15, 
+       height = 10, 
+       units = "cm", 
+       dpi = 300)
+```
+
+```{r figure-stress, echo=FALSE, out.width="100%", fig.cap=paste0("Level of stress among respondents of different marital statuses (2015)."), fig.align="center"}
+
+knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/main_stress_figure.jpg"))
+```
 
 # Python integration
 
-CAN WE PROVIDE PYTHON INTEGRATION? See here:
-
-https://github.com/paezha/idealista18/tree/master/Python
-
-<!--
-
-## Pre-estimated impedance functions for active travel in Canada
-
-`ActiveCA` includes a total of
-`r nrow(unique(gss_impedances[,c("YEAR","dest_label","f_name","MODE")]))`
-pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas. Table \ref{tab:table-04} shows the best impedance functions for walking trips to `Work or school` across survey years, where all distributions, except for a gamma function in 1998, are log-normal.
-
-```{r table-04, echo=FALSE, cache=FALSE, warning=FALSE}
-# selecting mode and destination to display impedance functions
-mode <- c("Walking","Cycling")
-destino <- "Work or school"
-
-# filtering the impedance functions in accordance with the mode/destination setted in the step before and creating a latex table 
-selected_functions <- gss_impedances_renamed %>%
-  filter(dest_label == destino, MODE %in% mode) %>%
-  group_by(MODE, YEAR, dest_label) %>% 
-  summarise(Function = first(f_name), 
-            est_1 = first(est_1),
-            est_2 = first(est_2),
-            AIC = first(aic),
-            f_name = first(f_name),
-            count = first(count),
-            .groups = "drop") %>% 
-  mutate(Function = case_when(
-    Function == "lnorm" ~ "Lognormal",
-    Function == "gamma" ~ "Gamma",
-    Function == "unif" ~ "Uniform",
-    TRUE ~ Function), 
-  across(c(est_1,est_2), ~ round(., digits = 2)), 
-  across(c(AIC), ~ round(., digits = 0))) %>% 
-  rename(Mode = MODE, Year = YEAR, Destination = dest_label) %>%
-  unique() %>% 
-  arrange(Mode, Year) %>%
-  select(Mode, Year, Function, est_1, est_2, AIC, count)
-
-selected_functions_tab <- selected_functions %>% 
-  kable(format = "latex",
-        booktabs = TRUE,
-        caption = paste0("\\label{table-04}Impedance functions and AIC for `", mode ,"` trips considering `", destino,"` as destination."), 
-        col.names = c("Mode", "Year", "Impedance function","Parameter 1*","Parameter 2*", "AIC","Count")) %>% 
-    kable_styling(full_width = FALSE, 
-                latex_options=c("scale_down"),
-                font_size = 10) %>% 
-  row_spec(0, bold = TRUE, align = "c") %>% 
-  collapse_rows(columns = 1, valign = "top", latex_hline = "major") %>%
-  footnote(general = c("*For lognormal distributions, 'Parameter 1' and 'Parameter 2' refer to the mean and standard deviation of the distribution on the logarithmic scaler, respectively. For gamma distribution, 'Parameter 1' and 'Parameter 2' refer to the rate and shape of the distribution, respectively. `AIC` means Akaike information criterion."), threeparttable = T)
-
-selected_functions_tab
-```
-
-Figure \ref{fig:figure-03} illustrates these fitted functions (red line)
-alongside histograms of empirical travel times (grey bars). As for the
-others pre-estimated functions, these examples allow to calculate gravity-based
-accessibility measures for active travel across various destinations and temporal 
-scales in Canadian urban areas.
-
-```{r theoretical_impedance_values, include = FALSE}
-theoretical_impedance <- function(df_functions, travel_cost) {
-  
-  # Initialize the main data frame to store results
-  result <- data.frame()
-  
-  # Create the 't' sequence
-  t_seq <- seq(1, travel_cost, 1)
-  
-  for (mode in unique(df_functions$Mode)){
-    
-    for (year in unique(df_functions[df_functions$Mode == mode, ]$Year)){ 
-      
-      for (destino in unique(df_functions[df_functions$Year == year & df_functions$Mode == mode, ]$Destination)){
-        
-      name_function <- df_functions[df_functions$Year == year & 
-                                      df_functions$Mode == mode & 
-                                      df_functions$Destination == destino, ]$f_name
-      
-      print(paste0("YEAR: ", year, " MODE: ", mode," Destination: ", destino))
-      
-      subset <- df_functions %>% 
-        filter(Year == year & Mode == mode & Destination == destino)
-      
-      # Temporary data frame for this iteration
-      temp_df <- data.frame(t = t_seq)
-      
-      # Add the appropriate distribution
-      if (name_function == "lnorm") {
-        temp_df$f <- dlnorm(temp_df$t,
-                            meanlog = subset$est_1[1],
-                            sdlog = subset$est_2[1])
-        
-      } else if (name_function == "gamma") {  
-        temp_df$f <- dgamma(temp_df$t,
-                            shape = subset$est_1[1],
-                            rate = subset$est_2[1])
-        
-      } else if (name_function == "norm") {  
-        temp_df$f <- dnorm(temp_df$t,
-                           mean = subset$est_1[1],
-                           sd = subset$est_2[1])
-        
-      } else if (name_function == "exp") {  
-        temp_df$f <- dexp(temp_df$t,
-                          rate = subset$est_1[1])
-        
-      } else if (name_function == "unif") {  
-        temp_df$f <- dunif(temp_df$t,
-                           min = subset$est_1[1],
-                           max = subset$est_2[1])
-      }
-      
-      # Add mode, year and destination columns
-      temp_df$MODE <- mode
-      temp_df$YEAR <- year
-      temp_df$dest_label <- destino
-        
-      # Append to the result data frame
-      result <- rbind(result, temp_df)
-    }
-  }
-}
-  return(result)
-}
-
-max_duration <- 100
-
-selected_functions <- gss_impedances_renamed %>% 
-  group_by(MODE, YEAR, dest_label) %>% 
-  summarise(Function = first(f_name), 
-            est_1 = first(est_1),
-            est_2 = first(est_2),
-            AIC = first(aic),
-            f_name = first(f_name),
-            count = first(count),
-            .groups = "drop") %>% 
-  mutate(Function = case_when(
-    Function == "lnorm" ~ "Lognormal",
-    Function == "gamma" ~ "Gamma",
-    Function == "unif" ~ "Uniform",
-    TRUE ~ Function), 
-  across(c(est_1,est_2), ~ round(., digits = 2)), 
-  across(c(AIC), ~ round(., digits = 0))) %>% 
-  rename(Mode = MODE, Year = YEAR, Destination = dest_label)
-
-theoretical_values <- theoretical_impedance(selected_functions, travel_cost = max_duration)
-```
-
-```{r include = FALSE}
-
-for(destino in unique(gss_impedances_renamed$dest_label)){
-  
-  medianas <- gss_impedances_renamed %>%
-    filter(dest_label == destino) %>%
-    group_by(MODE) %>%
-    summarise(mediana_duracao = median(DURATION, na.rm = TRUE), .groups = 'drop')
-  
-  maximos <- theoretical_values %>%
-    filter(dest_label == destino) %>%
-    group_by(MODE, YEAR) %>%
-    filter(f == max(f)) %>%
-    slice(which.max(t)) %>%
-    ungroup()
-  
-combined_plot <- gss_impedances_renamed %>% 
-  filter(dest_label == destino) %>%
-  mutate(dest_label = factor(dest_label, levels = destination_order)) %>%
-  ggplot(aes(x= DURATION)) +
-  geom_histogram(aes(y = ..density.., colour = MODE, fill = MODE), bins = 20, alpha=0.1, position="identity") + 
-  geom_line(data = theoretical_values[theoretical_values$dest_label == destino, ], aes(x = t, y = f, colour = MODE), size = 0.8) +   
-  geom_vline(data = medianas, aes(xintercept = mediana_duracao, color = MODE), linetype = "dashed") + 
-  geom_point(data = maximos, aes(x = t, y = f, colour = MODE), size = 3) + 
-  geom_label(data = maximos, aes(x = t, y = f, label = round(t, 2), colour = MODE), 
-            vjust = 0, size = 3) +
-  theme_minimal() +
-  facet_wrap(~YEAR) + 
-  labs(x = "Trip duration (in minutes)", y = "Density", colour = "Transportation Mode", fill = "Transportation Mode") +
-  theme(legend.position="right", 
-    strip.text = element_text(face = "bold", hjust = 0))
-
-  plots <- length(unique(gss_impedances_renamed[gss_impedances_renamed$dest_label == destino, ]$YEAR))
  
-  # Case of only one year 
-    if(plots == 1){
-      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,".jpg"), 
-       plot = combined_plot,
-       width = 7, 
-       height = 4, 
-       units = "in", 
-       dpi = 300)
-    
-    # Destination present in 3 surveys  
-    } else if(plots == 3){
-      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,".jpg"), 
-       plot = combined_plot,
-       width = 14, 
-       height = 4, 
-       units = "in", 
-       dpi = 300)
-      
-  # Destination present in 5 surveys  
-    }else {
-      ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/impf_",destino,".jpg"), 
-       plot = combined_plot,
-       width = 14, 
-       height = 9, 
-       units = "in", 
-       dpi = 300)
-    }
-}
-```
-
-```{r figure-03, echo=FALSE, out.width="100%", fig.cap=paste0("Empirical data and impedance functions fitted for `work or school` as destination."), fig.align="center"}
-
-knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/impf_Work or school.jpg"))
-```
-
--->
 
 # Concluding remarks
 
@@ -944,17 +872,9 @@ in 2022 [@wray2024], the Public Use Microdata Files are currently unavailable, a
 at the moment it is estimated that they will only be published in the later part
 of 2025. The `R` package will be updated once these files become available.
 
-<!--
-
-Additionally, the package includes a series of pre-estimated impedance functions 
-for walking and cycling trips, considering various destinations and time periods, 
-for Canadian Metropolitan and Census Agglomeration areas.
-
--->
-
 The value of {ActiveCA} lies in its transparency, accessibility, and ease of use,
 which facilitates the addition of complementary data sets in the future. `R` users
-can seamlessly explore GSS walking and cycling episodes <!-- along with calibrated impedance functions-->,
+can seamlessly explore GSS walking and cycling episodes, 
 with the option to suggest enhancements to the package as needed. This article adopts
 the structure proposed by Anastasia and Páez [-@soukhov2023], whose work provided
 essential guidance for the creation of this package. Similarly, we aim to contribute

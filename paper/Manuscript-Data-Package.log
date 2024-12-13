@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.26)  12 DEC 2024 15:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.13)  13 DEC 2024 17:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -515,7 +515,7 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__pdf_internal_box=\box75
 ) (./Manuscript-Data-Package.aux
 
-LaTeX Warning: Label `tab:main-2015-unprocessed' multiply defined.
+LaTeX Warning: Label `tab:gss-processed-file-2015' multiply defined.
 
 
 LaTeX Warning: Label `tab:table-01' multiply defined.
@@ -686,90 +686,167 @@ LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
 LaTeX Font Info:    Font shape `OT1/phv/m/sl' will be
 (Font)              scaled to size 11.39996pt on input line 161.
 LaTeX Font Info:    Font shape `OT1/phv/m/n' will be
-(Font)              scaled to size 8.54997pt on input line 205.
+(Font)              scaled to size 8.54997pt on input line 207.
 LaTeX Font Info:    Font shape `OT1/phv/b/n' will be
-(Font)              scaled to size 8.54997pt on input line 205.
+(Font)              scaled to size 8.54997pt on input line 207.
 
 
 [3]
 
-LaTeX Warning: Reference `tab:ep-2015-unprocessed' on page 4 undefined on input line 243.
-
-
-LaTeX Warning: Reference `tab:ep-2015-unprocessed' on page 4 undefined on input line 256.
-
-
-LaTeX Warning: Reference `tab:ep-2015-unprocessed' on page 4 undefined on input line 271.
-
-
-
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 297--297
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
 []\OT1/ptm/m/n/8 Legend: `PUM-FID`: record iden-ti-fi-ca-tion. `EPINO`: episode num-ber.
  []
 
-LaTeX Font Info:    Font shape `OMS/phv/b/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 312.
+
+
 [5]
-Overfull \hbox (26.74812pt too wide) in alignment at lines 386--406
- [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+<Manuscript-figures/walking-2015-documentation.png, id=130, 1151.502pt x 608.87476pt>
+File: Manuscript-figures/walking-2015-documentation.png Graphic file (type png)
+<use Manuscript-figures/walking-2015-documentation.png>
+Package pdftex.def Info: Manuscript-figures/walking-2015-documentation.png  used on input line 365.
+(pdftex.def)             Requested size: 352.81416pt x 186.55663pt.
+
+
+[6 <./Manuscript-figures/walking-2015-documentation.png>]
+Overfull \hbox (43.18584pt too wide) in paragraph at lines 429--429
+[]\OT1/pcr/m/n/10 # Combine total and active population and calculate the percentage[] 
  []
 
 
-Overfull \hbox (30.16791pt too wide) in alignment at lines 417--471
- [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 431--431
+[]  \OT1/pcr/m/n/10 left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) %>%[] 
  []
 
-[6]
-LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 497.
-(c:/ProgramData/TinyTeX/texmf-dist/tex/latex/psnfss/ts1pcr.fd
-File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
-)
-<Manuscript-figures/walking_hm_fig.jpg, id=142, 5119.125pt x 2409.0pt>
-File: Manuscript-figures/walking_hm_fig.jpg Graphic file (type jpg)
-<use Manuscript-figures/walking_hm_fig.jpg>
-Package pdftex.def Info: Manuscript-figures/walking_hm_fig.jpg  used on input line 501.
-(pdftex.def)             Requested size: 352.81416pt x 166.00063pt.
-<Manuscript-figures/cycling_hm_fig.jpg, id=144, 5119.125pt x 2409.0pt>
-File: Manuscript-figures/cycling_hm_fig.jpg Graphic file (type jpg)
-<use Manuscript-figures/cycling_hm_fig.jpg>
-Package pdftex.def Info: Manuscript-figures/cycling_hm_fig.jpg  used on input line 518.
-(pdftex.def)             Requested size: 352.81416pt x 166.00063pt.
+
+Overfull \hbox (91.18584pt too wide) in paragraph at lines 432--432
+[]  \OT1/pcr/m/n/10 mutate(Percentage = round(Active_population/Total_population  * 100, 2))[] 
+ []
+
 
 
 [7]
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 440--440
+[]  \OT1/pcr/m/n/10 AGEGR10           Total_population Active_population Percentage[] 
+ []
 
-[8 <./Manuscript-figures/walking_hm_fig.jpg> <./Manuscript-figures/cycling_hm_fig.jpg>] (./Manuscript-Data-Package.bbl
 
-[9])
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 441--441
+[]  \OT1/pcr/m/n/10 <ord>                        <dbl>             <dbl>      <dbl>[] 
+ []
 
-[10] (./Manuscript-Data-Package.aux)
+
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 442--442
+[]\OT1/pcr/m/n/10 1 15 to 24 years            4511131.          1641468.       36.4[] 
+ []
+
+
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 443--443
+[]\OT1/pcr/m/n/10 2 25 to 34 years            4956386.          1644033.       33.2[] 
+ []
+
+
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 444--444
+[]\OT1/pcr/m/n/10 3 35 to 44 years            4734506.           847770.       17.9[] 
+ []
+
+
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 445--445
+[]\OT1/pcr/m/n/10 4 45 to 54 years            5136125.           790667.       15.4[] 
+ []
+
+
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 446--446
+[]\OT1/pcr/m/n/10 5 55 to 64 years            4831306.           767064.       15.9[] 
+ []
+
+
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 447--447
+[]\OT1/pcr/m/n/10 6 65 to 74 years            3283969.           559025.       17.0[] 
+ []
+
+
+Overfull \hbox (37.18584pt too wide) in paragraph at lines 448--448
+[]\OT1/pcr/m/n/10 7 75 years and over         2312976.           384359.       16.6[] 
+ []
+
+[8]
+Overfull \hbox (4.47131pt too wide) in alignment at lines 550--558
+ [] [] [] [] [] [] [] 
+ []
+
+
+
+[9]
+Overfull \hbox (15.65218pt too wide) in alignment at lines 630--650
+ [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (19.07196pt too wide) in alignment at lines 661--715
+ [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
+ []
+
+
+
+[10]
+LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 741.
+(c:/ProgramData/TinyTeX/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+)
+<Manuscript-figures/walking_hm_fig.jpg, id=180, 5119.125pt x 2409.0pt>
+File: Manuscript-figures/walking_hm_fig.jpg Graphic file (type jpg)
+<use Manuscript-figures/walking_hm_fig.jpg>
+Package pdftex.def Info: Manuscript-figures/walking_hm_fig.jpg  used on input line 745.
+(pdftex.def)             Requested size: 352.81416pt x 166.00063pt.
+<Manuscript-figures/cycling_hm_fig.jpg, id=182, 5119.125pt x 2409.0pt>
+File: Manuscript-figures/cycling_hm_fig.jpg Graphic file (type jpg)
+<use Manuscript-figures/cycling_hm_fig.jpg>
+Package pdftex.def Info: Manuscript-figures/cycling_hm_fig.jpg  used on input line 762.
+(pdftex.def)             Requested size: 352.81416pt x 166.00063pt.
+
+
+[11]
+<Manuscript-figures/main_stress_figure.jpg, id=190, 1777.64125pt x 1185.42876pt>
+File: Manuscript-figures/main_stress_figure.jpg Graphic file (type jpg)
+<use Manuscript-figures/main_stress_figure.jpg>
+Package pdftex.def Info: Manuscript-figures/main_stress_figure.jpg  used on input line 777.
+(pdftex.def)             Requested size: 352.81416pt x 235.27274pt.
+
+
+[12 <./Manuscript-figures/walking_hm_fig.jpg> <./Manuscript-figures/cycling_hm_fig.jpg>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[13 <./Manuscript-figures/main_stress_figure.jpg>] (./Manuscript-Data-Package.bbl
+
+[14])
+
+[15] (./Manuscript-Data-Package.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-11-02>
  ***********
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Manuscript-Data-Package.out' has not changed.
-(rerunfilecheck)             Checksum: 4792A2C5DEDE5543CD7B1EF53D7257FE;1911.
+(rerunfilecheck)             Checksum: BE76393B5914076ACFA4C57166736FFA;2046.
  ) 
 Here is how much of TeX's memory you used:
- 14949 strings out of 475290
- 236664 string characters out of 5768816
- 692766 words of memory out of 5000000
- 37471 multiletter control sequences out of 15000+600000
- 609189 words of font info for 133 fonts, out of 8000000 for 9000
+ 14998 strings out of 475290
+ 238244 string characters out of 5768816
+ 692521 words of memory out of 5000000
+ 37508 multiletter control sequences out of 15000+600000
+ 609449 words of font info for 134 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 75i,11n,79p,581b,624s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Manuscript-Data-Package.pdf (10 pages, 2195629 bytes).
+ 75i,11n,79p,576b,612s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/ProgramData/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Manuscript-Data-Package.pdf (15 pages, 2587601 bytes).
 PDF statistics:
- 254 PDF objects out of 1000 (max. 8388607)
- 213 compressed objects within 3 object streams
- 44 named destinations out of 1000 (max. 500000)
- 115 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 287 PDF objects out of 1000 (max. 8388607)
+ 244 compressed objects within 3 object streams
+ 55 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
 

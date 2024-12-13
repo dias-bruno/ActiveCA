@@ -173,26 +173,28 @@ facilitating the data's analytical utility with additional metrics such
 as total transit time, time spent with household members, and counts of
 activities and episodes.
 
-The table \ref{tab:main-2015-unprocessed} shows the first ten lines and
-the first 6 variables of the GSS PUMF 2015 main file (Cycle 29). Each
-line of the table refers to a respondent in a survey and the columns
-refer respectively to the record identification (\texttt{PUMFID}), the
+Table \ref{tab:main-2015-unprocessed} shows the first ten rows and first
+six variables of the GSS PUMF 2015 main file (Cycle 29). Each row in the
+table correspond to a survey respondent, while the columns refer the
+following information: record identification (\texttt{PUMFID}), the
 person's weight (\texttt{WGHT\_PER}), the month the survey data was
 collected (\texttt{SURVMNTH}), the respondent's age group
 (\texttt{AGEGR10}), the respondent's sex (\texttt{SEX}), and the
-respondent's marital status (\texttt{MARSTAT}). In total, the main file
-of the 2015 GSS surveys has 17,390 respondents corresponding to
-\ensuremath{2.9766399\times 10^{7}} people and 848 variables. For the
-discrete variables, Statistic Canada has created codes for the possible
-values and each value has its own label. For example, for the variable
-\texttt{SURVMNTH}, the value \texttt{1} means \texttt{January\ 2016},
-while 2 means \texttt{February\ 2016}, 3 is \texttt{March\ 2016} and so
-on. As you can see from the example in Table
-\ref{tab:main-2015-unprocessed}, the variables are not labeled. In
-addition, the format of the tables (comma separated) does not allow you
-to specify the type of each variable (whether it is continuous or
-discrete, for example), which can cause confusion for an analyst with
-relatively little experience in handling PUMFs.
+respondent's marital status (\texttt{MARSTAT}).
+
+The main file of the 2015 GSS surveys includes a total of 17,390
+respondents, representing 29,766,399 individuals and 848 variables. For
+discrete variables, Statistics Canada has assigned specific codes to the
+possible values, with each code accompanied by a label. For instance, in
+the case of the variable \texttt{SURVMNTH}, a value of \texttt{1} means
+\texttt{January\ 2016}, 2 means \texttt{February\ 2016}, 3 corresponds
+to \texttt{March\ 2016}, and so on.
+
+As shown in Table \ref{tab:main-2015-unprocessed}, the variables are not
+labeled. Adittionaly, the format of the tables (comma-separated values)
+does not allow for the specification of variable types (whether a
+variable is continuous or discrete), which can lead to mistakes analysts
+who have limited experience working with PUMFs.
 
 \begingroup\fontsize{8}{10}\selectfont
 
@@ -239,39 +241,40 @@ included within the episode file, it is possible to link the main file
 and the episode file by using a key present in both the Main and Episode
 Files.
 
-Similarly to Table \ref{tab:main-2015-unprocessed} that displayed an
+Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an
 example of the main file structure, Table \ref{tab:ep-2015-unprocessed}
-shows the first seven episodes for the record identification number
-\texttt{10041} and some variables of the GSS PUMF 2015 episode file
-(Cycle 29). Each line of the table refers to an episode of the
-especified record identification (\texttt{PUMFID\ =\ 10041}), the
-episode's weight (\texttt{WGHT\_EPI}), the episode number
-(\texttt{EPINO}), the activity code (\texttt{TUI\_01}), the episode's
-duration (\texttt{DURATION}) and the episode's location
-(\texttt{LOCATION}). In total, the episode file of the 2015 GSS surveys
-has 274,108 records corresponding to \ensuremath{4.6183762\times 10^{8}}
-episodes and 527 variables that detail the episodes. As similar to the
-main file, Statistic Canada has created codes for the possible values of
-the discrete variables with each value has its own label. Considering
-the case displayed in Table \ref{tab:ep-2015-unprocessed}, this person
-started the diary description while sleeping at home
+presents the first seven episodes for the record identification number
+\texttt{10041} and some variables from the GSS PUMF 2015 episode file
+(Cycle 29). Each row in the table corresponds to an episode associated
+with the specified record identification (\texttt{PUMFID\ =\ 10041}),
+including the episode's weight (\texttt{WGHT\_EPI}), episode number
+(\texttt{EPINO}), activity code (\texttt{TUI\_01}), episode duration
+(\texttt{DURATION}), and episode location (\texttt{LOCATION}).
+
+In total, the episode file of the 2015 GSS surveys contains 274,108
+records, representing 461,837,622 episodes and 527 variables detailing
+the episodes. Similar to the main file, Statistics Canada has created
+codes for the discrete variables, with each value corresponding to a
+label.
+
+In the case illustrated in Table \ref{tab:ep-2015-unprocessed}, this
+respondent began the diary description by sleeping at home
 (\texttt{TUI\_01\ =\ 1} and \texttt{LOCATION\ =\ 300}) for 210 minutes,
-then engaged in personal hygiene for 40 minutes
-(\texttt{TUI\_01\ =\ 2}), then spent 15 minutes getting personal care
-(which can be getting ready for school, supervising homework, reading,
-playing, reprimanding, educational, or emotional help, sinalized by the
-\texttt{TUI\_01\ =\ 27}). After this, this person had an activity travel
+followed by 40 minutes of personal hygiene (\texttt{TUI\_01\ =\ 2}). The
+respondent then spent 15 minutes on personal care activities, such as
+getting ready for school, supervising homework, reading, playing,
+reprimanding, or providing educational or emotional support, as
+indicated by \texttt{TUI\_01\ =\ 27}. Next, they recorded a travel
 episode, walking for 15 minutes (\texttt{TUI\_01\ =\ 7} and
-\texttt{LOCATION\ =\ 315}) in which the origin and destination was their
-own house. Cases like this, where the trip starts and finishes at home
-refers to recreational and leisure trips. After that, the person spent 3
-hours looking for a job (\texttt{TUI\_01\ =\ 9}), had break for a lunch
-of 15 minutes duration (\texttt{TUI\_01\ =\ 6}) and cleaned the house
-(\texttt{TUI\_01\ =\ 18}) for two hours. Table
-\ref{tab:ep-2015-unprocessed} shows only six variables from the 527
-possible cases. As you can see, since that data set is not labeled,
-figuring out the codes for every variable can be time consuming and
-difficult.
+\texttt{LOCATION\ =\ 315}), where both the origin and destination were
+their home. Such trips, where the journey starts and finishes at home,
+can be classified as recreational or leisure trips. Next, the respondent
+spent 3 hours searching for a job (\texttt{TUI\_01\ =\ 9}), took a
+15-minute lunch break (\texttt{TUI\_01\ =\ 6}), and then cleaned the
+house (\texttt{TUI\_01\ =\ 18}) for two hours. Table
+\ref{tab:ep-2015-unprocessed} displays only six variables out of the 527
+available. As shown, since the dataset does not label the variable
+values, decoding them can be both time-consuming and challenging.
 
 \begingroup\fontsize{8}{10}\selectfont
 
@@ -281,7 +284,7 @@ difficult.
 \item Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
 \end{TableNotes}
 \begin{longtable}[t]{cccccc}
-\caption{\label{tab:gss-epi-file-2015}\label{tab:main-2015-unprocessed}Visualization of the seven first episodes of the record number `10041`.}\\
+\caption{\label{tab:gss-epi-file-2015}\label{tab:ep-2015-unprocessed}Visualization of the seven first episodes of the record number `10041`.}\\
 \toprule
 PUMFID & EPINO & WGHT\_EPI & TUI\_01 & DURATION & LOCATION\\
 \midrule
@@ -306,21 +309,265 @@ files to identify episodes of movement that involved walking or cycling.
 This allowed us to select the activities immediately before and after
 the movement episode. After that, we labeled the code variables with
 their appropriate descriptions, identifying each origin and destination,
-mode of travel, as well the province and urban classification of the
-episode.
+mode of travel, time spent in the active trip, as well the province and
+urban classification of the episode.
 
-\section{How to use \{ActiveCA\}}\label{how-to-use-activeca}
+The active trips (walking and cycling) were identified by their
+corresponding activity codes, accounting for differences between the
+survey cycles. Identifying the preceding and succeeding activities of
+each activity episode helps to understand the motivation for the trip
+and also determine the origin and destination of the trips.
+
+For each GSS main file, we selected socioeconomic variables to help
+profile the individuals engaged in active trip episodes. We included key
+socioeconomic variables such as the respondent's age group, sex, marital
+status, and number of children, among others. After this, as we did with
+the episode files, we labeled the code variables with their appropriate
+descriptions.
+
+\section{\texorpdfstring{How to use
+\texttt{ActiveCA}}{How to use ActiveCA}}\label{how-to-use-activeca}
+
+This section presents some potential applications of the
+\texttt{ActiveCA} R package. In fact, we expect that the application of
+this package to extend beyond our pre-imagined range of uses.
+
+To start the demonstration, it is first necessary to install the
+package. The code chunk below demonstrates how to install the
+\texttt{ActiveCA} package in R:
+
+\begin{verbatim}
+if(!require("ActiveCA", character.only = TRUE)) {
+      remotes::install_github("dias-bruno/ActiveCA")
+}
+\end{verbatim}
+
+After installing the \texttt{ActiveCA} R package, you can load it using
+the following code:
+
+\begin{verbatim}
+library(ActiveCA)
+\end{verbatim}
+
+By running \texttt{?ActiveCA} in \texttt{R}, you can access the complete
+package documentation. The documentation includes a description of the
+package, information about the authors and maintainers, and an overview
+of all pre-processed data sets included in the package.
+
+Figure \ref{fig:walking_documentation} displays the documentation for
+the walking episodes from the 2015 GSS (\texttt{walking\_2015.rda}). The
+documentation provides a brief description of the dataset, instructions
+on how to load the package, as well as details about the file format and
+descriptions of all variables (already labeled).
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{Manuscript-figures/walking-2015-documentation} 
+
+}
+
+\caption{Documentation for the dataset of walking episodes from 2015.}\label{fig:walking_documentation}
+\end{figure}
+
+The chunk below shows how to load the walking episodes from the 2015 GSS
+(Cycle 29):
+
+\begin{verbatim}
+data(walking_2015)
+\end{verbatim}
+
+The GSS surveys apply a probability sampling methodology, in which each
+episode or person selected in the sample represents several other
+episodes or persons not in the sample. The number of episodes and
+persons represented by a episode or person is determined by the weight
+or weighting factor. Because of this, every estimates of the number of
+episodes or persons need to be calculated applying the corresponding
+weighting factors.
+
+For instance, if someone wants to calculate the percentage of
+respondents from the 2015 GSS survey with active travel episodes, it is
+necessary to account for the person's weights. In 2015, the weight
+variable is represented by \texttt{WGHT\_PER.} The code chunk below
+demonstrates how to obtain the percentage of people with active travel
+episodes by age group. It uses the dplyr package to manipulate the data.
+
+The process begins by creating a dataset that sums the population by age
+group. Then, it joins the 2015 episodes with the 2015 main file. Note
+that in both operations, the code sums the person weight variable
+(\texttt{WGHT\_PER}) to obtain the correct population values. After
+this, a new dataset, \texttt{Active\_percentage}, is created by merging
+both previous datasets. The percentage of active travel episodes by age
+group is calculated by dividing the total population by the population
+with active trip episodes, then multiplying by 100.
+
+The result shows that the age group with the highest share of active
+trips is those between 15 and 20 years old, with almost 37\%, followed
+by those between 25 and 34 years old with around 33\%. There is a
+significant drop in percentage for the following groups, with the
+percentage falling to between 15\% and 18\% for the remaining age
+groups.
+
+\begin{verbatim}
+# Load the dplyr library for data manipulation
+library('dplyr')
+
+# Load the episodes dataset
+data(gss_episodes) 
+
+# Calculate the total population for each age group
+Total_population <- gss_main_2015 %>% 
+  group_by(AGEGR10) %>% 
+  summarise(Total_population  = sum(WGHT_PER))
+
+# Calculate the active population for each age group
+Active_population <- gss_episodes %>% 
+      filter(YEAR == 2015) %>% 
+  left_join(gss_main_2015, by = c("PUMFID"="PUMFID")) %>% 
+  group_by(AGEGR10) %>% 
+  summarise(Active_population  = sum(WGHT_PER))
+
+# Combine total and active population and calculate the percentage
+Active_percentage <- Total_population %>% 
+  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) %>%
+  mutate(Percentage = round(Active_population/Total_population  * 100, 2))
+
+# Display the final result
+Active_percentage
+\end{verbatim}
+
+\begin{verbatim}
+# A tibble: 7 x 4
+  AGEGR10           Total_population Active_population Percentage
+  <ord>                        <dbl>             <dbl>      <dbl>
+1 15 to 24 years            4511131.          1641468.       36.4
+2 25 to 34 years            4956386.          1644033.       33.2
+3 35 to 44 years            4734506.           847770.       17.9
+4 45 to 54 years            5136125.           790667.       15.4
+5 55 to 64 years            4831306.           767064.       15.9
+6 65 to 74 years            3283969.           559025.       17.0
+7 75 years and over         2312976.           384359.       16.6
+\end{verbatim}
+
+\subsection{Processed data set}\label{processed-data-set}
+
+Table \ref{tab:processed-obs} displays the total number of observations
+processed for main and episode files. For the main files, a total of
+89,331 observations were processed, referring to all observations from
+the Time Use Surveys from 1986 to 2015, that together represents more of
+149,389,839 respondents (29,766,399 for 2015, 28,075,610 for 2010,
+26,095,819 for 2005, 24,260,137 for 1998, 21,294,313 for 1992, and for
+2005, 24,260,137 for 1998, and 21,294,313 for 1986). Table X also
+presents the total cases of active trips episodes identified. In total
+21,748 observations with register of active travel activity. Together,
+these observations account for NA episodes (0 for 2015, 0 for 2010, 0
+for 2005, 0 for 1998, 0 for 1992, and for 2005, 0 for 1998, and 0 for
+1986).
+
+\begingroup\fontsize{10}{12}\selectfont
+
+\begin{longtable}[t]{lrrr}
+\caption{\label{tab:table_df_processed}\label{tab:processed-obs}Total number and weighted sum of observations processed.}\\
+\toprule
+\multicolumn{2}{c}{ } & \multicolumn{2}{c}{Observations} \\
+\cmidrule(l{3pt}r{3pt}){3-4}
+Survey & Year & Count & Weighted\\
+\midrule
+ & 2015 & 17390 & 29766399\\
+\nopagebreak
+ & 2010 & 15390 & 28075610\\
+\nopagebreak
+ & 2005 & 19597 & 26095819\\
+\nopagebreak
+ & 1998 & 10749 & 24260137\\
+\nopagebreak
+ & 1992 & 9815 & 21294313\\
+\nopagebreak
+\multirow[t]{-6}{*}{\raggedright\arraybackslash Main} & 1986 & 16390 & 19897562\\
+\cmidrule{1-4}\pagebreak[0]
+ & 2015 & 3496 & 6634387\\
+\nopagebreak
+ & 2010 & 4615 & 8516753\\
+\nopagebreak
+ & 2005 & 5866 & 7583838\\
+\nopagebreak
+ & 1998 & 1789 & 3606987\\
+\nopagebreak
+ & 1992 & 1635 & \\
+\nopagebreak
+\multirow[t]{-6}{*}{\raggedright\arraybackslash Episode} & 1986 & 4347 & 8241196\\
+\bottomrule
+\end{longtable}
+\endgroup{}
+
+Table \ref{tab:main-2015-processed} shows the first ten rows and first
+six variables of the GSS PUMF 2015 main file (Cycle 29), displayed in
+\ref{tab:main-2015-unprocessed} before our processing. Table
+\ref{tab:ep-2015-processed} presents the walking episodes for the record
+identification number \texttt{10041} from the GSS PUMF 2015 episode file
+(Cycle 29), previously displayed in Table \ref{tab:ep-2015-unprocessed}.
+Only active travel episodes appear in Table \ref{tab:ep-2015-processed}
+since the observations were filtered to select cases with walking or
+cycling episodes. For both cases, Tables \ref{tab:main-2015-processed}
+and \ref{tab:ep-2015-processed} contain labeled variables, facilitating
+the interpretation of the data.
+
+\begingroup\fontsize{8}{10}\selectfont
+
+\begin{ThreePartTable}
+\begin{TableNotes}
+\item \textit{Note: } 
+\item Legend: `PUMFID`: record identification. `WGHT\_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent.
+\end{TableNotes}
+\begin{longtable}[t]{cccccc}
+\caption{\label{tab:gss-processed-file-2015}\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the main file of the 2015 GSS.}\\
+\toprule
+PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
+\midrule
+10000 & 616.6740 & July & 55 to 64 years & Male & Divorced\\
+10001 & 8516.6140 & July & 55 to 64 years & Male & Married\\
+10002 & 371.7520 & January & 45 to 54 years & Female & Married\\
+10003 & 1019.3135 & March & 65 to 74 years & Female & Divorced\\
+10004 & 1916.0708 & September & 25 to 34 years & Male & Single, never married\\
+\addlinespace
+10005 & 1952.2015 & April & 15 to 24 years & Male & Single, never married\\
+10006 & 5761.5528 & August & 15 to 24 years & Male & Single, never married\\
+10007 & 466.0426 & June & 55 to 64 years & Female & Widowed\\
+10008 & 2479.2991 & February & 25 to 34 years & Female & Married\\
+10009 & 1436.1641 & August & 65 to 74 years & Male & Widowed\\
+\bottomrule
+\insertTableNotes
+\end{longtable}
+\end{ThreePartTable}
+\endgroup{}
+
+\begingroup\fontsize{8}{10}\selectfont
+
+\begin{ThreePartTable}
+\begin{TableNotes}
+\item \textit{Note: } 
+\item Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
+\end{TableNotes}
+\begin{longtable}[t]{rrlrlll}
+\caption{\label{tab:gss-processed-file-2015}\label{tab:ep-2015-processed}Visualization of active travel episodes of the record number `10041` for the 2015 GSS survey.}\\
+\toprule
+PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
+\midrule
+10041 & 1353.818 & Transport to or from activity & 15 & Home & Home & Walking\\
+\bottomrule
+\insertTableNotes
+\end{longtable}
+\end{ThreePartTable}
+\endgroup{}
 
 \subsection{Descriptive statistics}\label{descriptive-statistics}
 
-Considering GSS Cycles analyzed, we identified 21748 episodes that
+Considering GSS Cycles analyzed, we identified 21,748 episodes that
 recorded active travel episodes, with trip duration ranging from 0 to
 900 minutes, to twelve different destinations. \texttt{ActiveCA}
 includes all these episodes ready for analysis. Table \ref{tab:table-01}
 presents descriptive statistics on walking and cycling trips between
-1986 and 2015, including metrics such as the count of recorded trips
-(count), and measures of trip duration in minutes: maximum (max), mean,
-median, and minimum (min). The 1986 survey did not include bicycle
+1986 and 2015, with measures of trip duration in minutes: maximum (max),
+mean, median, and minimum (min). The 1986 survey did not include bicycle
 trips.
 
 \begingroup\fontsize{10}{12}\selectfont
@@ -332,38 +579,35 @@ trips.
 \cmidrule(l{3pt}r{3pt}){3-8}
 Mode & Statistic & 1986 & 1992 & 1998 & 2005 & 2010 & 2015\\
 \midrule
- & Count & 4347 & 1500 & 1670 & 5533 & 4379 & 3251\\
-\nopagebreak
  & Maximum & 660 & 300 & 255 & 515 & 480 & 900\\
 \nopagebreak
- & Mean & 21 & 19 & 11 & 12 & 12 & 17\\
+ & Mean & 21 &  & 12 & 12 & 13 & 18\\
 \nopagebreak
- & Median & 10 & 10 & 5 & 10 & 8 & 10\\
+ & Median & 15 & 10 & 5 & 10 & 10 & 10\\
 \nopagebreak
  & Minimum & 1 & 1 & 1 & 0 & 0 & 5\\
 \nopagebreak
-\multirow[t]{-6}{*}{\raggedright\arraybackslash \textbf{Walking}} & Standard deviation & 31 & 25 & 17 & 16 & 17 & 27\\
+\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Walking}} & Standard deviation & 31 & 25 & 17 & 16 & 17 & 27\\
 \cmidrule{1-8}\pagebreak[0]
- & Count &  & 135 & 119 & 333 & 236 & 245\\
-\nopagebreak
  & Maximum &  & 240 & 90 & 180 & 153 & 120\\
 \nopagebreak
- & Mean &  & 31 & 21 & 19 & 21 & 24\\
+ & Mean &  & 28 & 24 & 20 & 19 & 25\\
 \nopagebreak
- & Median &  & 20 & 15 & 15 & 15 & 15\\
+ & Median &  & 15 & 15 & 15 & 10 & 20\\
 \nopagebreak
  & Minimum &  & 5 & 2 & 1 & 1 & 5\\
 \nopagebreak
-\multirow[t]{-6}{*}{\raggedright\arraybackslash \textbf{Cycling}} & Standard deviation &  & 36 & 18 & 18 & 23 & 20\\
+\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Cycling}} & Standard deviation &  & 36 & 18 & 18 & 23 & 20\\
 \bottomrule
 \end{longtable}
 \endgroup{}
 
-Table \ref{tab:table-01} shows that the median values for walking trips
-range between 5 and 10 minutes, while cycling trips have a consistent
-median of 15 minutes since 1998. The table also highlights very high
-maximum values, particularly for walking trips, with recorded episodes
-exceeding 4 hours in all cases.
+Table \ref{tab:table-01} shows that, in general, the median values for
+walking trips is 10 minutes, except for 1998 when the median was 5
+minutes. In the case of cycling trips, the duration fluctuated over the
+years, ranging from 10 to 20 minutes. The table also highlights very
+high maximum values, particularly for walking trips, with recorded
+episodes exceeding 4 hours in all cases.
 
 Table \ref{tab:table-02} and \ref{tab:table-03} provide descriptive
 statistics for the two modes of transportation, split by destination
@@ -373,34 +617,34 @@ walking trips destined for \texttt{home} had the highest medians.
 However, by 1998, the highest medians shifted to trips to
 \texttt{work\ or\ school}, a transition that also occurred for cycling
 trips between 1992 and 1998. Table \ref{tab:table-03} indicates that the
-median duration for trips to \texttt{home} and \texttt{work\ or\ school}
-remained at 10 minutes.
+median duration for walking trips to \texttt{home} and
+\texttt{work\ or\ school} remained at 10 minutes.
 
 \begingroup\fontsize{6}{8}\selectfont
 
 \begin{ThreePartTable}
 \begin{TableNotes}
 \item \textit{Note: } 
-\item * The symbols used in this table represent the following: 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(\%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination
+\item 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(\%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination
 \end{TableNotes}
 \begin{longtable}[t]{ccccc>{}c|ccc>{}c|cccc}
 \caption{\label{tab:table-02}\label{tab:table-02}Comparison of travel statistics by mode and destination: 1986, 1992, 1998}\\
 \toprule
 \multicolumn{2}{c}{ } & \multicolumn{4}{c}{1986} & \multicolumn{4}{c}{1992} & \multicolumn{4}{c}{1998} \\
 \cmidrule(l{3pt}r{3pt}){3-6} \cmidrule(l{3pt}r{3pt}){7-10} \cmidrule(l{3pt}r{3pt}){11-14}
-\multicolumn{1}{c}{\textbf{Destination}} & \multicolumn{1}{c}{\textbf{Mode*}} & \multicolumn{1}{c}{\textbf{Min*}} & \multicolumn{1}{c}{\textbf{Med*}} & \multicolumn{1}{c}{\textbf{Max*}} & \multicolumn{1}{c}{\textbf{(\%)*}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}}\\
+\multicolumn{1}{c}{\textbf{Destination}} & \multicolumn{1}{c}{\textbf{Mode}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}}\\
 \midrule
- & Home &  &  &  &  & 5 & 20 & 240 & 55.6 & 2 & 15.0 & 90 & 52.9\\
+ & Home &  &  &  &  & 5 & 20 & 240 & 55.7 & 2 & 15 & 90 & 51.6\\
 \nopagebreak
- & Other's home &  &  &  &  & 5 & 10 & 145 & 18.5 & 2 & 10.0 & 80 & 17.6\\
+ & Other's home &  &  &  &  & 5 & 10 & 145 & 19.7 & 2 & 10 & 80 & 15.7\\
 \nopagebreak
-\multirow[t]{-3}{*}{\centering\arraybackslash Cycling} & Work or school &  &  &  &  & 5 & 15 & 45 & 25.9 & 5 & 20.0 & 75 & 29.4\\
+\multirow[t]{-3}{*}{\centering\arraybackslash Cycling} & Work or school &  &  &  &  & 5 & 15 & 45 & 24.7 & 5 & 25 & 75 & 32.8\\
 \cmidrule{1-14}\pagebreak[0]
- & Home & 1 & 15 & 330 & 46.4 & 1 & 10 & 300 & 59.5 & 1 & 5.0 & 255 & 51.6\\
+ & Home & 1 & 15 & 330 & 46.3 & 1 & 15 & 300 &  & 1 & 5 & 255 & 51.9\\
 \nopagebreak
- & Other's home & 1 & 10 & 660 & 42.3 & 1 & 5 & 135 & 21.3 & 1 & 5.0 & 120 & 28.1\\
+ & Other's home & 1 & 10 & 660 & 42.6 & 1 & 5 & 135 &  & 1 & 5 & 120 & 27.8\\
 \nopagebreak
-\multirow[t]{-3}{*}{\centering\arraybackslash Walking} & Work or school & 1 & 10 & 450 & 11.3 & 2 & 10 & 60 & 19.2 & 1 & 6.5 & 75 & 20.4\\
+\multirow[t]{-3}{*}{\centering\arraybackslash Walking} & Work or school & 1 & 10 & 450 & 11.1 & 2 & 10 & 60 &  & 1 & 10 & 75 & 20.3\\
 \bottomrule
 \insertTableNotes
 \end{longtable}
@@ -412,60 +656,60 @@ remained at 10 minutes.
 \begin{ThreePartTable}
 \begin{TableNotes}
 \item \textit{Note: } 
-\item * The symbols used in this table represent the following: 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(\%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination
+\item 'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(\%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination
 \end{TableNotes}
 \begin{longtable}[t]{ccccc>{}c|ccc>{}c|cccc}
 \caption{\label{tab:table-03}\label{tab:table-03}Comparison of travel statistics by mode and destination: 2005, 2010, 2015}\\
 \toprule
 \multicolumn{2}{c}{ } & \multicolumn{4}{c}{2005} & \multicolumn{4}{c}{2010} & \multicolumn{4}{c}{2015} \\
 \cmidrule(l{3pt}r{3pt}){3-6} \cmidrule(l{3pt}r{3pt}){7-10} \cmidrule(l{3pt}r{3pt}){11-14}
-\multicolumn{1}{c}{\textbf{Destination}} & \multicolumn{1}{c}{\textbf{Mode}} & \multicolumn{1}{c}{\textbf{Min*}} & \multicolumn{1}{c}{\textbf{Med*}} & \multicolumn{1}{c}{\textbf{Max*}} & \multicolumn{1}{c}{\textbf{(\%)*}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}}\\
+\multicolumn{1}{c}{\textbf{Destination}} & \multicolumn{1}{c}{\textbf{Mode}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}} & \multicolumn{1}{c}{\textbf{Min}} & \multicolumn{1}{c}{\textbf{Med}} & \multicolumn{1}{c}{\textbf{Max}} & \multicolumn{1}{c}{\textbf{(\%)}}\\
 \midrule
- & Cultural venues & 10 & 12.5 & 15 & 0.6 & 10 & 25 & 30 & 1.3 & 15 & 15.0 & 15 & 0.8\\
+ & Cultural venues & 10 & 10 & 15 & 0.3 & 10 & 25 & 30 & 1.0 & 15 & 15 & 15 & 0.5\\
 \nopagebreak
- & Grocery store & 2 & 10.0 & 30 & 10.2 & 5 & 10 & 75 & 8.9 & 5 & 15.0 & 80 & 6.5\\
+ & Grocery store & 2 & 10 & 30 & 10.4 & 5 & 10 & 75 & 7.2 & 5 & 15 & 80 & 5.5\\
 \nopagebreak
- & Health clinic &  &  &  &  &  &  &  &  & 10 & 15.0 & 90 & 2.0\\
+ & Health clinic &  &  &  &  &  &  &  &  & 10 & 15 & 90 & 1.9\\
 \nopagebreak
- & Home & 1 & 15.0 & 180 & 48.9 & 1 & 15 & 135 & 50.4 & 5 & 20.0 & 120 & 46.9\\
+ & Home & 1 & 15 & 180 & 48.4 & 1 & 10 & 135 & 48.8 & 5 & 20 & 120 & 46.4\\
 \nopagebreak
- & Neighbourhood &  &  &  &  &  &  &  &  & 10 & 30.0 & 45 & 1.2\\
+ & Neighbourhood &  &  &  &  &  &  &  &  & 10 & 30 & 45 & 1.3\\
 \nopagebreak
- & Other's home & 1 & 15.0 & 35 & 9.0 & 5 & 10 & 45 & 9.3 & 5 & 15.0 & 40 & 5.3\\
+ & Other's home & 1 & 10 & 35 & 9.4 & 5 & 10 & 45 & 9.7 & 5 & 15 & 40 & 4.8\\
 \nopagebreak
- & Outdoors & 5 & 15.0 & 45 & 6.0 & 3 & 10 & 115 & 3.8 & 15 & 20.0 & 30 & 1.2\\
+ & Outdoors & 5 & 15 & 45 & 6.0 & 3 & 10 & 115 & 2.6 & 15 & 30 & 30 & 1.0\\
 \nopagebreak
- & Place of worship & 20 & 20.0 & 20 & 0.3 &  &  &  &  & 15 & 15.0 & 15 & 0.4\\
+ & Place of worship & 20 & 20 & 20 & 0.1 &  &  &  &  & 15 & 15 & 15 & 0.2\\
 \nopagebreak
- & Restaurant & 5 & 20.0 & 35 & 3.0 & 10 & 15 & 153 & 2.1 & 10 & 17.5 & 60 & 4.1\\
+ & Restaurant & 5 & 15 & 35 & 2.8 & 10 & 15 & 153 & 1.7 & 10 & 20 & 60 & 3.0\\
 \nopagebreak
- & Sport area &  &  &  &  &  &  &  &  & 10 & 15.0 & 15 & 2.9\\
+ & Sport area &  &  &  &  &  &  &  &  & 10 & 15 & 15 & 2.0\\
 \nopagebreak
-\multirow[t]{-11}{*}{\centering\arraybackslash Cycling} & Work or school & 1 & 15.0 & 90 & 21.9 & 1 & 15 & 100 & 24.2 & 5 & 15.0 & 120 & 28.6\\
+\multirow[t]{-11}{*}{\centering\arraybackslash Cycling} & Work or school & 1 & 15 & 90 & 22.6 & 1 & 15 & 100 & 29.0 & 5 & 20 & 120 & 33.5\\
 \cmidrule{1-14}\pagebreak[0]
- & Business &  &  &  &  &  &  &  &  & 5 & 10.0 & 30 & 0.2\\
+ & Business &  &  &  &  &  &  &  &  & 5 & 10 & 30 & 0.2\\
 \nopagebreak
- & Cultural venues & 5 & 12.5 & 40 & 0.6 & 2 & 10 & 40 & 0.7 & 5 & 10.0 & 40 & 1.5\\
+ & Cultural venues & 5 & 10 & 40 & 0.6 & 2 & 10 & 40 & 0.7 & 5 & 15 & 40 & 1.5\\
 \nopagebreak
- & Grocery store & 1 & 10.0 & 90 & 12.5 & 1 & 8 & 105 & 13.2 & 5 & 10.0 & 130 & 11.8\\
+ & Grocery store & 1 & 10 & 90 & 11.5 & 1 & 7 & 105 & 13.1 & 5 & 10 & 130 & 10.3\\
 \nopagebreak
- & Health clinic &  &  &  &  &  &  &  &  & 5 & 10.0 & 130 & 1.0\\
+ & Health clinic &  &  &  &  &  &  &  &  & 5 & 10 & 130 & 0.9\\
 \nopagebreak
- & Home & 0 & 10.0 & 515 & 44.4 & 0 & 10 & 270 & 43.6 & 5 & 10.0 & 900 & 45.3\\
+ & Home & 0 & 10 & 515 & 43.0 & 0 & 10 & 270 & 41.4 & 5 & 10 & 900 & 44.0\\
 \nopagebreak
- & Neighbourhood &  &  &  &  &  &  &  &  & 5 & 10.0 & 60 & 2.1\\
+ & Neighbourhood &  &  &  &  &  &  &  &  & 5 & 10 & 60 & 2.6\\
 \nopagebreak
- & Other's home & 1 & 5.0 & 300 & 11.7 & 0 & 5 & 140 & 11.3 & 5 & 10.0 & 120 & 7.3\\
+ & Other's home & 1 & 5 & 300 & 10.2 & 0 & 5 & 140 & 10.2 & 5 & 10 & 120 & 6.2\\
 \nopagebreak
- & Outdoors & 1 & 5.0 & 295 & 3.6 & 0 & 10 & 480 & 5.2 & 5 & 10.0 & 135 & 2.8\\
+ & Outdoors & 1 & 5 & 295 & 3.4 & 0 & 10 & 480 & 5.0 & 5 & 10 & 135 & 3.1\\
 \nopagebreak
- & Place of worship & 1 & 10.0 & 30 & 0.8 & 1 & 8 & 60 & 0.9 & 5 & 15.0 & 45 & 1.1\\
+ & Place of worship & 1 & 10 & 30 & 0.7 & 1 & 7 & 60 & 0.8 & 5 & 15 & 45 & 1.1\\
 \nopagebreak
- & Restaurant & 0 & 5.0 & 85 & 9.3 & 1 & 5 & 153 & 10.0 & 5 & 10.0 & 120 & 8.4\\
+ & Restaurant & 0 & 5 & 85 & 9.9 & 1 & 7 & 153 & 11.0 & 5 & 10 & 120 & 9.0\\
 \nopagebreak
- & Sport area &  &  &  &  &  &  &  &  & 5 & 10.0 & 45 & 3.3\\
+ & Sport area &  &  &  &  &  &  &  &  & 5 & 10 & 45 & 3.3\\
 \nopagebreak
-\multirow[t]{-12}{*}{\centering\arraybackslash Walking} & Work or school & 0 & 10.0 & 175 & 17.1 & 0 & 10 & 150 & 15.0 & 5 & 10.0 & 190 & 15.1\\
+\multirow[t]{-12}{*}{\centering\arraybackslash Walking} & Work or school & 0 & 10 & 175 & 20.7 & 0 & 10 & 150 & 17.9 & 5 & 10 & 190 & 17.8\\
 \bottomrule
 \insertTableNotes
 \end{longtable}
@@ -522,11 +766,22 @@ significantly from 19\% in 1992 to 5\% in 2015.
 \caption{Percentage of cycling trips categorized by origin and destination}\label{fig:figure-02}
 \end{figure}
 
+\texttt{ActiveCA} also enables obtaining insights from the main
+processed files. Figure \ref{fig:figure-stress} present how the level of
+stress varied among respondents depending on their marital status in
+2015. According to this plot, married respondents reported the highest
+level of stress, with 17\% of possible cases.
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{Manuscript-figures/main_stress_figure} 
+
+}
+
+\caption{Level of stress among respondents of different marital statuses (2015).}\label{fig:figure-stress}
+\end{figure}
+
 \section{Python integration}\label{python-integration}
-
-CAN WE PROVIDE PYTHON INTEGRATION? See here:
-
-\url{https://github.com/paezha/idealista18/tree/master/Python}
 
 \section{Concluding remarks}\label{concluding-remarks}
 
@@ -549,15 +804,15 @@ available.
 The value of \{ActiveCA\} lies in its transparency, accessibility, and
 ease of use, which facilitates the addition of complementary data sets
 in the future. \texttt{R} users can seamlessly explore GSS walking and
-cycling episodes , with the option to suggest enhancements to the
-package as needed. This article adopts the structure proposed by
-Anastasia and Páez \citeyearpar{soukhov2023}, whose work provided
-essential guidance for the creation of this package. Similarly, we aim
-to contribute to the academic community by promoting transparent
-research practices that encourage replication and innovation in related
-fields. We believe that \{ActiveCA\} will serve as a basis for further
-research on GSS and for the integration of additional data by the
-authors or the wider open source community.
+cycling episodes, with the option to suggest enhancements to the package
+as needed. This article adopts the structure proposed by Anastasia and
+Páez \citeyearpar{soukhov2023}, whose work provided essential guidance
+for the creation of this package. Similarly, we aim to contribute to the
+academic community by promoting transparent research practices that
+encourage replication and innovation in related fields. We believe that
+\{ActiveCA\} will serve as a basis for further research on GSS and for
+the integration of additional data by the authors or the wider open
+source community.
 
 \section{Declaration of Conflicting
 Interests}\label{declaration-of-conflicting-interests}
