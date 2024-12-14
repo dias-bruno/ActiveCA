@@ -18,7 +18,7 @@ footnote:
   - code: 1
     text: "Corresponding Author"
 abstract: 
-  "This paper describes {ActiveCA}, and open data product with Canadian time use data. {ActiveCA} is an `R` data package that contains analysis-ready data related to active travel spanning almost 40 years, extracted from cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) of Canada's General Social Survey. Active travel is characterized by mode, with walking being part of every cycle and bicycling starting in 1992. The attributes of active trips are the types of locations of origins and destinations, the duration of trips, and episode weights for expanding the trips to population-wide estimates. Based on the year of the survey, a variety of locations are coded. In earlier cycles, these include home, work or school, and other's home, whereas in later cycles these are augmented with locations such as grocery stores, restaurants, outdoor destinations, and others. The geographical resolution includes the province and whether the episode was in an urban or rural setting." 
+  "This paper describes {ActiveCA}, an open data product with Canadian time use data. {ActiveCA} is an `R` data package that contains analysis-ready data related to active travel spanning almost 40 years, extracted from cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) of Canada's General Social Survey. Active travel is characterized by mode, with walking being part of every cycle and bicycling starting in 1992. The attributes of active trips are the types of locations of origins and destinations, the duration of trips, and episode weights for expanding the trips to population-wide estimates. Based on the year of the survey, a variety of locations are coded. In earlier cycles, these include home, work or school, and other's home, whereas in later cycles these are augmented with locations such as grocery stores, restaurants, outdoor destinations, and others. The geographical resolution includes the province and whether the episode was in an urban or rural setting." 
     
 keywords: Active; mobility; walking; cycling; travel time; time-use; General Social Survey 
 classoption:
@@ -85,11 +85,11 @@ library(Hmisc)
 data("gss_episodes")
 data("gss_impedances")
 
-# Original main and episode files from 2015 to display table examples
+# Original main and Episode Files from 2015 to display table examples
 gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv"))
 gss_e_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-e.csv"))
 
-# Processed main files
+# Processed Main Files
 data("gss_main_2015")
 data("gss_main_2010")
 data("gss_main_2005")
@@ -220,7 +220,7 @@ We discuss these files in more detail in the following section.
 
 ## The Main File
 
-The main file of the time use survey compiles a large array of aggregated data, 
+The Main File of the time use survey compiles a large array of aggregated data, 
 summarizing the answers to the questionnaire that describe households and 
 individuals, as well as derived variables that summarize the respondents' use of 
 time use across different activities, locations, and social interactions. This 
@@ -231,9 +231,9 @@ categorizes activities into bigger groups and subcategories, facilitating the
 data's analytical utility with additional metrics such as total transit time, time 
 spent with household members, and counts of activities and episodes.
 
-Table \ref{tab:main-2015-unprocessed} shows the first ten rows and first six variables of the GSS PUMF 2015 main file (Cycle 29). Each row in the table correspond to a survey respondent, while the columns refer the following information: record identification (`PUMFID`), the person's weight (`WGHT_PER`), the month the survey data was collected (`SURVMNTH`), the respondent's age group (`AGEGR10`), the respondent's sex (`SEX`), and the respondent's marital status (`MARSTAT`).
+Table \ref{tab:main-2015-unprocessed} shows the first ten rows and first six variables of the GSS PUMF 2015 Main File (Cycle 29). Each row in the table correspond to a survey respondent, while the columns refer the following information: record identification (`PUMFID`), the person's weight (`WGHT_PER`), the month the survey data was collected (`SURVMNTH`), the respondent's age group (`AGEGR10`), the respondent's sex (`SEX`), and the respondent's marital status (`MARSTAT`).
 
-The main file of the 2015 GSS surveys includes a total of 17,390 respondents, representing `r sum(gss_m_2015$WGHT_PER)` individuals and 848 variables.  For discrete variables, Statistics Canada has assigned specific codes to the possible values, with each code accompanied by a label. For instance, in the case of the variable `SURVMNTH`, a value of `1` means `January 2016`, 2 means `February 2016`, 3 corresponds to `March 2016`, and so on. 
+The Main File of the 2015 GSS surveys includes a total of 17,390 respondents, representing `r sum(gss_m_2015$WGHT_PER)` individuals and 848 variables.  For discrete variables, Statistics Canada has assigned specific codes to the possible values, with each code accompanied by a label. For instance, in the case of the variable `SURVMNTH`, a value of `1` means `January 2016`, 2 means `February 2016`, 3 corresponds to `March 2016`, and so on. 
 
 As shown in Table \ref{tab:main-2015-unprocessed}, the variables are not labeled. Adittionaly, the format of the tables (comma-separated values) does not allow for the specification of variable types (whether a variable is continuous or discrete), which can lead to mistakes analysts who have limited experience working with PUMFs.
 
@@ -244,7 +244,7 @@ main_2015_unprocessed <- gss_m_2015[1:10, 1:6]  %>%
     booktabs = TRUE, 
     longtable = TRUE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
-    caption = "\\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the main file of the 2015 GSS.") %>%
+    caption = "\\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.") %>%
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
@@ -266,12 +266,12 @@ occurred and with whom. The focus of the Episode File is not on the characterist
 of the respondents, but on the characteristics of the activities, and the data 
 are structured around the numerous activity instances that compose a day of the 
 respondent. Although respondent-specific characteristics are not included within
-the episode file, it is possible to link the main file and the episode file by 
+the Episode File, it is possible to link the Main File and the Episode File by 
 using a key present in both the Main and Episode Files.
 
-Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an example of the main file structure, Table \ref{tab:ep-2015-unprocessed} presents the first seven episodes for the record identification number `10041` and some variables from the GSS PUMF 2015 episode file (Cycle 29). Each row in the table corresponds to an episode associated with the specified record identification (`PUMFID = 10041`), including the episode's weight (`WGHT_EPI`), episode number (`EPINO`), activity code (`TUI_01`), episode duration (`DURATION`), and episode location (`LOCATION`).
+Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an example of the Main File structure, Table \ref{tab:ep-2015-unprocessed} presents the first seven episodes for the record identification number `10041` and some variables from the GSS PUMF 2015 Episode File (Cycle 29). Each row in the table corresponds to an episode associated with the specified record identification (`PUMFID = 10041`), including the episode's weight (`WGHT_EPI`), episode number (`EPINO`), activity code (`TUI_01`), episode duration (`DURATION`), and episode location (`LOCATION`).
 
-In total, the episode file of the 2015 GSS surveys contains 274,108 records, representing `r sum(gss_e_2015$WGHT_EPI)` episodes and 527 variables detailing the episodes. Similar to the main file, Statistics Canada has created codes for the discrete variables, with each value corresponding to a label.
+In total, the Episode File of the 2015 GSS surveys contains 274,108 records, representing `r sum(gss_e_2015$WGHT_EPI)` episodes and 527 variables detailing the episodes. Similar to the Main File, Statistics Canada has created codes for the discrete variables, with each value corresponding to a label.
 
 In the case illustrated in Table \ref{tab:ep-2015-unprocessed}, this respondent began the diary description by sleeping at home (`TUI_01 = 1` and `LOCATION = 300`) for 210 minutes, followed by 40 minutes of personal hygiene (`TUI_01 = 2`). The respondent then spent 15 minutes on personal care activities, such as getting ready for school, supervising homework, reading, playing, reprimanding, or providing educational or emotional support, as indicated by `TUI_01 = 27`. Next, they recorded a travel episode, walking for 15 minutes (`TUI_01 = 7` and `LOCATION = 315`), where both the origin and destination were their home. Such trips, where the journey starts and finishes at home, can be classified as recreational or leisure trips. Next, the respondent spent 3 hours searching for a job (`TUI_01 = 9`), took a 15-minute lunch break (`TUI_01 = 6`), and then cleaned the house (`TUI_01 = 18`) for two hours. Table \ref{tab:ep-2015-unprocessed} displays only six variables out of the 527 available. As shown, since the dataset does not label the variable values, decoding them can be both time-consuming and challenging.
 
@@ -296,17 +296,17 @@ ep_2015_unprocessed
 
 # Data extraction
 
-For each selected cycle of the GSS surveys, we reviewed the episode files to identify episodes of movement that involved walking or cycling. This allowed us to select the activities immediately before and after the movement episode. After that, we labeled the code variables with their appropriate descriptions, identifying each origin and destination, mode of travel, time spent in the active trip, as well the province and urban classification of the episode.
+For each selected cycle of the GSS surveys, we reviewed the Episode Files to identify episodes of movement that involved walking or cycling. This allowed us to select the activities immediately before and after the movement episode. After that, we labeled the code variables with their appropriate descriptions, identifying each origin and destination, mode of travel, time spent in the active trip, as well the province and urban classification of the episode.
 
 The active trips (walking and cycling) were identified by their corresponding activity codes, accounting for differences between the survey cycles. Identifying the preceding and succeeding activities of each activity episode helps to understand the motivation for the trip and also determine the origin and destination of the trips.
 
-For each GSS main file, we selected socioeconomic variables to help profile the individuals engaged in active trip episodes. We included key socioeconomic variables such as the respondent’s age group, sex, marital status, and number of children, among others. After this, as we did with the episode files, we labeled the code variables with their appropriate descriptions. 
+For each GSS Main File, we selected socioeconomic variables to help profile the individuals engaged in active trip episodes. We included key socioeconomic variables such as the respondent’s age group, sex, marital status, and number of children, among others. After this, as we did with the Episode Files, we labeled the code variables with their appropriate descriptions. 
 
-# How to use `ActiveCA`
+# How to use {ActiveCA}
 
-This section presents some potential applications of the `ActiveCA` R package. In fact, we expect that the application of this package to extend beyond our pre-imagined range of uses. 
+This section presents some potential applications of the {ActiveCA} R package. In fact, we expect that the application of this package to extend beyond our pre-imagined range of uses. 
 
-To start the demonstration, it is first necessary to install the package. The code chunk below demonstrates how to install the `ActiveCA` package in R:
+To start the demonstration, it is first necessary to install the package. The code chunk below demonstrates how to install the {ActiveCA} package in R:
 
 ```{r instal-ActiveCA, echo=TRUE}
 if(!require("ActiveCA", character.only = TRUE)) {
@@ -314,7 +314,7 @@ if(!require("ActiveCA", character.only = TRUE)) {
 }
 ```
 
-After installing the `ActiveCA` R package, you can load it using the following code:
+After installing the {ActiveCA} R package, you can load it using the following code:
 
 ```{r load-ActiveCA, echo=TRUE}
 library(ActiveCA)
@@ -337,13 +337,13 @@ data(walking_2015)
 
 The GSS surveys apply a probability sampling methodology, in which each episode or person selected in the sample represents several other episodes or persons not in the sample. The number of episodes and persons represented by a episode or person is determined by the weight or weighting factor. Because of this, every estimates of the number of episodes or persons need to be calculated applying the corresponding weighting factors. 
 
-For instance, if someone wants to calculate the percentage of respondents from the 2015 GSS survey with active travel episodes, it is necessary to account for the person's weights. In 2015, the weight variable is represented by `WGHT_PER.` The code chunk below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the dplyr package to manipulate the data.
+For instance, if someone wants to calculate the percentage of respondents from the 2015 GSS survey with active travel episodes, it is necessary to account for the person's weights. In 2015, the weight variable is represented by `WGHT_PER.` The code chunk below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the `dplyr`package [@dplyr2023] to manipulate the data.
 
-The process begins by creating a dataset that sums the population by age group. Then, it joins the 2015 episodes with the 2015 main file. Note that in both operations, the code sums the person weight variable (`WGHT_PER`) to obtain the correct population values. After this, a new dataset, `Active_percentage`, is created by merging both previous datasets. The percentage of active travel episodes by age group is calculated by dividing the total population by the population with active trip episodes, then multiplying by 100.
+The process begins by creating a dataset that sums the population by age group. Then, it joins the 2015 episodes with the 2015 Main File. Note that in both operations, the code sums the person weight variable (`WGHT_PER`) to obtain the correct population values. After this, a new dataset, `Active_percentage`, is created by merging both previous datasets. The percentage of active travel episodes by age group is calculated by dividing the total population by the population with active trip episodes, then multiplying by 100 and rounding with 2 decimal places.
 
 The result shows that the age group with the highest share of active trips is those between 15 and 20 years old, with almost 37%, followed by those between 25 and 34 years old with around 33%. There is a significant drop in percentage for the following groups, with the percentage falling to between 15% and 18% for the remaining age groups.
 
-```{r percentages-act, echo=TRUE}
+```{r percentages-act, echo=TRUE, out.width='80%'}
 # Load the dplyr library for data manipulation
 library('dplyr')
 
@@ -362,10 +362,12 @@ Active_population <- gss_episodes %>%
   group_by(AGEGR10) %>% 
   summarise(Active_population  = sum(WGHT_PER))
 
-# Combine total and active population and calculate the percentage
+# Combine total and active population 
+#and calculate the percentage
 Active_percentage <- Total_population %>% 
   left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) %>%
-  mutate(Percentage = round(Active_population/Total_population  * 100, 2))
+  mutate(
+    Percentage = round(Active_population/Total_population*100,2))
 
 # Display the final result
 Active_percentage
@@ -405,13 +407,13 @@ df_processed <- rbind(df_main_processed,df_ep_processed)
 ```
 
 
-Table \ref{tab:processed-obs} displays the total number of observations processed for main and episode files. For the main files, a total of `r sum(df_main_processed$Count)` observations were processed, referring to all observations from the Time Use Surveys from 1986 to 2015, that together represents more of `r sum(df_main_processed$Weighted)` respondents (`r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2015',]$Weighted)` for 2015, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2010',]$Weighted)` for 2010, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2005',]$Weighted)` for 2005, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1998',]$Weighted)` for 1998, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1992',]$Weighted)` for 1992, and  for 2005, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1998',]$Weighted)` for 1998, and `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1992',]$Weighted)` for 1986). Table X also presents the total cases of active trips episodes identified. In total `r sum(df_ep_processed$Count)` observations with register of active travel activity. Together, these observations account for `r sum(df_ep_processed$Weighted)` episodes (`r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '2015',]$Weighted)` for 2015, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '2010',]$Weighted)` for 2010, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '2005',]$Weighted)` for 2005, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '1998',]$Weighted)` for 1998, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '1992',]$Weighted)` for 1992, and  for 2005, `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '1998',]$Weighted)` for 1998, and `r sum(df_ep_processed[df_ep_processed$Survey == 'Episodes' & df_ep_processed$Year == '1992',]$Weighted)` for 1986).
+Table \ref{tab:processed-obs} displays the total number of records processed for Main and Episode Files. For the Main Files, a total of `r sum(df_main_processed$Count)` records were processed, referring to all records from the Time Use Surveys from 1986 to 2015, that together represents more of `r sum(df_main_processed$Weighted)` respondents (`r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2015',]$Weighted)` for 2015, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2010',]$Weighted)` for 2010, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2005',]$Weighted)` for 2005, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1998',]$Weighted)` for 1998, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1992',]$Weighted)` for 1992, and  for 2005, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1998',]$Weighted)` for 1998, and `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1992',]$Weighted)` for 1986). It also presents the total cases of active trips episodes identified. In total `r sum(df_ep_processed$Count)` records with register of active travel activity. Together, these records account for `r sum(df_ep_processed$Weighted)` episodes.
 
 ```{r table_df_processed}
 
 table_df_processed <- df_processed %>%
   kable(format = "latex", booktabs = TRUE, longtable = TRUE, 
-        caption = "\\label{tab:processed-obs}Total number and weighted sum of observations processed.") %>%
+        caption = "\\label{tab:processed-obs}Total number and weighted sum of records processed.") %>%
   kable_styling(full_width = FALSE, font_size = 10) %>%
   add_header_above(c(" " = 2, "Observations" = ncol(df_processed) - 2)) %>%
   collapse_rows(columns = 1, valign = "top", latex_hline = "major")
@@ -419,7 +421,7 @@ table_df_processed <- df_processed %>%
 table_df_processed
 ```
 
-Table \ref{tab:main-2015-processed} shows the first ten rows and first six variables of the GSS PUMF 2015 main file (Cycle 29), displayed in \ref{tab:main-2015-unprocessed} before our processing. Table \ref{tab:ep-2015-processed} presents the walking episodes for the record identification number `10041` from the GSS PUMF 2015 episode file (Cycle 29), previously displayed in Table \ref{tab:ep-2015-unprocessed}. Only active travel episodes appear in Table \ref{tab:ep-2015-processed} since the observations were filtered to select cases with walking or cycling episodes. For both cases, Tables \ref{tab:main-2015-processed} and \ref{tab:ep-2015-processed} contain labeled variables, facilitating the interpretation of the data.
+Table \ref{tab:main-2015-processed} shows the first ten rows and first six variables of the GSS PUMF 2015 Main File (Cycle 29), displayed in \ref{tab:main-2015-unprocessed} before our processing. Table \ref{tab:ep-2015-processed} presents the walking episodes for the record identification number `10041` from the GSS PUMF 2015 Episode File (Cycle 29), previously displayed in Table \ref{tab:ep-2015-unprocessed}. Only the unique active travel episode appear in Table \ref{tab:ep-2015-processed} since the records were filtered to select cases with walking or cycling episodes. For both cases, Tables \ref{tab:main-2015-processed} and \ref{tab:ep-2015-processed} contain labeled variables, facilitating the interpretation of the data.
 
 ```{r gss-processed-file-2015, echo=FALSE, cache=FALSE}
 main_2015_processed <- gss_main_2015[1:10, 1:6]  %>%
@@ -428,7 +430,7 @@ main_2015_processed <- gss_main_2015[1:10, 1:6]  %>%
     booktabs = TRUE, 
     longtable = TRUE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
-    caption = "\\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the main file of the 2015 GSS.") %>%
+    caption = "\\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.") %>%
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
@@ -444,7 +446,7 @@ ep_2015_unprocessed <- gss_episodes_renamed |>
     format = "latex", 
     booktabs = TRUE, 
     longtable = TRUE, 
-    caption = "\\label{tab:ep-2015-processed}Visualization of active travel episodes of the record number `10041` for the 2015 GSS survey.", 
+    caption = "\\label{tab:ep-2015-processed}Visualization of the active travel episode for the record number `10041` of the 2015 GSS survey.", 
        col.names = c("PUMFID", "WGHT_EPI","Activity","Duration","Origin", "Destination", "Mode")) %>% 
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
@@ -457,8 +459,7 @@ ep_2015_unprocessed
 
 ## Descriptive statistics
 
-Considering GSS Cycles analyzed, we identified `r nrow(gss_episodes)` episodes that recorded active travel episodes, with trip duration ranging from 0 to 900 minutes, to twelve different destinations. `ActiveCA` includes all these episodes ready for analysis. Table \ref{tab:table-01} presents descriptive statistics on walking and cycling trips between 1986 and 2015, with measures of trip duration in minutes: maximum (max), mean, median, and minimum (min). The 1986 survey did not
-include bicycle trips.
+Considering GSS Cycles analyzed, we identified `r nrow(gss_episodes)` episodes that recorded active travel episodes, with trip duration ranging from 0 to 900 minutes, to twelve different destinations. {ActiveCA} includes all these episodes ready for analysis. Table \ref{tab:table-01} presents descriptive statistics on walking and cycling trips between 1986 and 2015, with measures of trip duration in minutes. The 1986 survey did not include bicycle trips.
 
 ```{r table-01, echo=FALSE, cache=FALSE}
 # Calculate min, mean, and max statistic (duration)
@@ -798,7 +799,7 @@ to 5% in 2015.
 knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/cycling_hm_fig.jpg"))
 ```
 
-`ActiveCA` also enables obtaining insights from the main processed files. Figure \ref{fig:figure-stress} present how the level of stress varied among respondents depending on their marital status in 2015. According to this plot, married respondents reported the highest level of stress, with 17% of possible cases. 
+{ActiveCA} also enables obtaining insights from the main processed files. Figure \ref{fig:figure-stress} present how the level of stress varied among respondents depending on their marital status in 2015. According to this plot, married respondents reported the highest level of stress, relating to feel stressed every day, with 17% of possible cases. 
 
 ```{r main_stress_figure}
 main_stress_figure <- gss_main_2015 %>%
@@ -834,11 +835,11 @@ knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/main_stre
 
 # Python integration
 
-`ActiveCA` also provides a Jupyter Notebook containing a Python script that demonstrates how to read R data files (.rda) and convert them into Pandas DataFrames. This process allows users to work with and utilize the datasets available in `ActiveCA` within a Python project.
+{ActiveCA} also provides a Jupyter Notebook containing a Python script that demonstrates how to read R data files (.rda) and convert them into Pandas DataFrames. This process allows users to work with and utilize the datasets available in {ActiveCA} within a Python project.
 
 # Concluding remarks
 
-This paper presents `ActiveCA`, an open data product that provides analysis-ready 
+This paper presents {ActiveCA}, an open data product that provides analysis-ready 
 data from Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) 
 of the GSS surveys on active travel in Canada. In the form of an `R` data package, 
 {ActiveCA} was developed after collecting, cleaning, and processing the survey data, 
