@@ -2136,6 +2136,12 @@ walking_1992 <- walking_1992 |>
   dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
 ```
 
+Cases of episodes with `NA` weight values will be updated to value 1, meaning that since there's no weighting value for this observation, this episode only represent itself:
+
+```{r fixing-NA-weights-walking_1992}
+walking_1992$WGHT_EPI[is.na(walking_1992$WGHT_EPI)] <- 1
+```
+
 Save data in `R` format for later use:
 ```{r}
 usethis::use_data(walking_1992, 

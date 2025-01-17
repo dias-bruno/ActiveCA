@@ -20,7 +20,9 @@ this data product has extracted all walking and cycling episodes and
 their corresponding episode weights. Origins and destinations are
 categorized, and it is possible to investigate active travel (number of
 episodes and their duration) for broad categories of purposes (e.g.,
-travel to work or school, travel to other’s home).
+travel to work or school, travel to other’s home). {ActiveCA} also
+include some socioeconomic variables from the GSS Main Files to
+facilitate profiling the survey’s respondents.
 
 The data covers cycles Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005),
 24 (2010), and 29 (2015), spanning a period of almost thirty years.

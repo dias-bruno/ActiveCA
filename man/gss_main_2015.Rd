@@ -10,14 +10,14 @@ A data frame containing 15390 rows and 33 variables; each row represents a uniqu
 \item{PUMFID}{Record identification.}
 \item{WGHT_PER}{Person weight.}
 \item{SURVMNTH}{Survey month of data collection.}
-\item{AGEGR10}{Age group of the respondent (group of 10)..}
-\item{SEX}{Sex of respondent..}
-\item{MARSTAT}{Marital status of the respondent..}
+\item{AGEGR10}{Age group of the respondent (group of 10).}
+\item{SEX}{Sex of respondent.}
+\item{MARSTAT}{Marital status of the respondent.}
 \item{PHSDFLG}{Respondent has a spouse/partner living in the household.}
-\item{AGEPRGRD}{Age difference between respondent and spouse/partner..}
-\item{SEXPR}{Sex of the respondent's spouse/partner within the household..}
-\item{PRTYPEC}{Sex of the respondent's spouse/partner within the household..}
-\item{CXRFLAG}{Type of partner the respondent has within the household..}
+\item{AGEPRGRD}{Age difference between respondent and spouse/partner.}
+\item{SEXPR}{Sex of the respondent's spouse/partner within the household.}
+\item{PRTYPEC}{Sex of the respondent's spouse/partner within the household.}
+\item{CXRFLAG}{Type of partner the respondent has within the household.}
 \item{AGECXRYG}{Age of respondent’s youngest child in household.}
 \item{AGEHSDYC}{Age of youngest household member in respondent’s household.}
 \item{CHINHSDC}{Respondent’s child(ren) in household - Any age/marital status.}
@@ -29,12 +29,12 @@ A data frame containing 15390 rows and 33 variables; each row represents a uniqu
 \item{LIVARR11}{Living arrangement of respondent's household (in group of 8).}
 \item{HSDSIZEC}{Household size of respondent.}
 \item{HSDELIGC}{Number of members in respondent’s household 15 years of age or older.}
-\item{MULTIGEN}{Three generations or more family in respondent's household..}
-\item{PRV}{Province of residence of the respondent..}
-\item{LUC_RST}{Population centres indicator..}
+\item{MULTIGEN}{Three generations or more family in respondent's household.}
+\item{PRV}{Province of residence of the respondent.}
+\item{LUC_RST}{Population centres indicator.}
 \item{GTU_110}{How often do you feel rushed? Would you say it is:.}
 \item{GTU_130}{How often do you feel you have time on your hands that you Don't know what to do with? Would you say it is:.}
-\item{DVTDAY}{Type of day of the designated day of interview..}
+\item{DVTDAY}{Type of day of the designated day of interview.}
 }
 }
 \source{

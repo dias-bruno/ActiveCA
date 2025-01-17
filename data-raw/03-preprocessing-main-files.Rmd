@@ -119,7 +119,7 @@ The file name pattern is as follows: `gss_main_` +
 
 ## GSS 2015
 
-Read the Main files of the 2015 GSS survey:
+Read the Main file of the 2015 GSS survey:
 
 ```{r reading-2015-main-file}
 # Main File
@@ -685,6 +685,7 @@ gss_main_2010 <- gss_m_2010 %>%
   select(RECID:DVTDAY)
 ```
 
+Labeling socioeconomic variables: 
 
 ```{r AGEGR5-2010}
 values_ordered <- c("15 to 17 years","18 to 19 years","20 to 24 years",
@@ -1189,6 +1190,8 @@ Select only the socioeconomic variables:
 gss_main_2005 <- gss_m_2005 %>%
   select(RECID:DVTDAY)
 ```
+
+Labeling socioeconomic variables: 
 
 ```{r AGEGR5-2005}
 values_ordered <- c("15 to 17 years","18 to 19 years","20 to 24 years",
@@ -1698,6 +1701,7 @@ gss_main_1998 <- gss_m_1998 %>%
   select(RECID:DVTDAY)
 ```
 
+Labeling socioeconomic variables: 
 
 ```{r SURVMNTH-1998}
 gss_main_1998 <- gss_main_1998 %>% 
@@ -2352,6 +2356,8 @@ gss_main_1992 <- gss_m_1992 %>%
  "DVAGRSP"))
 ```
 
+Labeling socioeconomic variables: 
+
 ```{r C2-1992}
 gss_main_1992 <- gss_main_1992 %>% 
   mutate( # C2:  Respondent has child(ren) <15?
@@ -2737,6 +2743,7 @@ gss_main_1986 <- gss_m_1986 %>%
  "DVCHILD"))
 ```
 
+Labeling socioeconomic variables: 
 
 ```{r C2-1986}
 gss_main_1986 <- gss_main_1986 %>% 
