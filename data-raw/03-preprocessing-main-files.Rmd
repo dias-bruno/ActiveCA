@@ -130,7 +130,7 @@ Select only the socioeconomic variables:
 
 ```{r filtering-variables-2015}
 gss_main_2015 <- gss_m_2015 %>%
-  select(PUMFID:DVTDAY)
+  select(PUMFID:DVTDAY, SLM_01, SRH_110, SRH_115)
 ```
 
 Labeling socioeconomic variables: 
@@ -645,6 +645,87 @@ gss_main_2015 <- gss_main_2015 %>%
     GTU_130 = factor(GTU_130, levels = rev(values_ordered), ordered = TRUE))  
 
 summary(gss_main_2015$GTU_130)
+```
+
+```{r SLM_01-2015}
+values_ordered <- c("10 - Very satisfied","9","8","7","6","5",
+                    "4","3","2","1","0 - Very dissatisfied",
+                    "Valid skip", 
+                    "Don’t know", 
+                    "Refusal", 
+                    "Not stated")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # SLM_01: Using a scale of 0 to 10 where 0 means "Very dissatisfied" and 10 means "Very satisfied",how do you feel about your life as a whole right now? 
+    SLM_01 = 
+      case_when(SLM_01 == 0 ~ "0 - Very dissatisfied",
+                SLM_01 == 1 ~ "1",
+                     SLM_01 == 2 ~ "2",
+                     SLM_01 == 3 ~ "3",
+                     SLM_01 == 4 ~ "4",
+                     SLM_01 == 5 ~ "5",
+                     SLM_01 == 6 ~ "6",
+                     SLM_01 == 7 ~ "7",
+                     SLM_01 == 8 ~ "8",
+                     SLM_01 == 9 ~ "9",
+                     SLM_01 == 10 ~ "10 - Very satisfied",
+                     SLM_01 == 96 ~ "Valid skip",
+                     SLM_01 == 97 ~ "Don’t know",
+                     SLM_01 == 98 ~ "Refusal",
+                     SLM_01 == 99 ~ "Not stated"),
+    SLM_01 = factor(SLM_01, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_2015$SLM_01)
+```
+
+```{r SRH_110-2015}
+values_ordered <- c("Excellent","Very good","Good",
+                    "Fair","Poor",
+                    "Valid skip", 
+                    "Don’t know", 
+                    "Refusal", 
+                    "Not stated")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # SRH_110: In general, would you say your health is...? 
+    SRH_110 = 
+      case_when(SRH_110 == 1 ~ "Excellent",
+                     SRH_110 == 2 ~ "Very good",
+                     SRH_110 == 3 ~ "Good",
+                     SRH_110 == 4 ~ "Fair",
+                     SRH_110 == 5 ~ "Poor",
+                     SRH_110 == 6 ~ "Valid skip",
+                     SRH_110 == 7 ~ "Don’t know",
+                     SRH_110 == 8 ~ "Refusal",
+                     SRH_110 == 9 ~ "Not stated"),
+    SRH_110 = factor(SRH_110, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_2015$SRH_110)
+```
+
+```{r SRH_115-2015}
+values_ordered <- c("Excellent","Very good","Good",
+                    "Fair","Poor",
+                    "Valid skip", 
+                    "Don’t know", 
+                    "Refusal", 
+                    "Not stated")
+
+gss_main_2015 <- gss_main_2015 %>% 
+  mutate( # SRH_115: In general, would you say your mental health is...?
+    SRH_115 = 
+      case_when(SRH_115 == 1 ~ "Excellent",
+                     SRH_115 == 2 ~ "Very good",
+                     SRH_115 == 3 ~ "Good",
+                     SRH_115 == 4 ~ "Fair",
+                     SRH_115 == 5 ~ "Poor",
+                     SRH_115 == 6 ~ "Valid skip",
+                     SRH_115 == 7 ~ "Don’t know",
+                     SRH_115 == 8 ~ "Refusal",
+                     SRH_115 == 9 ~ "Not stated"),
+    SRH_115 = factor(SRH_115, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_2015$SRH_115)
 ```
 
 ```{r DVTDAY-2015}
