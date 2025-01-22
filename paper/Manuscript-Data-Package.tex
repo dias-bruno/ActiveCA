@@ -9,6 +9,17 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+% From pandoc table feature
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 
 
 \usepackage{booktabs}
@@ -66,8 +77,7 @@ General Social Survey}
 
 \maketitle
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\section{Introduction}\label{introduction}
 
 The objective of this paper is to introduce \{ActiveCA\}, an open data
 product with time use data from Canada's General Social Surveys. Open
@@ -129,9 +139,8 @@ reproducible research project. In summary, \{ActiveCA\} aims to
 implement and inspire the best principles of open spatial sciences
 \citep{paez_open_2021, brunsdon_opening_2021}.
 
-\hypertarget{general-social-survey-gss-collection}{%
 \section{General Social Survey (GSS)
-collection}\label{general-social-survey-gss-collection}}
+collection}\label{general-social-survey-gss-collection}
 
 Statistics Canada \citeyearpar{statisticscanada2024} conducts GSS
 surveys to obtain data on social trends to track changes in Canadians'
@@ -160,8 +169,7 @@ keys that identify households, individuals, and episodes (i.e.,
 activities) conducted by individuals. We discuss these files in more
 detail in the following section.
 
-\hypertarget{the-main-file}{%
-\subsection{The Main File}\label{the-main-file}}
+\subsection{The Main File}\label{the-main-file}
 
 The Main File of the time use survey compiles a large array of
 aggregated data, summarizing the answers to the questionnaire that
@@ -228,8 +236,7 @@ PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
 \end{ThreePartTable}
 \endgroup{}
 
-\hypertarget{the-episode-file}{%
-\subsection{The Episode File}\label{the-episode-file}}
+\subsection{The Episode File}\label{the-episode-file}
 
 The episode is a much bigger file that records detailed data for each
 activity episode reported by respondents. Each episode represents a
@@ -306,8 +313,7 @@ PUMFID & EPINO & WGHT\_EPI & TUI\_01 & DURATION & LOCATION\\
 \end{ThreePartTable}
 \endgroup{}
 
-\hypertarget{data-extraction}{%
-\section{Data extraction}\label{data-extraction}}
+\section{Data extraction}\label{data-extraction}
 
 For each selected cycle of the GSS surveys, we reviewed the Episode
 Files to identify episodes of movement that involved walking or cycling.
@@ -330,8 +336,7 @@ status, and number of children, among others. After this, as we did with
 the Episode Files, we labeled the code variables with their appropriate
 descriptions.
 
-\hypertarget{how-to-use-activeca}{%
-\section{How to use \{ActiveCA\}}\label{how-to-use-activeca}}
+\section{How to use \{ActiveCA\}}\label{how-to-use-activeca}
 
 This section presents some potential applications of the \{ActiveCA\} R
 package. In fact, we expect that the application of this package to
@@ -354,10 +359,11 @@ following code:
 library(ActiveCA)
 \end{verbatim}
 
-By running \texttt{?ActiveCA} in \texttt{R}, you can access the complete
-package documentation. The documentation includes a description of the
-package, information about the authors and maintainers, and an overview
-of all pre-processed data sets included in the package.
+The documentation of the package can be accessed by running
+\texttt{?ActiveCA} in \texttt{R}. The documentation includes a
+description of the package, information about the authors, contributors,
+and maintainers, and an overview of all pre-processed data sets included
+in the package.
 
 Figure \ref{fig:walking_documentation} displays the documentation for
 the walking episodes from the 2015 GSS (\texttt{walking\_2015.rda}). The
@@ -374,7 +380,7 @@ descriptions of all variables (already labeled).
 \caption{Documentation for the dataset of walking episodes from 2015.}\label{fig:walking_documentation}
 \end{figure}
 
-The chunk below shows how to load the walking episodes from the 2015 GSS
+The code below shows how to load the walking episodes from the 2015 GSS
 (Cycle 29):
 
 \begin{verbatim}
@@ -385,17 +391,16 @@ The GSS surveys apply a probability sampling methodology, in which each
 episode or person selected in the sample represents several other
 episodes or persons not in the sample. The number of episodes and
 persons represented by a episode or person is determined by the weight
-or weighting factor. Because of this, every estimates of the number of
+or weighting factor. Because of this, estimates of the number of
 episodes or persons need to be calculated applying the corresponding
 weighting factors.
 
-For instance, if someone wants to calculate the percentage of
-respondents from the 2015 GSS survey with active travel episodes, it is
-necessary to account for the person's weights. In 2015, the weight
-variable is represented by \texttt{WGHT\_PER.} The code chunk below
-demonstrates how to obtain the percentage of people with active travel
-episodes by age group. It uses the \texttt{dplyr}package
-\citep{dplyr2023} to manipulate the data.
+For instance, to calculate the percentage of respondents from the 2015
+GSS survey with active travel episodes, it is necessary to account for
+the person's weight. In 2015, the weight variable is represented by
+\texttt{WGHT\_PER.} The code below demonstrates how to obtain the
+percentage of people with active travel episodes by age group. It uses
+the \texttt{dplyr} package \citep{dplyr2023} to manipulate the data.
 
 The process begins by creating a dataset that sums the population by age
 group. Then, it joins the 2015 episodes with the 2015 Main File. Note
@@ -407,13 +412,6 @@ group is calculated by dividing the total population by the population
 with active trip episodes, then multiplying by 100 and rounding with 2
 decimal places.
 
-The result shows that the age group with the highest share of active
-trips is those between 15 and 20 years old, with almost 37\%, followed
-by those between 25 and 34 years old with around 33\%. There is a
-significant drop in percentage for the following groups, with the
-percentage falling to between 15\% and 18\% for the remaining age
-groups.
-
 \begin{verbatim}
 # Load the dplyr library for data manipulation
 library('dplyr')
@@ -422,43 +420,49 @@ library('dplyr')
 data(gss_episodes) 
 
 # Calculate the total population for each age group
-Total_population <- gss_main_2015 %>% 
-  group_by(AGEGR10) %>% 
+Total_population <- gss_main_2015 |> 
+  group_by(AGEGR10) |> 
   summarise(Total_population  = sum(WGHT_PER))
 
 # Calculate the active population for each age group
-Active_population <- gss_episodes %>% 
-      filter(YEAR == 2015) %>% 
-  left_join(gss_main_2015, by = c("PUMFID"="PUMFID")) %>% 
-  group_by(AGEGR10) %>% 
+Active_population <- gss_episodes |> 
+      filter(YEAR == 2015) |> 
+  left_join(gss_main_2015, by = c("PUMFID"="PUMFID")) |> 
+  group_by(AGEGR10) |> 
   summarise(Active_population  = sum(WGHT_PER))
 
 # Combine total and active population 
 #and calculate the percentage
-Active_percentage <- Total_population %>% 
-  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) %>%
+Active_percentage <- Total_population |> 
+  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) |>
   mutate(
     Percentage = round(Active_population/Total_population*100,2))
-
-# Display the final result
-Active_percentage
 \end{verbatim}
 
-\begin{verbatim}
-# A tibble: 7 x 4
-  AGEGR10           Total_population Active_population Percentage
-  <ord>                        <dbl>             <dbl>      <dbl>
-1 15 to 24 years            4511131.          1641468.       36.4
-2 25 to 34 years            4956386.          1644033.       33.2
-3 35 to 44 years            4734506.           847770.       17.9
-4 45 to 54 years            5136125.           790667.       15.4
-5 55 to 64 years            4831306.           767064.       15.9
-6 65 to 74 years            3283969.           559025.       17.0
-7 75 years and over         2312976.           384359.       16.6
-\end{verbatim}
+The result shows that the age group with the highest share of active
+trips is those between 15 and 20 years old, with almost 37\%, followed
+by those between 25 and 34 years old with around 33\%. There is a
+significant drop in percentage for the following groups, with the
+percentage falling to between 15\% and 18\% for the remaining age
+groups.
 
-\hypertarget{processed-data-set}{%
-\subsection{Processed data set}\label{processed-data-set}}
+\begin{longtable}[]{@{}lrrr@{}}
+\toprule\noalign{}
+AGEGR10 & Total\_population & Active\_population & Percentage \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+15 to 24 years & 4511131 & 1641468.3 & 36.39 \\
+25 to 34 years & 4956386 & 1644032.8 & 33.17 \\
+35 to 44 years & 4734506 & 847769.9 & 17.91 \\
+45 to 54 years & 5136125 & 790667.3 & 15.39 \\
+55 to 64 years & 4831306 & 767064.0 & 15.88 \\
+65 to 74 years & 3283969 & 559024.6 & 17.02 \\
+75 years and over & 2312976 & 384358.6 & 16.62 \\
+\end{longtable}
+
+\subsection{Processed data set}\label{processed-data-set}
 
 Table \ref{tab:processed-obs} displays the total number of records
 processed for Main and Episode Files. For the Main Files, a total of
@@ -567,8 +571,7 @@ PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
 \end{ThreePartTable}
 \endgroup{}
 
-\hypertarget{descriptive-statistics}{%
-\subsection{Descriptive statistics}\label{descriptive-statistics}}
+\subsection{Descriptive statistics}\label{descriptive-statistics}
 
 Considering GSS Cycles analyzed, we identified 21,748 episodes that
 recorded active travel episodes, with trip duration ranging from 0 to
@@ -790,16 +793,14 @@ cases.
 \caption{Level of stress among respondents of different marital statuses (2015).}\label{fig:figure-stress}
 \end{figure}
 
-\hypertarget{python-integration}{%
-\section{Python integration}\label{python-integration}}
+\section{Python integration}\label{python-integration}
 
 \{ActiveCA\} also provides a Jupyter Notebook containing a Python script
 that demonstrates how to read R data files (.rda) and convert them into
 Pandas DataFrames. This process allows users to work with and utilize
 the datasets available in \{ActiveCA\} within a Python project.
 
-\hypertarget{concluding-remarks}{%
-\section{Concluding remarks}\label{concluding-remarks}}
+\section{Concluding remarks}\label{concluding-remarks}
 
 This paper presents \{ActiveCA\}, an open data product that provides
 analysis-ready data from Cycles 2 (1986), 7 (1992), 12 (1998), 19
@@ -830,15 +831,13 @@ encourage replication and innovation in related fields. We believe that
 the integration of additional data by the authors or the wider open
 source community.
 
-\hypertarget{declaration-of-conflicting-interests}{%
 \section{Declaration of Conflicting
-Interests}\label{declaration-of-conflicting-interests}}
+Interests}\label{declaration-of-conflicting-interests}
 
 The author(s) declared no potential conflicts of interest with respect
 to the research, authorship, and/or publication of this article.
 
-\hypertarget{funding}{%
-\section{Funding}\label{funding}}
+\section{Funding}\label{funding}
 
 The author(s) disclosed receipt of the following financial support for
 the research, authorship, and/or publication of this article: This work
@@ -846,8 +845,7 @@ was supported by the Social Sciences and Humanities Research Council of
 Canada (\emph{More description about the funding source after the review
 process}).
 
-\hypertarget{orcid}{%
-\section{ORCID}\label{orcid}}
+\section{ORCID}\label{orcid}
 
 Author 1
 
@@ -855,12 +853,16 @@ Author 2
 
 Author 3
 
-\hypertarget{data-availability-statement}{%
-\section{Data availability
-statement}\label{data-availability-statement}}
+\section{Data availability statement}\label{data-availability-statement}
 
 The \{ActiveCA\} R data package can be found and installed on Github
 (\emph{link}).
+
+For review purposes, the package is currently available as a tar.gz file
+that can be installed by R. The file can be obtained from this anonymous
+location:
+
+\url{https://user.fm/files/v2-3d261d0b2aa47fcad096cd9e49fd5cf8/ActiveCA.zip}
 
 \bibliographystyle{sageh}
 \bibliography{bibfile.bib}
