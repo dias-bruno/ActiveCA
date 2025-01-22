@@ -728,6 +728,9 @@ NULL
 #'   \item{LUC_RST}{Population centres indicator.}
 #'   \item{GTU_110}{How often do you feel rushed? Would you say it is:.}
 #'   \item{GTU_130}{How often do you feel you have time on your hands that you Don't know what to do with? Would you say it is:.}
+#'   \item{SLM_01}{Using a scale of 0 to 10 where 0 means "Very dissatisfied" and 10 means "Very satisfied", how do you feel about your life as a whole right now?}
+#'   \item{SRH_110}{In general, would you say your health is...?}
+#'   \item{SRH_150}{In general, would you say your mental health is...?}
 #'   \item{DVTDAY}{Type of day of the designated day of interview.}
 #'}
 #' @docType data

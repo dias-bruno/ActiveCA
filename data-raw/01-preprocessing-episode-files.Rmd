@@ -232,10 +232,13 @@ Read the Episode and Main files of the 2015 GSS survey:
 
 ```{r}
 # Episode File
-gss_e_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-e.csv"))
+#gss_e_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-e.csv"))# Original file
+gss_e_2015 <- read.csv(paste0(here(), "/data-raw/2015-gss-e-reproducibility.csv")) # Subset for reproducibility
+
 
 # Main File
-gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv"))
+#gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv")) # Original file
+gss_m_2015 <- read.csv(paste0(here(), "/data-raw/2015-gss-m-reproducibility.csv")) # Subset for reproducibility
 ```
 
 ### Walking 2015
@@ -627,10 +630,12 @@ Read the Episode and Main files of the 2010 GSS survey:
 
 ```{r}
 # Episode File
-gss_e_2010 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2010/gss-12M0018-E-2010-c-24-tus-ef_F1.csv"))
+#gss_e_2010 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2010/gss-12M0018-E-2010-c-24-tus-ef_F1.csv")) # Original file
+gss_e_2010 <- read.csv(paste0(here(), "/data-raw/2010-gss-e-reproducibility.csv")) # Subset for reproducibility
 
 # Main File
-gss_m_2010 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2010/gss-12M0018-E-2010-c-24-tus-mf_F1.csv"))
+#gss_m_2010 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2010/gss-12M0018-E-2010-c-24-tus-mf_F1.csv")) # Original file
+gss_m_2010 <- read.csv(paste0(here(), "/data-raw/2010-gss-m-reproducibility.csv")) # Subset for reproducibility
 ```
 
 ### Walking 2010
@@ -776,7 +781,6 @@ walking_2010 |>
 See `RECID` == 3 and check the walking episode:
 
 ```{r}
-
 gss_e_2010 %>%
   filter(RECID == 3) %>%
   slice(unique(c(reduce(map(which(PLACE == 14), ~ c(.x - 1, .x, .x + 1)), c)))) %>%
@@ -1095,10 +1099,13 @@ Read the Episode and Main files of the 2005 GSS survey:
 
 ```{r}
 # Episode File
-gss_e_2005 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2005/gss-12M0019-E-2005-c-19-e_F1.csv"))
+#gss_e_2005 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2005/gss-12M0019-E-2005-c-19-e_F1.csv")) # Original file
+gss_e_2005 <- read.csv(paste0(here(), "/data-raw/2005-gss-e-reproducibility.csv")) # Subset for reproducibility
+
 
 # Main File
-gss_m_2005 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2005/gss-12M0019-E-2005-c-19-m_F1.csv"))
+#gss_m_2005 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2005/gss-12M0019-E-2005-c-19-m_F1.csv")) # Original file
+gss_m_2005 <- read.csv(paste0(here(), "/data-raw/2005-gss-m-reproducibility.csv")) # Subset for reproducibility
 ```
 
 ### Walking 2005
@@ -1556,10 +1563,12 @@ Read the Episode and Main files of the 1998 GSS survey:
 
 ```{r}
 # Episode File
-gss_e_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-12M0012-E-1998-c-12e_F1.csv"))
+# gss_e_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-12M0012-E-1998-c-12e_F1.csv")) # Original file
+gss_e_1998 <- read.csv(paste0(here(), "/data-raw/1998-gss-e-reproducibility.csv")) # Subset for reproducibility
 
 # Main File
-gss_m_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-12M0012-E-1998-c-12-m_F1.csv"))
+# gss_m_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-12M0012-E-1998-c-12-m_F1.csv")) # Original file
+gss_m_1998 <- read.csv(paste0(here(), "/data-raw/1998-gss-m-reproducibility.csv")) # Subset for reproducibility
 ```
 
 
@@ -1947,10 +1956,12 @@ Read the Episode and Main files of the 1992 GSS survey:
 
 ```{r}
 # Episode File
-gss_e_1992 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1992/gss-12M0007-E-1992-c-7-ep_F1.csv"))
+# gss_e_1992 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1992/gss-12M0007-E-1992-c-7-ep_F1.csv")) # Original file
+gss_e_1992 <- read.csv(paste0(here(), "/data-raw/1992-gss-e-reproducibility.csv")) # Subset for reproducibility
 
 # Main File
-gss_m_1992 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1992/gss-12M0007-E-1992-c-7-m_F1.csv"))
+# gss_m_1992 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1992/gss-12M0007-E-1992-c-7-m_F1.csv")) # Original file
+gss_m_1992 <- read.csv(paste0(here(), "/data-raw/1992-gss-m-reproducibility.csv")) # Subset for reproducibility
 ```
 
 ### Walking 1992
@@ -2344,10 +2355,12 @@ Read the Episode and Main files of the 1986 GSS survey:
 
 ```{r}
 # Episode File
-gss_e_1986 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1986/gss-12M0002-E-1986-c-2-ep_F1.csv"))
+# gss_e_1986 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1986/gss-12M0002-E-1986-c-2-ep_F1.csv")) # Original file
+gss_e_1986 <- read.csv(paste0(here(), "/data-raw/1986-gss-e-reproducibility.csv")) # Subset for reproducibility
 
 # Main File
-gss_m_1986 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1986/gss-12M0002-E-1986-c-2-main_F1.csv"))
+# gss_m_1986 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1986/gss-12M0002-E-1986-c-2-main_F1.csv")) # Original file
+gss_m_1992 <- read.csv(paste0(here(), "/data-raw/1986-gss-m-reproducibility.csv")) # Subset for reproducibility
 ```
 
 ### Walking 1986
