@@ -106,6 +106,7 @@ library(readxl) # Read Excel Files
 library(tidyr) # Tidy Messy Data
 library(usethis) # Automate Package and Project Setup
 library(purrr) # Provides a complete and consistent set of tools for working with functions and vectors
+library(foreign) # Read SPSS files
 ```
 
 For each survey year, the process of preparing the data is very similar
@@ -116,6 +117,38 @@ we will not try to align the name columns and values between the tables.
 The file name pattern is as follows: `gss_main_` +
 `year of survey` [^4]. This means that, for instance, the file
 `gss_main_20105` refers to the main file of the 2005 GSS survey.
+
+## GSS 2022
+
+```{r reading-2022-main-file}
+# Main File
+gss_m_2022 <- read.spss(paste0(here(), "/data-raw/source-files/Time-use-2022/gss_tu_main_2022_pumf_v1.sav"), to.data.frame = TRUE) # Original file
+```
+
+The main data set for 2022 is already labeled and only needs a selection of socioeconomic and demographic variables:
+
+```{r filtering-variables-2022}
+gss_main_2022 <- gss_m_2022 %>%
+  dplyr::select("PUMFID", "WGHT_PER","SURVMNTH", "PRV", "LUC_RST", "REGION",  "HSDSIZEC","AGEGR10", "GENDER2",
+"MARSTAT", "PHSDFLG", "AGEPRC",  "GENPR2",  "COUPGEN2","CHH0017C","CHH0004C","CHH0514C","CHH1517C","CXRFLAG",
+"PARNUM",  "SENFLAG", "MULTIGEN","DDEV_FL", "DDEX_FL", "DFLEX_FL","DHEAR_FL","DLRN_FL", "DMEM_FL", "DMENT_FL",
+ "DMOB_FL", "DPAIN_FL","DUNK_FL", "DVIS_FL", "DDIS_FL", "DTYPER",  "DCLASS",  "TCS_110", "TCS_120", "TCS_130",
+ "TCS_140", "TCS_150", "TCS_160", "TCS_170", "TCS_180", "TCS_190", "TCS_200",  "GEN_01",  "GEN_02",  "SRS_10",  "MSS_130", "ACT7DAYC","MRW_05C", "MRW_D40A",
+"MRW_D40B","WET_120",  "WHW_230", "WHWD140G","TLWK_01A","TLWK_06","WLYD170G",
+"ATT_120", "ATT_130", "ATT_131",
+"ATT_150C","ATT_160", "ATT_170",
+"CTW_140A","CTW_140B","CTW_140C","CTW_140D",
+"CTW_140E","CTW140GR","CTW_140I","CTW_150G","CTW_160", "CTW_170", "CTW_180", "CTW_190", "CTW_210", "CTW_215",
+"ED_05",  "MAP_110C","MAP_D40A","DOR_110C","IM_01A",  "YRARRI_C","BPP_01A", "BPR_20", "ABM_01A",
+"AIP_01A", "VISMINFL","VISPRFL", "REL_02",  "RELIGFLG","INC_C",  
+"FAMINC_C","GTU_110", "GTU_130",  "DDAY",  "DVTDAY")
+```
+
+Save data in R format for later use:
+```{r save-data-2022}
+usethis::use_data(gss_main_2022, 
+                  overwrite = TRUE)
+```
 
 ## GSS 2015
 

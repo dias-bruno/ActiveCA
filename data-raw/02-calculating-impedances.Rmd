@@ -36,7 +36,7 @@ objective, we analyzed historical data from the [General Social Survey
 from 1986 to 2015 in Canada to calculate the impedance function for
 cycling and walking trips.
 
-In this R markdown, we'll calculate the impedance functions for walking and cycling for each GSS year (from 1986 to 2015). 
+In this R markdown, we'll calculate the impedance functions for walking and cycling for each GSS year (from 1986 to 2022). 
 
 ## Suggested reading
 
@@ -403,7 +403,7 @@ gss_episodes$WGHT_EPI[is.na(gss_episodes$WGHT_EPI)] <- 1
 ```
 
 Similar as we did before, the next chunk selects the best impedance function, using the `test_distributions_weighted` and `lowest_aic` functions for each destination, transportation mode and year. The name pattern is as follows: `f_year_mode_dest` + `dest_label`, which means that `f_1986_Walking_destHome` displays the best function for the year 1986, walking mode, Home destination.
-/000
+
 ```{r}
 for(year in unique(gss_episodes$YEAR)){
   
@@ -430,6 +430,7 @@ for(year in unique(gss_episodes$YEAR)){
   }
 }
 ```
+
 After selecting the best function for every combination of destination, transportation mode and year, the next two chunks will apply the functions in all surveys, adding the information with the best function and its parameters, AIC/BIC/loglik values, and count of episodes that were used to calculate the function: 
 
 ```{r}
