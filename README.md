@@ -25,7 +25,8 @@ include some socioeconomic variables from the GSS Main Files to
 facilitate profiling the survey’s respondents.
 
 The data covers cycles Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005),
-24 (2010), and 29 (2015), spanning a period of almost thirty years.
+24 (2010), 29 (2015), and 2022, spanning a period of more than thirty
+five years.
 
 ## Installation
 

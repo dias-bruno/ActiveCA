@@ -6,6 +6,7 @@
 .httr-oauth
 .DS_Store
 .quarto
+/paper/correspondence/
 /data-raw/source-files/
 /data-raw/documentation/
 docs
