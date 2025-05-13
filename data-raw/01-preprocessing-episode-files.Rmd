@@ -2758,9 +2758,17 @@ walking_2022 <- walking_2022 |>
   left_join(gss_m_2022, by = 'PUMFID') |>  # Merging the two tables
   dplyr::select(names(walking_2015))
 
-for (col in names(walking_2015)) {
-  target_class <- class(walking_2015[[col]])
-  walking_2022[[col]] <- match.fun(paste0("as.", target_class[1]))(walking_2022[[col]])
+numeric_columns <- c("WGHT_EPI")
+
+int_columns <- c("PUMFID", "ACTCODE", "STARTIME", "ENDTIME", "DURATION",
+                     "origin", "destination", "LUC_RST",  "PRV")
+
+for (col in numeric_columns) {
+  walking_2022[[col]] <- as.numeric(as.character(walking_2022[[col]]))
+}
+
+for (col in int_columns) {
+  walking_2022[[col]] <- as.integer(as.character(walking_2022[[col]]))
 }
 ```
 
@@ -2931,9 +2939,12 @@ cycling_2022 <- cycling_2022 |>
   left_join(gss_m_2022, by = 'PUMFID') |>  # Merging the two tables
   dplyr::select(names(walking_2015))
 
-for (col in names(walking_2015)) {
-  target_class <- class(walking_2015[[col]])
-  cycling_2022[[col]] <- match.fun(paste0("as.", target_class[1]))(cycling_2022[[col]])
+for (col in numeric_columns) {
+  cycling_2022[[col]] <- as.numeric(as.character(cycling_2022[[col]]))
+}
+
+for (col in int_columns) {
+  cycling_2022[[col]] <- as.integer(as.character(cycling_2022[[col]]))
 }
 ```
 
