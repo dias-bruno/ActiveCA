@@ -86,8 +86,10 @@ data("gss_episodes")
 data("gss_impedances")
 
 # Original main and Episode Files from 2015 to display table examples
-gss_m_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-m.csv"))
-gss_e_2015 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-2015/gss-e.csv"))
+gss_m_2015 <- read.csv(paste0(here(),
+                              "/data-raw/source-files/Time-use-2015/gss-m.csv"))
+gss_e_2015 <- read.csv(paste0(here(), 
+                              "/data-raw/source-files/Time-use-2015/gss-e.csv"))
 
 # Processed Main Files
 data("gss_main_2015")
@@ -101,7 +103,7 @@ data("gss_main_1986")
 
 ```{r rename-labels, include = FALSE}
 # Renaming 'dest_label' and 'orig_label' values to reduce table space
-gss_episodes_renamed <- gss_episodes %>%
+gss_episodes_renamed <- gss_episodes |>
   mutate(dest_label = case_when(
     dest_label == "Grocery store, other stores or mall" ~ "Grocery store",
     dest_label == "Restaurant, bar or club" ~ "Restaurant",
@@ -120,7 +122,7 @@ gss_episodes_renamed <- gss_episodes %>%
     orig_label == "Library, museum or theatre" ~ "Cultural venues",
     TRUE ~ orig_label))
 
-gss_impedances_renamed <- gss_impedances %>%
+gss_impedances_renamed <- gss_impedances |>
   mutate(dest_label = case_when(
     dest_label == "Grocery store, other stores or mall" ~ "Grocery store",
     dest_label == "Restaurant, bar or club" ~ "Restaurant",
@@ -238,17 +240,17 @@ The Main File of the 2015 GSS surveys includes a total of 17,390 respondents, re
 As shown in Table \ref{tab:main-2015-unprocessed}, the variables are not labeled. Adittionaly, the format of the tables (comma-separated values) does not allow for the specification of variable types (whether a variable is continuous or discrete), which can lead to mistakes analysts who have limited experience working with PUMFs.
 
 ```{r gss-main-file-2015}
-main_2015_unprocessed <- gss_m_2015[1:10, 1:6]  %>%
+main_2015_unprocessed <- gss_m_2015[1:10, 1:6]  |>
   kable(
     format = "latex", 
     booktabs = TRUE, 
     longtable = TRUE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
-    caption = "\\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.") %>%
+    caption = "\\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.") |>
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
-                 font_size = 8) %>%
+                 font_size = 8) |>
   footnote(general = c("Legend: `PUMFID`: record identification. `WGHT_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent."), threeparttable = T)
 
 main_2015_unprocessed
@@ -277,18 +279,18 @@ In the case illustrated in Table \ref{tab:ep-2015-unprocessed}, this respondent 
 
 ```{r gss-epi-file-2015}
 ep_2015_unprocessed <- gss_e_2015 |>
-  filter(PUMFID == 10041 & EPINO <= 7) %>%
-  dplyr::select(PUMFID, EPINO,WGHT_EPI,TUI_01, DURATION, LOCATION) %>%
+  filter(PUMFID == 10041 & EPINO <= 7) |>
+  dplyr::select(PUMFID, EPINO,WGHT_EPI,TUI_01, DURATION, LOCATION) |>
   kable(
     format = "latex", 
     booktabs = TRUE, 
     longtable = TRUE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
-    caption = "\\label{tab:ep-2015-unprocessed}Visualization of the seven first episodes of the record number `10041`.") %>%
+    caption = "\\label{tab:ep-2015-unprocessed}Visualization of the seven first episodes of the record number `10041`.") |>
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
-                 font_size = 8) %>%
+                 font_size = 8) |>
   footnote(general = c("Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT_EPI: episode's weight. TUI_01: activity code. DURATION: episode's duration. LOCATION: episode's location."), threeparttable = T)
 
 ep_2015_unprocessed
@@ -320,7 +322,7 @@ After installing the {ActiveCA} R package, you can load it using the following c
 library(ActiveCA)
 ```
 
-By running `?ActiveCA` in `R`, you can access the complete package documentation. The documentation includes a description of the package, information about the authors and maintainers, and an overview of all pre-processed data sets included in the package.
+The documentation of the package can be accessed by running `?ActiveCA` in `R`. The documentation includes a description of the package, information about the authors, contributors, and maintainers, and an overview of all pre-processed data sets included in the package.
 
 Figure \ref{fig:walking_documentation} displays the documentation for the walking episodes from the 2015 GSS (`walking_2015.rda`). The documentation provides a brief description of the dataset, instructions on how to load the package, as well as details about the file format and descriptions of all variables (already labeled).
 
@@ -329,21 +331,19 @@ Figure \ref{fig:walking_documentation} displays the documentation for the walkin
 knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/walking-2015-documentation.png"))
 ```
 
-The chunk below shows how to load the walking episodes from the 2015 GSS (Cycle 29):
+The code below shows how to load the walking episodes from the 2015 GSS (Cycle 29):
 
 ```{r load-walking-2015-episodes, echo=TRUE}
 data(walking_2015)
 ```
 
-The GSS surveys apply a probability sampling methodology, in which each episode or person selected in the sample represents several other episodes or persons not in the sample. The number of episodes and persons represented by a episode or person is determined by the weight or weighting factor. Because of this, every estimates of the number of episodes or persons need to be calculated applying the corresponding weighting factors. 
+The GSS surveys apply a probability sampling methodology, in which each episode or person selected in the sample represents several other episodes or persons not in the sample. The number of episodes and persons represented by a episode or person is determined by the weight or weighting factor. Because of this, estimates of the number of episodes or persons need to be calculated applying the corresponding weighting factors. 
 
-For instance, if someone wants to calculate the percentage of respondents from the 2015 GSS survey with active travel episodes, it is necessary to account for the person's weights. In 2015, the weight variable is represented by `WGHT_PER.` The code chunk below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the `dplyr`package [@dplyr2023] to manipulate the data.
+For instance, to calculate the percentage of respondents from the 2015 GSS survey with active travel episodes, it is necessary to account for the person's weight. In 2015, the weight variable is represented by `WGHT_PER.` The code below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the `dplyr` package [@dplyr2023] to manipulate the data.
 
 The process begins by creating a dataset that sums the population by age group. Then, it joins the 2015 episodes with the 2015 Main File. Note that in both operations, the code sums the person weight variable (`WGHT_PER`) to obtain the correct population values. After this, a new dataset, `Active_percentage`, is created by merging both previous datasets. The percentage of active travel episodes by age group is calculated by dividing the total population by the population with active trip episodes, then multiplying by 100 and rounding with 2 decimal places.
 
-The result shows that the age group with the highest share of active trips is those between 15 and 20 years old, with almost 37%, followed by those between 25 and 34 years old with around 33%. There is a significant drop in percentage for the following groups, with the percentage falling to between 15% and 18% for the remaining age groups.
-
-```{r percentages-act, echo=TRUE, out.width='80%'}
+```
 # Load the dplyr library for data manipulation
 library('dplyr')
 
@@ -351,26 +351,55 @@ library('dplyr')
 data(gss_episodes) 
 
 # Calculate the total population for each age group
-Total_population <- gss_main_2015 %>% 
-  group_by(AGEGR10) %>% 
+Total_population <- gss_main_2015 |> 
+  group_by(AGEGR10) |> 
   summarise(Total_population  = sum(WGHT_PER))
 
 # Calculate the active population for each age group
-Active_population <- gss_episodes %>% 
-      filter(YEAR == 2015) %>% 
-  left_join(gss_main_2015, by = c("PUMFID"="PUMFID")) %>% 
-  group_by(AGEGR10) %>% 
+Active_population <- gss_episodes |> 
+      filter(YEAR == 2015) |> 
+  left_join(gss_main_2015, by = c("PUMFID"="PUMFID")) |> 
+  group_by(AGEGR10) |> 
   summarise(Active_population  = sum(WGHT_PER))
 
 # Combine total and active population 
 #and calculate the percentage
-Active_percentage <- Total_population %>% 
-  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) %>%
+Active_percentage <- Total_population |> 
+  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) |>
+  mutate(
+    Percentage = round(Active_population/Total_population*100,2))
+```
+The result shows that the age group with the highest share of active trips is those between 15 and 20 years old, with almost 37%, followed by those between 25 and 34 years old with around 33%. There is a significant drop in percentage for the following groups, with the percentage falling to between 15% and 18% for the remaining age groups.
+
+```{r percentages-act, echo=FALSE, out.width='80%'}
+# Load the dplyr library for data manipulation
+library('dplyr')
+
+# Load the episodes dataset
+data(gss_episodes) 
+
+# Calculate the total population for each age group
+Total_population <- gss_main_2015 |> 
+  group_by(AGEGR10) |> 
+  summarise(Total_population  = sum(WGHT_PER))
+
+# Calculate the active population for each age group
+Active_population <- gss_episodes |> 
+      filter(YEAR == 2015) |> 
+  left_join(gss_main_2015, by = c("PUMFID"="PUMFID")) |> 
+  group_by(AGEGR10) |> 
+  summarise(Active_population  = sum(WGHT_PER))
+
+# Combine total and active population 
+#and calculate the percentage
+Active_percentage <- Total_population |> 
+  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) |>
   mutate(
     Percentage = round(Active_population/Total_population*100,2))
 
 # Display the final result
-Active_percentage
+Active_percentage |>
+  kable()
 ```
 
 ## Processed data set
@@ -393,13 +422,13 @@ df_main_processed <- data.frame(
               sum(gss_main_1986$FWGT_OS/10000)))
 
 
-df_ep_processed <- gss_episodes %>% 
-  group_by(YEAR) %>%
+df_ep_processed <- gss_episodes |> 
+  group_by(YEAR) |>
   summarise(Survey = 'Episode', 
             Count = n(), 
-            Weighted = sum(WGHT_EPI)) %>%
-  rename(Year = YEAR) %>%
-  dplyr::select(Survey, Year, Count, Weighted) %>% 
+            Weighted = sum(WGHT_EPI)) |>
+  rename(Year = YEAR) |>
+  dplyr::select(Survey, Year, Count, Weighted) |> 
   arrange(-Year)
 
 
@@ -411,11 +440,11 @@ Table \ref{tab:processed-obs} displays the total number of records processed for
 
 ```{r table_df_processed}
 
-table_df_processed <- df_processed %>%
+table_df_processed <- df_processed |>
   kable(format = "latex", booktabs = TRUE, longtable = TRUE, 
-        caption = "\\label{tab:processed-obs}Total number and weighted sum of records processed.") %>%
-  kable_styling(full_width = FALSE, font_size = 10) %>%
-  add_header_above(c(" " = 2, "Observations" = ncol(df_processed) - 2)) %>%
+        caption = "\\label{tab:processed-obs}Total number and weighted sum of records processed.") |>
+  kable_styling(full_width = FALSE, font_size = 10) |>
+  add_header_above(c(" " = 2, "Observations" = ncol(df_processed) - 2)) |>
   collapse_rows(columns = 1, valign = "top", latex_hline = "major")
 
 table_df_processed
@@ -424,34 +453,34 @@ table_df_processed
 Table \ref{tab:main-2015-processed} shows the first ten rows and first six variables of the GSS PUMF 2015 Main File (Cycle 29), displayed in \ref{tab:main-2015-unprocessed} before our processing. Table \ref{tab:ep-2015-processed} presents the walking episodes for the record identification number `10041` from the GSS PUMF 2015 Episode File (Cycle 29), previously displayed in Table \ref{tab:ep-2015-unprocessed}. Only the unique active travel episode appear in Table \ref{tab:ep-2015-processed} since the records were filtered to select cases with walking or cycling episodes. For both cases, Tables \ref{tab:main-2015-processed} and \ref{tab:ep-2015-processed} contain labeled variables, facilitating the interpretation of the data.
 
 ```{r gss-processed-file-2015, echo=FALSE, cache=FALSE}
-main_2015_processed <- gss_main_2015[1:10, 1:6]  %>%
+main_2015_processed <- gss_main_2015[1:10, 1:6]  |>
   kable(
     format = "latex", 
     booktabs = TRUE, 
     longtable = TRUE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
-    caption = "\\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.") %>%
+    caption = "\\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.") |>
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
-                 font_size = 8) %>%
+                 font_size = 8) |>
   footnote(general = c("Legend: `PUMFID`: record identification. `WGHT_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent."), threeparttable = T)
 
 main_2015_processed
 
 ep_2015_unprocessed <- gss_episodes_renamed |>
-  filter(PUMFID == 10041 & YEAR == 2015) %>%
-  dplyr::select(PUMFID, WGHT_EPI, act_label, DURATION, orig_label, dest_label, MODE) %>%
+  filter(PUMFID == 10041 & YEAR == 2015) |>
+  dplyr::select(PUMFID, WGHT_EPI, act_label, DURATION, orig_label, dest_label, MODE) |>
   kable(
     format = "latex", 
     booktabs = TRUE, 
     longtable = TRUE, 
     caption = "\\label{tab:ep-2015-processed}Visualization of the active travel episode for the record number `10041` of the 2015 GSS survey.", 
-       col.names = c("PUMFID", "WGHT_EPI","Activity","Duration","Origin", "Destination", "Mode")) %>% 
+       col.names = c("PUMFID", "WGHT_EPI","Activity","Duration","Origin", "Destination", "Mode")) |> 
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
-                 font_size = 8) %>%
+                 font_size = 8) |>
   footnote(general = c("Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT_EPI: episode's weight. TUI_01: activity code. DURATION: episode's duration. LOCATION: episode's location."), threeparttable = T)
 
 ep_2015_unprocessed
@@ -463,8 +492,8 @@ Considering GSS Cycles analyzed, we identified `r nrow(gss_episodes)` episodes t
 
 ```{r table-01, echo=FALSE, cache=FALSE}
 # Calculate min, mean, and max statistic (duration)
-stats_data <- gss_episodes_renamed %>%
-  group_by(YEAR, MODE) %>%
+stats_data <- gss_episodes_renamed |>
+  group_by(YEAR, MODE) |>
   dplyr::summarise(
     min = min(DURATION),
     mean = sum(DURATION * WGHT_EPI)/sum(WGHT_EPI),
@@ -472,20 +501,20 @@ stats_data <- gss_episodes_renamed %>%
     max = max(DURATION),
     std = sd(DURATION),
     .groups = "drop"
-  ) %>%
-  pivot_longer(cols = c(min, mean, median, max, std), names_to = "Statistic", values_to = "Value") %>%
+  ) |>
+  pivot_longer(cols = c(min, mean, median, max, std), names_to = "Statistic", values_to = "Value") |>
   pivot_wider(names_from = YEAR, values_from = Value)
 
 # Combine counts and stats into one data frame
-stats_data <- stats_data %>%
-  mutate(MODE = factor(MODE, levels = c("Walking", "Cycling"))) %>%
-  arrange(MODE, Statistic) %>%
+stats_data <- stats_data |>
+  mutate(MODE = factor(MODE, levels = c("Walking", "Cycling"))) |>
+  arrange(MODE, Statistic) |>
   mutate(across(where(is.numeric), ~ round(.x, 0)))
 
 # Rename the 'MODE' column to 'Mode' before generating the table
-stats_data <- stats_data %>%
-  rename(Mode = MODE) %>%
-  dplyr::select(Mode, Statistic, everything()) %>% 
+stats_data <- stats_data |>
+  rename(Mode = MODE) |>
+  dplyr::select(Mode, Statistic, everything()) |> 
    mutate(Statistic = case_when(
     Statistic == "max" ~ "Maximum",
     Statistic == "min" ~ "Minimum",
@@ -495,13 +524,13 @@ stats_data <- stats_data %>%
     TRUE ~ Statistic))
   
 # Creating a latex table
-styled_ch03_table_01 <- stats_data %>%
+styled_ch03_table_01 <- stats_data |>
   kable(format = "latex", booktabs = TRUE, longtable = TRUE, 
         caption = "\\label{tab:table-01}Descriptive statistics for episodes with active transport records",  
-        align = c('l', 'l', rep('c', ncol(stats_data) - 2))) %>%
-  kable_styling(full_width = FALSE, font_size = 10) %>%
-  column_spec(1, bold = TRUE) %>%
-  add_header_above(c(" " = 2, "Year" = ncol(stats_data) - 2)) %>%
+        align = c('l', 'l', rep('c', ncol(stats_data) - 2))) |>
+  kable_styling(full_width = FALSE, font_size = 10) |>
+  column_spec(1, bold = TRUE) |>
+  add_header_above(c(" " = 2, "Year" = ncol(stats_data) - 2)) |>
   collapse_rows(columns = 1, valign = "top", latex_hline = "major")
 
 # Print the table
@@ -522,9 +551,9 @@ Table \ref{tab:table-03} indicates that the median duration for walking trips to
 
 ```{r table-02, echo=FALSE, cache=FALSE, warning=FALSE, results="asis"}
 # Filter for selected years and calculate statistics of trip duration
-episodes_stats_before <- gss_episodes %>%
-  filter(YEAR < 2005) %>%
-  group_by(YEAR, dest_label, MODE) %>%
+episodes_stats_before <- gss_episodes |>
+  filter(YEAR < 2005) |>
+  group_by(YEAR, dest_label, MODE) |>
   dplyr::summarise(
     count = sum(WGHT_EPI),
     min = min(DURATION),
@@ -534,8 +563,8 @@ episodes_stats_before <- gss_episodes %>%
   )
 
 # Calculate percentages of trips by mode/year 
-total_counts <- episodes_stats_before %>% 
-  group_by(YEAR, MODE) %>% 
+total_counts <- episodes_stats_before |> 
+  group_by(YEAR, MODE) |> 
   summarise(total_count = sum(count), 
             .groups = "drop")
 
@@ -544,25 +573,25 @@ episodes_stats_before <- left_join(episodes_stats_before, total_counts, by = c("
 episodes_stats_before$Percentage <- round((episodes_stats_before$count / episodes_stats_before$total_count) * 100, 1)
 
 # Pivot data for the table layout
-wide_data <- episodes_stats_before %>%
+wide_data <- episodes_stats_before |>
   pivot_wider(
     id_cols = c(dest_label, MODE),
     names_from = YEAR,
     values_from = c(min, median, max, Percentage)
-  )  %>% 
+  )  |> 
   arrange(MODE, dest_label, desc(Percentage_1998))
 
-wide_data <- wide_data %>%
+wide_data <- wide_data |>
  dplyr::select(
     MODE, dest_label,
     min_1986, median_1986, max_1986, Percentage_1986,
     min_1992, median_1992, max_1992, Percentage_1992,
     min_1998, median_1998, max_1998, Percentage_1998
-  ) %>% 
+  ) |> 
   arrange(MODE, dest_label)
 
 # Latex table
-styled_ch03_table_02 <- wide_data %>%
+styled_ch03_table_02 <- wide_data |>
   kable(
     format = "latex", 
     booktabs = TRUE, 
@@ -570,18 +599,18 @@ styled_ch03_table_02 <- wide_data %>%
     align = c(rep("c", ncol(wide_data))),
     caption = "\\label{tab:table-02}Comparison of travel statistics by mode and destination: 1986, 1992, 1998",
     col.names = c("Destination", "Mode","Min","Med","Max", "(%)", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
-  ) %>%
+  ) |>
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
-                 font_size = 6) %>%
-  # column_spec(1, width = "1cm") %>%  # Set width of 'Dest' column to 1.5cm
-  # column_spec(2:14, width = "0.5cm") %>%  # Set width of remaining columns to 0.7cm
-  add_header_above(c(" " = 2, "1986" = 4, "1992" = 4, "1998" = 4)) %>%
-  row_spec(0, bold = TRUE, align = "c") %>%
-  column_spec(6, border_right = TRUE) %>%
-  column_spec(10, border_right = TRUE) %>%
-  collapse_rows(columns = 1, valign = "top", latex_hline = "major") %>% 
+                 font_size = 6) |>
+  # column_spec(1, width = "1cm") |>  # Set width of 'Dest' column to 1.5cm
+  # column_spec(2:14, width = "0.5cm") |>  # Set width of remaining columns to 0.7cm
+  add_header_above(c(" " = 2, "1986" = 4, "1992" = 4, "1998" = 4)) |>
+  row_spec(0, bold = TRUE, align = "c") |>
+  column_spec(6, border_right = TRUE) |>
+  column_spec(10, border_right = TRUE) |>
+  collapse_rows(columns = 1, valign = "top", latex_hline = "major") |> 
   footnote(general = c("'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
 
 styled_ch03_table_02 
@@ -589,9 +618,9 @@ styled_ch03_table_02
 
 ```{r table-03,echo=FALSE, cache=FALSE, warning=FALSE}
 # Selecting surveys after 2000 and calculating trip duration statistics 
-episodes_stats_after <- gss_episodes_renamed %>%
-  filter(YEAR > 2000) %>%
-  group_by(YEAR, dest_label, MODE) %>%
+episodes_stats_after <- gss_episodes_renamed |>
+  filter(YEAR > 2000) |>
+  group_by(YEAR, dest_label, MODE) |>
    dplyr::summarise(
     count = sum(WGHT_EPI),
     min = min(DURATION),
@@ -601,27 +630,27 @@ episodes_stats_after <- gss_episodes_renamed %>%
   )
 
 # Calculate percentages of trips by mode/year
-total_counts <- episodes_stats_after %>% group_by(YEAR, MODE) %>% summarise(total_count = sum(count), .groups = "drop")
+total_counts <- episodes_stats_after |> group_by(YEAR, MODE) |> summarise(total_count = sum(count), .groups = "drop")
 episodes_stats_after <- left_join(episodes_stats_after, total_counts, by = c("YEAR", "MODE"))
 episodes_stats_after$Percentage <- round((episodes_stats_after$count / episodes_stats_after$total_count) * 100, 1)
 
 # Pivot data for the table layout
-wide_data <- episodes_stats_after %>%
+wide_data <- episodes_stats_after |>
   pivot_wider(
     id_cols = c(dest_label, MODE),
     names_from = YEAR,
     values_from = c(min, median, max, Percentage)
-  ) %>%
+  ) |>
  dplyr::select(
     MODE, dest_label,
     min_2005, median_2005, max_2005, Percentage_2005,
     min_2010, median_2010, max_2010, Percentage_2010,
     min_2015, median_2015, max_2015, Percentage_2015
-  ) %>% 
+  ) |> 
   arrange(MODE, dest_label)
 
 # Latex table
-styled_ch03_table_03 <- wide_data %>%
+styled_ch03_table_03 <- wide_data |>
   kable(
     format = "latex", 
     booktabs = TRUE, 
@@ -629,18 +658,18 @@ styled_ch03_table_03 <- wide_data %>%
     align = c(rep("c", ncol(wide_data))),
     caption = "\\label{tab:table-03}Comparison of travel statistics by mode and destination: 2005, 2010, 2015",
     col.names = c("Destination", "Mode","Min","Med","Max", "(%)", "Min","Med","Max", "(%)", "Min","Med","Max", "(%)")
-  ) %>%
+  ) |>
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
-                font_size = 6) %>%
-  #column_spec(1, width = "2cm") %>%  # Set width of 'Dest' column to 1.5cm
-  #column_spec(2:14, width = "0.4cm") %>%  # Set width of remaining columns to 0.7cm
-  add_header_above(c(" " = 2, "2005" = 4, "2010" = 4, "2015" = 4)) %>%
-  row_spec(0, bold = TRUE, align = "c") %>%
-  column_spec(6, border_right = TRUE) %>%
-  column_spec(10, border_right = TRUE) %>% 
-  collapse_rows(columns = 1, valign = "top", latex_hline = "major") %>% 
+                font_size = 6) |>
+  #column_spec(1, width = "2cm") |>  # Set width of 'Dest' column to 1.5cm
+  #column_spec(2:14, width = "0.4cm") |>  # Set width of remaining columns to 0.7cm
+  add_header_above(c(" " = 2, "2005" = 4, "2010" = 4, "2015" = 4)) |>
+  row_spec(0, bold = TRUE, align = "c") |>
+  column_spec(6, border_right = TRUE) |>
+  column_spec(10, border_right = TRUE) |> 
+  collapse_rows(columns = 1, valign = "top", latex_hline = "major") |> 
   footnote(general = c("'Min' denotes the minimum time to reach the destination; 'Max' denotes the maximum time to reach the destination; '(%)' indicates a percentage of the total time to reach the destination; 'Med' refers to the median time to reach the destination"), threeparttable = T)
 
 styled_ch03_table_03
@@ -664,17 +693,17 @@ those leaving `home` (6%), surpassing trips to `other's home` (4%).
 ```{r heatmaps, echo=FALSE, cache=FALSE, include=FALSE}
 
 # Creating heatmaps for the years of 1992 and 2015
-gss_heatmap <- gss_episodes_renamed %>%
-  mutate(WGHT_EPI = ifelse(is.na(WGHT_EPI), 1, WGHT_EPI)) %>% 
+gss_heatmap <- gss_episodes_renamed |>
+  mutate(WGHT_EPI = ifelse(is.na(WGHT_EPI), 1, WGHT_EPI)) |> 
   filter(YEAR %in% c(1992,2015))
 
 for(year in unique(gss_heatmap$YEAR)){
   
   for(mode in unique(gss_heatmap$MODE)){
     
-    trip_counts <- gss_heatmap %>%
-      filter(YEAR == year, MODE == mode) %>% 
-      group_by(orig_label, dest_label) %>%
+    trip_counts <- gss_heatmap |>
+      filter(YEAR == year, MODE == mode) |> 
+      group_by(orig_label, dest_label) |>
         dplyr::summarise(count_each_trip = n(), 
                 weighted_count = sum(WGHT_EPI), .groups = "drop")
 
@@ -682,7 +711,7 @@ for(year in unique(gss_heatmap$YEAR)){
       total_weighted_count <- sum(trip_counts$weighted_count)
       
       # Calculate percentages and round to 2 decimal places
-      trip_counts <- trip_counts %>%
+      trip_counts <- trip_counts |>
         mutate(percentage = round((weighted_count / total_weighted_count) * 100, 2))
 
       # Reshape data for heatmap
@@ -802,12 +831,12 @@ knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/cycling_h
 {ActiveCA} also enables obtaining insights from the main processed files. Figure \ref{fig:figure-stress} present how the level of stress varied among respondents depending on their marital status in 2015. According to this plot, married respondents reported the highest level of stress, relating to feel stressed every day, with 17% of possible cases. 
 
 ```{r main_stress_figure}
-main_stress_figure <- gss_main_2015 %>%
-  filter(!is.na(MARSTAT), !is.na(GTU_110)) %>%
-  group_by(MARSTAT, GTU_110) %>%
-  dplyr::summarise(n = sum(WGHT_PER), .groups = "drop") %>%
-  mutate(percentage = n / sum(n) * 100) %>%
-  ungroup() %>%
+main_stress_figure <- gss_main_2015 |>
+  filter(!is.na(MARSTAT), !is.na(GTU_110)) |>
+  group_by(MARSTAT, GTU_110) |>
+  dplyr::summarise(n = sum(WGHT_PER), .groups = "drop") |>
+  mutate(percentage = n / sum(n) * 100) |>
+  ungroup() |>
   ggplot(aes(x = MARSTAT,
     y = GTU_110)) +
     geom_tile(aes(fill = percentage)) +
@@ -891,5 +920,11 @@ Author 3
 
 The {ActiveCA} R data package can be found and installed on Github
 (*link*).
+
+For review purposes, the package is currently available as a tar.gz file that can 
+be installed by R. The file can be obtained from this anonymous location:
+
+https://user.fm/files/v2-3d261d0b2aa47fcad096cd9e49fd5cf8/ActiveCA.zip
+
 
 # References {#references .unnumbered}

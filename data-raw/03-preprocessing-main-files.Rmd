@@ -62,8 +62,7 @@ production, well-being, and gender equality. Leisure time, work-life
 balance, health, commuting, culture, and sports are among the other
 topics covered by time-use surveys. In addition, statistics Canada has
 been conducting time-use surveys at five to seven year intervals since
-1986, with the most recent being in 2015 (1986, 1992, 1998, 2005, 2010,
-and 2015). The time use collects information on participation of
+1986, with the most recent being in 2022 (1986, 1992, 1998, 2005, 2010, 2015, and 2022). The time use collects information on participation of
 respondents and time spent on a wide range of day-to-day activities
 using a 24-hour retrospective diary. Also, information is collected on
 the location of these activities (e.g., at home, at work, etc.) and, for
@@ -141,7 +140,9 @@ gss_main_2022 <- gss_m_2022 %>%
 "CTW_140E","CTW140GR","CTW_140I","CTW_150G","CTW_160", "CTW_170", "CTW_180", "CTW_190", "CTW_210", "CTW_215",
 "ED_05",  "MAP_110C","MAP_D40A","DOR_110C","IM_01A",  "YRARRI_C","BPP_01A", "BPR_20", "ABM_01A",
 "AIP_01A", "VISMINFL","VISPRFL", "REL_02",  "RELIGFLG","INC_C",  
-"FAMINC_C","GTU_110", "GTU_130",  "DDAY",  "DVTDAY")
+"FAMINC_C","GTU_110", "GTU_130",  "DDAY",  "DVTDAY") %>% 
+  mutate(PUMFID = as.numeric(as.character(PUMFID)),
+         WGHT_PER = as.numeric(as.character(WGHT_PER)))
 ```
 
 Save data in R format for later use:

@@ -33,7 +33,7 @@ appropriate impedance functions for active transportation modes for
 various destinations and time periods in Canada. To do achieve our
 objective, we analyzed historical data from the [General Social Survey
 (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221)
-from 1986 to 2015 in Canada to calculate the impedance function for
+from 1986 to 2022 in Canada to calculate the impedance function for
 cycling and walking trips.
 
 In this R markdown, we'll calculate the impedance functions for walking and cycling for each GSS year (from 1986 to 2022). 
