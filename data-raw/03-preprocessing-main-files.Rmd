@@ -229,7 +229,7 @@ gss_main_2015 <- gss_main_2015 %>%
                      SEX == 97 ~ "Don't know",
                      SEX == 98 ~ "Refusal",
                      SEX == 99 ~ "Not stated"), 
-    SEX = factor(SEX, levels = values_ordered, ordered = TRUE)) 
+    SEX = factor(SEX, levels = values_ordered, ordered = FALSE)) 
 
 summary(gss_main_2015$SEX)
 ```
@@ -859,7 +859,7 @@ gss_main_2010 <- gss_main_2010 %>%
     SEX = 
            case_when(SEX == 1 ~ "Male", 
                      SEX == 2 ~ "Female"), 
-    SEX = factor(SEX, levels = values_ordered, ordered = TRUE)) 
+    SEX = factor(SEX, levels = values_ordered, ordered = FALSE)) 
 
 summary(gss_main_2010$SEX)
 ```
@@ -1365,7 +1365,7 @@ gss_main_2005 <- gss_main_2005 %>%
     SEX = 
            case_when(SEX == 1 ~ "Male", 
                      SEX == 2 ~ "Female"), 
-    SEX = factor(SEX, levels = values_ordered, ordered = TRUE)) 
+    SEX = factor(SEX, levels = values_ordered, ordered = FALSE)) 
 
 summary(gss_main_2005$SEX)
 ```
@@ -1907,7 +1907,7 @@ gss_main_1998 <- gss_main_1998 %>%
     SEX = 
            case_when(SEX == 1 ~ "Male", 
                      SEX == 2 ~ "Female"), 
-    SEX = factor(SEX, levels = values_ordered, ordered = TRUE)) 
+    SEX = factor(SEX, levels = values_ordered, ordered = FALSE)) 
 
 summary(gss_main_1998$SEX)
 ```
@@ -2618,7 +2618,7 @@ gss_main_1992 <- gss_main_1992 %>%
     DVSEX = 
            case_when(DVSEX == 1 ~ "Male", 
                      DVSEX == 2 ~ "Female"), 
-    DVSEX = factor(DVSEX, levels = values_ordered, ordered = TRUE)) 
+    DVSEX = factor(DVSEX, levels = values_ordered, ordered = FALSE)) 
 
 summary(gss_main_1992$DVSEX)
 ```
@@ -2911,7 +2911,7 @@ gss_main_1986 <- gss_main_1986 %>%
     DVSEX = 
            case_when(DVSEX == 1 ~ "Male", 
                      DVSEX == 2 ~ "Female"), 
-    DVSEX = factor(DVSEX, levels = values_ordered, ordered = TRUE)) 
+    DVSEX = factor(DVSEX, levels = values_ordered, ordered = FALSE)) 
 
 summary(gss_main_1986$DVSEX)
 ```

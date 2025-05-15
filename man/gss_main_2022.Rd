@@ -10,13 +10,11 @@ A data frame containing 12,336 rows and 100 variables; each row represents a uni
 \item{PUMFID}{Record identification.}
 \item{WGHT_PER}{Person weight.}
 \item{SURVMNTH}{Survey month of data collection.}
-\item{AGEGR10}{Age group of the respondent (group of 10).}
-\item{SEX}{Sex of respondent.}
 \item{PRV}{Province of residence of the respondent.}
 \item{LUC_RST}{Population centres indicator.}
 \item{REGION}{Region of residence of the respondent.}
 \item{HSDSIZEC}{Household size of respondent.}
-\item{AGEPRGRD}{Age group of respondent (groups of 10).}
+\item{AGEGR10}{Age group of the respondent (group of 10).}
 \item{GENDER2}{Gender (2) after distribution of the non-binary persons (Men+ or Women+).}
 \item{MARSTAT}{Marital status of the respondent.}
 \item{PHSDFLG}{Respondent has a spouse/partner living in the household.}
@@ -27,12 +25,20 @@ A data frame containing 12,336 rows and 100 variables; each row represents a uni
 \item{CHH0004C}{Child(ren) in household - 0 to 4 years (flag).}
 \item{CHH0514C}{Child(ren) in household - 5 to 14 years (flag).}
 \item{CHH1517C}{Child(ren) in household - 15-17 years (flag).}
-\item{CHH1517C}{Child(ren) of respondent living in household.}
+\item{CXRFLAG}{Child(ren) of respondent living in household.}
 \item{PARNUM}{Number of parents the respondent has in household.}
 \item{SENFLAG}{Senior(s) (age 65 and over) in household.}
 \item{MULTIGEN}{Three generations or more in the respondent’s household.}
 \item{DDEV_FL}{Disability indicator - Developmental.}
 \item{DDEX_FL}{Disability indicator - Dexterity.}
+\item{DFLEX_FL}{Disability indicator - Flexibility.}
+\item{DHEAR_FL}{Disability indicator - Hearing.}
+\item{DLRN_FL}{Disability indicator - LearninG.}
+\item{DMEM_FL}{Disability indicator - Memory.}
+\item{DMENT_FL}{Disability indicator - Mental health-related.}
+\item{DMOB_FL}{Disability indicator - Mobility.}
+\item{DPAIN_FL}{Disability indicator - Pain-related.}
+\item{DUNK_FL}{Disability indicator - Unknown disability.}
 \item{DVIS_FL}{Disability indicator - Seeing.}
 \item{DDIS_FL}{Disability status.}
 \item{DTYPER}{Disability type counter - Grouped.}
@@ -84,7 +90,7 @@ A data frame containing 12,336 rows and 100 variables; each row represents a uni
 \item{ED_05}{Educational attainment - Highest degree (7 categories).}
 \item{MAP_110C}{Main activity - Spouse/partner - 12 months (collapsed).}
 \item{MAP_D40A}{Spouse/partner - worked in the last 12 months.}
-\item{DOR_110C}{Dwelling type (collapsed).}
+\item{DOR_110C}{Dwelling type (collapsed) .}
 \item{IM_01A}{Born in/outside Canada - Respondent.}
 \item{YRARRI_C}{Year respondent first came to Canada to live (collapsed).}
 \item{BPP_01A}{Place of birth of respondent’s spouse/partner - Canada.}
@@ -100,7 +106,6 @@ A data frame containing 12,336 rows and 100 variables; each row represents a uni
 \item{GTU_110}{General time use - Feel rushed. How often do you feel rushed?}
 \item{GTU_130}{General time use - Extra time. How often do you feel you have time on your hands that you don’t know what to do with?}
 \item{DDAY}{Diary - Reference day.}
-\item{DVTDAY}{Diary - Reference day - Type.}
 }
 }
 \source{

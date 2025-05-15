@@ -1,6 +1,6 @@
 Package: ActiveCA
 Title: Time Use Data from the General Social Survey of Canada to Study Active Travel
-Version: 0.0.1.1
+Version: 0.0.2.1
 Authors@R: 
      c(person("Bruno", "Dos Santos", , "dossanb@mcmaster.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6748-2038")),
