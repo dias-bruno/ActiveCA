@@ -1,15 +1,83 @@
-\documentclass[Royal,times,sageh]{sagej}
-
-\usepackage{moreverb,url,natbib, multirow, tabularx}
-\usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
-
-
-
-% tightlist command for lists without linebreak
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-
-% From pandoc table feature
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  Royal,
+  times]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -20,40 +88,76 @@
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-
-
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{multirow}
-\usepackage{wrapfig}
-\usepackage{float}
-\usepackage{colortbl}
-\usepackage{pdflscape}
-\usepackage{tabu}
-\usepackage{threeparttable}
-\usepackage{threeparttablex}
-\usepackage[normalem]{ulem}
-\usepackage{makecell}
-\usepackage{xcolor}
-
-
-\begin{document}
-
-
-\setcitestyle{aysep={,}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={ActiveCA: Time Use Data from the General Social Survey of Canada to Study Active Travel},
+  pdfkeywords={Active; mobility; walking; cycling; travel time;
+time-use; General Social Survey},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{ActiveCA: Time Use Data from the General Social Survey of Canada
 to Study Active Travel}
+\author{true \and true \and true}
+\date{}
 
-\runninghead{}
-
-\author{Anon1\affilnum{}, Anon2\affilnum{}, Anon3\affilnum{}}
-
-\affiliation{\affilnum{}{}}
-
-
-
+\begin{document}
+\maketitle
 \begin{abstract}
 This paper describes \{ActiveCA\}, an open data product with Canadian
 time use data. \{ActiveCA\} is an \texttt{R} data package that contains
@@ -72,11 +176,6 @@ geographical resolution includes the province and whether the episode
 was in an urban or rural setting.
 \end{abstract}
 
-\keywords{Active; mobility; walking; cycling; travel time; time-use;
-General Social Survey}
-
-\maketitle
-
 \section{Introduction}\label{introduction}
 
 The objective of this paper is to introduce \{ActiveCA\}, an open data
@@ -84,7 +183,7 @@ product with time use data from Canada's General Social Surveys. Open
 data products (ODPs) are the outcome of a process that transforms raw
 data (open or not) into analysis-ready data, following a transparent
 process in which all stages of development follow open principles
-\citep{arribas-bel2021}. ODPs, while still open, differ from general
+(Arribas-Bel et al. 2021). ODPs, while still open, differ from general
 open data in their degree of ease of access, their heightened usability,
 and potentially the value they add to the raw data.
 
@@ -98,24 +197,23 @@ to seven years the survey is done on the topic of time use. Concretely,
 (2010), and 29 (2015) of the GSS. Time use data in these surveys is
 coded using a very fine grain, from time spent in chores, leisure, and
 sleeping, to time spent working or at school. These surveys have proved
-valuable in investigations of mobility and quality of life
-\citep{spinneyTransport2009}, the relationship between active travel and
-transit use \citep{lachapelleLonger2016}, and travel behavior and time
-poverty \citep{kimFacing2024}, to name but a few examples.
+valuable in investigations of mobility and quality of life (Spinney,
+Scott, and Newbold 2009), the relationship between active travel and
+transit use (Lachapelle and Pinto 2016), and travel behavior and time
+poverty (Kim et al. 2024), to name but a few examples.
 
 For \{ActiveCA\} and using GSS Public Use Microdata Files (PUMFs), we
 extracted all data needed to characterize active travel in Canada,
 namely, episodes where the activity was identified as moving between an
 origin and a destination, either by walking or cycling. Although
 Statistics Canada offers Public Use Microdata Files and documentation
-for the GSS program \citep[see][]{statisticscanada2024}, accessing these
-files, and preparing them for analysis is not a straightforward matter,
-given their size and complexity. The process of extracting information
-of interest from the source files is time-consuming, tedious, and
-challenging and/or prone to error due to the expertise required to work
-with these files. To create \{ActiveCA\} we collected, cleaned, and
-processed the cycles of the GSS surveys concerning time use to make them
-ready for analysis.
+for the GSS program (see Canada 2024), accessing these files, and
+preparing them for analysis is not a straightforward matter, given their
+size and complexity. The process of extracting information of interest
+from the source files is time-consuming, tedious, and challenging and/or
+prone to error due to the expertise required to work with these files.
+To create \{ActiveCA\} we collected, cleaned, and processed the cycles
+of the GSS surveys concerning time use to make them ready for analysis.
 
 \{ActiveCA\} is distributed as an \texttt{R} package with a number of
 data objects and their documentation. \texttt{R} packages contain code,
@@ -124,11 +222,11 @@ by \texttt{R} users via a software repository, such as CRAN
 (Comprehensive R Archive Network) or GitHub, which makes them an adroit
 medium to distribute analysis-ready data.
 
-Given the level of interest in active travel
-\citep[e.g.,][]{mccurdySupport2023}, reducing the barriers to using data
-contained in rich, but difficult to access and use surveys, such as
-Canada's GSSs, is a worthy endeavour that can only improve data-driven
-decisions in transportation, urban, and health policy.
+Given the level of interest in active travel (e.g., McCurdy et al.
+2023), reducing the barriers to using data contained in rich, but
+difficult to access and use surveys, such as Canada's GSSs, is a worthy
+endeavour that can only improve data-driven decisions in transportation,
+urban, and health policy.
 
 The rest of this paper discusses the sources of data, and the process
 implemented to retrieve and package them. Then, we explain how to use
@@ -136,32 +234,32 @@ the package and show some selected examples of analysis to whet the
 imagination of potential users. This ODP provides not only data that are
 easy to use, but also all the code and documentation that make this a
 reproducible research project. In summary, \{ActiveCA\} aims to
-implement and inspire the best principles of open spatial sciences
-\citep{paez_open_2021, brunsdon_opening_2021}.
+implement and inspire the best principles of open spatial sciences (Páez
+2021; Brunsdon and Comber 2021).
 
 \section{General Social Survey (GSS)
 collection}\label{general-social-survey-gss-collection}
 
-Statistics Canada \citeyearpar{statisticscanada2024} conducts GSS
-surveys to obtain data on social trends to track changes in Canadians'
-living conditions and well-being over time. The series of survey on time
-use are used to understand how Canadian residents spend and manage their
-time, and what factors contribute to their happiness and stress. The GSS
-program was created in 1985, and is serialized to provide a collection
-of annual, representative cross-sectional surveys.
+Statistics Canada (2024) conducts GSS surveys to obtain data on social
+trends to track changes in Canadians' living conditions and well-being
+over time. The series of survey on time use are used to understand how
+Canadian residents spend and manage their time, and what factors
+contribute to their happiness and stress. The GSS program was created in
+1985, and is serialized to provide a collection of annual,
+representative cross-sectional surveys.
 
 The topics of the survey cycle every few years to cover topics that
 include family, health, social identity, and every five to seven years
 time use. The first Canadian time use survey done as part of the GSS
 program was conducted in 1986, and the most recent was completed in
-2015. These Time Use Surveys \citep{statisticscanada2022} collect data
-on respondents' participation and time spent on a wide range of everyday
-activities using a 24-hour retrospective diary, with information on the
-location of these activities (e.g.~at home, at work, etc.) and, for
-non-personal activities, the people who were present with the respondent
-at the time of the activity. In addition, time-use surveys also cover
-topics related to leisure time, work-life balance, health, commuting,
-culture and sports, and many others.
+2015. These Time Use Surveys (Canada 2022) collect data on respondents'
+participation and time spent on a wide range of everyday activities
+using a 24-hour retrospective diary, with information on the location of
+these activities (e.g.~at home, at work, etc.) and, for non-personal
+activities, the people who were present with the respondent at the time
+of the activity. In addition, time-use surveys also cover topics related
+to leisure time, work-life balance, health, commuting, culture and
+sports, and many others.
 
 The Public Use Microdata are released by Statistics Canada in two files:
 a \emph{Main File} and an \emph{Episode File}. The files are linked by
@@ -346,18 +444,22 @@ To start the demonstration, it is first necessary to install the
 package. The code chunk below demonstrates how to install the
 \{ActiveCA\} package in R:
 
-\begin{verbatim}
-if(!require("ActiveCA", character.only = TRUE)) {
-      remotes::install_github("dias-bruno/ActiveCA")
-}
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"ActiveCA"}\NormalTok{, }\AttributeTok{character.only =} \ConstantTok{TRUE}\NormalTok{)) \{}
+\NormalTok{      remotes}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"dias{-}bruno/ActiveCA"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
 
 After installing the \{ActiveCA\} R package, you can load it using the
 following code:
 
-\begin{verbatim}
-library(ActiveCA)
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ActiveCA)}
+\end{Highlighting}
+\end{Shaded}
 
 The documentation of the package can be accessed by running
 \texttt{?ActiveCA} in \texttt{R}. The documentation includes a
@@ -383,9 +485,11 @@ descriptions of all variables (already labeled).
 The code below shows how to load the walking episodes from the 2015 GSS
 (Cycle 29):
 
-\begin{verbatim}
-data(walking_2015)
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(walking\_2015)}
+\end{Highlighting}
+\end{Shaded}
 
 The GSS surveys apply a probability sampling methodology, in which each
 episode or person selected in the sample represents several other
@@ -400,7 +504,7 @@ GSS survey with active travel episodes, it is necessary to account for
 the person's weight. In 2015, the weight variable is represented by
 \texttt{WGHT\_PER.} The code below demonstrates how to obtain the
 percentage of people with active travel episodes by age group. It uses
-the \texttt{dplyr} package \citep{dplyr2023} to manipulate the data.
+the \texttt{dplyr} package (Wickham et al. 2023) to manipulate the data.
 
 The process begins by creating a dataset that sums the population by age
 group. Then, it joins the 2015 episodes with the 2015 Main File. Note
@@ -471,9 +575,9 @@ Use Surveys from 1986 to 2015, that together represents more of
 149,389,839 respondents (29,766,399 for 2015, 28,075,610 for 2010,
 26,095,819 for 2005, 24,260,137 for 1998, 21,294,313 for 1992, and for
 2005, 24,260,137 for 1998, and 21,294,313 for 1986). It also presents
-the total cases of active trips episodes identified. In total 21,748
+the total cases of active trips episodes identified. In total 23,513
 records with register of active travel activity. Together, these records
-account for 38,275,077 episodes.
+account for 44,316,110 episodes.
 
 \begingroup\fontsize{10}{12}\selectfont
 
@@ -496,6 +600,8 @@ Survey & Year & Count & Weighted\\
 \nopagebreak
 \multirow[t]{-6}{*}{\raggedright\arraybackslash Main} & 1986 & 16390 & 19897562\\
 \cmidrule{1-4}\pagebreak[0]
+ & 2022 & 1765 & 6041032\\
+\nopagebreak
  & 2015 & 3496 & 6634387\\
 \nopagebreak
  & 2010 & 4615 & 8516753\\
@@ -506,7 +612,7 @@ Survey & Year & Count & Weighted\\
 \nopagebreak
  & 1992 & 1635 & 3691918\\
 \nopagebreak
-\multirow[t]{-6}{*}{\raggedright\arraybackslash Episode} & 1986 & 4347 & 8241196\\
+\multirow[t]{-7}{*}{\raggedright\arraybackslash Episode} & 1986 & 4347 & 8241196\\
 \bottomrule
 \end{longtable}
 \endgroup{}
@@ -573,7 +679,7 @@ PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
 
 \subsection{Descriptive statistics}\label{descriptive-statistics}
 
-Considering GSS Cycles analyzed, we identified 21,748 episodes that
+Considering GSS Cycles analyzed, we identified 23,513 episodes that
 recorded active travel episodes, with trip duration ranging from 0 to
 900 minutes, to twelve different destinations. \{ActiveCA\} includes all
 these episodes ready for analysis. Table \ref{tab:table-01} presents
@@ -583,32 +689,32 @@ include bicycle trips.
 
 \begingroup\fontsize{10}{12}\selectfont
 
-\begin{longtable}[t]{>{}llcccccc}
+\begin{longtable}[t]{>{}llccccccc}
 \caption{\label{tab:table-01}\label{tab:table-01}Descriptive statistics for episodes with active transport records}\\
 \toprule
-\multicolumn{2}{c}{ } & \multicolumn{6}{c}{Year} \\
-\cmidrule(l{3pt}r{3pt}){3-8}
-Mode & Statistic & 1986 & 1992 & 1998 & 2005 & 2010 & 2015\\
+\multicolumn{2}{c}{ } & \multicolumn{7}{c}{Year} \\
+\cmidrule(l{3pt}r{3pt}){3-9}
+Mode & Statistic & 1986 & 1992 & 1998 & 2005 & 2010 & 2015 & 2022\\
 \midrule
- & Maximum & 660 & 300 & 255 & 515 & 480 & 900\\
+ & Maximum & 660 & 300 & 255 & 515 & 480 & 900 & 480\\
 \nopagebreak
- & Mean & 21 & 21 & 12 & 12 & 13 & 18\\
+ & Mean & 21 & 21 & 12 & 12 & 13 & 18 & 19\\
 \nopagebreak
- & Median & 15 & 10 & 5 & 10 & 10 & 10\\
+ & Median & 15 & 10 & 5 & 10 & 10 & 10 & 15\\
 \nopagebreak
- & Minimum & 1 & 1 & 1 & 0 & 0 & 5\\
+ & Minimum & 1 & 1 & 1 & 0 & 0 & 5 & 5\\
 \nopagebreak
-\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Walking}} & Standard deviation & 31 & 25 & 17 & 16 & 17 & 27\\
-\cmidrule{1-8}\pagebreak[0]
- & Maximum &  & 240 & 90 & 180 & 153 & 120\\
+\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Walking}} & Standard deviation & 31 & 25 & 17 & 16 & 17 & 27 & 24\\
+\cmidrule{1-9}\pagebreak[0]
+ & Maximum &  & 240 & 90 & 180 & 153 & 120 & 150\\
 \nopagebreak
- & Mean &  & 28 & 24 & 20 & 19 & 25\\
+ & Mean &  & 28 & 24 & 20 & 19 & 25 & 40\\
 \nopagebreak
- & Median &  & 15 & 15 & 15 & 10 & 20\\
+ & Median &  & 15 & 15 & 15 & 10 & 20 & 30\\
 \nopagebreak
- & Minimum &  & 5 & 2 & 1 & 1 & 5\\
+ & Minimum &  & 5 & 2 & 1 & 1 & 5 & 5\\
 \nopagebreak
-\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Cycling}} & Standard deviation &  & 36 & 18 & 18 & 23 & 20\\
+\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Cycling}} & Standard deviation &  & 36 & 18 & 18 & 23 & 20 & 20\\
 \bottomrule
 \end{longtable}
 \endgroup{}
@@ -812,7 +918,7 @@ travel, as well other information.
 
 It is important to remark that the present version of \{ActiveCA\}
 covers all Canadian time use surveys up to 2015. While the most recent
-time use survey was carried out in 2022 \citep{wray2024}, the Public Use
+time use survey was carried out in 2022 (Wray 2024), the Public Use
 Microdata Files are currently unavailable, and at the moment it is
 estimated that they will only be published in the later part of 2025.
 The \texttt{R} package will be updated once these files become
@@ -823,13 +929,12 @@ ease of use, which facilitates the addition of complementary data sets
 in the future. \texttt{R} users can seamlessly explore GSS walking and
 cycling episodes, with the option to suggest enhancements to the package
 as needed. This article adopts the structure proposed by Anastasia and
-Páez \citeyearpar{soukhov2023}, whose work provided essential guidance
-for the creation of this package. Similarly, we aim to contribute to the
-academic community by promoting transparent research practices that
-encourage replication and innovation in related fields. We believe that
-\{ActiveCA\} will serve as a basis for further research on GSS and for
-the integration of additional data by the authors or the wider open
-source community.
+Páez (2023), whose work provided essential guidance for the creation of
+this package. Similarly, we aim to contribute to the academic community
+by promoting transparent research practices that encourage replication
+and innovation in related fields. We believe that \{ActiveCA\} will
+serve as a basis for further research on GSS and for the integration of
+additional data by the authors or the wider open source community.
 
 \section{Declaration of Conflicting
 Interests}\label{declaration-of-conflicting-interests}
@@ -864,8 +969,82 @@ location:
 
 \url{https://user.fm/files/v2-3d261d0b2aa47fcad096cd9e49fd5cf8/ActiveCA.zip}
 
-\bibliographystyle{sageh}
-\bibliography{bibfile.bib}
+\section*{References}\label{references}
+\addcontentsline{toc}{section}{References}
 
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-arribas-bel2021}
+Arribas-Bel, Dani, Mark Green, Francisco Rowe, and Alex Singleton. 2021.
+{``Open Data Products-A Framework for Creating Valuable Analysis Ready
+Data.''} \emph{Journal of Geographical Systems} 23 (4): 497--514.
+\url{https://doi.org/10.1007/s10109-021-00363-5}.
+
+\bibitem[\citeproctext]{ref-brunsdon_opening_2021}
+Brunsdon, Chris, and Alexis Comber. 2021. {``Opening Practice:
+Supporting Reproducibility and Critical Spatial Data Science.''}
+\emph{Journal of Geographical Systems} 23 (4): 477--96.
+\url{https://doi.org/10.1007/s10109-020-00334-2}.
+
+\bibitem[\citeproctext]{ref-statisticscanada2022}
+Canada, Statistics. 2022. {``Time Use Survey.''}
+\url{https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&amp;SDDS=4503}.
+
+\bibitem[\citeproctext]{ref-statisticscanada2024}
+---------. 2024. {``Statistics Canada: Canada's National Statistical
+Agency.''} \url{https://www.statcan.gc.ca/en/start}.
+
+\bibitem[\citeproctext]{ref-kimFacing2024}
+Kim, Sang-O, Matthew Palm, Soojung Han, and Nicholas J. Klein. 2024.
+{``Facing a Time Crunch: {Time} Poverty and Travel Behaviour in
+{Canada}.''} \emph{Transportation Research Part D: Transport and
+Environment} 126 (January): 104028.
+\url{https://doi.org/10.1016/j.trd.2023.104028}.
+
+\bibitem[\citeproctext]{ref-lachapelleLonger2016}
+Lachapelle, Ugo, and Diogo Gianini Pinto. 2016. {``Longer or More
+Frequent Walks: {Examining} the Relationship Between Transit Use and
+Active Transportation in {Canada}.''} \emph{Journal of Transport \&
+Health}, Special {Issue}: {Public} {Transport} and {Health}, 3 (2):
+173--80. \url{https://doi.org/10.1016/j.jth.2016.02.005}.
+
+\bibitem[\citeproctext]{ref-mccurdySupport2023}
+McCurdy, Ashley, Guy Faulkner, Christine Cameron, Christa
+Costas-Bradstreet, and John C. Spence. 2023. {``Support for {Active}
+{Transport} {Policy} {Initiatives} {Among} {Canadian} {Adults}: {The}
+{Canadian} {National} {Active} {Transportation} {Survey}.''}
+\emph{Active Travel Studies} 3 (2).
+\url{https://doi.org/10.16997/ats.1450}.
+
+\bibitem[\citeproctext]{ref-paez_open_2021}
+Páez, Antonio. 2021. {``Open Spatial Sciences: An Introduction.''}
+\emph{Journal of Geographical Systems} 23 (4): 467--76.
+\url{https://doi.org/10.1007/s10109-021-00364-4}.
+
+\bibitem[\citeproctext]{ref-soukhov2023}
+Soukhov, Anastasia, and Antonio Páez. 2023. {``TTS2016R: A Data Set to
+Study Population and Employment Patterns from the 2016 Transportation
+Tomorrow Survey in the Greater Golden Horseshoe Area, Ontario,
+Canada.''} \emph{Environment and Planning B: Urban Analytics and City
+Science} 50 (2): 556--63.
+\url{https://doi.org/10.1177/23998083221146781}.
+
+\bibitem[\citeproctext]{ref-spinneyTransport2009}
+Spinney, J. E. L., D. M. Scott, and K. B. Newbold. 2009. {``Transport
+Mobility Benefits and Quality of Life: {A} Time-Use Perspective of
+Elderly {Canadians}.''} \emph{Transport Policy} 16 (1): 1--11.
+\url{https://doi.org/10.1016/j.tranpol.2009.01.002}.
+
+\bibitem[\citeproctext]{ref-dplyr2023}
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis
+Vaughan. 2023. \emph{Dplyr: A Grammar of Data Manipulation}.
+\url{https://dplyr.tidyverse.org}.
+
+\bibitem[\citeproctext]{ref-wray2024}
+Wray, Dana. 2024. {``Telework, Time Use, and Well-Being: Evidence from
+the 2022 Time Use Survey.''}
+\url{https://www150.statcan.gc.ca/n1/daily-quotidien/240605/dq240605a-eng.htm}.
+
+\end{CSLReferences}
 
 \end{document}
