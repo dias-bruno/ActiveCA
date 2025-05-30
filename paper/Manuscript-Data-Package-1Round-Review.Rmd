@@ -311,105 +311,11 @@ The active trips (walking and cycling) were identified by their corresponding ac
 
 For each GSS Main File, we selected socioeconomic variables to help profile the individuals engaged in active trip episodes. We included key socioeconomic variables such as the respondent’s age group, sex, marital status, and number of children, among others. After this, as we did with the Episode Files, we labeled the code variables with their appropriate descriptions. 
 
-# How to use {ActiveCA}
+# {ActiveCA} data sets
 
-This section presents some potential applications of the {ActiveCA} R package. In fact, we expect that the application of this package to extend beyond our pre-imagined range of uses. 
+This section presents some potential applications of the {ActiveCA} R package. In fact, we expect that the application of this package to extend beyond our pre-imagined range of uses. The installation instruction and also some examples of application of the {ActiveCA} R package are available in the `vignettes`, available in the Github repository. 
 
-To start the demonstration, it is first necessary to install the package. The code chunk below demonstrates how to install the {ActiveCA} package in R:
-
-```{r instal-ActiveCA, echo=TRUE}
-if(!require("ActiveCA", character.only = TRUE)) {
-      remotes::install_github("dias-bruno/ActiveCA")
-}
-```
-
-After installing the {ActiveCA} R package, you can load it using the following code:
-
-```{r load-ActiveCA, echo=TRUE}
-library(ActiveCA)
-```
-
-The documentation of the package can be accessed by running `?ActiveCA` in `R`. The documentation includes a description of the package, information about the authors, contributors, and maintainers, and an overview of all pre-processed data sets included in the package.
-
-Figure \ref{fig:walking_documentation} displays the documentation for the walking episodes from the 2022 GSS (`walking_2022.rda`). The documentation provides a brief description of the dataset, instructions on how to load the package, as well as details about the file format and descriptions of all variables (already labeled).
-
-```{r walking_documentation, echo=FALSE, out.width="100%", fig.cap=paste0("Documentation for the dataset of walking episodes from 2022."), fig.align="center"}
-
-knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/walking-2022-documentation.png"))
-```
-
-The code below shows how to load the walking episodes from the 2022 GSS (Cycle 29):
-
-```{r load-walking-2022-episodes, echo=TRUE}
-data(walking_2022)
-```
-
-The GSS surveys apply a probability sampling methodology, in which each episode or person selected in the sample represents several other episodes or persons not in the sample. The number of episodes and persons represented by a episode or person is determined by the weight or weighting factor. Because of this, estimates of the number of episodes or persons need to be calculated applying the corresponding weighting factors. 
-
-For instance, to calculate the percentage of respondents from the 2022 GSS survey with active travel episodes, it is necessary to account for the person's weight. In 2022, the weight variable is represented by `WGHT_PER.` The code below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the `dplyr` package [@dplyr2023] to manipulate the data.
-
-The process begins by creating a dataset that sums the population by age group. Then, it joins the 2022 episodes with the 2022 Main File. Note that in both operations, the code sums the person weight variable (`WGHT_PER`) to obtain the correct population values. After this, a new dataset, `Active_percentage`, is created by merging both previous datasets. The percentage of active travel episodes by age group is calculated by dividing the total population by the population with active trip episodes, then multiplying by 100 and rounding with 2 decimal places.
-
-```
-# Load the dplyr library for data manipulation
-library('dplyr')
-
-# Load the episodes dataset
-data(gss_episodes) 
-
-# Calculate the total population for each age group
-Total_population <- gss_main_2022 |> 
-  group_by(AGEGR10) |> 
-  summarise(Total_population  = sum(WGHT_PER))
-
-# Calculate the active population for each age group
-Active_population <- gss_episodes |> 
-      filter(YEAR == 2022) |> 
-  left_join(gss_main_2022, by = c("PUMFID"="PUMFID")) |> 
-  group_by(AGEGR10) |> 
-  summarise(Active_population  = sum(WGHT_PER))
-
-# Combine total and active population 
-#and calculate the percentage
-Active_percentage <- Total_population |> 
-  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) |>
-  mutate(
-    Percentage = round(Active_population/Total_population*100,2))
-```
-The result shows that the age group with the highest share of active trips is those between 15 and 20 years old, with almost 44%, followed by those between 25 and 34 years old with around 19%. There is a significant drop in percentage for the following groups, with the percentage falling to between 12% and 15% for the remaining age groups.
-
-```{r percentages-act, echo=FALSE, out.width='80%'}
-# Load the dplyr library for data manipulation
-library('dplyr')
-
-# Load the episodes dataset
-data(gss_episodes) 
-
-# Calculate the total population for each age group
-Total_population <- gss_main_2022 |> 
-  group_by(AGEGR10) |> 
-  summarise(Total_population  = sum(WGHT_PER))
-
-# Calculate the active population for each age group
-Active_population <- gss_episodes |> 
-      filter(YEAR == 2022) |> 
-  left_join(gss_main_2022, by = c("PUMFID"="PUMFID")) |> 
-  group_by(AGEGR10) |> 
-  summarise(Active_population  = sum(WGHT_PER))
-
-# Combine total and active population 
-#and calculate the percentage
-Active_percentage <- Total_population |> 
-  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) |>
-  mutate(
-    Percentage = round(Active_population/Total_population*100,2))
-
-# Display the final result
-Active_percentage |>
-  kable()
-```
-
-## Processed data set
+## Active episodes
 
 ```{r processed-files, include=FALSE}
 df_main_processed <- data.frame(
@@ -634,22 +540,22 @@ median_duration_table <- median_duration_cma |>
 median_duration_table 
 ```
 
-{ActiveCA} also enables obtaining insights from the main processed files. Figure \ref{fig:figure-stress} present how the level of stress varied among respondents depending on their marital status in 2015. According to this plot, married respondents reported the highest level of stress, relating to feel stressed every day, with 17% of possible cases. 
+{ActiveCA} also enables obtaining insights from the main processed files. Figure \ref{fig:figure-stress} present how the level of stress varied among respondents depending on their marital status in 2022. According to this plot, married respondents reported the highest level of stress, relating to feel stressed every day, with 15% of possible. 
 
 ```{r main_stress_figure, include = FALSE}
-main_stress_figure <- gss_main_2015 |>
+main_stress_figure <- gss_main_2022 |>
   filter(!is.na(MARSTAT), !is.na(GTU_110)) |>
   group_by(MARSTAT, GTU_110) |>
   dplyr::summarise(n = sum(WGHT_PER), .groups = "drop") |>
   mutate(percentage = n / sum(n) * 100) |>
   ungroup() |>
-  ggplot(aes(x = MARSTAT,
-    y = GTU_110)) +
+  ggplot(aes(x = GTU_110,
+    y = MARSTAT)) +
     geom_tile(aes(fill = percentage)) +
     labs(x = "Marital status of the respondent",
     y = "How often do you feel rushed?",
     fill = "Percentage (%)") + 
-    #geom_text(aes(label = round(percentage)), color = "black", size = 3) + 
+    geom_text(aes(label = round(percentage)), color = "black", size = 3) + 
     theme_bw() + 
     scale_fill_gradientn(colors = RColorBrewer::brewer.pal(9, "YlGn")) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
@@ -657,8 +563,8 @@ main_stress_figure <- gss_main_2015 |>
 # Save the combined plot to a file
 ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/main_stress_figure.jpg"), 
        plot = main_stress_figure,
-       width = 12, 
-       height = 8, 
+       width = 15, 
+       height = 10, 
        units = "cm", 
        dpi = 300)
 ```

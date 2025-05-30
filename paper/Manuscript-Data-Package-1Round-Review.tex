@@ -9,17 +9,6 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-% From pandoc table feature
-\usepackage{longtable,booktabs,array}
-\usepackage{calc} % for calculating minipage widths
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 
 
 \usepackage{booktabs}
@@ -380,133 +369,16 @@ status, and number of children, among others. After this, as we did with
 the Episode Files, we labeled the code variables with their appropriate
 descriptions.
 
-\section{How to use \{ActiveCA\}}\label{how-to-use-activeca}
+\section{\{ActiveCA\} data sets}\label{activeca-data-sets}
 
 This section presents some potential applications of the \{ActiveCA\} R
 package. In fact, we expect that the application of this package to
-extend beyond our pre-imagined range of uses.
+extend beyond our pre-imagined range of uses. The installation
+instruction and also some examples of application of the \{ActiveCA\} R
+package are available in the \texttt{vignettes}, available in the Github
+repository.
 
-To start the demonstration, it is first necessary to install the
-package. The code chunk below demonstrates how to install the
-\{ActiveCA\} package in R:
-
-\begin{verbatim}
-if(!require("ActiveCA", character.only = TRUE)) {
-      remotes::install_github("dias-bruno/ActiveCA")
-}
-\end{verbatim}
-
-After installing the \{ActiveCA\} R package, you can load it using the
-following code:
-
-\begin{verbatim}
-library(ActiveCA)
-\end{verbatim}
-
-The documentation of the package can be accessed by running
-\texttt{?ActiveCA} in \texttt{R}. The documentation includes a
-description of the package, information about the authors, contributors,
-and maintainers, and an overview of all pre-processed data sets included
-in the package.
-
-Figure \ref{fig:walking_documentation} displays the documentation for
-the walking episodes from the 2022 GSS (\texttt{walking\_2022.rda}). The
-documentation provides a brief description of the dataset, instructions
-on how to load the package, as well as details about the file format and
-descriptions of all variables (already labeled).
-
-\begin{figure}
-
-{\centering \includegraphics[width=1\linewidth]{Manuscript-figures/walking-2022-documentation} 
-
-}
-
-\caption{Documentation for the dataset of walking episodes from 2022.}\label{fig:walking_documentation}
-\end{figure}
-
-The code below shows how to load the walking episodes from the 2022 GSS
-(Cycle 29):
-
-\begin{verbatim}
-data(walking_2022)
-\end{verbatim}
-
-The GSS surveys apply a probability sampling methodology, in which each
-episode or person selected in the sample represents several other
-episodes or persons not in the sample. The number of episodes and
-persons represented by a episode or person is determined by the weight
-or weighting factor. Because of this, estimates of the number of
-episodes or persons need to be calculated applying the corresponding
-weighting factors.
-
-For instance, to calculate the percentage of respondents from the 2022
-GSS survey with active travel episodes, it is necessary to account for
-the person's weight. In 2022, the weight variable is represented by
-\texttt{WGHT\_PER.} The code below demonstrates how to obtain the
-percentage of people with active travel episodes by age group. It uses
-the \texttt{dplyr} package \citep{dplyr2023} to manipulate the data.
-
-The process begins by creating a dataset that sums the population by age
-group. Then, it joins the 2022 episodes with the 2022 Main File. Note
-that in both operations, the code sums the person weight variable
-(\texttt{WGHT\_PER}) to obtain the correct population values. After
-this, a new dataset, \texttt{Active\_percentage}, is created by merging
-both previous datasets. The percentage of active travel episodes by age
-group is calculated by dividing the total population by the population
-with active trip episodes, then multiplying by 100 and rounding with 2
-decimal places.
-
-\begin{verbatim}
-# Load the dplyr library for data manipulation
-library('dplyr')
-
-# Load the episodes dataset
-data(gss_episodes) 
-
-# Calculate the total population for each age group
-Total_population <- gss_main_2022 |> 
-  group_by(AGEGR10) |> 
-  summarise(Total_population  = sum(WGHT_PER))
-
-# Calculate the active population for each age group
-Active_population <- gss_episodes |> 
-      filter(YEAR == 2022) |> 
-  left_join(gss_main_2022, by = c("PUMFID"="PUMFID")) |> 
-  group_by(AGEGR10) |> 
-  summarise(Active_population  = sum(WGHT_PER))
-
-# Combine total and active population 
-#and calculate the percentage
-Active_percentage <- Total_population |> 
-  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) |>
-  mutate(
-    Percentage = round(Active_population/Total_population*100,2))
-\end{verbatim}
-
-The result shows that the age group with the highest share of active
-trips is those between 15 and 20 years old, with almost 44\%, followed
-by those between 25 and 34 years old with around 19\%. There is a
-significant drop in percentage for the following groups, with the
-percentage falling to between 12\% and 15\% for the remaining age
-groups.
-
-\begin{longtable}[]{@{}lrrr@{}}
-\toprule\noalign{}
-AGEGR10 & Total\_population & Active\_population & Percentage \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-15 to 24 years & 4537139 & 1984658.8 & 43.74 \\
-25 to 34 years & 5364748 & 1048653.8 & 19.55 \\
-35 to 44 years & 5227988 & 669688.8 & 12.81 \\
-45 to 54 years & 4720990 & 605162.1 & 12.82 \\
-55 to 64 years & 5143935 & 690336.5 & 13.42 \\
-65 to 74 years & 4160941 & 619732.8 & 14.89 \\
-75 years and over & 2981061 & 422799.5 & 14.18 \\
-\end{longtable}
-
-\subsection{Processed data set}\label{processed-data-set}
+\subsection{Active episodes}\label{active-episodes}
 
 Table \ref{tab:processed-obs} displays the total number of records
 processed for Main and Episode Files. For the Main Files, a total of

@@ -1,0 +1,184 @@
+---
+title: "ActiveCA-Applications"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ActiveCA-Applications}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette introduces some possible applications of ActiveCA datasets. 
+
+To start the demonstration, it is first necessary to install the package. The code chunk below demonstrates how to install the ActiveCA package in R:
+
+```{r instal-ActiveCA, echo=TRUE}
+if(!require("ActiveCA", character.only = TRUE)) {
+      remotes::install_github("dias-bruno/ActiveCA")
+}
+```
+
+After installing the {ActiveCA} R package, you can load it using the following code:
+
+```{r load-ActiveCA, echo=TRUE}
+library(ActiveCA)
+```
+
+The documentation of the package can be accessed by running `?ActiveCA` in `R`. The documentation includes a description of the package, information about the authors, contributors, and maintainers, and an overview of all pre-processed data sets included in the package.
+
+The TUS surveys apply a probability sampling methodology, in which each episode or person selected in the sample represents several other episodes or persons not in the sample. The number of episodes and persons represented by a episode or person is determined by the weight or weighting factor. Because of this, estimates of the number of episodes or persons need to be calculated applying the corresponding weighting factors. 
+
+For instance, to calculate the percentage of respondents from the 2015 TUS GSS survey with active travel episodes, it is necessary to account for the person's weight. In 2015, the weight variable is represented by `WGHT_PER.` The code below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the `dplyr` package to manipulate the data.
+
+The process begins by creating a dataset that sums the population by age group. Then, it joins the 2015 episodes with the 2015 Main File. Note that in both operations, the code sums the person weight variable (`WGHT_PER`) to obtain the correct population values. After this, a new dataset, `Active_percentage`, is created by merging both previous datasets. The percentage of active travel episodes by age group is calculated by dividing the total population by the population with active trip episodes, then multiplying by 100 and rounding with 2 decimal places.
+
+```{r percentages-act, echo=FALSE, out.width='80%'}
+# Load the dplyr library for data manipulation
+library('dplyr')
+
+# Load the episodes dataset
+data(gss_episodes) 
+data(gss_main_2015) 
+
+# Calculate the total population for each age group
+Total_population <- gss_main_2015 |> 
+  group_by(AGEGR10) |> 
+  summarise(Total_population  = sum(WGHT_PER))
+
+# Calculate the active population for each age group
+Active_population <- gss_episodes |> 
+      filter(YEAR == 2015) |> 
+  left_join(gss_main_2015, by = c("PUMFID"="PUMFID")) |> 
+  group_by(AGEGR10) |> 
+  summarise(Active_population  = sum(WGHT_PER))
+
+# Combine total and active population 
+#and calculate the percentage
+Active_percentage <- Total_population |> 
+  left_join(Active_population, by = c("AGEGR10" = "AGEGR10")) |>
+  mutate(
+    Percentage = round(Active_population/Total_population*100,2))
+
+# Display the final result
+Active_percentage
+```
+
+The result shows that the age group with the highest share of active trips is those between 15 and 20 years old, with almost 37%, followed by those between 25 and 34 years old with around 33%. There is a significant drop in percentage for the following groups, with the percentage falling to between 15% and 18% for the remaining age groups.
+
+Now, let's load some other data sets to carry out more analysis:
+
+```{r load-datasets}
+data("gss_episodes")
+data("gss_main_2022")
+data("gss_main_2015")
+data("gss_main_2010")
+data("gss_main_2005")
+data("gss_main_1998")
+data("gss_main_1992")
+data("gss_main_1986")
+```
+
+The next chunk shows how to obtain the standard deviation, and minimum, maximum, median, and mean values for walking and cycling, by year:  
+
+```{r}
+# Calculate min, mean, and max statistic (duration)
+stats_data <- gss_episodes |>
+  group_by(YEAR, MODE) |>
+  dplyr::summarise(
+    min = min(DURATION),
+    mean = sum(DURATION * WGHT_EPI)/sum(WGHT_EPI),
+    median =  Hmisc::wtd.quantile(DURATION, weights = WGHT_EPI, probs = 0.5),
+    max = max(DURATION),
+    std = sd(DURATION),
+    .groups = "drop"
+  )
+
+stats_data
+```
+
+The following chunk shows the share of each destination in the total number of trips, by year and mode of transport: 
+
+```{r, warning = FALSE}
+library(ggplot2)
+
+destination_percentual <- gss_episodes %>%
+  group_by(MODE, dest_label, YEAR) %>%
+  dplyr::summarise(n = sum(WGHT_EPI), .groups = "drop") %>%
+  group_by(MODE, YEAR) %>%
+  mutate(percentage = n / sum(n) * 100) %>%
+  ungroup() %>%
+  group_by(MODE, YEAR) %>%
+  mutate(rank = rank(-percentage, ties.method = "first")) %>%
+  mutate(label = ifelse(rank <= 5, paste0(round(percentage, 1), "%"), NA)) %>%
+  ggplot(aes(x = MODE, fill = dest_label, y = percentage)) +
+  geom_bar(stat = "identity", position = "fill") +
+  labs(y = "Proportion (%)",
+       x = "Mode",
+       fill = "Destination") +
+  theme_minimal() + 
+  facet_wrap(~ as.factor(YEAR)) +
+  geom_text(aes(label = label), 
+            position = position_fill(vjust = 0.5), size = 3)
+
+destination_percentual
+```
+Displaying the evolution of the average duration by mode of transport for each destination:  
+
+```{r}
+library(tidyr)
+
+destination_medians <- gss_episodes %>%
+  uncount(weights = round(WGHT_EPI)) %>%
+  group_by(YEAR, dest_label, MODE) %>%
+  summarise(median_duration = median(DURATION), .groups = "drop") %>%
+  ggplot(aes(x = as.factor(YEAR), y = median_duration, color = MODE, group = interaction(dest_label, MODE))) +
+  geom_line() +  
+  geom_point() + 
+  geom_text(aes(label = round(median_duration, 1)), 
+            vjust = -0.5,  
+            size = 3,      
+            color = "black") + 
+  theme_bw() +   
+  facet_wrap(~dest_label) + 
+  scale_x_discrete(
+    breaks = c(1992, 1998, 2005, 2010, 2015, 2022)) +
+  labs(
+    color = "Mode",                      
+    x = "Year",                          
+    y = "Travel time (in minutes)")
+
+destination_medians
+```
+
+In conclusion, the next part presents how to obtain heat maps to show the percentage of each combination of origin and destination for Cycling mode: 
+
+```{r}
+cycling_hm_fig <- gss_episodes %>%
+  filter(MODE == 'Cycling') %>%
+  group_by(orig_label, dest_label, YEAR) %>%
+  dplyr::summarise(n = sum(WGHT_EPI),
+  .groups = "drop") %>%
+  group_by(YEAR) %>%
+  mutate(percentage = n / sum(n) * 100) %>%
+  ungroup() %>%
+  ggplot(aes(x = dest_label,
+    y = orig_label)) +
+    geom_tile(aes(fill = percentage)) +
+    labs(x = "Destination",
+    y = "Origin",
+    fill = "Percentage (%)") + 
+    #geom_text(aes(label = round(percentage)), color = "black", size = 3) + 
+    theme_bw() + 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+    scale_fill_gradientn(colors = RColorBrewer::brewer.pal(9, "YlOrRd")) +
+    facet_wrap(~YEAR)
+
+cycling_hm_fig
+```
+
