@@ -303,13 +303,21 @@ ep_2015_unprocessed <- gss_e_2015 |>
 ep_2015_unprocessed
 ```
 
-# Data extraction
+# Data process
 
-For each selected cycle of the GSS surveys, we reviewed the Episode Files to identify episodes of movement that involved walking or cycling. This allowed us to select the activities immediately before and after the movement episode. After that, we labeled the code variables with their appropriate descriptions, identifying each origin and destination, mode of travel, time spent in the active trip, as well the province and urban classification of the episode.
+Figure \ref{fig:process-figure} presents the processes applied to the Main and Episodes files for each survey year to obtain the ActiveCA datasets. For each selected TUS cycle, we reviewed the Episode Files to identify episodes of movement that involved walking or cycling. This allowed us to select the activities immediately before and after the movement episode. The active trips (walking and cycling) were identified by their corresponding activity codes, accounting for differences between the survey cycles. Identifying the preceding and succeeding activities of each activity episode helps to understand the motivation for the trip and also determine the origin and destination of the trips. After that, we labeled and factored the code variables with their appropriate descriptions, classifying each origin and destination, mode of travel, and time spent in the active trip.
 
-The active trips (walking and cycling) were identified by their corresponding activity codes, accounting for differences between the survey cycles. Identifying the preceding and succeeding activities of each activity episode helps to understand the motivation for the trip and also determine the origin and destination of the trips.
+For each GSS Main File, we selected socioeconomic variables to help profile the individuals engaged in active trip episodes. We included key socioeconomic variables such as the respondent’s age group, sex, marital status, and number of children, among others. After this, as we did with the Episode Files, we labeled and factored the code variables with their appropriate descriptions. 
 
-For each GSS Main File, we selected socioeconomic variables to help profile the individuals engaged in active trip episodes. We included key socioeconomic variables such as the respondent’s age group, sex, marital status, and number of children, among others. After this, as we did with the Episode Files, we labeled the code variables with their appropriate descriptions. 
+We joined the main files to episodes files to , as well the province and urban classification of the episode.
+
+
+```{r process-figure, echo=FALSE, out.width="100%", fig.cap="Processes applied to the main and episode files to obtain the ActiveCA datasets.", fig.align="center"}
+
+knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/RPackages - ActiveCA.jpeg"))
+```
+
+
 
 # {ActiveCA} data sets
 
