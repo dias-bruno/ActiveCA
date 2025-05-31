@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.5.20)  29 MAY 2025 22:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.5.20)  31 MAY 2025 11:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -672,14 +672,10 @@ LaTeX Font Info:    Font shape `OT1/phv/m/sl' will be
 {c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}]
 
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 142.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 141.
 LaTeX Font Info:    Font shape `OT1/phv/m/sl' will be
-(Font)              scaled to size 9.49997pt on input line 142.
+(Font)              scaled to size 9.49997pt on input line 141.
 [2]
-
-Package natbib Warning: Citation `paez2012' on page 3 undefined on input line 162.
-
-
 
 [3]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
@@ -691,59 +687,57 @@ LaTeX Font Info:    Font shape `OT1/phv/m/n' will be
 LaTeX Font Info:    Font shape `OT1/phv/b/n' will be
 (Font)              scaled to size 8.54997pt on input line 251.
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 344--344
+Underfull \hbox (badness 10000) in paragraph at lines 346--346
 []\OT1/ptm/m/n/8 Legend: `PUM-FID`: record iden-ti-fi-ca-tion. `EPINO`: episode num-ber.
  []
 
 
 
 [5]
+<Manuscript-figures/RPackages - ActiveCA.jpeg, id=135, 505.4082pt x 230.7822pt>
+File: Manuscript-figures/RPackages - ActiveCA.jpeg Graphic file (type jpg)
+<use Manuscript-figures/RPackages - ActiveCA.jpeg>
+Package pdftex.def Info: Manuscript-figures/RPackages - ActiveCA.jpeg  used on input line 386.
+(pdftex.def)             Requested size: 352.81416pt x 161.10272pt.
 LaTeX Font Info:    Font shape `OMS/phv/b/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 372.
+(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 393.
 
 
 [6]
-Overfull \hbox (4.47131pt too wide) in alignment at lines 463--471
+
+[7 <./Manuscript-figures/RPackages - ActiveCA.jpeg>]
+Overfull \hbox (4.47131pt too wide) in alignment at lines 483--491
  [] [] [] [] [] [] [] 
  []
 
-
-
-[7]
-<Manuscript-figures/walking_hm_2022.jpg, id=159, 1303.87125pt x 829.0975pt>
+[8]
+<Manuscript-figures/walking_hm_2022.jpg, id=168, 1303.87125pt x 829.0975pt>
 File: Manuscript-figures/walking_hm_2022.jpg Graphic file (type jpg)
 <use Manuscript-figures/walking_hm_2022.jpg>
-Package pdftex.def Info: Manuscript-figures/walking_hm_2022.jpg  used on input line 543.
+Package pdftex.def Info: Manuscript-figures/walking_hm_2022.jpg  used on input line 563.
 (pdftex.def)             Requested size: 352.81416pt x 224.34006pt.
-
-
-[8]
-<Manuscript-figures/main_stress_figure.jpg, id=168, 1422.31375pt x 947.54pt>
+<Manuscript-figures/main_stress_figure.jpg, id=171, 1777.64125pt x 1185.42876pt>
 File: Manuscript-figures/main_stress_figure.jpg Graphic file (type jpg)
 <use Manuscript-figures/main_stress_figure.jpg>
-Package pdftex.def Info: Manuscript-figures/main_stress_figure.jpg  used on input line 606.
-(pdftex.def)             Requested size: 352.81416pt x 235.0482pt.
+Package pdftex.def Info: Manuscript-figures/main_stress_figure.jpg  used on input line 625.
+(pdftex.def)             Requested size: 352.81416pt x 235.27274pt.
 
 
-[9 <./Manuscript-figures/walking_hm_2022.jpg>]
+[9]
+
+[10 <./Manuscript-figures/walking_hm_2022.jpg>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[10 <./Manuscript-figures/main_stress_figure.jpg>]
-
-[11]
-Overfull \hbox (5.68585pt too wide) in paragraph at lines 682--683
+[11 <./Manuscript-figures/main_stress_figure.jpg>]
+Overfull \hbox (5.68585pt too wide) in paragraph at lines 701--702
 [][][]$\OT1/pcr/m/n/10 https : / / user . fm / files / v2-[]3d261d0b2aa47fcad096cd9e49fd5cf8 /
  []
 
 (./Manuscript-Data-Package-1Round-Review.bbl
 
 [12])
-
-Package natbib Warning: There were undefined citations.
-
-
 
 [13] (./Manuscript-Data-Package-1Round-Review.aux)
  ***********
@@ -754,21 +748,21 @@ L3 programming layer <2025-04-29>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Manuscript-Data-Package-1Round-Review.out' has not changed.
-(rerunfilecheck)             Checksum: 129102C5D05DD9C7285CAB7DB0D73D3C;2028.
+(rerunfilecheck)             Checksum: EF017B177B6DDD40A46154680FDA8C1F;2014.
  ) 
 Here is how much of TeX's memory you used:
- 14944 strings out of 471571
- 240764 string characters out of 5519050
- 647343 words of memory out of 5000000
- 41182 multiletter control sequences out of 15000+600000
- 674383 words of font info for 132 fonts, out of 8000000 for 9000
+ 14962 strings out of 471571
+ 241623 string characters out of 5519050
+ 652632 words of memory out of 5000000
+ 41199 multiletter control sequences out of 15000+600000
+ 673911 words of font info for 131 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  75i,12n,79p,574b,624s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/brdia/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Manuscript-Data-Package-1Round-Review.pdf (13 pages, 635120 bytes).
+Output written on Manuscript-Data-Package-1Round-Review.pdf (13 pages, 848188 bytes).
 PDF statistics:
- 268 PDF objects out of 1000 (max. 8388607)
- 230 compressed objects within 3 object streams
- 51 named destinations out of 1000 (max. 500000)
- 123 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 272 PDF objects out of 1000 (max. 8388607)
+ 233 compressed objects within 3 object streams
+ 52 named destinations out of 1000 (max. 500000)
+ 128 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -85,13 +85,13 @@ library(Hmisc)
 data("gss_episodes")
 data("gss_impedances")
 
-# Original main and Episode Files from 2015 to display table examples
+# Original main and _Episode files_ from 2015 to display table examples
 gss_m_2015 <- read.csv(paste0(here(),
                               "/data-raw/source-files/Time-use-2015/gss-m.csv"))
 gss_e_2015 <- read.csv(paste0(here(), 
                               "/data-raw/source-files/Time-use-2015/gss-e.csv"))
 
-# Processed Main Files
+# Processed _Main files_
 data("gss_main_2022")
 data("gss_main_2015")
 data("gss_main_2010")
@@ -153,27 +153,21 @@ differ from general open data in their degree of ease of access, their heightene
 usability, and potentially the value they add to the raw data. 
 
 {ActiveCA} provides analysis-ready data concerning active travel in Canada spanning
-a period of almost 40 years. The source of these data is TUS from the GSS.
-This program is designed to provide cross-sectional data on topics of interest to improve the well-being of Canadians. As part of this 
-program, every five to seven years the survey is done on the topic of time use. 
+a period of almost 40 years, obtained from the TUS cycles of the Canadian GSS.
+The GSS program is designed to provide cross-sectional data on topics of interest to improve the well-being of Canadians. As part of this 
+program, every five to seven years the survey is done on the topic of time use (TUS). 
 Concretely, {ActiveCA} covers Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005),
-24 (2010), 29 (2015), and 34 (2022) of the GSS. Time use data in these surveys is coded using
-a very fine grain, from time spent in chores, leisure, and sleeping, to time spent
+24 (2010), 29 (2015), and 34 (2022) of the TUS. Time use data in these surveys is coded using a very fine grain, from time spent in chores, leisure, and sleeping, to time spent
 working or at school. These surveys have proved valuable in investigations of 
 mobility and quality of life [@spinneyTransport2009], the relationship between
 active travel and transit use [@lachapelleLonger2016], and travel behavior and time
 poverty [@kimFacing2024], to name but a few examples.
 
-For {ActiveCA} and using TUS - GSS Public Use Microdata Files (PUMFs), we extracted all data needed to characterize active travel 
-in Canada, namely, episodes where the activity was identified as moving between 
-an origin and a destination, either by walking or cycling. Although Statistics 
-Canada offers Public Use Microdata Files and documentation for the GSS program 
-[see @statisticscanada2024], accessing these files, and preparing  them for analysis
-is not a straightforward matter, given their size and complexity.  The  process 
+Using Public Use Microdata Files (PUMFs) from the Time Use Survey (TUS), we extracted all data necessary to characterize active travel in Canada - specifically, episodes in which the activity involved moving between an origin and a destination by walking or cycling. Although Statistics Canada provides PUMFs and accompanying documentation for the GSS program [see @statisticscanada2024], accessing and preparing these files for analysis is not a straightforward task due to their size and complexity.  The  process 
 of extracting information of interest from the source files is  time-consuming, 
 tedious, and challenging and/or prone to error due to the expertise required to 
-work with these files. To create {ActiveCA} we collected, cleaned, and processed
-the cycles of the GSS  surveys concerning time use to make them ready for analysis.
+work with these files. To create {ActiveCA} we selected, labelled, and processed
+the TUS cycles to make them ready for analysis.
 
 {ActiveCA} is distributed as an `R` package with a number of data 
 objects and their documentation. `R` packages contain code, data, and documentation
@@ -183,7 +177,7 @@ adroit medium to distribute analysis-ready data.
 
 Given the level of interest in active travel [e.g., @mccurdySupport2023], reducing
 the barriers to using data contained in rich, but difficult to access and use surveys,
-such as Canada's GSSs, is a worthy endeavour that can only improve data-driven 
+such as TUS, is a worthy endeavour that can only improve data-driven 
 decisions in transportation, urban, and health policy. 
 
 The rest of this paper discusses the sources of data, and the process implemented
@@ -204,7 +198,7 @@ happiness and stress. The GSS program was created in 1985, and is serialized to
 provide a collection of annual, representative cross-sectional surveys.
 
 The topics of the survey cycle every few years to cover topics that include family,
-health, social identity, and every five to seven years time use (TUS). The first Canadian
+health, social identity, and every five to seven years time use. The first Canadian
 TUS done as part of the GSS program was conducted in 1986, and the 
 most recent was completed in 2022. These Time Use Surveys [@statisticscanada2022]
 collect data on respondents' participation and time spent on a wide range of 
@@ -214,35 +208,35 @@ activities, the people who were present with the respondent at the time of the
 activity. In addition, time-use surveys also cover topics related to leisure time,
 work-life balance, health, commuting, culture and sports, and many others. 
 
-TUS allows researchers to identify the origin and destination of trips, travel times and modes of transport used, providing a valuable dataset for analyzing active travel behavior. It also provides the empirical basis for tools used in transportation analysis, such as the development of impedance functions for accessibility analysis, a measure of the ease with which people can reach destinations and opportunities [@hansen1959; @paez2012]. The Canadian TUS is unique at the national level in collecting detailed information on travel behaviour. Its consistent application across survey cycles enables the identification of long-term trends, with some questions present in the questionnaires since the first application of the survey.
+TUS allows researchers to identify the origin and destination of trips, travel times and modes of transport used, providing a valuable dataset for analyzing active travel behavior. It also provides the empirical basis for tools used in transportation analysis, such as the development of impedance functions for accessibility analysis, a measure of the ease with which people can reach destinations and opportunities [@hansen1959]. The Canadian TUS is unique at the national level in collecting detailed information on travel behaviour. Its consistent application across survey cycles enables the identification of long-term trends, with some questions present in the questionnaires since the first application of the survey.
 
-Most respondents to the 2022 TUS completed it online, reflecting Statistics Canada's effort to adapt to technological changes and growing time demands by offering greater flexibility and convenience [-@statisticscanada2022]. While such methodological changes may affect data comparability over time, it is not possible to determine whether observed differences result from actual population changes or shifts in data collection methods. Despite rigorous efforts to ensure data quality, the use of electronic questionnaires may have influenced estimates. Statistics Canada assessed the impact of collection mode on a limited set of key questions, constrained by sample size. Importantly, none of the variables used in this research are flagged in the 2022 PUMF User Guide as unsuitable for trend analysis. 
+Most respondents to the 2022 TUS completed it online, reflecting Statistics Canada's effort to adapt to technological changes and growing time demands by offering greater flexibility and convenience [@statisticscanada2022]. While such methodological changes may affect data comparability over time, it is not possible to determine whether observed differences result from actual population changes or shifts in data collection methods. Despite rigorous efforts to ensure data quality, the use of electronic questionnaires may have influenced estimates. Statistics Canada assessed the impact of collection mode on a limited set of key questions, constrained by sample size. Importantly, none of the variables used in this research are `R` package in the 2022 PUMF User Guide as unsuitable for trend analysis. 
 
 Until 2022, Statistics Canada employed a telephone-based sampling frame, which was replaced by a dwelling-based frame in the most recent cycle. Each survey cycle spans a 12-month period, typically from July to the following July. The target population includes all Canadians aged 15 and over, excluding residents of the Yukon, Northwest Territories, and Nunavut, full-time institutional residents, and individuals living on Indigenous reserves.
 
 The survey encompasses both rural and urban areas, including metropolitan and non-metropolitan regions, to ensure a diverse and representative sample. For sampling, the ten provinces were divided into geographic strata. Several Census Metropolitan Areas (CMAs) - such as St. John's, Halifax, Saint John, Montreal, Quebec City, Toronto, Ottawa, Hamilton, Winnipeg, Regina, Saskatoon, Calgary, Edmonton, and Vancouver - were treated as separate strata. Additional strata grouped other CMAs within Quebec, Ontario, and British Columbia, as well as non-CMA areas within each province.
 
 The Public Use Microdata are released by Statistics Canada in two files: a 
-_Main File_ and an _Episode File_. The files are linked by keys that identify 
+_Main file_ and an _Episode file_. The files are linked by keys that identify 
 households, individuals, and episodes (i.e., activities) conducted by individuals.
 We discuss these files in more detail in the following section.
 
-## The Main File
+## The _Main file_
 
-The Main File of the time use survey compiles a large array of aggregated data, 
+The _Main file_ of the time use survey compiles a large array of aggregated data, 
 summarizing the answers to the questionnaire that describe households and 
 individuals, as well as derived variables that summarize the respondents' use of 
 time use across different activities, locations, and social interactions. This 
 file documents the time and duration that respondents allocate to each activity 
-and location. The Main File provides a overview of daily routines and social 
+and location. The _Main file_ provides a overview of daily routines and social 
 dynamics, not focusing on individual activity episodes. Additionally, this file 
 categorizes activities into bigger groups and subcategories, facilitating the 
 data's analytical utility with additional metrics such as total transit time, time 
 spent with household members, and counts of activities and episodes.
 
-Table \ref{tab:main-2015-unprocessed} shows the first ten rows and first six variables of the GSS PUMF 2015 Main File (Cycle 29). Each row in the table correspond to a survey respondent, while the columns refer the following information: record identification (`PUMFID`), the person's weight (`WGHT_PER`), the month the survey data was collected (`SURVMNTH`), the respondent's age group (`AGEGR10`), the respondent's sex (`SEX`), and the respondent's marital status (`MARSTAT`).
+Table \ref{tab:main-2015-unprocessed} shows the first ten rows and first six variables of the TUS PUMF 2015 _Main file_ (Cycle 29). Each row in the table correspond to a survey respondent, while the columns refer the following information: record identification (`PUMFID`), the person's weight (`WGHT_PER`), the month the survey data was collected (`SURVMNTH`), the respondent's age group (`AGEGR10`), the respondent's sex (`SEX`), and the respondent's marital status (`MARSTAT`).
 
-The Main File of the 2015 GSS surveys includes a total of 17,390 respondents, representing `r sum(gss_m_2015$WGHT_PER)` individuals and 848 variables.  For discrete variables, Statistics Canada has assigned specific codes to the possible values, with each code accompanied by a label. For instance, in the case of the variable `SURVMNTH`, a value of `1` means `January 2016`, 2 means `February 2016`, 3 corresponds to `March 2016`, and so on. 
+The _Main file_ of the 2015 GSS surveys includes a total of 17,390 respondents, representing `r sum(gss_m_2015$WGHT_PER)` individuals and 848 variables.  For discrete variables, Statistics Canada has assigned specific codes to the possible values, with each code accompanied by a label. For instance, in the case of the variable `SURVMNTH`, a value of `1` means `January 2016`, 2 means `February 2016`, 3 corresponds to `March 2016`, and so on. 
 
 As shown in Table \ref{tab:main-2015-unprocessed}, the variables are not labeled. Additionally, the format of the tables (comma-separated values) does not allow for the specification of variable types (whether a variable is continuous or discrete), which can lead to mistakes analysts who have limited experience working with PUMFs.
 
@@ -253,7 +247,7 @@ main_2015_unprocessed <- gss_m_2015[1:10, 1:6]  |>
     booktabs = TRUE, 
     longtable = TRUE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
-    caption = "\\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.") |>
+    caption = "\\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the Main file of the 2015 GSS.") |>
   kable_styling(full_width = FALSE, 
                 #latex_options=c("striped", "scale_down"), 
                 latex_options=c("scale_down"),
@@ -264,23 +258,23 @@ main_2015_unprocessed
 ```
 
 
-## The Episode File
+## The _Episode file_
 
 The episode is a much bigger file that records detailed data for each activity 
 episode reported by respondents. Each episode represents a single activity and its
 duration, and the sum of all episodes throughout the day adds up to 24 hours. Each
 entry in this file includes the start and end times of the activity, the duration,
 location, and accompanying social context, informing when and where activities 
-occurred and with whom. The focus of the Episode File is not on the characteristics
+occurred and with whom. The focus of the _Episode file_ is not on the characteristics
 of the respondents, but on the characteristics of the activities, and the data 
 are structured around the numerous activity instances that compose a day of the 
 respondent. Although respondent-specific characteristics are not included within
-the Episode File, it is possible to link the Main File and the Episode File by 
-using a key present in both the Main and Episode Files.
+the _Episode file_, it is possible to link the _Main file_ and the _Episode file_ by 
+using a key present in both the _Main_ and _Episode files_.
 
-Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an example of the Main File structure, Table \ref{tab:ep-2015-unprocessed} presents the first seven episodes for the record identification number `10041` and some variables from the GSS PUMF 2015 Episode File (Cycle 29). Each row in the table corresponds to an episode associated with the specified record identification (`PUMFID = 10041`), including the episode's weight (`WGHT_EPI`), episode number (`EPINO`), activity code (`TUI_01`), episode duration (`DURATION`), and episode location (`LOCATION`).
+Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an example of the _Main file_ structure, Table \ref{tab:ep-2015-unprocessed} presents the first seven episodes for the record identification number `10041` and some variables from the TUS PUMF 2015 _Episode file_ (Cycle 29). Each row in the table corresponds to an episode associated with the specified record identification (`PUMFID = 10041`), including the episode's weight (`WGHT_EPI`), episode number (`EPINO`), activity code (`TUI_01`), episode duration (`DURATION`), and episode location (`LOCATION`).
 
-In total, the Episode File of the 2015 GSS surveys contains 274,108 records, representing `r sum(gss_e_2015$WGHT_EPI)` episodes and 527 variables detailing the episodes. Similar to the Main File, Statistics Canada has created codes for the discrete variables, with each value corresponding to a label.
+In total, the _Episode file_ of the 2015 GSS surveys contains 274,108 records, representing `r sum(gss_e_2015$WGHT_EPI)` episodes and 527 variables detailing the episodes. Similar to the _Main file_, Statistics Canada has created codes for the discrete variables, with each value corresponding to a label.
 
 In the case illustrated in Table \ref{tab:ep-2015-unprocessed}, this respondent began the diary description by sleeping at home (`TUI_01 = 1` and `LOCATION = 300`) for 210 minutes, followed by 40 minutes of personal hygiene (`TUI_01 = 2`). The respondent then spent 15 minutes on personal care activities, such as getting ready for school, supervising homework, reading, playing, reprimanding, or providing educational or emotional support, as indicated by `TUI_01 = 27`. Next, they recorded a travel episode, walking for 15 minutes (`TUI_01 = 7` and `LOCATION = 315`), where both the origin and destination were their home. Such trips, where the journey starts and finishes at home, can be classified as recreational or leisure trips. Next, the respondent spent 3 hours searching for a job (`TUI_01 = 9`), took a 15-minute lunch break (`TUI_01 = 6`), and then cleaned the house (`TUI_01 = 18`) for two hours. Table \ref{tab:ep-2015-unprocessed} displays only six variables out of the 527 available. As shown, since the dataset does not label the variable values, decoding them can be both time-consuming and challenging.
 
@@ -305,23 +299,23 @@ ep_2015_unprocessed
 
 # Data process
 
-Figure \ref{fig:process-figure} presents the processes applied to the Main and Episodes files for each survey year to obtain the ActiveCA datasets. For each selected TUS cycle, we reviewed the Episode Files to identify episodes of movement that involved walking or cycling. This allowed us to select the activities immediately before and after the movement episode. The active trips (walking and cycling) were identified by their corresponding activity codes, accounting for differences between the survey cycles. Identifying the preceding and succeeding activities of each activity episode helps to understand the motivation for the trip and also determine the origin and destination of the trips. After that, we labeled and factored the code variables with their appropriate descriptions, classifying each origin and destination, mode of travel, and time spent in the active trip.
+Figure \ref{fig:process-figure} presents a diagram illustrating the processes applied to the _Main_ and _Episode files_ to create the {ActiveCA} datasets. For each TUS cycle, we reviewed the _Episode files_ to identify movement episodes involving walking or cycling. This allowed us to also select the activities immediately before and after the movement episode, helping to infer the trip’s purpose and determine its origin and destination. Active trips were identified by their corresponding activity codes, accounting for variations across survey cycles.
 
-For each GSS Main File, we selected socioeconomic variables to help profile the individuals engaged in active trip episodes. We included key socioeconomic variables such as the respondent’s age group, sex, marital status, and number of children, among others. After this, as we did with the Episode Files, we labeled and factored the code variables with their appropriate descriptions. 
+Next, we labeled the coded variables with their appropriate descriptions, classifying each origin and destination, mode of travel, and time spent in the active trip. Categorical variables were converted into factor variables, and ordinal variables were defined as ordered factors.
 
-We joined the main files to episodes files to , as well the province and urban classification of the episode.
+For the _Main files_, we selected socioeconomic variables to help profile individuals engaged in active travel episodes. These included key indicators such as age group, sex, marital status, and number of children, among others. As with the _Episode files_, we labeled and factored the coded variables. Using the appropriate identifiers, we joined the Episode and _Main files_ to determine the province and the type of population centre - whether it is a CMA, a Census Agglomeration (CA), or a non-CMA/CA area.
 
+As output, the {ActiveCA} package provides processed datasets of walking and cycling episodes by year, a unified dataset that contains all walking and cycling episodes across TUS cycles, and processed _Main files_ (not unified, as socioeconomic and demographic variables and their categories differ across TUS cycles).  
 
-```{r process-figure, echo=FALSE, out.width="100%", fig.cap="Processes applied to the main and episode files to obtain the ActiveCA datasets.", fig.align="center"}
+```{r process-figure, echo=FALSE, out.width="100%", fig.cap="Diagram with the processes applied to the main (blue arrows) and episode files (green arrows) to obtain the ActiveCA datasets.", fig.align="center"}
 
 knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/RPackages - ActiveCA.jpeg"))
 ```
 
 
-
 # {ActiveCA} data sets
 
-This section presents some potential applications of the {ActiveCA} R package. In fact, we expect that the application of this package to extend beyond our pre-imagined range of uses. The installation instruction and also some examples of application of the {ActiveCA} R package are available in the `vignettes`, available in the Github repository. 
+This section presents some potential applications of the {ActiveCA} `R` package. In fact, we expect that the application of this package to extend beyond our pre-imagined range of uses. The installation instruction and also some examples of application of the {ActiveCA} `R` package are available in the `vignettes`, available in the Github repository. 
 
 ## Active episodes
 
@@ -373,7 +367,7 @@ df_processed_table <- cbind(df_main_processed,df_ep_processed_table)
 ```
 
 
-Table \ref{tab:processed-obs} displays the total number of records processed for Main and Episode Files. For the Main Files, a total of `r sum(df_main_processed$Count)` records were processed, referring to all records from the Time Use Surveys from 1986 to 2022, that together represents more of `r sum(df_main_processed$Weighted)` respondents (`r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2022',]$Weighted)` for 2022, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2015',]$Weighted)` for 2015, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2010',]$Weighted)` for 2010, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '2005',]$Weighted)` for 2005, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1998',]$Weighted)` for 1998, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1992',]$Weighted)` for 1992, and  for 2005, `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1998',]$Weighted)` for 1998, and `r sum(df_main_processed[df_main_processed$Survey == 'Main' & df_main_processed$Year == '1992',]$Weighted)` for 1986). It also presents the total cases of active trips episodes identified. In total `r sum(df_ep_processed$Count)` records with register of active travel activity. Together, these records account for `r sum(df_ep_processed$Weighted)` episodes.
+Table \ref{tab:processed-obs} displays the total number of records processed for Main and _Episode files_. For the _Main files_, a total of `r sum(df_main_processed$Count)` records were processed, referring to all records from the Time Use Surveys from 1986 to 2022, that together represents more of `r sum(df_main_processed$Weighted)` respondents. It also presents the total cases of active trips episodes identified. In total `r sum(df_ep_processed$Count)` records with register of active travel activity. Together, these records account for `r sum(df_ep_processed$Weighted)` episodes.
 
 ```{r table_df_processed}
 
@@ -388,7 +382,7 @@ table_df_processed <- df_processed_table |>
 table_df_processed
 ```
 
-Table \ref{tab:main-2015-processed} shows the first ten rows and first six variables of the GSS PUMF 2015 Main File (Cycle 29), displayed in \ref{tab:main-2015-unprocessed} before our processing. Table \ref{tab:ep-2015-processed} presents the walking episodes for the record identification number `10041` from the GSS PUMF 2015 Episode File (Cycle 29), previously displayed in Table \ref{tab:ep-2015-unprocessed}. Only the unique active travel episode appear in Table \ref{tab:ep-2015-processed} since the records were filtered to select cases with walking or cycling episodes. For both cases, Tables \ref{tab:main-2015-processed} and \ref{tab:ep-2015-processed} contain labeled variables, facilitating the interpretation of the data.
+Table \ref{tab:main-2015-processed} shows the first ten rows and first six variables of the TUS PUMF 2015 Main File (Cycle 29), displayed in \ref{tab:main-2015-unprocessed} before our processing. Table \ref{tab:ep-2015-processed} presents the walking episodes for the record identification number `10041` from the TUS PUMF 2015 _Episode file_ (Cycle 29), previously displayed in Table \ref{tab:ep-2015-unprocessed}. Only the unique active travel episode appear in Table \ref{tab:ep-2015-processed} since the records were filtered to select cases with walking or cycling episodes. For both cases, Tables \ref{tab:main-2015-processed} and \ref{tab:ep-2015-processed} contain labeled variables, facilitating the interpretation of the data.
 
 ```{r gss-processed-file-2015, echo=FALSE, cache=FALSE}
 main_2015_processed <- gss_main_2015[1:10, 1:6]  |>
@@ -477,7 +471,7 @@ styled_ch03_table_01
 
 Table \ref{tab:table-01} shows that, until 2022 the median values for walking trips were 10 minutes, increasing to 15 minutes in the last survey. In the case of cycling trips, the duration fluctuated over the years, ranging from 10 to 30 minutes. The table also highlights very high maximum values, particularly for walking trips, with recorded episodes exceeding 4 hours in all cases.
 
-{ActiveCA} also enables visual analysis of active travel in Canada using traditional exploratory data analysis techniques. Figure \ref{fig:figure-01} shows walking trips from 2022 through heat maps. This graph uses color gradients to represent the percentage of trips between various origins and destinations, with darker colors indicating higher percentages and lighter colors representing less frequent routes. For conciseness, we omitted the heat maps for the other years analyzed.
+{ActiveCA} also enables visual analysis of active travel in Canada using exploratory data analysis techniques. Figure \ref{fig:figure-01} shows walking trips from 2022 through heat maps. This graph uses color gradients to represent the percentage of trips between various origins and destinations, with darker colors indicating higher percentages and lighter colors representing less frequent routes. For conciseness, we omitted the heat maps for the other years analyzed.
 
 In 2022, `home` served as a central hub for most trips, with fewer than 10% of journeys not involving it as either a starting point or destination. The most common trip types were from `home` to `work or school` (17%) and the reverse, from `work or school` to `home` (13%). Notably, 7% of trips began and ended at `home`, often reflecting leisure activities such as short walks or dog walking. `Grocery stores` were also a key destination, comprising 10% of trips departing from `home.`
 
@@ -515,7 +509,7 @@ ggsave(file = paste0(here::here(),"/paper/Manuscript-figures/walking_hm_2022.jpg
 knitr::include_graphics(paste0(here::here(),"/paper/Manuscript-figures/walking_hm_2022.jpg"))
 ```
 
-The {ActiveCA} dataset also includes information on the type of population centre in which respondents reside - specifically, whether they live in a CMA, a Census Agglomeration (CA), or outside these areas - as well as the respondent’s province. This information is important, as patterns of active travel often differ between metropolitan and non-metropolitan populations. For example, Table \ref{tab:cma-durations} presents the median walking durations by population centre type and province for 2022. Overall, respondents living in CMA/CA areas tend to report higher median walking durations compared to those living outside these centres. The most pronounced difference is observed in Nova Scotia: metropolitan residents reported a median walking duration of 30 minutes, whereas non-metropolitan residents reported a median of only 5 minutes.
+The {ActiveCA} dataset also includes information on the type of population centre in which respondents reside - specifically, whether they live in a CMA, a CA, or outside these areas - as well as the respondent’s province. This information is important, as patterns of active travel often differ between metropolitan and non-metropolitan populations. For example, Table \ref{tab:cma-durations} presents the median walking durations by population centre type and province for 2022. Overall, respondents living in CMA/CA areas tend to report higher median walking durations compared to those living outside these centres. The most pronounced difference is observed in Nova Scotia: metropolitan residents reported a median walking duration of 30 minutes, whereas non-metropolitan residents reported a median of only 5 minutes.
 
 ```{r cma-durations, echo=FALSE, cache=FALSE, warning=FALSE, results="asis"}
 median_duration_cma <- gss_episodes_renamed %>%
@@ -548,7 +542,7 @@ median_duration_table <- median_duration_cma |>
 median_duration_table 
 ```
 
-{ActiveCA} also enables obtaining insights from the main processed files. Figure \ref{fig:figure-stress} present how the level of stress varied among respondents depending on their marital status in 2022. According to this plot, married respondents reported the highest level of stress, relating to feel stressed every day, with 15% of possible. 
+The package also enables obtaining insights from the main processed files. Figure \ref{fig:figure-stress} present how the level of stress varied among respondents depending on their marital status in 2022. According to this plot, married respondents reported the highest level of stress, relating to feel stressed every day, with 15% of possible cases. 
 
 ```{r main_stress_figure, include = FALSE}
 main_stress_figure <- gss_main_2022 |>
@@ -595,17 +589,17 @@ of TUS GSSs on active travel in Canada. In the form of an `R` data package,
 providing information on origins, destinations, and duration of active travel, as
 well other information. 
 
-Although we did not select non-AT episodes, the process for obtaining them is very similar to that used for selecting AT episodes. Researchers interested in non-AT modes can use our framework to guide their methodology, making the small but necessary adjustments. We focused exclusively on AT episodes because the ActiveCA package is part of a larger project aimed at analyzing the historical evolution of active travel behaviour in Canada.
+Although we did not select non-AT episodes, the process for obtaining them is very similar to that used for selecting AT episodes. Researchers interested in non-AT modes can use our framework to guide their methodology, making the small but necessary adjustments. We focused exclusively on AT episodes because the {ActiveCA} package is part of a larger project aimed at analyzing the historical evolution of active travel behaviour in Canada.
 
 The value of {ActiveCA} lies in its transparency, accessibility, and ease of use,
 which facilitates the addition of complementary data sets in the future. `R` users
-can seamlessly explore GSS walking and cycling episodes, 
+can seamlessly explore TUS walking and cycling episodes, 
 with the option to suggest enhancements to the package as needed. This article adopts
 the structure proposed by Anastasia and Páez [-@soukhov2023], whose work provided
 essential guidance for the creation of this package. Similarly, we aim to contribute
 to the academic community by promoting transparent research practices that encourage
 replication and innovation in related fields. We believe that {ActiveCA} will serve
-as a basis for further research on TUS GSS and for the integration of additional data by
+as a basis for further research on TUS and for the integration of additional data by
 the authors or the wider open source community.
 
 # Declaration of Conflicting Interests
