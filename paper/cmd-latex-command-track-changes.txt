@@ -1,0 +1,1 @@
+latexdiff --add-to-config PICTUREENV=longtable Manuscript-Data-Package2.tex Manuscript-Data-Package-1Round-Review.tex > manuscript_track_changes.tex 

@@ -45,7 +45,7 @@ to Study Active Travel}
 
 \begin{abstract}
 This paper describes \{ActiveCA\}, an open data product with Canadian
-time use data. \{ActiveCA\} is an \texttt{R} data package that contains
+time use data. \{ActiveCA\} is an R data package that contains
 analysis-ready data related to active travel spanning almost 40 years,
 extracted from cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24
 (2010), 29 (2015), and 34 (2022) of the Time Use Survey (TUS) cicles
@@ -109,9 +109,9 @@ them ready for analysis.
 \{ActiveCA\} is distributed as an \texttt{R} package with a number of
 data objects and their documentation. \texttt{R} packages contain code,
 data, and documentation in a standardized format that can be installed
-by \texttt{R} users via a software repository, such as CRAN
-(Comprehensive R Archive Network) or GitHub, which makes them an adroit
-medium to distribute analysis-ready data.
+by R users via a software repository, such as CRAN (Comprehensive R
+Archive Network) or GitHub, which makes them an adroit medium to
+distribute analysis-ready data.
 
 Given the level of interest in active travel
 \citep[e.g.,][]{mccurdySupport2023}, reducing the barriers to using data
@@ -201,8 +201,7 @@ keys that identify households, individuals, and episodes (i.e.,
 activities) conducted by individuals. We discuss these files in more
 detail in the following section.
 
-\subsection{\texorpdfstring{The \emph{Main
-file}}{The Main file}}\label{the-main-file}
+\subsection{The Main file}\label{the-main-file}
 
 The \emph{Main file} of the time use survey compiles a large array of
 aggregated data, summarizing the answers to the questionnaire that
@@ -231,8 +230,8 @@ respondents, representing 29,766,399 individuals and 848 variables. For
 discrete variables, Statistics Canada has assigned specific codes to the
 possible values, with each code accompanied by a label. For instance, in
 the case of the variable \texttt{SURVMNTH}, a value of \texttt{1} means
-\texttt{January\ 2016}, 2 means \texttt{February\ 2016}, 3 corresponds
-to \texttt{March\ 2016}, and so on.
+\texttt{January\ 2016}, \texttt{2} means \texttt{February\ 2016},
+\texttt{3} corresponds to \texttt{March\ 2016}, and so on.
 
 As shown in Table \ref{tab:main-2015-unprocessed}, the variables are not
 labeled. Additionally, the format of the tables (comma-separated values)
@@ -245,7 +244,7 @@ who have limited experience working with PUMFs.
 \begin{ThreePartTable}
 \begin{TableNotes}
 \item \textit{Note: } 
-\item Legend: `PUMFID`: record identification. `WGHT\_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent.
+\item Legend: PUMFID: record identification. WGHT\_PER:  person weight. SURVMNTH: survey month of data collection. AGEGR10: age group of the respondent. SEX: sex of the respondent. MARSTAT: marital status of the respondent.
 \end{TableNotes}
 \begin{longtable}[t]{cccccc}
 \caption{\label{tab:gss-main-file-2015}\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the Main file of the 2015 GSS.}\\
@@ -269,8 +268,7 @@ PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
 \end{ThreePartTable}
 \endgroup{}
 
-\subsection{\texorpdfstring{The \emph{Episode
-file}}{The Episode file}}\label{the-episode-file}
+\subsection{The Episode file}\label{the-episode-file}
 
 The episode is a much bigger file that records detailed data for each
 activity episode reported by respondents. Each episode represents a
@@ -289,13 +287,13 @@ using a key present in both the \emph{Main} and \emph{Episode files}.
 Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an
 example of the \emph{Main file} structure, Table
 \ref{tab:ep-2015-unprocessed} presents the first seven episodes for the
-record identification number \texttt{10041} and some variables from the
-TUS PUMF 2015 \emph{Episode file} (Cycle 29). Each row in the table
-corresponds to an episode associated with the specified record
-identification (\texttt{PUMFID\ =\ 10041}), including the episode's
-weight (\texttt{WGHT\_EPI}), episode number (\texttt{EPINO}), activity
-code (\texttt{TUI\_01}), episode duration (\texttt{DURATION}), and
-episode location (\texttt{LOCATION}).
+record identification number 10041 and some variables from the TUS PUMF
+2015 \emph{Episode file} (Cycle 29). Each row in the table corresponds
+to an episode associated with the specified record identification
+(\texttt{PUMFID} = \texttt{10041}), including the episode's weight
+(\texttt{WGHT\_EPI}), episode number (\texttt{EPINO}), activity code
+(\texttt{TUI\_01}), episode duration (\texttt{DURATION}), and episode
+location (\texttt{LOCATION}).
 
 In total, the \emph{Episode file} of the 2015 GSS surveys contains
 274,108 records, representing 461,837,622 episodes and 527 variables
@@ -310,7 +308,7 @@ followed by 40 minutes of personal hygiene (\texttt{TUI\_01\ =\ 2}). The
 respondent then spent 15 minutes on personal care activities, such as
 getting ready for school, supervising homework, reading, playing,
 reprimanding, or providing educational or emotional support, as
-indicated by \texttt{TUI\_01\ =\ 27}. Next, they recorded a travel
+indicated by \texttt{TUI\_01\ =\ 27.} Next, they recorded a travel
 episode, walking for 15 minutes (\texttt{TUI\_01\ =\ 7} and
 \texttt{LOCATION\ =\ 315}), where both the origin and destination were
 their home. Such trips, where the journey starts and finishes at home,
@@ -327,10 +325,10 @@ values, decoding them can be both time-consuming and challenging.
 \begin{ThreePartTable}
 \begin{TableNotes}
 \item \textit{Note: } 
-\item Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
+\item Legend: PUMFID: record identification. EPINO: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
 \end{TableNotes}
 \begin{longtable}[t]{cccccc}
-\caption{\label{tab:gss-epi-file-2015}\label{tab:ep-2015-unprocessed}Visualization of the seven first episodes of the record number `10041`.}\\
+\caption{\label{tab:gss-epi-file-2015}\label{tab:ep-2015-unprocessed}Visualization of the seven first episodes of the record number 10041.}\\
 \toprule
 PUMFID & EPINO & WGHT\_EPI & TUI\_01 & DURATION & LOCATION\\
 \midrule
@@ -377,9 +375,9 @@ Agglomeration (CA), or a non-CMA/CA area.
 
 As output, the \{ActiveCA\} package provides processed datasets of
 walking and cycling episodes by year, a unified dataset that contains
-all walking and cycling episodes across TUS cycles, and processed
-\emph{Main files} (not unified, as socioeconomic and demographic
-variables and their categories differ across TUS cycles).
+all walking and cycling episodes across TUS cycles, and processed main
+files (not unified, as socioeconomic and demographic variables and their
+categories differ across TUS cycles).
 
 \begin{figure}
 
@@ -449,7 +447,7 @@ interpretation of the data.
 \begin{ThreePartTable}
 \begin{TableNotes}
 \item \textit{Note: } 
-\item Legend: `PUMFID`: record identification. `WGHT\_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent.
+\item Legend: PUMFID: record identification. WGHT\_PER:  person weight. SURVMNTH: survey month of data collection. AGEGR10: age group of the respondent. SEX: sex of the respondent. MARSTAT: marital status of the respondent.
 \end{TableNotes}
 \begin{longtable}[t]{cccccc}
 \caption{\label{tab:gss-processed-file-2015}\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the 2015 TUS Main File.}\\
@@ -478,10 +476,10 @@ PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
 \begin{ThreePartTable}
 \begin{TableNotes}
 \item \textit{Note: } 
-\item Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
+\item Legend: PUMFID: record identification. EPINO: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
 \end{TableNotes}
 \begin{longtable}[t]{rrlrlll}
-\caption{\label{tab:gss-processed-file-2015}\label{tab:ep-2015-processed}Visualization of the active travel episode for the record number `10041` of the 2015 GSS survey.}\\
+\caption{\label{tab:gss-processed-file-2015}\label{tab:ep-2015-processed}Visualization of the active travel episode for the record number 10041 of the 2015 GSS survey.}\\
 \toprule
 PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
 \midrule
@@ -608,7 +606,7 @@ Saskatchewan & 10 & 5\\
 \end{tabular}
 \begin{tablenotes}
 \item \textit{Note: } 
-\item 'CMA' denotes Census Metropolitan Area and 'CA' denotes Census agglomeration.
+\item CMA denotes Census Metropolitan Area and CA denotes Census agglomeration.
 \end{tablenotes}
 \end{threeparttable}}
 \end{table}
@@ -631,10 +629,11 @@ cases.
 
 \section{Python integration}\label{python-integration}
 
-\{ActiveCA\} also provides a Jupyter Notebook containing a Python script
-that demonstrates how to read R data files (.rda) and convert them into
-Pandas DataFrames. This process allows users to work with and utilize
-the datasets available in \{ActiveCA\} within a Python project.
+\{ActiveCA\} also provides a Jupyter Notebook containing a
+\texttt{Python} script that demonstrates how to read \texttt{R} data
+files (.rda) and convert them into Pandas DataFrames. This process
+allows users to work with and utilize the datasets available in
+\{ActiveCA\} within a \texttt{Python} project.
 
 \section{Concluding remarks}\label{concluding-remarks}
 
@@ -656,11 +655,11 @@ travel behaviour in Canada.
 
 The value of \{ActiveCA\} lies in its transparency, accessibility, and
 ease of use, which facilitates the addition of complementary data sets
-in the future. \texttt{R} users can seamlessly explore TUS walking and
-cycling episodes, with the option to suggest enhancements to the package
-as needed. This article adopts the structure proposed by Anastasia and
-Páez \citeyearpar{soukhov2023}, whose work provided essential guidance
-for the creation of this package. Similarly, we aim to contribute to the
+in the future. R users can seamlessly explore TUS walking and cycling
+episodes, with the option to suggest enhancements to the package as
+needed. This article adopts the structure proposed by Anastasia and Páez
+\citeyearpar{soukhov2023}, whose work provided essential guidance for
+the creation of this package. Similarly, we aim to contribute to the
 academic community by promoting transparent research practices that
 encourage replication and innovation in related fields. We believe that
 \{ActiveCA\} will serve as a basis for further research on TUS and for
