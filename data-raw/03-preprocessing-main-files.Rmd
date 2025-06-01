@@ -122,6 +122,9 @@ The file name pattern is as follows: `gss_main_` +
 ```{r reading-2022-main-file}
 # Main File
 gss_m_2022 <- read.spss(paste0(here(), "/data-raw/source-files/Time-use-2022/gss_tu_main_2022_pumf_v1.sav"), to.data.frame = TRUE) # Original file
+
+gss_m_2022_b <- gss_m_2022
+gss_m_2022 <- gss_m_2022_b
 ```
 
 The main data set for 2022 is already labeled and only needs a selection of socioeconomic and demographic variables:
@@ -132,7 +135,7 @@ gss_main_2022 <- gss_m_2022 %>%
 "MARSTAT", "PHSDFLG", "AGEPRC",  "GENPR2",  "COUPGEN2","CHH0017C","CHH0004C","CHH0514C","CHH1517C","CXRFLAG",
 "PARNUM",  "SENFLAG", "MULTIGEN","DDEV_FL", "DDEX_FL", "DFLEX_FL","DHEAR_FL","DLRN_FL", "DMEM_FL", "DMENT_FL",
  "DMOB_FL", "DPAIN_FL","DUNK_FL", "DVIS_FL", "DDIS_FL", "DTYPER",  "DCLASS",  "TCS_110", "TCS_120", "TCS_130",
- "TCS_140", "TCS_150", "TCS_160", "TCS_170", "TCS_180", "TCS_190", "TCS_200",  "GEN_01",  "GEN_02",  "SRS_10",  "MSS_130", "ACT7DAYC","MRW_05C", "MRW_D40A",
+ "TCS_140", "TCS_150", "TCS_160", "TCS_170", "TCS_180", "TCS_190", "TCS_200",  "TIMECR", "GEN_01",  "GEN_02",  "SRS_10",  "MSS_130", "ACT7DAYC","MRW_05C", "MRW_D40A",
 "MRW_D40B","WET_120",  "WHW_230", "WHWD140G","TLWK_01A","TLWK_06","WLYD170G",
 "ATT_120", "ATT_130", "ATT_131",
 "ATT_150C","ATT_160", "ATT_170",
@@ -143,6 +146,405 @@ gss_main_2022 <- gss_m_2022 %>%
 "FAMINC_C","GTU_110", "GTU_130",  "DDAY",  "DVTDAY") %>% 
   mutate(PUMFID = as.numeric(as.character(PUMFID)),
          WGHT_PER = as.numeric(as.character(WGHT_PER)))
+```
+
+```{r LUC_RST-2022}
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate( # LUC_RST:  Population centre indicator
+    LUC_RST = 
+      case_when(LUC_RST == "Larger urban population centres (CMA/CA)" ~ "CMA/CA",
+                     LUC_RST == "Rural areas/small population centres (non-CMA/CA)" ~ "non CMA/CA",
+                     LUC_RST == "Prince Edward Island" ~ "Prince Edward Island"),
+    LUC_RST = factor(LUC_RST)) 
+
+summary(gss_main_2022$LUC_RST)
+```
+```{r HSDSIZEC-2022}
+values_ordered <- c("One person", 
+           "Two persons",
+           "Three persons",
+           "Four persons",
+           "Five persons or more")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# HSDSIZEC:  Household size of respondent (capped)
+    HSDSIZEC = factor(HSDSIZEC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$HSDSIZEC)
+```
+```{r AGEGR10-2022}
+values_ordered <- c("15 to 24 years","25 to 34 years","35 to 44 years",
+                    "45 to 54 years", "55 to 64 years","65 to 74 years","75 years and over")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# AGEGR10:  Age group of respondent (groups of 10)
+    AGEGR10 = factor(AGEGR10, levels = values_ordered, ordered = TRUE), 
+    AGEPRC = factor(AGEPRC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$AGEGR10)
+```
+```{r AGEPRC-2022}
+values_ordered <- c("15 to 34 years","35 to 44 years",
+                    "45 to 54 years", "55 to 64 years","65 to 74 years","75 years and over")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# AGEPRC:  Age group of respondent’s spouse/partner (collapsed)
+    AGEPRC = factor(AGEPRC, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$AGEPRC)
+```
+
+```{r CHH0017C-2022}
+summary(gss_main_2022$CHH0017C)
+
+values_ordered <- c("No children","One child",
+                    "Two children", "Three children or more")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# CHH0017C:  Number of child(ren) in household - 0 to 17 years (capped)
+    CHH0017C = factor(CHH0017C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$CHH0017C)
+```
+```{r CHH0004C-2022}
+summary(gss_main_2022$CHH0004C)
+
+values_ordered <- c("No children","One or more children")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# CHH0004C:  Number of child(ren) in household - 0 to 4 years (capped)
+    CHH0004C = factor(CHH0004C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$CHH0004C)
+```
+
+```{r CHH0514C-2022}
+summary(gss_main_2022$CHH0514C)
+
+values_ordered <- c("No children","One or more children")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# CHH0514C:  Child(ren) in household - 5 to 14 years (flag)
+    CHH0514C = factor(CHH0514C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$CHH0514C)
+```
+
+```{r CHH1517C-2022}
+summary(gss_main_2022$CHH1517C)
+
+values_ordered <- c("No children","One or more children")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# CHH1517C:  Child(ren) in household - 15 to 17 years (flag)
+    CHH1517C = factor(CHH1517C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$CHH1517C)
+```
+
+```{r PARNUM-2022}
+summary(gss_main_2022$PARNUM)
+
+values_ordered <- c("None","One parent","Two parents")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# PARNUM: Number of parents the respondent has in household
+    PARNUM = factor(PARNUM, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$PARNUM)
+```
+```{r DTYPER-2022}
+summary(gss_main_2022$DTYPER)
+
+values_ordered <- c("Does not have a disability",
+                    "Has one disability type",
+                    "Has two or three disability types",
+                    "Has more than three disability types")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# DTYPER: Disability type counter - Grouped
+    DTYPER = factor(DTYPER, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$DTYPER)
+```
+
+```{r DCLASS-2022}
+summary(gss_main_2022$DCLASS)
+
+values_ordered <- c("Does not have a disability",
+                    "Unknown severity",
+                    "Mild",
+                    "Moderate",
+                    "Severe",
+                    "Very severe")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# DCLASS: Global (disability) severity class
+    DCLASS = factor(DCLASS, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$DCLASS)
+```
+
+```{r TIMECR-2022}
+summary(gss_main_2022$TIMECR)
+
+values_ordered <- c("Zero Yes codes",
+                    "One Yes code",
+                    "Two Yes codes",
+                    "Three Yes codes",
+                    "Four Yes codes",
+                    "Five Yes codes",
+                    "Six Yes codes",
+                    "Seven Yes codes",
+                    "Eight Yes codes",
+                    "Nine Yes codes",
+                    "Ten Yes codes")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# TIMECR: Time crunch indicator
+    TIMECR = factor(TIMECR, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$TIMECR)
+```
+
+```{r GEN_01-2022}
+summary(gss_main_2022$GEN_01)
+
+values_ordered <- c("Poor",
+                    "Fair",
+                    "Good",
+                    "Very good",
+                    "Excellent")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# GEN_01: Self rated health - In general, how is your health?
+    GEN_01 = factor(GEN_01, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$GEN_01)
+```
+
+```{r GEN_02-2022}
+summary(gss_main_2022$GEN_02)
+
+values_ordered <- c("Poor",
+                    "Fair",
+                    "Good",
+                    "Very good",
+                    "Excellent")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# GEN_02: Self rated mental health - In general, how is your mental health?
+    GEN_02 = factor(GEN_02, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$GEN_02)
+```
+
+```{r SRS_10-2022}
+summary(gss_main_2022$SRS_10)
+
+values_ordered <- c("Not at all stressful",
+                    "Not very stressful",
+                    "A bit stressful",
+                    "Quite a bit stressful",
+                    "Extremely stressful")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# SRS_10: Self Rated Stress - Amount - Thinking about the amount of stress in your life, how would you describe most of your days?
+    SRS_10 = factor(SRS_10, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$SRS_10)
+```
+
+```{r TLWK_06-2022}
+summary(gss_main_2022$TLWK_06)
+
+values_ordered <- c("1 - Not important at all",
+                    "2",
+                    "3",
+                    "4",
+                    "5 - Very important")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# TLWK_06: Telework aspects - Avoid the commute. How important is the opportunity not to commute every day to your workplace?
+    TLWK_06 = factor(TLWK_06, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$TLWK_06)
+```
+
+
+```{r WLYD170G-2022}
+summary(gss_main_2022$WLYD170G)
+
+values_ordered <- c("Respondent works from home",
+                    "0 to 4 kilometers",
+                    "5 to 9 kilometers",
+                    "10 to 14 kilometers",
+                    "15 to 19 kilometers",
+                    "20 to 24 kilometers",
+                    "25 to 29 kilometers",
+                    "30 to 39 kilometers",
+                    "40 to 49 kilometers",
+                    "50 kilometers or more")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# WLYD170G: Distance from residence to workplace (grouped)
+    WLYD170G = factor(WLYD170G, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$WLYD170G)
+```
+
+```{r ATT_120-2022}
+summary(gss_main_2022$ATT_120)
+
+values_ordered <- c("All the time",
+                    "Some of the time",
+                    "Rarely",
+                    "Never")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# ATT_120: Vehicle at respondent’s disposal. How often do you have a vehicle at your disposal?
+    ATT_120 = factor(ATT_120, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$ATT_120)
+```
+
+```{r ATT_130-2022}
+summary(gss_main_2022$ATT_130)
+
+values_ordered <- c("All the time",
+                    "Some of the time",
+                    "Rarely",
+                    "Never")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# ATT_130: Need someone else to drive - Frequency. How often do you need someone to drive you somewhere for an appointment, errand or something else?
+    ATT_130 = factor(ATT_130, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$ATT_130)
+```
+
+```{r ATT_131-2022}
+summary(gss_main_2022$ATT_131)
+
+values_ordered <- c("All the time",
+                    "Some of the time",
+                    "Rarely",
+                    "Never")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# ATT_131: Someone else can drive when needed - Frequency. How often can someone drive you when you need it?
+    ATT_131 = factor(ATT_131, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$ATT_131)
+```
+```{r ATT_170-2022}
+summary(gss_main_2022$ATT_170)
+
+values_ordered <- c("Not in past 12 months",
+                    "A few times a year",
+                    "A few times a month",
+                    "Several times a week",
+                    "Every day")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# ATT_170: Use of public transportation - Past 12 months.
+    ATT_170 = factor(ATT_170, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$ATT_170)
+```
+
+```{r ED_05-2022}
+summary(gss_main_2022$ED_05)
+
+values_ordered <- c("Less than high school diploma or its equivalent",
+                    "High school diploma or a high school equivalency certificate",
+                    "Trades certificate or diploma",
+                    "College, CEGEP or other non-university certificate or diplom",
+                    "University certificate or diploma below the bachelor's level",
+                    "Bachelor's degree",
+                    "University certificate, diploma, or degree above the bachelo")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# ED_05: Educational attainment - Highest degree (7 categories)
+    ED_05 = factor(ED_05, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$ED_05)
+```
+
+```{r REL_02-2022}
+summary(gss_main_2022$REL_02)
+
+values_ordered <- c("Not at all",
+                    "Once or twice a year",
+                    "At least three times a year",
+                    "At least once a month",
+                    "At least once a week")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# REL_02: Frequency of religious participation - Past 12 months.
+    REL_02 = factor(REL_02, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$REL_02)
+```
+```{r INC_C-2022}
+summary(gss_main_2022$INC_C)
+
+values_ordered <- c("Less than $25,000",
+                    "$25,000 to $49,999",
+                    "$50,000 to $74,999",
+                    "$75,000 to $99,999",
+                    "$100,000 and over")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# INC_C: Income - Total (before tax) (grouped).
+    INC_C = factor(INC_C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$INC_C)
+```
+
+```{r FAMINC_C-2022}
+summary(gss_main_2022$FAMINC_C)
+
+values_ordered <- c("Less than $50,000",
+                    "$50,000 to $74,999",
+                    "$75,000 to $99,999",
+                    "$100,000 to $124,999",
+                    "$125,000 and over")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate(# FAMINC_C: Family Income - Total (before tax) (grouped).
+    FAMINC_C = factor(FAMINC_C, levels = values_ordered, ordered = TRUE)) 
+
+summary(gss_main_2022$FAMINC_C)
+```
+```{r GTU_110-2022}
+values_ordered <- c("Every day",
+                    "A few times a week",
+                    "About once a week",
+                    "About once a month",
+                    "Less than once a month",
+                    "Never")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate( # GTU_110: How often do you feel rushed? Would you say it is...?
+    GTU_110 = factor(GTU_110, levels = rev(values_ordered), ordered = TRUE)) 
+
+summary(gss_main_2022$GTU_110)
+```
+
+```{r GTU_130-2022}
+values_ordered <- c("Every day",
+                    "A few times a week",
+                    "About once a week",
+                    "About once a month",
+                    "Less than once a month",
+                    "Never")
+
+gss_main_2022 <- gss_main_2022 %>% 
+  mutate( # GTU_130: How often do you feel you have time on your hands that you don’t know what to do with?
+    GTU_130 = factor(GTU_130, levels = rev(values_ordered), ordered = TRUE))  
+
+summary(gss_main_2022$GTU_130)
 ```
 
 Save data in R format for later use:

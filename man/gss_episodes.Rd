@@ -3,9 +3,9 @@
 \docType{data}
 \name{gss_episodes}
 \alias{gss_episodes}
-\title{Preprocessed walking and cycling episodes (from 1986 to 2015).}
+\title{Preprocessed walking and cycling episodes (from 1986 to 2022).}
 \format{
-A data frame containing 21748 rows and 17 variables; each row represents a unique episode.
+A data frame containing 23513 rows and 17 variables; each row represents a unique episode.
 \describe{
 \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 \item{WGHT_EPI}{Episode weight.}
@@ -33,7 +33,7 @@ A data frame containing 21748 rows and 17 variables; each row represents a uniqu
 data(gss_episodes)
 }
 \description{
-This dataset contains all the walking and cycling episodes from the 1986 to 2015 GSS Surveys.
+This dataset contains all the walking and cycling episodes from the 1986 to 2022 GSS Surveys.
 We identified the cycling episodes and selected the places of origin
 and destination, measuring the time spent, weight and other
 information about the activities.

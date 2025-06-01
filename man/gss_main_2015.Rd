@@ -3,9 +3,9 @@
 \docType{data}
 \name{gss_main_2015}
 \alias{gss_main_2015}
-\title{Selection of socioeconomic variables from the 2015 GSS Time Use Survey (Cycle 24).}
+\title{Selection of socioeconomic variables from the 2015 GSS Time Use Survey (Cycle 29).}
 \format{
-A data frame containing 15390 rows and 33 variables; each row represents a unique respondent.
+A data frame containing 17390 rows and 31 variables; each row represents a unique respondent.
 \describe{
 \item{PUMFID}{Record identification.}
 \item{WGHT_PER}{Person weight.}
@@ -48,7 +48,7 @@ data(gss_main_2015)
 }
 \description{
 This dataset contains some socioeconomic variables obtained
-from the main file of the 2015 GSS Time Use Survey (Cycle 24). We labeled
+from the main file of the 2015 GSS Time Use Survey (Cycle 29). We labeled
 variables according to the Public Use Micro Data File Documentation and User's Guide (Catalogue no. 12M0024X).
 }
 \keyword{2015}

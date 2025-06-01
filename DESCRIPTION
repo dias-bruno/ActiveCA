@@ -1,6 +1,6 @@
 Package: ActiveCA
 Title: Time Use Data from the General Social Survey of Canada to Study Active Travel
-Version: 0.0.2.1
+Version: 0.0.3.0
 Authors@R: 
      c(person("Bruno", "Dos Santos", , "dossanb@mcmaster.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6748-2038")),
@@ -9,7 +9,7 @@ Authors@R:
        person("Antonio", "Paez", , "paezha@mcmaster.ca", role = c("aut"),
            comment = c(ORCID = "0000-0001-6912-9919")),
        person("Statistics Canada", role = c("cph"), comment = "Copyright holder of the Public Use Microdata Files of the General Social Survey. These files are released using Statistics Canada Open Licence"))
-Description: ActiveCA is an Open Data Product that provides analysis-ready data from the General Social Survey of Canada Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), and 29 (2015) regarding active travel. These data can be used to study walking and cycling in Canada for various purposes over time, and to calculate impedance functions for accessibility analysis. The package provides pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas.
+Description: ActiveCA is an Open Data Product that provides analysis-ready data from the General Social Survey of Canada Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), 29 (2015), and 34 (2022) regarding active travel. These data can be used to study walking and cycling in Canada for various purposes over time, and to calculate impedance functions for accessibility analysis. The package provides pre-estimated impedance functions for cycling and walking trips for Census Agglomerations and Census Metropolitan Areas.
 License: CC BY 4.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

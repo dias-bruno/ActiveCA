@@ -35,7 +35,7 @@ Adapted from Statistics Canada, General Social Survey Cycle 29, 2015 This does n
 data(walking_2015)
 }
 \description{
-This dataset contains all the walking episodes from the 2010 GSS Survey.
+This dataset contains all the walking episodes from the 2015 GSS Survey.
 We identified the walking episodes and selected the places of origin
 and destination, measuring the time spent, weight and other
 information about the activities.

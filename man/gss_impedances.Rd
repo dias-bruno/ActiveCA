@@ -3,9 +3,9 @@
 \docType{data}
 \name{gss_impedances}
 \alias{gss_impedances}
-\title{Impedance functions for Census Agglomerations and Census Metropolitan Areas (from 1986 to 2015).}
+\title{Impedance functions for Census Agglomerations and Census Metropolitan Areas (from 1986 to 2022).}
 \format{
-A data frame containing 12113 rows and 18 variables; each row represents a unique episode.
+A data frame containing 13585 rows and 19 variables; each row represents a unique episode.
 \describe{
 \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 \item{WGHT_EPI}{Episode weight.}
@@ -36,7 +36,7 @@ data(gss_impedances)
 }
 \description{
 This dataset contains all impedance functions for walking
-and cycling transportation, obtained from the 1986 to 2015
+and cycling transportation, obtained from the 1986 to 2022
 GSS Surveys, for Census Metropolitan Areas and Census Agglomerations.
 We estimated the best impedance function for each combination of year,
 destination and transportation mode, using the fitdistrplus package.

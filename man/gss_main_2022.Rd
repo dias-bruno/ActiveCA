@@ -5,7 +5,7 @@
 \alias{gss_main_2022}
 \title{Selection of socioeconomic variables from the 2022 GSS Time Use Survey.}
 \format{
-A data frame containing 12,336 rows and 100 variables; each row represents a unique respondent.
+A data frame containing 12,336 rows and 101 variables; each row represents a unique respondent.
 \describe{
 \item{PUMFID}{Record identification.}
 \item{WGHT_PER}{Person weight.}
@@ -53,6 +53,7 @@ A data frame containing 12,336 rows and 100 variables; each row represents a uni
 \item{TCS_180}{Perceptions of time - No time for fun. Do you feel that you just don’t have time for fun any more?}
 \item{TCS_190}{Perceptions of time - Stress when there is not enough time. Do you often feel under stress when you don’t have enough time?}
 \item{TCS_200}{Perceptions of time - Would like more time alone. Would you like to spend more time alone?}
+\item{TIMECR}{Time crunch indicator. This derived variable measures the number of "Yes" codes reported in the questions TCS_Q110 to TCS_Q200.}
 \item{GEN_01}{Self rated health.}
 \item{GEN_02}{Self rated mental health.}
 \item{SRS_10}{Self Rated Stress - Amount.}

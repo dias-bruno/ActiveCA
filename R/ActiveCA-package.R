@@ -191,7 +191,7 @@ NULL
 
 #' Preprocessed walking episodes (2015).
 #'
-#' This dataset contains all the walking episodes from the 2010 GSS Survey.
+#' This dataset contains all the walking episodes from the 2015 GSS Survey.
 #' We identified the walking episodes and selected the places of origin
 #' and destination, measuring the time spent, weight and other
 #' information about the activities.
@@ -477,14 +477,14 @@ NULL
 #' @seealso 2022 Time Use. Public Use Microdata File [Documentation and User’s Guide](https://www23.statcan.gc.ca/imdb/p3Instr.pl?Function=assembleInstr&lang=en&Item_Id=1395477)
 "cycling_2022"
 
-#' Preprocessed walking and cycling episodes (from 1986 to 2015).
+#' Preprocessed walking and cycling episodes (from 1986 to 2022).
 #'
-#' This dataset contains all the walking and cycling episodes from the 1986 to 2015 GSS Surveys.
+#' This dataset contains all the walking and cycling episodes from the 1986 to 2022 GSS Surveys.
 #' We identified the cycling episodes and selected the places of origin
 #' and destination, measuring the time spent, weight and other
 #' information about the activities.
 #'
-#' @format A data frame containing 21748 rows and 17 variables; each row represents a unique episode.
+#' @format A data frame containing 23513 rows and 17 variables; each row represents a unique episode.
 #'   \describe{
 #'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight.}
@@ -511,16 +511,16 @@ NULL
 #' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
 "gss_episodes"
 
-#' Impedance functions for Census Agglomerations and Census Metropolitan Areas (from 1986 to 2015).
+#' Impedance functions for Census Agglomerations and Census Metropolitan Areas (from 1986 to 2022).
 #'
 #' This dataset contains all impedance functions for walking
-#' and cycling transportation, obtained from the 1986 to 2015
+#' and cycling transportation, obtained from the 1986 to 2022
 #' GSS Surveys, for Census Metropolitan Areas and Census Agglomerations.
 #' We estimated the best impedance function for each combination of year,
 #' destination and transportation mode, using the fitdistrplus package.
 #' The best-fit function was defined by selecting the lowest Akaike information criterion.
 #'
-#' @format A data frame containing 12113 rows and 18 variables; each row represents a unique episode.
+#' @format A data frame containing 13585 rows and 19 variables; each row represents a unique episode.
 #'   \describe{
 #'   \item{PUMFID}{Public Use Microdata File Identifier. This variable serves as the link between the Main and the Episode files. Each case has a unique record identifier and this appears on every episode}
 #'   \item{WGHT_EPI}{Episode weight.}
@@ -765,13 +765,13 @@ NULL
 #' @source [General Social Survey (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221) / [Odesi](http://odesi2.scholarsportal.info/webview/)
 "gss_main_2010"
 
-#' Selection of socioeconomic variables from the 2015 GSS Time Use Survey (Cycle 24).
+#' Selection of socioeconomic variables from the 2015 GSS Time Use Survey (Cycle 29).
 #'
 #' This dataset contains some socioeconomic variables obtained
-#' from the main file of the 2015 GSS Time Use Survey (Cycle 24). We labeled
+#' from the main file of the 2015 GSS Time Use Survey (Cycle 29). We labeled
 #' variables according to the Public Use Micro Data File Documentation and User's Guide (Catalogue no. 12M0024X).
 #'
-#' @format A data frame containing 15390 rows and 33 variables; each row represents a unique respondent.
+#' @format A data frame containing 17390 rows and 31 variables; each row represents a unique respondent.
 #'   \describe{
 #'   \item{PUMFID}{Record identification.}
 #'   \item{WGHT_PER}{Person weight.}
@@ -818,7 +818,7 @@ NULL
 #' from the main file of the 2022 GSS Time Use Survey. We labeled
 #' variables according to the Public Use Micro Data File Documentation and User's Guide (General Social Survey (Time Use) 2022).
 #'
-#' @format A data frame containing 12,336 rows and 100 variables; each row represents a unique respondent.
+#' @format A data frame containing 12,336 rows and 101 variables; each row represents a unique respondent.
 #'   \describe{
 #'   \item{PUMFID}{Record identification.}
 #'   \item{WGHT_PER}{Person weight.}
@@ -866,6 +866,7 @@ NULL
 #'   \item{TCS_180}{Perceptions of time - No time for fun. Do you feel that you just don’t have time for fun any more?}
 #'   \item{TCS_190}{Perceptions of time - Stress when there is not enough time. Do you often feel under stress when you don’t have enough time?}
 #'   \item{TCS_200}{Perceptions of time - Would like more time alone. Would you like to spend more time alone?}
+#'   \item{TIMECR}{Time crunch indicator. This derived variable measures the number of "Yes" codes reported in the questions TCS_Q110 to TCS_Q200.}
 #'   \item{GEN_01}{Self rated health.}
 #'   \item{GEN_02}{Self rated mental health.}
 #'   \item{SRS_10}{Self Rated Stress - Amount.}
