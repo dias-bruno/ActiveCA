@@ -142,7 +142,7 @@ gss_impedances_renamed <- gss_impedances |>
 # Introduction
 
 The objective of this paper is to introduce {ActiveCA}, an open data
-product with data from all Time Use Survey (TUS) cycles of the General
+product with data from all Time Use Survey (TUS) cycles of the Canadian General
 Social Surveys (GSSs). Open data products (ODPs) are the outcome of a
 process that transforms raw data (open or not) into analysis-ready data,
 following a transparent process in which all stages of development
@@ -166,7 +166,7 @@ the relationship between active travel and transit use
 [@lachapelleLonger2016], and travel behavior and time poverty
 [@kimFacing2024], to name but a few examples.
 
-Using Public Use Microdata Files (PUMFs) from the TUS,
+Using PUMFs from the TUS,
 we extracted all data necessary to characterize active travel in
 Canada - specifically, episodes in which the activity involved moving
 between an origin and a destination by walking or cycling. Although
@@ -190,9 +190,7 @@ Given the level of interest in active travel [e.g.,
 @mccurdySupport2023], reducing the barriers to using data contained in
 rich, but difficult to access and use surveys, such as TUS, is a worthy
 endeavour that can only improve data-driven decisions in transportation,
-urban, and health policy.
-
-The rest of this paper discusses the sources of data, and the process
+urban, and health policy. The rest of this paper discusses the sources of data, and the process
 implemented to retrieve and package them. Then, we show some selected examples of analysis to whet the
 imagination of potential users. This ODP provides not only data that are
 easy to use, but also all the code and documentation that make this a
@@ -204,8 +202,7 @@ and inspire the best principles of open spatial sciences
 
 Statistics Canada [-@statisticscanada2024] conducts GSS surveys to
 obtain data on social trends to track changes in Canadians' living
-conditions and well-being over time. The series of survey on time use
-are used to understand how Canadian residents spend and manage their
+conditions and well-being over time. TUS are used to understand how Canadian residents spend and manage their
 time, and what factors contribute to their happiness and stress. The GSS
 program was created in 1985, and is serialized to provide a collection
 of annual, representative cross-sectional surveys.
@@ -213,8 +210,7 @@ of annual, representative cross-sectional surveys.
 The topics of the survey cycle every few years to cover topics that
 include family, health, social identity, and every five to seven years
 time use. The first Canadian TUS done as part of the GSS program was
-conducted in 1986, and the most recent was completed in 2022. These Time
-Use Surveys [@statisticscanada2022] collect data on respondents'
+conducted in 1986, and the most recent was completed in 2022. These surveys [@statisticscanada2022] collect data on respondents'
 participation and time spent on a wide range of everyday activities
 using a 24-hour retrospective diary, with information on the location of
 these activities (e.g. at home, at work, etc.) and, for non-personal
@@ -266,7 +262,7 @@ Vancouver - were treated as separate strata. Additional strata grouped
 other CMAs within Quebec, Ontario, and British Columbia, as well as
 non-CMA areas within each province.
 
-The Public Use Microdata are released by Statistics Canada in two files:
+The Public Use Microdata Files (PUMFs) are released by Statistics Canada in two files:
 a main file and an episode file. The files are linked by keys that
 identify households, individuals, and episodes (i.e., activities)
 conducted by individuals. We discuss these files in more detail in the
@@ -274,7 +270,7 @@ following section.
 
 ## The Main file
 
-The main file of the time use survey compiles a large array of
+The main file of the TUS compiles a large array of
 aggregated data, summarizing the answers to the questionnaire that
 describe households and individuals, as well as derived variables that
 summarize the respondents' use of time use across different activities,
@@ -313,6 +309,7 @@ who have limited experience working with PUMFs.
 main_2015_unprocessed <- gss_m_2015[1:10, 1:6]  |>
   kable(
     format = "latex", 
+    format.args = list(big.mark = ",", decimal.mark = "."), 
     booktabs = TRUE, 
     longtable = FALSE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
@@ -381,6 +378,7 @@ ep_2015_unprocessed <- gss_e_2015 |>
   dplyr::select(PUMFID, EPINO,WGHT_EPI,TUI_01, DURATION, LOCATION) |>
   kable(
     format = "latex", 
+    format.args = list(big.mark = ",", decimal.mark = "."), 
     booktabs = TRUE, 
     longtable = FALSE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
@@ -486,9 +484,9 @@ df_processed_table <- cbind(df_main_processed,df_ep_processed_table)
 ```
 
 Table \ref{tab:processed-obs} displays the total number of records
-processed for Main and episode files. For the main files, a total of
+processed for main and episode files. For the main files, a total of
 `r sum(df_main_processed$Count)` records were processed, referring to
-all records from the Time Use Surveys from 1986 to 2022, that together
+all records from the TUSs from 1986 to 2022, that together
 represents more of `r sum(df_main_processed$Weighted)` respondents. It
 also presents the total cases of active trips episodes identified. In
 total `r sum(df_ep_processed$Count)` records with register of active
@@ -499,7 +497,9 @@ travel activity. Together, these records account for
 
 table_df_processed <- df_processed_table |> 
   select(-c(Survey_ep, Survey, Year_ep)) %>% 
-  kable(format = "latex", booktabs = TRUE, longtable = FALSE, 
+  kable(format = "latex", 
+    format.args = list(big.mark = ",", decimal.mark = "."),
+    booktabs = TRUE, longtable = FALSE, 
         caption = "\\label{tab:processed-obs}Total number and weighted sum of records processed.") |>
   kable_styling(full_width = FALSE, font_size = 8) |>
   add_header_above(c(" " = 1, "Main" = 2, "Episode" = 2 )) %>%
@@ -509,7 +509,7 @@ table_df_processed
 ```
 
 Table \ref{tab:main-2015-processed} shows the first ten rows and first
-six variables of the TUS PUMF 2015 Main File (Cycle 29), displayed in
+six variables of the TUS PUMF 2015 main file (Cycle 29), displayed in
 \ref{tab:main-2015-unprocessed} before our processing. Table
 \ref{tab:ep-2015-processed} presents the walking episodes for the record
 identification number `10041` from the TUS PUMF 2015 episode file (Cycle
@@ -524,6 +524,7 @@ labeled variables, facilitating the interpretation of the data.
 main_2015_processed <- gss_main_2015[1:10, 1:6]  |>
   kable(
     format = "latex", 
+    format.args = list(big.mark = ",", decimal.mark = "."),
     booktabs = TRUE, 
     longtable = FALSE, 
     align = c(rep("c", ncol(gss_m_2015[1:10, 1:6]))),
@@ -541,6 +542,7 @@ ep_2015_unprocessed <- gss_episodes_renamed |>
   dplyr::select(PUMFID, WGHT_EPI, act_label, DURATION, orig_label, dest_label, MODE) |>
   kable(
     format = "latex", 
+    format.args = list(big.mark = ",", decimal.mark = "."),
     booktabs = TRUE, 
     longtable = FALSE, 
     caption = "\\label{tab:ep-2015-processed}Visualization of the active travel episode for the record number 10041 of the 2015 GSS survey.", 
@@ -599,7 +601,9 @@ stats_data <- stats_data |>
   
 # Creating a latex table
 styled_ch03_table_01 <- stats_data |>
-  kable(format = "latex", booktabs = TRUE, longtable = FALSE, 
+  kable(format = "latex", 
+    format.args = list(big.mark = ",", decimal.mark = "."),
+    booktabs = TRUE, longtable = FALSE, 
         caption = "\\label{tab:table-01}Descriptive statistics of the duration (in minutes) of episodes with active transport records.",  
         align = c('l', 'l', rep('c', ncol(stats_data) - 2))) |>
   kable_styling(full_width = FALSE, font_size = 8) |>
@@ -700,6 +704,7 @@ median_duration_cma <- gss_episodes_renamed %>%
 median_duration_table <- median_duration_cma |>
   kable(
     format = "latex", 
+    format.args = list(big.mark = ",", decimal.mark = "."), 
     booktabs = TRUE, 
     caption = "\\label{tab:cma-durations}Differences in walking duration (in minutes) between provinces and population centre type.") |>
   kable_styling(full_width = FALSE, 
@@ -804,11 +809,9 @@ The work has been supported by funding from the Social Sciences and Humanities R
 
 # ORCID
 
-Bruno Dias dos Santos - https://orcid.org/0000-0002-6748-2038 
-
-Mahdis Moghadasi - https://orcid.org/0000-0003-1009-9369 
-
-Antonio Páez - https://orcid.org/0000-0001-6912-9919 
+- Bruno Dias dos Santos - https://orcid.org/0000-0002-6748-2038 
+- Mahdis Moghadasi - https://orcid.org/0000-0003-1009-9369 
+- Antonio Páez - https://orcid.org/0000-0001-6912-9919 
 
 
 # Data availability statement

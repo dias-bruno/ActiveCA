@@ -42,7 +42,9 @@ Moghadasi\affilnum{1}, Antonio Páez\affilnum{1}}
 
 \affiliation{\affilnum{1}{McMaster University}}
 
-\corrauth{Bruno Dias dos Santos}
+\corrauth{Bruno Dias dos Santos - School of Earth, Environment and
+Society, McMaster University, 1280 Main St W, Hamilton, Ontario L8S 4K1
+Canada.}
 
 \email{\href{mailto:dossanb@mcmaster.ca}{\nolinkurl{dossanb@mcmaster.ca}}}
 
@@ -71,10 +73,10 @@ the province and whether the episode was in an urban or rural setting.
 \section{Introduction}\label{introduction}
 
 The objective of this paper is to introduce \{ActiveCA\}, an open data
-product with data from all Time Use Survey (TUS) cycles of the General
-Social Surveys (GSSs). Open data products (ODPs) are the outcome of a
-process that transforms raw data (open or not) into analysis-ready data,
-following a transparent process in which all stages of development
+product with data from all Time Use Survey (TUS) cycles of the Canadian
+General Social Surveys (GSSs). Open data products (ODPs) are the outcome
+of a process that transforms raw data (open or not) into analysis-ready
+data, following a transparent process in which all stages of development
 follow open principles \citep{arribas-bel2021}. ODPs, while still open,
 differ from general open data in their degree of ease of access, their
 heightened usability, and potentially the value they add to the raw
@@ -95,11 +97,11 @@ investigations of mobility and quality of life
 transit use \citep{lachapelleLonger2016}, and travel behavior and time
 poverty \citep{kimFacing2024}, to name but a few examples.
 
-Using Public Use Microdata Files (PUMFs) from the TUS, we extracted all
-data necessary to characterize active travel in Canada - specifically,
-episodes in which the activity involved moving between an origin and a
-destination by walking or cycling. Although Statistics Canada provides
-PUMFs and accompanying documentation for the GSS program
+Using PUMFs from the TUS, we extracted all data necessary to
+characterize active travel in Canada - specifically, episodes in which
+the activity involved moving between an origin and a destination by
+walking or cycling. Although Statistics Canada provides PUMFs and
+accompanying documentation for the GSS program
 \citep[see][]{statisticscanada2024}, accessing and preparing these files
 for analysis is not a straightforward task due to their size and
 complexity. The process of extracting information of interest from the
@@ -119,32 +121,31 @@ Given the level of interest in active travel
 \citep[e.g.,][]{mccurdySupport2023}, reducing the barriers to using data
 contained in rich, but difficult to access and use surveys, such as TUS,
 is a worthy endeavour that can only improve data-driven decisions in
-transportation, urban, and health policy.
-
-The rest of this paper discusses the sources of data, and the process
-implemented to retrieve and package them. Then, we show some selected
-examples of analysis to whet the imagination of potential users. This
-ODP provides not only data that are easy to use, but also all the code
-and documentation that make this a reproducible research project. In
-summary, \{ActiveCA\} aims to implement and inspire the best principles
-of open spatial sciences \citep{paez_open_2021, brunsdon_opening_2021}.
+transportation, urban, and health policy. The rest of this paper
+discusses the sources of data, and the process implemented to retrieve
+and package them. Then, we show some selected examples of analysis to
+whet the imagination of potential users. This ODP provides not only data
+that are easy to use, but also all the code and documentation that make
+this a reproducible research project. In summary, \{ActiveCA\} aims to
+implement and inspire the best principles of open spatial sciences
+\citep{paez_open_2021, brunsdon_opening_2021}.
 
 \section{The Time Use Survey (TUS)
 collection}\label{the-time-use-survey-tus-collection}
 
 Statistics Canada \citeyearpar{statisticscanada2024} conducts GSS
 surveys to obtain data on social trends to track changes in Canadians'
-living conditions and well-being over time. The series of survey on time
-use are used to understand how Canadian residents spend and manage their
-time, and what factors contribute to their happiness and stress. The GSS
-program was created in 1985, and is serialized to provide a collection
-of annual, representative cross-sectional surveys.
+living conditions and well-being over time. TUS are used to understand
+how Canadian residents spend and manage their time, and what factors
+contribute to their happiness and stress. The GSS program was created in
+1985, and is serialized to provide a collection of annual,
+representative cross-sectional surveys.
 
 The topics of the survey cycle every few years to cover topics that
 include family, health, social identity, and every five to seven years
 time use. The first Canadian TUS done as part of the GSS program was
-conducted in 1986, and the most recent was completed in 2022. These Time
-Use Surveys \citep{statisticscanada2022} collect data on respondents'
+conducted in 1986, and the most recent was completed in 2022. These
+surveys \citep{statisticscanada2022} collect data on respondents'
 participation and time spent on a wide range of everyday activities
 using a 24-hour retrospective diary, with information on the location of
 these activities (e.g.~at home, at work, etc.) and, for non-personal
@@ -196,26 +197,26 @@ Hamilton, Winnipeg, Regina, Saskatoon, Calgary, Edmonton, and Vancouver
 within Quebec, Ontario, and British Columbia, as well as non-CMA areas
 within each province.
 
-The Public Use Microdata are released by Statistics Canada in two files:
-a main file and an episode file. The files are linked by keys that
-identify households, individuals, and episodes (i.e., activities)
-conducted by individuals. We discuss these files in more detail in the
-following section.
+The Public Use Microdata Files (PUMFs) are released by Statistics Canada
+in two files: a main file and an episode file. The files are linked by
+keys that identify households, individuals, and episodes (i.e.,
+activities) conducted by individuals. We discuss these files in more
+detail in the following section.
 
 \subsection{The Main file}\label{the-main-file}
 
-The main file of the time use survey compiles a large array of
-aggregated data, summarizing the answers to the questionnaire that
-describe households and individuals, as well as derived variables that
-summarize the respondents' use of time use across different activities,
-locations, and social interactions. This file documents the time and
-duration that respondents allocate to each activity and location. The
-main file provides a overview of daily routines and social dynamics, not
-focusing on individual activity episodes. Additionally, this file
-categorizes activities into bigger groups and subcategories,
-facilitating the data's analytical utility with additional metrics such
-as total transit time, time spent with household members, and counts of
-activities and episodes.
+The main file of the TUS compiles a large array of aggregated data,
+summarizing the answers to the questionnaire that describe households
+and individuals, as well as derived variables that summarize the
+respondents' use of time use across different activities, locations, and
+social interactions. This file documents the time and duration that
+respondents allocate to each activity and location. The main file
+provides a overview of daily routines and social dynamics, not focusing
+on individual activity episodes. Additionally, this file categorizes
+activities into bigger groups and subcategories, facilitating the data's
+analytical utility with additional metrics such as total transit time,
+time spent with household members, and counts of activities and
+episodes.
 
 Table \ref{tab:main-2015-unprocessed} shows the first ten rows and first
 six variables of the TUS PUMF 2015 main file (Cycle 29). Each row in the
@@ -251,17 +252,17 @@ who have limited experience working with PUMFs.
 \toprule
 PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
 \midrule
-10000 & 616.6740 & 7 & 5 & 1 & 5\\
-10001 & 8516.6140 & 7 & 5 & 1 & 1\\
-10002 & 371.7520 & 1 & 4 & 2 & 1\\
-10003 & 1019.3135 & 3 & 6 & 2 & 5\\
-10004 & 1916.0708 & 9 & 2 & 1 & 6\\
+10,000 & 616.6740 & 7 & 5 & 1 & 5\\
+10,001 & 8,516.6140 & 7 & 5 & 1 & 1\\
+10,002 & 371.7520 & 1 & 4 & 2 & 1\\
+10,003 & 1,019.3135 & 3 & 6 & 2 & 5\\
+10,004 & 1,916.0708 & 9 & 2 & 1 & 6\\
 \addlinespace
-10005 & 1952.2015 & 4 & 1 & 1 & 6\\
-10006 & 5761.5528 & 8 & 1 & 1 & 6\\
-10007 & 466.0426 & 6 & 5 & 2 & 3\\
-10008 & 2479.2991 & 2 & 2 & 2 & 1\\
-10009 & 1436.1641 & 8 & 6 & 1 & 3\\
+10,005 & 1,952.2015 & 4 & 1 & 1 & 6\\
+10,006 & 5,761.5528 & 8 & 1 & 1 & 6\\
+10,007 & 466.0426 & 6 & 5 & 2 & 3\\
+10,008 & 2,479.2991 & 2 & 2 & 2 & 1\\
+10,009 & 1,436.1641 & 8 & 6 & 1 & 3\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}
@@ -333,14 +334,14 @@ values, decoding them can be both time-consuming and challenging.
 \toprule
 PUMFID & EPINO & WGHT\_EPI & TUI\_01 & DURATION & LOCATION\\
 \midrule
-10041 & 1 & 1353.818 & 1 & 210 & 300\\
-10041 & 2 & 1353.818 & 2 & 40 & 300\\
-10041 & 3 & 1353.818 & 27 & 15 & 300\\
-10041 & 4 & 1353.818 & 7 & 15 & 315\\
-10041 & 5 & 1353.818 & 9 & 180 & 300\\
+10,041 & 1 & 1,353.818 & 1 & 210 & 300\\
+10,041 & 2 & 1,353.818 & 2 & 40 & 300\\
+10,041 & 3 & 1,353.818 & 27 & 15 & 300\\
+10,041 & 4 & 1,353.818 & 7 & 15 & 315\\
+10,041 & 5 & 1,353.818 & 9 & 180 & 300\\
 \addlinespace
-10041 & 6 & 1353.818 & 6 & 15 & 300\\
-10041 & 7 & 1353.818 & 18 & 120 & 300\\
+10,041 & 6 & 1,353.818 & 6 & 15 & 300\\
+10,041 & 7 & 1,353.818 & 18 & 120 & 300\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}
@@ -404,13 +405,12 @@ repository.
 \subsection{Active episodes}\label{active-episodes}
 
 Table \ref{tab:processed-obs} displays the total number of records
-processed for Main and episode files. For the main files, a total of
-101,667 records were processed, referring to all records from the Time
-Use Surveys from 1986 to 2022, that together represents more of
-181,526,641 respondents. It also presents the total cases of active
-trips episodes identified. In total 23,513 records with register of
-active travel activity. Together, these records account for 44,316,110
-episodes.
+processed for main and episode files. For the main files, a total of
+101,667 records were processed, referring to all records from the TUSs
+from 1986 to 2022, that together represents more of 181,526,641
+respondents. It also presents the total cases of active trips episodes
+identified. In total 23,513 records with register of active travel
+activity. Together, these records account for 44,316,110 episodes.
 
 \begin{table}
 \centering
@@ -423,20 +423,20 @@ episodes.
 \cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
 Year & Count & Weighted & Count\_ep & Weighted\_ep\\
 \midrule
-2022 & 12336 & 32136802 & 1765 & 6041032\\
-2015 & 17390 & 29766399 & 3496 & 6634387\\
-2010 & 15390 & 28075610 & 4615 & 8516753\\
-2005 & 19597 & 26095819 & 5866 & 7583838\\
-1998 & 10749 & 24260137 & 1789 & 3606987\\
+2,022 & 12,336 & 32,136,802 & 1,765 & 6,041,032\\
+2,015 & 17,390 & 29,766,399 & 3,496 & 6,634,387\\
+2,010 & 15,390 & 28,075,610 & 4,615 & 8,516,753\\
+2,005 & 19,597 & 26,095,819 & 5,866 & 7,583,838\\
+1,998 & 10,749 & 24,260,137 & 1,789 & 3,606,987\\
 \addlinespace
-1992 & 9815 & 21294313 & 1635 & 3691918\\
-1986 & 16390 & 19897562 & 4347 & 8241196\\
+1,992 & 9,815 & 21,294,313 & 1,635 & 3,691,918\\
+1,986 & 16,390 & 19,897,562 & 4,347 & 8,241,196\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Table \ref{tab:main-2015-processed} shows the first ten rows and first
-six variables of the TUS PUMF 2015 Main File (Cycle 29), displayed in
+six variables of the TUS PUMF 2015 main file (Cycle 29), displayed in
 \ref{tab:main-2015-unprocessed} before our processing. Table
 \ref{tab:ep-2015-processed} presents the walking episodes for the record
 identification number \texttt{10041} from the TUS PUMF 2015 episode file
@@ -458,17 +458,17 @@ labeled variables, facilitating the interpretation of the data.
 \toprule
 PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
 \midrule
-10000 & 616.6740 & July & 55 to 64 years & Male & Divorced\\
-10001 & 8516.6140 & July & 55 to 64 years & Male & Married\\
-10002 & 371.7520 & January & 45 to 54 years & Female & Married\\
-10003 & 1019.3135 & March & 65 to 74 years & Female & Divorced\\
-10004 & 1916.0708 & September & 25 to 34 years & Male & Single, never married\\
+10,000 & 616.6740 & July & 55 to 64 years & Male & Divorced\\
+10,001 & 8,516.6140 & July & 55 to 64 years & Male & Married\\
+10,002 & 371.7520 & January & 45 to 54 years & Female & Married\\
+10,003 & 1,019.3135 & March & 65 to 74 years & Female & Divorced\\
+10,004 & 1,916.0708 & September & 25 to 34 years & Male & Single, never married\\
 \addlinespace
-10005 & 1952.2015 & April & 15 to 24 years & Male & Single, never married\\
-10006 & 5761.5528 & August & 15 to 24 years & Male & Single, never married\\
-10007 & 466.0426 & June & 55 to 64 years & Female & Widowed\\
-10008 & 2479.2991 & February & 25 to 34 years & Female & Married\\
-10009 & 1436.1641 & August & 65 to 74 years & Male & Widowed\\
+10,005 & 1,952.2015 & April & 15 to 24 years & Male & Single, never married\\
+10,006 & 5,761.5528 & August & 15 to 24 years & Male & Single, never married\\
+10,007 & 466.0426 & June & 55 to 64 years & Female & Widowed\\
+10,008 & 2,479.2991 & February & 25 to 34 years & Female & Married\\
+10,009 & 1,436.1641 & August & 65 to 74 years & Male & Widowed\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}
@@ -489,7 +489,7 @@ PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
 \toprule
 PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
 \midrule
-10041 & 1353.818 & Transport to or from activity & 15 & Home & Home & Walking\\
+10,041 & 1,353.818 & Transport to or from activity & 15 & Home & Home & Walking\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}
@@ -693,11 +693,15 @@ towards evidence-based transportation equity policy.
 
 \section{ORCID}\label{orcid}
 
-Bruno Dias dos Santos - \url{https://orcid.org/0000-0002-6748-2038}
-
-Mahdis Moghadasi - \url{https://orcid.org/0000-0003-1009-9369}
-
-Antonio Páez - \url{https://orcid.org/0000-0001-6912-9919}
+\begin{itemize}
+\tightlist
+\item
+  Bruno Dias dos Santos - \url{https://orcid.org/0000-0002-6748-2038}
+\item
+  Mahdis Moghadasi - \url{https://orcid.org/0000-0003-1009-9369}
+\item
+  Antonio Páez - \url{https://orcid.org/0000-0001-6912-9919}
+\end{itemize}
 
 \section{Data availability statement}\label{data-availability-statement}
 
