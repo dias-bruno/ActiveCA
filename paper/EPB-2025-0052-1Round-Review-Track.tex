@@ -1,7 +1,7 @@
 \documentclass[Royal,times,sageh]{sagej}
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL Manuscript-Data-Package2.tex                Sat May 31 12:56:15 2025
-%DIF ADD Manuscript-Data-Package-1Round-Review.tex   Sat May 31 20:02:28 2025
+%DIF ADD Manuscript-Data-Package-1Round-Review.tex   Thu Jun 19 17:47:43 2025
 
 \usepackage{moreverb,url,natbib, multirow, tabularx}
 \usepackage[colorlinks,bookmarksopen,bookmarksnumbered,citecolor=red,urlcolor=red]{hyperref}
@@ -104,9 +104,9 @@ to Study Active Travel}
 This paper describes \{ActiveCA\}, an open data product with Canadian
 time use data. \{ActiveCA\} is an R data package that contains
 analysis-ready data related to active travel spanning almost 40 years,
-extracted from cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24
-(2010), \DIFdelbegin \DIFdel{and }\DIFdelend 29 (2015)\DIFdelbegin \DIFdel{of Canada's }\DIFdelend \DIFaddbegin \DIFadd{, and 34 (2022) of the Time Use Survey (TUS) cicles
-from the }\DIFaddend General Social Survey \DIFaddbegin \DIFadd{(GSS)}\DIFaddend . Active travel is characterized by
+extracted from \DIFdelbegin \DIFdel{cycles }\DIFdelend \DIFaddbegin \DIFadd{Cycles }\DIFaddend 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24
+(2010), \DIFdelbegin \DIFdel{and }\DIFdelend 29 (2015)\DIFdelbegin \DIFdel{of Canada's }\DIFdelend \DIFaddbegin \DIFadd{, and 34 (2022) of the Time Use Survey (TUS) from the
+}\DIFaddend General Social Survey \DIFaddbegin \DIFadd{(GSS)}\DIFaddend . Active travel \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{episodes are }\DIFaddend characterized by
 mode, with walking being part of every cycle and bicycling starting in
 1992. The attributes of active trips are the types of locations of
 origins and destinations, the duration of trips, and episode weights for
@@ -141,22 +141,22 @@ Canada's program of General Social Surveys (GSSs). This program }\DIFdelend \DIF
 cycles of the Canadian GSS. The GSS program }\DIFaddend is designed to provide
 cross-sectional data on topics of interest to improve the well-being of
 Canadians. As part of this program, every five to seven years the survey
-is done on the topic of time use \DIFaddbegin \DIFadd{(TUS)}\DIFaddend . Concretely, \{ActiveCA\} covers
-Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), \DIFdelbegin \DIFdel{and }\DIFdelend 29 (2015)\DIFdelbegin \DIFdel{of the GSS}\DIFdelend \DIFaddbegin \DIFadd{,
-and 34 (2022) of the TUS}\DIFaddend . Time use data in these surveys is coded using
-a very fine grain, from time spent in chores, leisure, and sleeping, to
-time spent working or at school. These surveys have proved valuable in
+is done on the topic of time use. Concretely, \{ActiveCA\} covers Cycles
+2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), \DIFdelbegin \DIFdel{and }\DIFdelend 29 (2015)\DIFdelbegin \DIFdel{of the GSS}\DIFdelend \DIFaddbegin \DIFadd{, and 34
+(2022) of the TUS}\DIFaddend . Time use data in these surveys is coded using a very
+fine grain, from time spent in chores, leisure, and sleeping, to time
+spent working or at school. These surveys have proved valuable in
 investigations of mobility and quality of life
 \citep{spinneyTransport2009}, the relationship between active travel and
 transit use \citep{lachapelleLonger2016}, and travel behavior and time
 poverty \citep{kimFacing2024}, to name but a few examples.
 
-\DIFdelbegin \DIFdel{For \{ActiveCA\} and using GSS }\DIFdelend \DIFaddbegin \DIFadd{Using }\DIFaddend Public Use Microdata Files (PUMFs) \DIFaddbegin \DIFadd{from the Time Use Survey (TUS)}\DIFaddend ,
-we extracted all data \DIFdelbegin \DIFdel{needed }\DIFdelend \DIFaddbegin \DIFadd{necessary }\DIFaddend to characterize active travel in Canada
-\DIFdelbegin \DIFdel{,
-namely, episodes where the activity was identified as }\DIFdelend \DIFaddbegin \DIFadd{- specifically, episodes in which the activity involved }\DIFaddend moving between
-an origin and a destination \DIFdelbegin \DIFdel{, either }\DIFdelend by walking or cycling. Although Statistics
-Canada \DIFdelbegin \DIFdel{offers Public Use Microdata Files and }\DIFdelend \DIFaddbegin \DIFadd{provides PUMFs and accompanying }\DIFaddend documentation for the GSS program
+\DIFdelbegin \DIFdel{For \{ActiveCA\} and using GSS }\DIFdelend \DIFaddbegin \DIFadd{Using }\DIFaddend Public Use Microdata Files (PUMFs) \DIFaddbegin \DIFadd{from the TUS}\DIFaddend , we extracted all
+data \DIFdelbegin \DIFdel{needed }\DIFdelend \DIFaddbegin \DIFadd{necessary }\DIFaddend to characterize active travel in Canada \DIFdelbegin \DIFdel{,
+namely, episodes where the activity was identified as }\DIFdelend \DIFaddbegin \DIFadd{- specifically,
+episodes in which the activity involved }\DIFaddend moving between an origin and a
+destination \DIFdelbegin \DIFdel{, either }\DIFdelend by walking or cycling. Although Statistics Canada \DIFdelbegin \DIFdel{offers Public Use Microdata Files and }\DIFdelend \DIFaddbegin \DIFadd{provides
+PUMFs and accompanying }\DIFaddend documentation for the GSS program
 \citep[see][]{statisticscanada2024}, accessing \DIFdelbegin \DIFdel{these
 files, and preparing them }\DIFdelend \DIFaddbegin \DIFadd{and preparing these files
 }\DIFaddend for analysis is not a straightforward \DIFdelbegin \DIFdel{matter,
@@ -167,12 +167,12 @@ error due to the expertise required to work with these files. To create
 \{ActiveCA\} we \DIFdelbegin \DIFdel{collected, cleaned}\DIFdelend \DIFaddbegin \DIFadd{selected, labelled}\DIFaddend , and processed the \DIFdelbegin \DIFdel{cycles of the GSS surveys concerning time use }\DIFdelend \DIFaddbegin \DIFadd{TUS cycles }\DIFaddend to make
 them ready for analysis.
 
-\{ActiveCA\} is distributed as an \DIFdelbegin \DIFdel{R }\DIFdelend \DIFaddbegin \texttt{\DIFadd{R}} \DIFaddend package with a number of
-data objects and their documentation. \DIFdelbegin \DIFdel{R }\DIFdelend \DIFaddbegin \texttt{\DIFadd{R}} \DIFaddend packages contain code,
-data, and documentation in a standardized format that can be installed
-by R users via a software repository, such as CRAN (Comprehensive R
-Archive Network) or GitHub, which makes them an adroit medium to
-distribute analysis-ready data.
+\{ActiveCA\} is distributed as an R package with a number of data
+objects and their documentation. R packages contain code, data, and
+documentation in a standardized format that can be installed by R users
+via a software repository, such as CRAN (Comprehensive R Archive
+Network) or GitHub, which makes them an adroit medium to distribute
+analysis-ready data.
 
 Given the level of interest in active travel
 \citep[e.g.,][]{mccurdySupport2023}, reducing the barriers to using data
@@ -181,13 +181,13 @@ is a worthy endeavour that can only improve data-driven decisions in
 transportation, urban, and health policy.
 
 The rest of this paper discusses the sources of data, and the process
-implemented to retrieve and package them. Then, we explain how to use
-the package and show some selected examples of analysis to whet the
-imagination of potential users. This ODP provides not only data that are
-easy to use, but also all the code and documentation that make this a
-reproducible research project. In summary, \{ActiveCA\} aims to
-implement and inspire the best principles of open spatial sciences
-\citep{paez_open_2021, brunsdon_opening_2021}.
+implemented to retrieve and package them. Then, we \DIFdelbegin \DIFdel{explain how to use
+the package and }\DIFdelend show some selected
+examples of analysis to whet the imagination of potential users. This
+ODP provides not only data that are easy to use, but also all the code
+and documentation that make this a reproducible research project. In
+summary, \{ActiveCA\} aims to implement and inspire the best principles
+of open spatial sciences \citep{paez_open_2021, brunsdon_opening_2021}.
 
 \section{\DIFdelbegin \DIFdel{General Social }\DIFdelend \DIFaddbegin \DIFadd{The Time Use }\DIFaddend Survey (\DIFdelbegin \DIFdel{GSS}\DIFdelend \DIFaddbegin \DIFadd{TUS}\DIFaddend )
 collection}\DIFdelbegin %DIFDELCMD < \label{general-social-survey-gss-collection}
@@ -243,8 +243,8 @@ shifts in data collection methods. Despite rigorous efforts to ensure
 data quality, the use of electronic questionnaires may have influenced
 estimates. Statistics Canada assessed the impact of collection mode on a
 limited set of key questions, constrained by sample size. Importantly,
-none of the variables used in this research are }\texttt{\DIFadd{R}} \DIFadd{package in
-the 2022 PUMF User Guide as unsuitable for trend analysis.
+none of the variables used in this research are R package in the 2022
+PUMF User Guide as unsuitable for trend analysis.
 }
 
 \DIFadd{Until 2022, Statistics Canada employed a telephone-based sampling frame,
@@ -259,7 +259,7 @@ Indigenous reserves.
 \DIFadd{The survey encompasses both rural and urban areas, including
 metropolitan and non-metropolitan regions, to ensure a diverse and
 representative sample. For sampling, the ten provinces were divided into
-geographic strata. Several Census Metropolitan Areas (CMAs) - such as
+geographic stratas. Several Census Metropolitan Areas (CMAs) - such as
 St.~John's, Halifax, Saint John, Montreal, Quebec City, Toronto, Ottawa,
 Hamilton, Winnipeg, Regina, Saskatoon, Calgary, Edmonton, and Vancouver
 - were treated as separate strata. Additional strata grouped other CMAs
@@ -268,36 +268,38 @@ within each province.
 }
 
 \DIFaddend The Public Use Microdata are released by Statistics Canada in two files:
-a \emph{Main \DIFdelbegin \DIFdel{File}\DIFdelend \DIFaddbegin \DIFadd{file}\DIFaddend } and an \emph{Episode \DIFdelbegin \DIFdel{File}\DIFdelend \DIFaddbegin \DIFadd{file}\DIFaddend }. The files are linked by
-keys that identify households, individuals, and episodes (i.e.,
-activities) conducted by individuals. We discuss these files in more
-detail in the following section.
+a \DIFdelbegin \emph{\DIFdel{Main File}} %DIFAUXCMD
+\DIFdel{and an }\emph{\DIFdel{Episode File}}%DIFAUXCMD
+\DIFdelend \DIFaddbegin \DIFadd{main file and an episode file}\DIFaddend . The files are linked by keys that
+identify households, individuals, and episodes (i.e., activities)
+conducted by individuals. We discuss these files in more detail in the
+following section.
 
 \subsection{The Main \DIFdelbegin \DIFdel{File}\DIFdelend \DIFaddbegin \DIFadd{file}\DIFaddend }\label{the-main-file}
 
-The \DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Main file}} \DIFaddend of the time use survey compiles a large array of
+The \DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \DIFadd{main file }\DIFaddend of the time use survey compiles a large array of
 aggregated data, summarizing the answers to the questionnaire that
 describe households and individuals, as well as derived variables that
 summarize the respondents' use of time use across different activities,
 locations, and social interactions. This file documents the time and
 duration that respondents allocate to each activity and location. The
-\DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Main file}} \DIFaddend provides a overview of daily routines and social
-dynamics, not focusing on individual activity episodes. Additionally,
-this file categorizes activities into bigger groups and subcategories,
+\DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \DIFadd{main file }\DIFaddend provides a overview of daily routines and social dynamics, not
+focusing on individual activity episodes. Additionally, this file
+categorizes activities into bigger groups and subcategories,
 facilitating the data's analytical utility with additional metrics such
 as total transit time, time spent with household members, and counts of
 activities and episodes.
 
 Table \ref{tab:main-2015-unprocessed} shows the first ten rows and first
-six variables of the \DIFdelbegin \DIFdel{GSS }\DIFdelend \DIFaddbegin \DIFadd{TUS }\DIFaddend PUMF 2015 \DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Main file}} \DIFaddend (Cycle 29). Each row
-in the table correspond to a survey respondent, while the columns refer
-the following information: record identification (\DIFdelbegin \DIFdel{PUMFID}\DIFdelend \DIFaddbegin \texttt{\DIFadd{PUMFID}}\DIFaddend ), the
+six variables of the \DIFdelbegin \DIFdel{GSS }\DIFdelend \DIFaddbegin \DIFadd{TUS }\DIFaddend PUMF 2015 \DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \DIFadd{main file }\DIFaddend (Cycle 29). Each row in the
+table correspond to a survey respondent, while the columns refer the
+following information: record identification (\DIFdelbegin \DIFdel{PUMFID}\DIFdelend \DIFaddbegin \texttt{\DIFadd{PUMFID}}\DIFaddend ), the
 person's weight (\DIFdelbegin \DIFdel{WGHT\_PER}\DIFdelend \DIFaddbegin \texttt{\DIFadd{WGHT\_PER}}\DIFaddend ), the month the survey data was
 collected (\DIFdelbegin \DIFdel{SURVMNTH}\DIFdelend \DIFaddbegin \texttt{\DIFadd{SURVMNTH}}\DIFaddend ), the respondent's age group
 (\DIFdelbegin \DIFdel{AGEGR10}\DIFdelend \DIFaddbegin \texttt{\DIFadd{AGEGR10}}\DIFaddend ), the respondent's sex (\DIFdelbegin \DIFdel{SEX}\DIFdelend \DIFaddbegin \texttt{\DIFadd{SEX}}\DIFaddend ), and the
 respondent's marital status (\DIFdelbegin \DIFdel{MARSTAT}\DIFdelend \DIFaddbegin \texttt{\DIFadd{MARSTAT}}\DIFaddend ).
 
-The \DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Main file}} \DIFaddend of the 2015 GSS surveys includes a total of 17,390
+The \DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \DIFadd{main file }\DIFaddend of the 2015 GSS surveys includes a total of 17,390
 respondents, representing 29,766,399 individuals and 848 variables. For
 discrete variables, Statistics Canada has assigned specific codes to the
 possible values, with each code accompanied by a label. For instance, in
@@ -314,14 +316,49 @@ does not allow for the specification of variable types (whether a
 variable is continuous or discrete), which can lead to mistakes analysts
 who have limited experience working with PUMFs.
 
-\begingroup\fontsize{8}{10}\selectfont
-
-\begin{ThreePartTable}
-\begin{TableNotes}
+\DIFdelbegin %DIFDELCMD < \begingroup\fontsize{8}{10}\selectfont
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \begin{table}
+\centering
+\caption{\label{tab:gss-main-file-2015}\label{tab:main-2015-unprocessed}\DIFaddFL{Visualization of the first ten lines and first six columns of the Main file of the 2015 GSS.}}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{8}{10}\selectfont
+\begin{threeparttable}
+\begin{tabular}[t]{cccccc}
+\toprule
+PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
+\midrule
+10000 & 616.6740 & 7 & 5 & 1 & 5\\
+10001 & 8516.6140 & 7 & 5 & 1 & 1\\
+10002 & 371.7520 & 1 & 4 & 2 & 1\\
+10003 & 1019.3135 & 3 & 6 & 2 & 5\\
+10004 & 1916.0708 & 9 & 2 & 1 & 6\\
+\addlinespace
+10005 & 1952.2015 & 4 & 1 & 1 & 6\\
+10006 & 5761.5528 & 8 & 1 & 1 & 6\\
+10007 & 466.0426 & 6 & 5 & 2 & 3\\
+10008 & 2479.2991 & 2 & 2 & 2 & 1\\
+10009 & 1436.1641 & 8 & 6 & 1 & 3\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
 \item \textit{Note: } 
-\item Legend: \DIFdelbegin \DIFdel{`PUMFID`}\DIFdelend \DIFaddbegin \DIFadd{PUMFID}\DIFaddend : record identification. \DIFdelbegin \DIFdel{`}\DIFdelend WGHT\_PER\DIFdelbegin \DIFdel{`}\DIFdelend :  person weight. \DIFdelbegin \DIFdel{`SURVMNTH`}\DIFdelend \DIFaddbegin \DIFadd{SURVMNTH}\DIFaddend : survey month of data collection. \DIFdelbegin \DIFdel{`}\DIFdelend AGEGR10\DIFdelbegin \DIFdel{`}\DIFdelend : age group of the respondent. \DIFdelbegin \DIFdel{`SEX`}\DIFdelend \DIFaddbegin \DIFadd{SEX}\DIFaddend : sex of the respondent. \DIFdelbegin \DIFdel{`MARSTAT`}\DIFdelend \DIFaddbegin \DIFadd{MARSTAT}\DIFaddend : marital status of the respondent.
-\end{TableNotes}
-\DIFdelbegin %DIFDELCMD < \begin{longtable}[t]{cccccc}
+\item Legend: PUMFID: record identification. WGHT\_PER:  person weight. SURVMNTH: survey month of data collection. AGEGR10: age group of the respondent. SEX: sex of the respondent. MARSTAT: marital status of the respondent.
+\end{tablenotes}
+\end{threeparttable}}
+\end{table}
+\DIFaddend 
+
+\DIFdelbegin %DIFDELCMD < \begin{ThreePartTable}
+%DIFDELCMD < \begin{TableNotes}
+%DIFDELCMD < \item %%%
+\textit{\DIFdel{Note: }} 
+%DIFAUXCMD
+%DIFDELCMD < \item %%%
+\DIFdel{Legend: `PUMFID`: record identification. `WGHT\_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent.
+}%DIFDELCMD < \end{TableNotes}
+%DIFDELCMD < \begin{longtable}[t]{cccccc}
 %DIFDELCMD < \caption{\label{tab:gss-main-file-2015}\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.}\\
 %DIFDELCMD < \toprule
 %DIFDELCMD < PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
@@ -340,30 +377,12 @@ who have limited experience working with PUMFs.
 %DIFDELCMD < \bottomrule
 %DIFDELCMD < \insertTableNotes
 %DIFDELCMD < \end{longtable}
-%DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \begin{longtable}[t]{cccccc}
-\caption{\label{tab:gss-main-file-2015}\label{tab:main-2015-unprocessed}Visualization of the first ten lines and first six columns of the Main file of the 2015 GSS.}\\
-\toprule
-PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
-\midrule
-10000 & 616.6740 & 7 & 5 & 1 & 5\\
-10001 & 8516.6140 & 7 & 5 & 1 & 1\\
-10002 & 371.7520 & 1 & 4 & 2 & 1\\
-10003 & 1019.3135 & 3 & 6 & 2 & 5\\
-10004 & 1916.0708 & 9 & 2 & 1 & 6\\
-\addlinespace
-10005 & 1952.2015 & 4 & 1 & 1 & 6\\
-10006 & 5761.5528 & 8 & 1 & 1 & 6\\
-10007 & 466.0426 & 6 & 5 & 2 & 3\\
-10008 & 2479.2991 & 2 & 2 & 2 & 1\\
-10009 & 1436.1641 & 8 & 6 & 1 & 3\\
-\bottomrule
-\insertTableNotes
-\end{longtable}
-\DIFaddend \end{ThreePartTable}
-\endgroup{}
+%DIFDELCMD < \end{ThreePartTable}
+%DIFDELCMD < \endgroup{}
+%DIFDELCMD < 
 
-\subsection{The Episode \DIFdelbegin \DIFdel{File}\DIFdelend \DIFaddbegin \DIFadd{file}\DIFaddend }\label{the-episode-file}
+%DIFDELCMD < %%%
+\DIFdelend \subsection{The Episode \DIFdelbegin \DIFdel{File}\DIFdelend \DIFaddbegin \DIFadd{file}\DIFaddend }\label{the-episode-file}
 
 The episode is a much bigger file that records detailed data for each
 activity episode reported by respondents. Each episode represents a
@@ -371,32 +390,32 @@ single activity and its duration, and the sum of all episodes throughout
 the day adds up to 24 hours. Each entry in this file includes the start
 and end times of the activity, the duration, location, and accompanying
 social context, informing when and where activities occurred and with
-whom. The focus of the \DIFdelbegin \DIFdel{Episode File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Episode file}} \DIFaddend is not on the characteristics
-of the respondents, but on the characteristics of the activities, and
-the data are structured around the numerous activity instances that
-compose a day of the respondent. Although respondent-specific
-characteristics are not included within the \DIFdelbegin \DIFdel{Episode File}\DIFdelend \DIFaddbegin \emph{\DIFadd{Episode file}}\DIFaddend , it is
-possible to link the \DIFdelbegin \DIFdel{Main File
-and the Episode File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Main file}} \DIFadd{and the }\emph{\DIFadd{Episode file}} \DIFaddend by
-using a key present in both the \DIFdelbegin \DIFdel{Main and Episode
-Files}\DIFdelend \DIFaddbegin \emph{\DIFadd{Main}} \DIFadd{and }\emph{\DIFadd{Episode files}}\DIFaddend .
+whom. The focus of the \DIFdelbegin \DIFdel{Episode File }\DIFdelend \DIFaddbegin \DIFadd{episode file }\DIFaddend is not on the characteristics of the
+respondents, but on the characteristics of the activities, and the data
+are structured around the numerous activity instances that compose a day
+of the respondent. Although respondent-specific characteristics are not
+included within the \DIFdelbegin \DIFdel{Episode File}\DIFdelend \DIFaddbegin \DIFadd{episode file}\DIFaddend , it is possible to link the \DIFdelbegin \DIFdel{Main File
+and the Episode File }\DIFdelend \DIFaddbegin \DIFadd{main file
+and the episode file }\DIFaddend by using a key present in both the \DIFdelbegin \DIFdel{Main and
+Episode
+Files}\DIFdelend \DIFaddbegin \DIFadd{main and
+episodes files}\DIFaddend .
 
 Similar to Table \ref{tab:main-2015-unprocessed}, which displayed an
-example of the \DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Main file}} \DIFaddend structure, Table
-\ref{tab:ep-2015-unprocessed} presents the first seven episodes for the
-record identification number 10041 and some variables from the \DIFdelbegin \DIFdel{GSS }\DIFdelend \DIFaddbegin \DIFadd{TUS }\DIFaddend PUMF
-2015 \DIFdelbegin \DIFdel{Episode File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Episode file}} \DIFaddend (Cycle 29). Each row in the table corresponds
-to an episode associated with the specified record identification
-(\DIFdelbegin \DIFdel{PUMFID }\DIFdelend \DIFaddbegin \texttt{\DIFadd{PUMFID}} \DIFaddend = \DIFdelbegin \DIFdel{10041}\DIFdelend \DIFaddbegin \texttt{\DIFadd{10041}}\DIFaddend ), including the episode's weight
-(\DIFdelbegin \DIFdel{WGHT\_EPI}\DIFdelend \DIFaddbegin \texttt{\DIFadd{WGHT\_EPI}}\DIFaddend ), episode number (\DIFdelbegin \DIFdel{EPINO}\DIFdelend \DIFaddbegin \texttt{\DIFadd{EPINO}}\DIFaddend ), activity code
-(\DIFdelbegin \DIFdel{TUI\_01}\DIFdelend \DIFaddbegin \texttt{\DIFadd{TUI\_01}}\DIFaddend ), episode duration (\DIFdelbegin \DIFdel{DURATION}\DIFdelend \DIFaddbegin \texttt{\DIFadd{DURATION}}\DIFaddend ), and episode
-location (\DIFdelbegin \DIFdel{LOCATION}\DIFdelend \DIFaddbegin \texttt{\DIFadd{LOCATION}}\DIFaddend ).
+example of the \DIFdelbegin \DIFdel{Main File }\DIFdelend \DIFaddbegin \DIFadd{main file }\DIFaddend structure, Table \ref{tab:ep-2015-unprocessed}
+presents the first seven episodes for the record identification number
+10041 and some variables from the \DIFdelbegin \DIFdel{GSS }\DIFdelend \DIFaddbegin \DIFadd{TUS }\DIFaddend PUMF 2015 \DIFdelbegin \DIFdel{Episode File }\DIFdelend \DIFaddbegin \DIFadd{episode file }\DIFaddend (Cycle 29).
+Each row in the table corresponds to an episode associated with the
+specified record identification (\DIFdelbegin \DIFdel{PUMFID }\DIFdelend \DIFaddbegin \texttt{\DIFadd{PUMFID}} \DIFaddend = \DIFdelbegin \DIFdel{10041}\DIFdelend \DIFaddbegin \texttt{\DIFadd{10041}}\DIFaddend ),
+including the episode's weight (\DIFdelbegin \DIFdel{WGHT\_EPI}\DIFdelend \DIFaddbegin \texttt{\DIFadd{WGHT\_EPI}}\DIFaddend ), episode number
+(\DIFdelbegin \DIFdel{EPINO}\DIFdelend \DIFaddbegin \texttt{\DIFadd{EPINO}}\DIFaddend ), activity code (\DIFdelbegin \DIFdel{TUI\_01}\DIFdelend \DIFaddbegin \texttt{\DIFadd{TUI\_01}}\DIFaddend ), episode duration
+(\DIFdelbegin \DIFdel{DURATION}\DIFdelend \DIFaddbegin \texttt{\DIFadd{DURATION}}\DIFaddend ), and episode location (\DIFdelbegin \DIFdel{LOCATION}\DIFdelend \DIFaddbegin \texttt{\DIFadd{LOCATION}}\DIFaddend ).
 
-In total, the \DIFdelbegin \DIFdel{Episode File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Episode file}} \DIFaddend of the 2015 GSS surveys contains
-274,108 records, representing 461,837,622 episodes and 527 variables
-detailing the episodes. Similar to the \DIFdelbegin \DIFdel{Main File}\DIFdelend \DIFaddbegin \emph{\DIFadd{Main file}}\DIFaddend , Statistics
-Canada has created codes for the discrete variables, with each value
-corresponding to a label.
+In total, the \DIFdelbegin \DIFdel{Episode File }\DIFdelend \DIFaddbegin \DIFadd{episode file }\DIFaddend of the 2015 GSS surveys contains 274,108
+records, representing 461,837,622 episodes and 527 variables detailing
+the episodes. Similar to the \DIFdelbegin \DIFdel{Main File}\DIFdelend \DIFaddbegin \DIFadd{main file}\DIFaddend , Statistics Canada has created
+codes for the discrete variables, with each value corresponding to a
+label.
 
 In the case illustrated in Table \ref{tab:ep-2015-unprocessed}, this
 respondent began the diary description by sleeping at home
@@ -419,15 +438,16 @@ house (\DIFdelbegin \DIFdel{TUI\_01 = 18}\DIFdelend \DIFaddbegin \texttt{\DIFadd
 available. As shown, since the dataset does not label the variable
 values, decoding them can be both time-consuming and challenging.
 
-\begingroup\fontsize{8}{10}\selectfont
-
-\begin{ThreePartTable}
-\begin{TableNotes}
-\item \textit{Note: } 
-\item Legend: PUMFID: record identification. EPINO: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
-\end{TableNotes}
-\begin{longtable}[t]{cccccc}
-\caption{\label{tab:gss-epi-file-2015}\label{tab:ep-2015-unprocessed}Visualization of the seven first episodes of the record number 10041.}\\
+\DIFdelbegin %DIFDELCMD < \begingroup\fontsize{8}{10}\selectfont
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \begin{table}
+\centering
+\caption{\label{tab:gss-epi-file-2015}\label{tab:ep-2015-unprocessed}\DIFaddFL{Visualization of the seven first episodes of the record number 10041.}}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{8}{10}\selectfont
+\begin{threeparttable}
+\begin{tabular}[t]{cccccc}
 \toprule
 PUMFID & EPINO & WGHT\_EPI & TUI\_01 & DURATION & LOCATION\\
 \midrule
@@ -440,26 +460,61 @@ PUMFID & EPINO & WGHT\_EPI & TUI\_01 & DURATION & LOCATION\\
 10041 & 6 & 1353.818 & 6 & 15 & 300\\
 10041 & 7 & 1353.818 & 18 & 120 & 300\\
 \bottomrule
-\insertTableNotes
-\end{longtable}
-\end{ThreePartTable}
-\endgroup{}
-
-\section{Data \DIFdelbegin \DIFdel{extraction}\DIFdelend \DIFaddbegin \DIFadd{process}\DIFaddend }\DIFdelbegin %DIFDELCMD < \label{data-extraction}
-%DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \label{data-process}
+\end{tabular}
+\begin{tablenotes}
+\item \textit{Note: } 
+\item Legend: PUMFID: record identification. EPINO: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
+\end{tablenotes}
+\end{threeparttable}}
+\end{table}
 \DIFaddend 
 
-\DIFdelbegin \DIFdel{For each selected cycleof the GSS surveys}\DIFdelend \DIFaddbegin \DIFadd{Figure \ref{fig:process-figure} presents a diagram illustrating the
-processes applied to the }\emph{\DIFadd{Main}} \DIFadd{and }\emph{\DIFadd{Episode files}} \DIFadd{to create
-the \{ActiveCA\} datasets. For each TUS cycle}\DIFaddend , we reviewed the
-\DIFdelbegin \DIFdel{Episode
-Files to identify episodes of movement that involved }\DIFdelend \DIFaddbegin \emph{\DIFadd{Episode files}} \DIFadd{to identify movement episodes involving }\DIFaddend walking or
-cycling. This allowed us to \DIFaddbegin \DIFadd{also }\DIFaddend select the activities immediately
-before and after the movement episode\DIFdelbegin \DIFdel{. After that, }\DIFdelend \DIFaddbegin \DIFadd{, helping to infer the trip's
-purpose and determine its origin and destination. Active trips were
-identified by their corresponding activity codes, accounting for
-variations across survey cycles.
+\DIFdelbegin %DIFDELCMD < \begin{ThreePartTable}
+%DIFDELCMD < \begin{TableNotes}
+%DIFDELCMD < \item %%%
+\textit{\DIFdel{Note: }} 
+%DIFAUXCMD
+%DIFDELCMD < \item %%%
+\DIFdel{Legend: PUMFID: record identification. EPINO: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
+}%DIFDELCMD < \end{TableNotes}
+%DIFDELCMD < \begin{longtable}[t]{cccccc}
+%DIFDELCMD < \caption{\label{tab:gss-epi-file-2015}\label{tab:ep-2015-unprocessed}Visualization of the seven first episodes of the record number 10041.}\\
+%DIFDELCMD < \toprule
+%DIFDELCMD < PUMFID & EPINO & WGHT\_EPI & TUI\_01 & DURATION & LOCATION\\
+%DIFDELCMD < \midrule
+%DIFDELCMD < 10041 & 1 & 1353.818 & 1 & 210 & 300\\
+%DIFDELCMD < 10041 & 2 & 1353.818 & 2 & 40 & 300\\
+%DIFDELCMD < 10041 & 3 & 1353.818 & 27 & 15 & 300\\
+%DIFDELCMD < 10041 & 4 & 1353.818 & 7 & 15 & 315\\
+%DIFDELCMD < 10041 & 5 & 1353.818 & 9 & 180 & 300\\
+%DIFDELCMD < \addlinespace
+%DIFDELCMD < 10041 & 6 & 1353.818 & 6 & 15 & 300\\
+%DIFDELCMD < 10041 & 7 & 1353.818 & 18 & 120 & 300\\
+%DIFDELCMD < \bottomrule
+%DIFDELCMD < \insertTableNotes
+%DIFDELCMD < \end{longtable}
+%DIFDELCMD < \end{ThreePartTable}
+%DIFDELCMD < \endgroup{}
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \section{\DIFadd{Data process}}\label{data-process}
+\DIFaddend 
+
+\DIFdelbegin \section{\DIFdel{Data extraction}}%DIFAUXCMD
+\addtocounter{section}{-1}%DIFAUXCMD
+%DIFDELCMD < \label{data-extraction}
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{For each selected cycleof the GSS surveys}\DIFdelend \DIFaddbegin \DIFadd{Figure \ref{fig:process-figure} presents a diagram illustrating the
+processes applied to the main and episode files to create the
+\{ActiveCA\} datasets. For each TUS cycle}\DIFaddend , we reviewed the \DIFdelbegin \DIFdel{Episode
+Files to identify episodes of movement that involved }\DIFdelend \DIFaddbegin \DIFadd{episode files
+to identify movement episodes involving }\DIFaddend walking or cycling. This allowed
+us to \DIFaddbegin \DIFadd{also }\DIFaddend select the activities immediately before and after the
+movement episode\DIFdelbegin \DIFdel{. After that, }\DIFdelend \DIFaddbegin \DIFadd{, helping to infer the trip's purpose and determine its
+origin and destination. Active trips were identified by their
+corresponding activity codes, accounting for variations across survey
+cycles.
 }
 
 \DIFadd{Next, }\DIFaddend we labeled the \DIFdelbegin \DIFdel{code }\DIFdelend \DIFaddbegin \DIFadd{coded }\DIFaddend variables with their appropriate
@@ -477,16 +532,16 @@ into factor variables, and ordinal variables were defined as ordered
 factors.
 }\DIFaddend 
 
-For \DIFdelbegin \DIFdel{each GSS Main File}\DIFdelend \DIFaddbegin \DIFadd{the }\emph{\DIFadd{Main files}}\DIFaddend , we selected socioeconomic variables to help
-profile \DIFdelbegin \DIFdel{the }\DIFdelend individuals engaged in active \DIFdelbegin \DIFdel{trip episodes. We included
-key socioeconomic variables such as the respondent's }\DIFdelend \DIFaddbegin \DIFadd{travel episodes. These included
-key indicators such as }\DIFaddend age group, sex, marital status, and number of
-children, among others. \DIFdelbegin \DIFdel{After this, as we did with the Episode Files}\DIFdelend \DIFaddbegin \DIFadd{As with the }\emph{\DIFadd{Episode files}}\DIFaddend , we labeled \DIFdelbegin \DIFdel{the code variableswith their appropriate
+For \DIFdelbegin \DIFdel{each GSS Main File}\DIFdelend \DIFaddbegin \DIFadd{the main files}\DIFaddend , we selected socioeconomic variables to help profile
+\DIFdelbegin \DIFdel{the }\DIFdelend individuals engaged in active \DIFdelbegin \DIFdel{trip episodes. We included key
+socioeconomic variables such as the respondent's }\DIFdelend \DIFaddbegin \DIFadd{travel episodes. These included key
+indicators such as }\DIFaddend age group, sex, marital status, and number of
+children, among others. \DIFdelbegin \DIFdel{After this, as we did with the Episode Files}\DIFdelend \DIFaddbegin \DIFadd{As with the episode files}\DIFaddend , we labeled \DIFdelbegin \DIFdel{the code variableswith their appropriate
 descriptions. }\DIFdelend \DIFaddbegin \DIFadd{and
 factored the coded variables. Using the appropriate identifiers, we
-joined the Episode and }\emph{\DIFadd{Main files}} \DIFadd{to determine the province and
-the type of population centre - whether it is a CMA, a Census
-Agglomeration (CA), or a non-CMA/CA area.
+joined the episode and main files to determine the province and the type
+of population centre - whether it is a CMA, a Census Agglomeration (CA),
+or a non-CMA/CA area.
 }\DIFaddend 
 
 \DIFdelbegin \section{\DIFdel{How to use \{ActiveCA\}}}%DIFAUXCMD
@@ -588,7 +643,8 @@ categories differ across TUS cycles}\DIFaddend ).
 episode or person selected in the sample represents several other
 episodes or persons not in the sample. The number of episodes and
 persons represented by a episode or person is determined by the weight
-or weighting factor. Because of this, estimates of the number of episodes or persons need to be calculated applying the corresponding
+or weighting factor. Because of this, estimates of the number of episodes or persons need to
+be calculated applying the corresponding
 weighting factors.
 }%DIFDELCMD < 
 
@@ -596,9 +652,7 @@ weighting factors.
 \DIFdel{For instance, to calculate the percentage of respondents from the 2015
 GSS survey with active travel episodes, it is necessary to account for
 the person's weight. In 2015, the weight variable is represented by
-WGHT\_PER. The
-code below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the
-dplyr
+WGHT\_PER. The code below demonstrates how to obtain the percentage of people with active travel episodes by age group. It uses the dplyr
 package \mbox{%DIFAUXCMD
 \citep{dplyr2023} }\hskip0pt%DIFAUXCMD
 to manipulate the data.
@@ -608,8 +662,7 @@ to manipulate the data.
 \DIFdel{The process begins by creating a dataset that sums the population by age
 group. Then, it joins the 2015 episodes with the 2015 Main File. Note
 that in both operations, the code sums the person weight variable
-(WGHT\_PER) to obtain the correct population values. After this,
-a new
+(WGHT\_PER) to obtain the correct population values. After this, a new
 dataset, Active\_percentage, is created by merging both previous
 datasets. The percentage of active travel episodes by age group is
 calculated by dividing the total population by the population with
@@ -657,12 +710,12 @@ trips is those between 15 and 20 years old, with almost 37\%, followed
 by those between 25 and 34 years old with around 33\%. There is a
 significant drop in percentage for the following groups, with the
 percentage falling to between 15\% and 18\% for the remaining age
-groups}\DIFdelend \DIFaddbegin \DIFadd{This section presents some potential applications of the \{ActiveCA\}
-}\texttt{\DIFadd{R}} \DIFadd{package. In fact, we expect that the application of this
-package to extend beyond our pre-imagined range of uses. The
-installation instruction and also some examples of application of the
-\{ActiveCA\} }\texttt{\DIFadd{R}} \DIFadd{package are available in the }\texttt{\DIFadd{vignettes}}\DIFadd{,
-available in the Github repository}\DIFaddend .
+groups}\DIFdelend \DIFaddbegin \DIFadd{This section presents some potential applications of the \{ActiveCA\} R
+package. In fact, we expect that the application of this package to
+extend beyond our pre-imagined range of uses. The installation
+instruction and also some examples of application of the \{ActiveCA\} R
+package are available in the vignettes, available in the Github
+repository}\DIFaddend .
 
 \DIFdelbegin %DIFDELCMD < \begin{longtable}[]{@{}lrrr@{}}
 %DIFDELCMD < \toprule\noalign{}
@@ -690,9 +743,9 @@ available in the Github repository}\DIFaddend .
 
 %DIFDELCMD < %%%
 \DIFdelend Table \ref{tab:processed-obs} displays the total number of records
-processed for Main and \DIFdelbegin \DIFdel{Episode Files}\DIFdelend \DIFaddbegin \emph{\DIFadd{Episode files}}\DIFaddend . For the \DIFdelbegin \DIFdel{Main Files}\DIFdelend \DIFaddbegin \emph{\DIFadd{Main files}}\DIFaddend ,
-a total of \DIFdelbegin \DIFdel{89,331 }\DIFdelend \DIFaddbegin \DIFadd{101,667 }\DIFaddend records were processed, referring to all records from
-the Time Use Surveys from 1986 to \DIFdelbegin \DIFdel{2015}\DIFdelend \DIFaddbegin \DIFadd{2022}\DIFaddend , that together represents more of
+processed for Main and \DIFdelbegin \DIFdel{Episode Files}\DIFdelend \DIFaddbegin \DIFadd{episode files}\DIFaddend . For the \DIFdelbegin \DIFdel{Main Files}\DIFdelend \DIFaddbegin \DIFadd{main files}\DIFaddend , a total of
+\DIFdelbegin \DIFdel{89,331 }\DIFdelend \DIFaddbegin \DIFadd{101,667 }\DIFaddend records were processed, referring to all records from the Time
+Use Surveys from 1986 to \DIFdelbegin \DIFdel{2015}\DIFdelend \DIFaddbegin \DIFadd{2022}\DIFaddend , that together represents more of
 \DIFdelbegin \DIFdel{149,389,839 respondents(29,766,399 for 2015, 28,075,610 for 2010,
 26,095,819 for 2005, 24,260,137 for 1998, 21,294,313 for 1992, and for
 2005, 24,260,137 for 1998, and 21,294,313 for 1986)}\DIFdelend \DIFaddbegin \DIFadd{181,526,641 respondents}\DIFaddend . It also presents the total cases of active
@@ -700,8 +753,30 @@ trips episodes identified. In total 23,513 records with register of
 active travel activity. Together, these records account for 44,316,110
 episodes.
 
-\begingroup\DIFdelbegin %DIFDELCMD < \fontsize{10}{12}%%%
-\DIFdelend \DIFaddbegin \fontsize{8}{10}\DIFaddend \selectfont
+\DIFdelbegin %DIFDELCMD < \begingroup\fontsize{10}{12}%%%
+\DIFdelend \DIFaddbegin \begin{table}
+\centering
+\caption{\label{tab:table_df_processed}\label{tab:processed-obs}\DIFaddFL{Total number and weighted sum of records processed.}}
+\centering
+\fontsize{8}{10}\DIFaddendFL \selectfont
+\DIFaddbeginFL \begin{tabular}[t]{rr>{}r|rr}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{2}{c}{\DIFaddFL{Main}} & \multicolumn{2}{c}{\DIFaddFL{Episode}} \\
+\cmidrule\DIFaddFL{(l}{\DIFaddFL{3pt}}\DIFaddFL{r}{\DIFaddFL{3pt}}\DIFaddFL{)}{\DIFaddFL{2-3}} \cmidrule\DIFaddFL{(l}{\DIFaddFL{3pt}}\DIFaddFL{r}{\DIFaddFL{3pt}}\DIFaddFL{)}{\DIFaddFL{4-5}}
+\DIFaddFL{Year }& \DIFaddFL{Count }& \DIFaddFL{Weighted }& \DIFaddFL{Count\_ep }& \DIFaddFL{Weighted\_ep}\\
+\midrule
+\DIFaddFL{2022 }& \DIFaddFL{12336 }& \DIFaddFL{32136802 }& \DIFaddFL{1765 }& \DIFaddFL{6041032}\\
+\DIFaddFL{2015 }& \DIFaddFL{17390 }& \DIFaddFL{29766399 }& \DIFaddFL{3496 }& \DIFaddFL{6634387}\\
+\DIFaddFL{2010 }& \DIFaddFL{15390 }& \DIFaddFL{28075610 }& \DIFaddFL{4615 }& \DIFaddFL{8516753}\\
+\DIFaddFL{2005 }& \DIFaddFL{19597 }& \DIFaddFL{26095819 }& \DIFaddFL{5866 }& \DIFaddFL{7583838}\\
+\DIFaddFL{1998 }& \DIFaddFL{10749 }& \DIFaddFL{24260137 }& \DIFaddFL{1789 }& \DIFaddFL{3606987}\\
+\addlinespace
+\DIFaddFL{1992 }& \DIFaddFL{9815 }& \DIFaddFL{21294313 }& \DIFaddFL{1635 }& \DIFaddFL{3691918}\\
+\DIFaddFL{1986 }& \DIFaddFL{16390 }& \DIFaddFL{19897562 }& \DIFaddFL{4347 }& \DIFaddFL{8241196}\\
+\bottomrule
+\end{tabular}
+\end{table}
+\DIFaddend 
 
 \DIFdelbegin %DIFDELCMD < \begin{longtable}[t]{lrrr}
 %DIFDELCMD < \caption{\label{tab:table_df_processed}\label{tab:processed-obs}Total number and weighted sum of records processed.}\\
@@ -737,47 +812,65 @@ episodes.
 %DIFDELCMD < \multirow[t]{-7}{*}{\raggedright\arraybackslash Episode} & 1986 & 4347 & 8241196\\
 %DIFDELCMD < \bottomrule
 %DIFDELCMD < \end{longtable}
-%DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \begin{longtable}[t]{rr>{}r|rr}
-\caption{\label{tab:table_df_processed}\label{tab:processed-obs}Total number and weighted sum of records processed.}\\
-\toprule
-\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Main} & \multicolumn{2}{c}{Episode} \\
-\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
-Year & Count & Weighted & Count\_ep & Weighted\_ep\\
-\midrule
-2022 & 12336 & 32136802 & 1765 & 6041032\\
-2015 & 17390 & 29766399 & 3496 & 6634387\\
-2010 & 15390 & 28075610 & 4615 & 8516753\\
-2005 & 19597 & 26095819 & 5866 & 7583838\\
-1998 & 10749 & 24260137 & 1789 & 3606987\\
-\addlinespace
-1992 & 9815 & 21294313 & 1635 & 3691918\\
-1986 & 16390 & 19897562 & 4347 & 8241196\\
-\bottomrule
-\end{longtable}
-\DIFaddend \endgroup{}
+%DIFDELCMD < \endgroup{}
+%DIFDELCMD < 
 
-Table \ref{tab:main-2015-processed} shows the first ten rows and first
+%DIFDELCMD < %%%
+\DIFdelend Table \ref{tab:main-2015-processed} shows the first ten rows and first
 six variables of the \DIFdelbegin \DIFdel{GSS }\DIFdelend \DIFaddbegin \DIFadd{TUS }\DIFaddend PUMF 2015 Main File (Cycle 29), displayed in
 \ref{tab:main-2015-unprocessed} before our processing. Table
 \ref{tab:ep-2015-processed} presents the walking episodes for the record
-identification number \DIFdelbegin \DIFdel{10041 from the GSS }\DIFdelend \DIFaddbegin \texttt{\DIFadd{10041}} \DIFadd{from the TUS }\DIFaddend PUMF 2015
-\DIFdelbegin \DIFdel{Episode File }\DIFdelend \DIFaddbegin \emph{\DIFadd{Episode file}} \DIFaddend (Cycle 29), previously displayed in Table
-\ref{tab:ep-2015-unprocessed}. Only the unique active travel episode
-appear in Table \ref{tab:ep-2015-processed} since the records were
-filtered to select cases with walking or cycling episodes. For both
-cases, Tables \ref{tab:main-2015-processed} and
-\ref{tab:ep-2015-processed} contain labeled variables, facilitating the
-interpretation of the data.
+identification number \DIFdelbegin \DIFdel{10041 from the GSS }\DIFdelend \DIFaddbegin \texttt{\DIFadd{10041}} \DIFadd{from the TUS }\DIFaddend PUMF 2015 \DIFdelbegin \DIFdel{Episode File }\DIFdelend \DIFaddbegin \DIFadd{episode file
+}\DIFaddend (Cycle 29), previously displayed in Table \ref{tab:ep-2015-unprocessed}.
+Only the unique active travel episode appear in Table
+\ref{tab:ep-2015-processed} since the records were filtered to select
+cases with walking or cycling episodes. For both cases, Tables
+\ref{tab:main-2015-processed} and \ref{tab:ep-2015-processed} contain
+labeled variables, facilitating the interpretation of the data.
 
-\begingroup\fontsize{8}{10}\selectfont
-
-\begin{ThreePartTable}
-\begin{TableNotes}
+\DIFdelbegin %DIFDELCMD < \begingroup\fontsize{8}{10}\selectfont
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \begin{table}
+\centering
+\caption{\label{tab:gss-processed-file-2015}\label{tab:main-2015-processed}\DIFaddFL{Visualization of the first ten lines and first six columns of the 2015 TUS Main File.}}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{8}{10}\selectfont
+\begin{threeparttable}
+\begin{tabular}[t]{cccccc}
+\toprule
+PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
+\midrule
+10000 & 616.6740 & July & 55 to 64 years & Male & Divorced\\
+10001 & 8516.6140 & July & 55 to 64 years & Male & Married\\
+10002 & 371.7520 & January & 45 to 54 years & Female & Married\\
+10003 & 1019.3135 & March & 65 to 74 years & Female & Divorced\\
+10004 & 1916.0708 & September & 25 to 34 years & Male & Single, never married\\
+\addlinespace
+10005 & 1952.2015 & April & 15 to 24 years & Male & Single, never married\\
+10006 & 5761.5528 & August & 15 to 24 years & Male & Single, never married\\
+10007 & 466.0426 & June & 55 to 64 years & Female & Widowed\\
+10008 & 2479.2991 & February & 25 to 34 years & Female & Married\\
+10009 & 1436.1641 & August & 65 to 74 years & Male & Widowed\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
 \item \textit{Note: } 
-\item Legend: \DIFdelbegin \DIFdel{`PUMFID`}\DIFdelend \DIFaddbegin \DIFadd{PUMFID}\DIFaddend : record identification. \DIFdelbegin \DIFdel{`}\DIFdelend WGHT\_PER\DIFdelbegin \DIFdel{`}\DIFdelend :  person weight. \DIFdelbegin \DIFdel{`SURVMNTH`}\DIFdelend \DIFaddbegin \DIFadd{SURVMNTH}\DIFaddend : survey month of data collection. \DIFdelbegin \DIFdel{`}\DIFdelend AGEGR10\DIFdelbegin \DIFdel{`}\DIFdelend : age group of the respondent. \DIFdelbegin \DIFdel{`SEX`}\DIFdelend \DIFaddbegin \DIFadd{SEX}\DIFaddend : sex of the respondent. \DIFdelbegin \DIFdel{`MARSTAT`}\DIFdelend \DIFaddbegin \DIFadd{MARSTAT}\DIFaddend : marital status of the respondent.
-\end{TableNotes}
-\DIFdelbegin %DIFDELCMD < \begin{longtable}[t]{cccccc}
+\item Legend: PUMFID: record identification. WGHT\_PER:  person weight. SURVMNTH: survey month of data collection. AGEGR10: age group of the respondent. SEX: sex of the respondent. MARSTAT: marital status of the respondent.
+\end{tablenotes}
+\end{threeparttable}}
+\end{table}
+\DIFaddend 
+
+\DIFdelbegin %DIFDELCMD < \begin{ThreePartTable}
+%DIFDELCMD < \begin{TableNotes}
+%DIFDELCMD < \item %%%
+\textit{\DIFdel{Note: }} 
+%DIFAUXCMD
+%DIFDELCMD < \item %%%
+\DIFdel{Legend: `PUMFID`: record identification. `WGHT\_PER`:  person weight. `SURVMNTH`: survey month of data collection. `AGEGR10`: age group of the respondent. `SEX`: sex of the respondent. `MARSTAT`: marital status of the respondent.
+}%DIFDELCMD < \end{TableNotes}
+%DIFDELCMD < \begin{longtable}[t]{cccccc}
 %DIFDELCMD < \caption{\label{tab:gss-processed-file-2015}\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the Main File of the 2015 GSS.}\\
 %DIFDELCMD < \toprule
 %DIFDELCMD < PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
@@ -796,37 +889,43 @@ interpretation of the data.
 %DIFDELCMD < \bottomrule
 %DIFDELCMD < \insertTableNotes
 %DIFDELCMD < \end{longtable}
+%DIFDELCMD < \end{ThreePartTable}
+%DIFDELCMD < \endgroup{}
 %DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \begin{longtable}[t]{cccccc}
-\caption{\label{tab:gss-processed-file-2015}\label{tab:main-2015-processed}Visualization of the first ten lines and first six columns of the 2015 TUS Main File.}\\
+\DIFdelend \DIFaddbegin \begin{table}
+\centering
+\caption{\label{tab:gss-processed-file-2015}\label{tab:ep-2015-processed}\DIFaddFL{Visualization of the active travel episode for the record number 10041 of the 2015 GSS survey.}}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{8}{10}\selectfont
+\begin{threeparttable}
+\begin{tabular}[t]{rrlrlll}
 \toprule
-PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
+PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
 \midrule
-10000 & 616.6740 & July & 55 to 64 years & Male & Divorced\\
-10001 & 8516.6140 & July & 55 to 64 years & Male & Married\\
-10002 & 371.7520 & January & 45 to 54 years & Female & Married\\
-10003 & 1019.3135 & March & 65 to 74 years & Female & Divorced\\
-10004 & 1916.0708 & September & 25 to 34 years & Male & Single, never married\\
-\addlinespace
-10005 & 1952.2015 & April & 15 to 24 years & Male & Single, never married\\
-10006 & 5761.5528 & August & 15 to 24 years & Male & Single, never married\\
-10007 & 466.0426 & June & 55 to 64 years & Female & Widowed\\
-10008 & 2479.2991 & February & 25 to 34 years & Female & Married\\
-10009 & 1436.1641 & August & 65 to 74 years & Male & Widowed\\
+10041 & 1353.818 & Transport to or from activity & 15 & Home & Home & Walking\\
 \bottomrule
-\insertTableNotes
-\end{longtable}
-\DIFaddend \end{ThreePartTable}
-\endgroup{}
-
-\begingroup\fontsize{8}{10}\selectfont
-
-\begin{ThreePartTable}
-\begin{TableNotes}
+\end{tabular}
+\begin{tablenotes}
 \item \textit{Note: } 
-\item Legend: \DIFdelbegin \DIFdel{`PUMFID`}\DIFdelend \DIFaddbegin \DIFadd{PUMFID}\DIFaddend : record identification. \DIFdelbegin \DIFdel{`EPINO`}\DIFdelend \DIFaddbegin \DIFadd{EPINO}\DIFaddend : episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
-\end{TableNotes}
-\DIFdelbegin %DIFDELCMD < \begin{longtable}[t]{rrlrlll}
+\item Legend: PUMFID: record identification. EPINO: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
+\end{tablenotes}
+\end{threeparttable}}
+\end{table}
+\DIFaddend 
+
+\DIFdelbegin %DIFDELCMD < \begingroup\fontsize{8}{10}\selectfont
+%DIFDELCMD < 
+
+%DIFDELCMD < \begin{ThreePartTable}
+%DIFDELCMD < \begin{TableNotes}
+%DIFDELCMD < \item %%%
+\textit{\DIFdel{Note: }} 
+%DIFAUXCMD
+%DIFDELCMD < \item %%%
+\DIFdel{Legend: `PUMFID`: record identification. `EPINO`: episode number. WGHT\_EPI: episode's weight. TUI\_01: activity code. DURATION: episode's duration. LOCATION: episode's location.
+}%DIFDELCMD < \end{TableNotes}
+%DIFDELCMD < \begin{longtable}[t]{rrlrlll}
 %DIFDELCMD < \caption{\label{tab:gss-processed-file-2015}\label{tab:ep-2015-processed}Visualization of the active travel episode for the record number `10041` of the 2015 GSS survey.}\\
 %DIFDELCMD < \toprule
 %DIFDELCMD < PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
@@ -835,20 +934,12 @@ PUMFID & WGHT\_PER & SURVMNTH & AGEGR10 & SEX & MARSTAT\\
 %DIFDELCMD < \bottomrule
 %DIFDELCMD < \insertTableNotes
 %DIFDELCMD < \end{longtable}
-%DIFDELCMD < %%%
-\DIFdelend \DIFaddbegin \begin{longtable}[t]{rrlrlll}
-\caption{\label{tab:gss-processed-file-2015}\label{tab:ep-2015-processed}Visualization of the active travel episode for the record number 10041 of the 2015 GSS survey.}\\
-\toprule
-PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
-\midrule
-10041 & 1353.818 & Transport to or from activity & 15 & Home & Home & Walking\\
-\bottomrule
-\insertTableNotes
-\end{longtable}
-\DIFaddend \end{ThreePartTable}
-\endgroup{}
+%DIFDELCMD < \end{ThreePartTable}
+%DIFDELCMD < \endgroup{}
+%DIFDELCMD < 
 
-\subsection{Descriptive statistics}\label{descriptive-statistics}
+%DIFDELCMD < %%%
+\DIFdelend \subsection{Descriptive statistics}\label{descriptive-statistics}
 
 Considering \DIFdelbegin \DIFdel{GSS Cycles }\DIFdelend \DIFaddbegin \DIFadd{all TUS }\DIFaddend analyzed, we identified 23,513 episodes that
 recorded active travel episodes, with trip duration ranging from 0 to
@@ -858,40 +949,74 @@ descriptive statistics on walking and cycling trips between 1986 and
 \DIFdelbegin \DIFdel{2015}\DIFdelend \DIFaddbegin \DIFadd{2022}\DIFaddend , with measures of trip duration in minutes. The 1986 survey did not
 include bicycle trips.
 
-\begingroup\DIFdelbegin %DIFDELCMD < \fontsize{10}{12}%%%
-\DIFdelend \DIFaddbegin \fontsize{8}{10}\DIFaddend \selectfont
-
-\begin{longtable}[t]{>{}llccccccc}
-\caption{\label{tab:table-01}\label{tab:table-01}Descriptive statistics for episodes with active transport records}\\
+\DIFdelbegin %DIFDELCMD < \begingroup\fontsize{10}{12}%%%
+\DIFdelend \DIFaddbegin \begin{table}
+\centering
+\caption{\label{tab:table-01}\label{tab:table-01}\DIFaddFL{Descriptive statistics for episodes with active transport records}}
+\centering
+\fontsize{8}{10}\DIFaddendFL \selectfont
+\DIFaddbeginFL \begin{tabular}[t]{>{}llccccccc}
 \toprule
-\multicolumn{2}{c}{ } & \multicolumn{7}{c}{Year} \\
-\cmidrule(l{3pt}r{3pt}){3-9}
-Mode & Statistic & 1986 & 1992 & 1998 & 2005 & 2010 & 2015 & 2022\\
+\multicolumn{2}{c}{ } & \multicolumn{7}{c}{\DIFaddFL{Year}} \\
+\cmidrule\DIFaddFL{(l}{\DIFaddFL{3pt}}\DIFaddFL{r}{\DIFaddFL{3pt}}\DIFaddFL{)}{\DIFaddFL{3-9}}
+\DIFaddFL{Mode }& \DIFaddFL{Statistic }& \DIFaddFL{1986 }& \DIFaddFL{1992 }& \DIFaddFL{1998 }& \DIFaddFL{2005 }& \DIFaddFL{2010 }& \DIFaddFL{2015 }& \DIFaddFL{2022}\\
 \midrule
- & Maximum & 660 & 300 & 255 & 515 & 480 & 900 & 480\\
-\nopagebreak
- & Mean & 21 & 21 & 12 & 12 & 13 & 18 & 19\\
-\nopagebreak
- & Median & 15 & 10 & 5 & 10 & 10 & 10 & 15\\
-\nopagebreak
- & Minimum & 1 & 1 & 1 & 0 & 0 & 5 & 5\\
-\nopagebreak
-\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Walking}} & Standard deviation & 31 & 25 & 17 & 16 & 17 & 27 & 24\\
-\cmidrule{1-9}\pagebreak[0]
- & Maximum &  & 240 & 90 & 180 & 153 & 120 & 150\\
-\nopagebreak
- & Mean &  & 28 & 24 & 20 & 19 & 25 & 40\\
-\nopagebreak
- & Median &  & 15 & 15 & 15 & 10 & 20 & 30\\
-\nopagebreak
- & Minimum &  & 5 & 2 & 1 & 1 & 5 & 5\\
-\nopagebreak
-\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Cycling}} & Standard deviation &  & 36 & 18 & 18 & 23 & 20 & 20\\
-\bottomrule
-\end{longtable}
-\endgroup{}
+ & \DIFaddFL{Maximum }& \DIFaddFL{660 }& \DIFaddFL{300 }& \DIFaddFL{255 }& \DIFaddFL{515 }& \DIFaddFL{480 }& \DIFaddFL{900 }& \DIFaddFL{480}\\
+\DIFaddendFL 
 
-Table \ref{tab:table-01} shows that, \DIFdelbegin \DIFdel{in general, }\DIFdelend \DIFaddbegin \DIFadd{until 2022 }\DIFaddend the median values for
+ \DIFdelbeginFL %DIFDELCMD < \begin{longtable}[t]{>{}llccccccc}
+%DIFDELCMD < \caption{\label{tab:table-01}\label{tab:table-01}Descriptive statistics for episodes with active transport records}\\
+%DIFDELCMD < \toprule
+%DIFDELCMD < \multicolumn{2}{c}{ } & \multicolumn{7}{c}{Year} \\
+%DIFDELCMD < \cmidrule(l{3pt}r{3pt}){3-9}
+%DIFDELCMD < Mode & Statistic & 1986 & 1992 & 1998 & 2005 & 2010 & 2015 & 2022\\
+%DIFDELCMD < \midrule
+%DIFDELCMD <  & Maximum & 660 & 300 & 255 & 515 & 480 & 900 & 480\\
+%DIFDELCMD < \nopagebreak
+%DIFDELCMD <  & Mean & 21 & 21 & 12 & 12 & 13 & 18 & 19\\
+%DIFDELCMD < \nopagebreak
+%DIFDELCMD <  & Median & 15 & 10 & 5 & 10 & 10 & 10 & 15\\
+%DIFDELCMD < \nopagebreak
+%DIFDELCMD <  & Minimum & 1 & 1 & 1 & 0 & 0 & 5 & 5\\
+%DIFDELCMD < \nopagebreak
+%DIFDELCMD < \multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Walking}} & Standard deviation & 31 & 25 & 17 & 16 & 17 & 27 & 24\\
+%DIFDELCMD < \cmidrule{1-9}\pagebreak[0]
+%DIFDELCMD <  & Maximum &  & 240 & 90 & 180 & 153 & 120 & 150\\
+%DIFDELCMD < \nopagebreak
+%DIFDELCMD <  & Mean &  & 28 & 24 & 20 & 19 & 25 & 40\\
+%DIFDELCMD < \nopagebreak
+%DIFDELCMD <  & Median &  & 15 & 15 & 15 & 10 & 20 & 30\\
+%DIFDELCMD < \nopagebreak
+%DIFDELCMD <  & Minimum &  & 5 & 2 & 1 & 1 & 5 & 5\\
+%DIFDELCMD < \nopagebreak
+%DIFDELCMD < \multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Cycling}} & Standard deviation &  & 36 & 18 & 18 & 23 & 20 & 20\\
+%DIFDELCMD < \bottomrule
+%DIFDELCMD < \end{longtable}
+%DIFDELCMD < \endgroup{}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL & \DIFaddFL{Mean }& \DIFaddFL{21 }& \DIFaddFL{21 }& \DIFaddFL{12 }& \DIFaddFL{12 }& \DIFaddFL{13 }& \DIFaddFL{18 }& \DIFaddFL{19}\\
+\DIFaddendFL 
+
+ \DIFaddbeginFL & \DIFaddFL{Median }& \DIFaddFL{15 }& \DIFaddFL{10 }& \DIFaddFL{5 }& \DIFaddFL{10 }& \DIFaddFL{10 }& \DIFaddFL{10 }& \DIFaddFL{15}\\
+
+ & \DIFaddFL{Minimum }& \DIFaddFL{1 }& \DIFaddFL{1 }& \DIFaddFL{1 }& \DIFaddFL{0 }& \DIFaddFL{0 }& \DIFaddFL{5 }& \DIFaddFL{5}\\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Walking}} & \DIFaddFL{Standard deviation }& \DIFaddFL{31 }& \DIFaddFL{25 }& \DIFaddFL{17 }& \DIFaddFL{16 }& \DIFaddFL{17 }& \DIFaddFL{27 }& \DIFaddFL{24}\\
+\cmidrule{1-9}
+ & \DIFaddFL{Maximum }&  & \DIFaddFL{240 }& \DIFaddFL{90 }& \DIFaddFL{180 }& \DIFaddFL{153 }& \DIFaddFL{120 }& \DIFaddFL{150}\\
+
+ & \DIFaddFL{Mean }&  & \DIFaddFL{28 }& \DIFaddFL{24 }& \DIFaddFL{20 }& \DIFaddFL{19 }& \DIFaddFL{25 }& \DIFaddFL{40}\\
+
+ & \DIFaddFL{Median }&  & \DIFaddFL{15 }& \DIFaddFL{15 }& \DIFaddFL{15 }& \DIFaddFL{10 }& \DIFaddFL{20 }& \DIFaddFL{30}\\
+
+ & \DIFaddFL{Minimum }&  & \DIFaddFL{5 }& \DIFaddFL{2 }& \DIFaddFL{1 }& \DIFaddFL{1 }& \DIFaddFL{5 }& \DIFaddFL{5}\\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Cycling}} & \DIFaddFL{Standard deviation }&  & \DIFaddFL{36 }& \DIFaddFL{18 }& \DIFaddFL{18 }& \DIFaddFL{23 }& \DIFaddFL{20 }& \DIFaddFL{20}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\DIFaddend Table \ref{tab:table-01} shows that, \DIFdelbegin \DIFdel{in general, }\DIFdelend \DIFaddbegin \DIFadd{until 2022 }\DIFaddend the median values for
 walking trips \DIFdelbegin \DIFdel{is }\DIFdelend \DIFaddbegin \DIFadd{were }\DIFaddend 10 minutes, \DIFdelbegin \DIFdel{except for 1998 when the median was 5
 minutes }\DIFdelend \DIFaddbegin \DIFadd{increasing to 15 minutes in the last
 survey}\DIFaddend . In the case of cycling trips, the duration fluctuated over the
@@ -1036,19 +1161,14 @@ walking. Following this, trips from home to work or school comprised
 an origin or destination, with only 5\% of trips not involving home. By
 2015, home remained a significant node, but new locations distributed
 the proportion of trips to areas not considered in 1992. In 2015, the
-highest proportion of trips were from home to
-work or school (12}\DIFdelend \DIFaddbegin \DIFadd{2022, }\texttt{\DIFadd{home}} \DIFadd{served as a central hub for most trips, with
+highest proportion of trips }\DIFdelend \DIFaddbegin \DIFadd{2022, home location served as a central hub for most trips, with
 fewer than 10\% of journeys not involving it as either a starting point
-or destination. The most common trip types were from }\texttt{\DIFadd{home}} \DIFadd{to
-}\texttt{\DIFadd{work\ or\ school}} \DIFadd{(17}\DIFaddend \%) and \DIFdelbegin \DIFdel{vice versa (11}\DIFdelend \DIFaddbegin \DIFadd{the reverse, from
-}\texttt{\DIFadd{work\ or\ school}} \DIFadd{to }\texttt{\DIFadd{home}} \DIFadd{(13}\DIFaddend \%). \DIFdelbegin \DIFdel{home to home accounted for 8}\DIFdelend \DIFaddbegin \DIFadd{Notably, 7}\DIFaddend \% of trips
-\DIFdelbegin \DIFdel{, and grocery
-stores became a
-notable destinationfor those leaving home (6\%), surpassing trips to other's home (4\% ).
-}\DIFdelend \DIFaddbegin \DIFadd{began and ended at }\texttt{\DIFadd{home}}\DIFadd{, often reflecting leisure activities
-such as short walks or dog walking. }\texttt{\DIFadd{Grocery\ stores}} \DIFadd{were also a
-key destination, comprising 10\% of trips departing from }\texttt{\DIFadd{home.}}
-\DIFaddend 
+or destination. The most common trip types }\DIFaddend were from home to work or
+school (\DIFdelbegin \DIFdel{12}\DIFdelend \DIFaddbegin \DIFadd{17}\DIFaddend \%) and \DIFdelbegin \DIFdel{vice versa (11}\DIFdelend \DIFaddbegin \DIFadd{the reverse, from work or school to home (13}\DIFaddend \%).
+\DIFdelbegin \DIFdel{home to home accounted for 8}\DIFdelend \DIFaddbegin \DIFadd{Notably, 7}\DIFaddend \% of trips \DIFdelbegin \DIFdel{, and grocery
+stores became a notable destinationfor those leaving home (6\%), surpassing trips to other's home(4\%)}\DIFdelend \DIFaddbegin \DIFadd{began and ended at home, often reflecting leisure
+activities such as short walks or dog walking. Grocery stores were also
+a key destination, comprising 10\% of trips departing from home}\DIFaddend .
 
 \begin{figure}
 
@@ -1154,21 +1274,20 @@ cases.
 
 \section{Python integration}\label{python-integration}
 
-\{ActiveCA\} also provides a Jupyter Notebook containing a
-\DIFdelbegin \DIFdel{Python }\DIFdelend \DIFaddbegin \texttt{\DIFadd{Python}} \DIFaddend script that demonstrates how to read \DIFdelbegin \DIFdel{R }\DIFdelend \DIFaddbegin \texttt{\DIFadd{R}} \DIFaddend data
-files (.rda) and convert them into Pandas DataFrames. This process
-allows users to work with and utilize the datasets available in
-\{ActiveCA\} within a \DIFdelbegin \DIFdel{Python }\DIFdelend \DIFaddbegin \texttt{\DIFadd{Python}} \DIFaddend project.
+\{ActiveCA\} also provides a Jupyter Notebook containing a Python script
+that demonstrates how to read R data files (.rda) and convert them into
+Pandas \DIFdelbegin \DIFdel{DataFrames}\DIFdelend \DIFaddbegin \DIFadd{Data Frames}\DIFaddend . This process allows users to work with and utilize
+the datasets available in \{ActiveCA\} within a Python project.
 
 \section{Concluding remarks}\label{concluding-remarks}
 
 This paper presents \{ActiveCA\}, an open data product that provides
 analysis-ready data from Cycles 2 (1986), 7 (1992), 12 (1998), 19
 (2005), 24 (2010), \DIFdelbegin \DIFdel{and }\DIFdelend 29 (2015)\DIFdelbegin \DIFdel{of the GSS surveys }\DIFdelend \DIFaddbegin \DIFadd{, and 34 (2022) of TUS GSSs }\DIFaddend on active travel
-in Canada. In the form of an \DIFdelbegin \DIFdel{R }\DIFdelend \DIFaddbegin \texttt{\DIFadd{R}} \DIFaddend data package, \{ActiveCA\} was
-developed after collecting, cleaning, and processing the survey data,
-providing information on origins, destinations, and duration of active
-travel, as well other information.
+in Canada. In the form of an R data package, \{ActiveCA\} was developed
+after collecting, cleaning, and processing the survey data, providing
+information on origins, destinations, and duration of active travel, as
+well other information.
 
 \DIFdelbegin \DIFdel{It is important to remark that the present version of \{ActiveCA\}
 covers all Canadian time use surveys up to 2015. While the most recent

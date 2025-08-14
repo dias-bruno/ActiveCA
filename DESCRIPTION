@@ -1,11 +1,11 @@
 Package: ActiveCA
 Title: Time Use Data from the General Social Survey of Canada to Study Active Travel
-Version: 0.0.3.0
+Version: 1.0
 Authors@R: 
      c(person("Bruno", "Dos Santos", , "dossanb@mcmaster.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-6748-2038")),
        person("Mahdis", "Moghadasi", , "moghadasi.mahdis@mcmaster.ca", role = c("aut"),
-           comment = c(ORCID = "0000-002-6748-2038")),
+           comment = c(ORCID = "0000-0003-1009-9369")),
        person("Antonio", "Paez", , "paezha@mcmaster.ca", role = c("aut"),
            comment = c(ORCID = "0000-0001-6912-9919")),
        person("Statistics Canada", role = c("cph"), comment = "Copyright holder of the Public Use Microdata Files of the General Social Survey. These files are released using Statistics Canada Open Licence"))

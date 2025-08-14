@@ -4,6 +4,7 @@
 # ActiveCA
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 {ActiveCA} is an open data product in the form of an `R` data package
@@ -31,7 +32,7 @@ five years.
 ## Installation
 
 You can install the development version of ActiveCA from
-[GitHub](https://github.com/) with:
+[GitHub](https://github.com/dias-bruno/ActiveCA) with:
 
 ``` r
 # install.packages("pak")

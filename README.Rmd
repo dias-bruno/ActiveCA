@@ -26,7 +26,7 @@ The data covers cycles Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010
 
 ## Installation
 
-You can install the development version of ActiveCA from [GitHub](https://github.com/) with:
+You can install the development version of ActiveCA from [GitHub](https://github.com/dias-bruno/ActiveCA) with:
 
 ``` r
 # install.packages("pak")
