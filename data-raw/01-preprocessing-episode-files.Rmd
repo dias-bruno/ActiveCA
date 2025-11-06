@@ -28,9 +28,11 @@ rm(list=ls())
 # Introduction
 
 This Rmarkdown file is part of the
-[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package. The main objective of the *ActiveCA* package is to identify the most
-appropriate impedance functions for active transportation modes for
-various destinations and time periods in Canada. To do achieve this objective, we analyzed historical data from the [General Social Survey
+[**ActiveCA**](https://github.com/dias-bruno/ActiveCA) package. The main
+objective of the *ActiveCA* package is to identify the most appropriate
+impedance functions for active transportation modes for various
+destinations and time periods in Canada. To do achieve this objective,
+we analyzed historical data from the [General Social Survey
 (GSS)](https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=5221)
 from 1986 to 2015 in Canada to calculate the impedance function for
 cycling and walking trips.
@@ -43,7 +45,6 @@ the following analyses.
 -   Soukhov, A., Páez, A. (2024). Accessibility analysis for planning
     applications (Report No. MJ-A2-0002). Mobilizing Justice.
     <https://github.com/soukhova/MJ-Accessibility-Blogs>
-
 
 # The General Social Surveys (GSS)
 
@@ -69,7 +70,8 @@ production, well-being, and gender equality. Leisure time, work-life
 balance, health, commuting, culture, and sports are among the other
 topics covered by time-use surveys. In addition, statistics Canada has
 been conducting time-use surveys at five to seven year intervals since
-1986, with the most recent being in 2022 (1986, 1992, 1998, 2005, 2010, 2015, and 2022). The time use collects information on participation of
+1986, with the most recent being in 2022 (1986, 1992, 1998, 2005, 2010,
+2015, and 2022). The time use collects information on participation of
 respondents and time spent on a wide range of day-to-day activities
 using a 24-hour retrospective diary. Also, information is collected on
 the location of these activities (e.g., at home, at work, etc.) and, for
@@ -114,57 +116,58 @@ In this R markdown, our aim is to generate a table in the appropriate
 format to perform the subsequent analyses, after reading and processing
 the GSS episode surveys.
 
-For the purpose of our analyses, the following definitions are important:
+For the purpose of our analyses, the following definitions are
+important:
 
-| **Code** | **Location**                           | **Year** | **Description**                                                |
-|-------------|------------------|-------------|------------------------------|
-| 300      | At home or on property                 | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 301      | At place of work or school             | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 302      | Away on business                       | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 303      | At someone else's home or property     | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 304      | In the neighbourhood                   | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 305      | Outdoors                               | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 306      | Grocery store, other stores or mall    | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 307      | Library, museum or theatre             | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 308      | Sports centre, field or arena          | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 309      | Restaurant, bar or club                | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 310      | Place of worship                       | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 311      | Medical, dental or other health clinic | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 312      | Elsewhere                              | 2015     | Walking (code = 315) and Cycling (code = 318) to this location |
-| 1        | Respondent's home                      | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 2        | Work place                             | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 3        | Someone else's home                    | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 4        | Restaurant/bar                         | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 5        | Place of worship                       | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 6        | Grocery store                          | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 7        | Other store/Mall                       | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 8        | School                                 | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 9        | Outdoors away from home                | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 10       | Library                                | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 11       | Other place                            | 2010     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 1        | Respondent's home                      | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 2        | Work place                             | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 3        | Someone else's home                    | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 4        | Restaurant/bar                         | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 5        | Place of worship                       | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 6        | Grocery store                          | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 7        | Other store/Mall                       | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 8        | School                                 | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 9        | Outdoors away from home                | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 10       | Library                                | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 11       | Other place                            | 2005     | Walking (code = 14) and Cycling (code = 17) to this location   |
-| 1        | Respondent's home                      | 1998     | Walking (code = 7) and Cycling (code = 9) to this location     |
-| 2        | Work place                             | 1998     | Walking (code = 7) and Cycling (code = 9) to this location     |
-| 3        | Someone else's home                    | 1998     | Walking (code = 7) and Cycling (code = 9) to this location     |
-| 4        | Other plourhood                        | 1998     | Walking (code = 7) and Cycling (code = 9) to this location     |
-| 1        | Respondent's home                      | 1992     | Walking (code = 7) and Cycling (code = 9) to this location     |
-| 2        | Work place                             | 1992     | Walking (code = 7) and Cycling (code = 9) to this location     |
-| 3        | Someone else's home                    | 1992     | Walking (code = 7) and Cycling (code = 9) to this location     |
-| 4        | Other place                            | 1992     | Walking (code = 7) and Cycling (code = 9) to this location     |
-| 1        | Respondent's home                      | 1886     | Walking (code = 5) to this location                            |
-| 2        | Work place                             | 1886     | Walking (code = 5) to this location                            |
-| 3        | At other places                        | 1886     | Walking (code = 5) to this location                            |
-| 7        | other                                  | 1886     | Walking (code = 5) to this location                            |
+| **Code** | **Location** | **Year** | **Description** |
+|----------------|----------------|----------------|--------------------------|
+| 300 | At home or on property | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 301 | At place of work or school | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 302 | Away on business | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 303 | At someone else's home or property | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 304 | In the neighbourhood | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 305 | Outdoors | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 306 | Grocery store, other stores or mall | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 307 | Library, museum or theatre | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 308 | Sports centre, field or arena | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 309 | Restaurant, bar or club | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 310 | Place of worship | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 311 | Medical, dental or other health clinic | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 312 | Elsewhere | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
+| 1 | Respondent's home | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 2 | Work place | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 3 | Someone else's home | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 4 | Restaurant/bar | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 5 | Place of worship | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 6 | Grocery store | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 7 | Other store/Mall | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 8 | School | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 9 | Outdoors away from home | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 10 | Library | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 11 | Other place | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 1 | Respondent's home | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 2 | Work place | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 3 | Someone else's home | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 4 | Restaurant/bar | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 5 | Place of worship | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 6 | Grocery store | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 7 | Other store/Mall | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 8 | School | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 9 | Outdoors away from home | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 10 | Library | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 11 | Other place | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
+| 1 | Respondent's home | 1998 | Walking (code = 7) and Cycling (code = 9) to this location |
+| 2 | Work place | 1998 | Walking (code = 7) and Cycling (code = 9) to this location |
+| 3 | Someone else's home | 1998 | Walking (code = 7) and Cycling (code = 9) to this location |
+| 4 | Other plourhood | 1998 | Walking (code = 7) and Cycling (code = 9) to this location |
+| 1 | Respondent's home | 1992 | Walking (code = 7) and Cycling (code = 9) to this location |
+| 2 | Work place | 1992 | Walking (code = 7) and Cycling (code = 9) to this location |
+| 3 | Someone else's home | 1992 | Walking (code = 7) and Cycling (code = 9) to this location |
+| 4 | Other place | 1992 | Walking (code = 7) and Cycling (code = 9) to this location |
+| 1 | Respondent's home | 1886 | Walking (code = 5) to this location |
+| 2 | Work place | 1886 | Walking (code = 5) to this location |
+| 3 | At other places | 1886 | Walking (code = 5) to this location |
+| 7 | other | 1886 | Walking (code = 5) to this location |
 
 To start processing the data, first load the `R` packages used in this
 notebook:
@@ -187,7 +190,7 @@ and, in the end, we will obtain a table in which each row represents an
 specific episode, and each column a variable. The following variables
 will be added to our final table:
 
--   `PUMFID`: the record identification[^2].
+-   `PUMFID`: the record identification[^1].
 -   `WGHT_EPI`: Episode weight.
 -   `ACTCODE`: Activity code of the episode.
 -   `STARTIME`: Start time of the episode.
@@ -197,7 +200,7 @@ will be added to our final table:
 -   `ORIGIN`: Place of origin of the episode.
 -   `DESTINATION`: Place of destination of the episode.
 
-[^2]: This variable serves as the link between the Main and the Episode
+[^1]: This variable serves as the link between the Main and the Episode
     files. Each case has a unique record identifier and this appears on
     every episode.
 
@@ -210,17 +213,16 @@ of the episode, we will create the following variables:
 -   `YEAR`: The year of the survey.
 -   `MODE`: The transportation mode of the episode (`walking` or
     `cycling`).
-    
-    
-The file name pattern is as follows: `transportation mode`[^3] + `_` +
-`year of survey` [^4]. This means that, for instance, the file
+
+The file name pattern is as follows: `transportation mode`[^2] + `_` +
+`year of survey` [^3]. This means that, for instance, the file
 `walking_2015` refers to transportation mode table `walking` in the year
 2015.
 
-[^3]:  `walking` or `cycling`
+[^2]: `walking` or `cycling`
 
-[^4]:  whether 1986, 1992, 1998, 2005, 2010, 2015, or 2022. Note: There is no
-    data on cycling for the 1986 GSS survey.
+[^3]: whether 1986, 1992, 1998, 2005, 2010, 2015, or 2022. Note: There
+    is no data on cycling for the 1986 GSS survey.
 
 The walking and cycling episodes are identified using the specific
 activity code. Also, the preceding and succeeding episodes for each
@@ -256,10 +258,10 @@ rows <- lapply(inds, function(x) (x-1):(x+1))
 ```
 
 Now, we'll select all the rows with walking episodes in the GSS survey,
-selecting the columns that we are interested[^5], and already creating
+selecting the columns that we are interested[^4], and already creating
 the origin and destination variables:
 
-[^5]: Specifically for the 2015 GSS survey, `TUI_01` refers to the
+[^4]: Specifically for the 2022 GSS survey, `TUI_01` refers to the
     activity code. We'll change the name of this column to be match the
     name of the activity code variable in the others surveys.
 
@@ -277,18 +279,7 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_2015 <- walking_2015 |>
-  filter(origin == 300 | 
-           origin == 301 | 
-           origin == 302 | 
-           origin == 303 | 
-           origin == 304 |
-           origin == 305 | 
-           origin == 306 | 
-           origin == 307 |
-           origin == 308 |
-           origin == 309 | 
-           origin == 310 |
-           origin == 311) |>
+  filter(origin <= 321) |>
   mutate(orig_label =
            case_when(origin == 300 ~ "Home", 
                      origin == 301 ~ "Work or school",
@@ -301,7 +292,13 @@ walking_2015 <- walking_2015 |>
                      origin == 308 ~ "Sports centre, field or arena",
                      origin == 309 ~ "Restaurant, bar or club",
                      origin == 310 ~ "Place of worship",
-                     origin == 311 ~ "Medical, dental or other health clinic"),
+                     origin == 311 ~ "Medical, dental or other health clinic",
+                     origin == 312 ~ "Elsewhere",
+                     origin %in% c(313,314,319) ~ "Travel - Motorized",
+                     origin %in% c(317,320,321) ~ "Travel - Other",
+                     origin == 316 ~ "Travel - Transit",
+                     origin == 315 ~ "Travel - Walk",
+                     origin == 318 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -310,19 +307,7 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_2015 <- walking_2015 |>  
-    filter(destination == 300 | 
-           destination == 301 | 
-           destination == 302 | 
-           destination == 303 |
-           destination == 304 |
-           destination == 305 |
-           destination == 306 | 
-           destination == 307 |
-           destination == 308 |
-           destination == 309 | 
-           destination == 310 |
-           destination == 311)  |>
-  # Label the destinations
+  filter(destination <= 321) |>
   mutate(dest_label =
            case_when(destination == 300 ~ "Home", 
                      destination == 301 ~ "Work or school",
@@ -335,7 +320,13 @@ walking_2015 <- walking_2015 |>
                      destination == 308 ~ "Sports centre, field or arena",
                      destination == 309 ~ "Restaurant, bar or club",
                      destination == 310 ~ "Place of worship",
-                     destination == 311 ~ "Medical, dental or other health clinic"),
+                     destination == 311 ~ "Medical, dental or other health clinic",
+                     destination == 312 ~ "Elsewhere",
+                     destination %in% c(313,314,319) ~ "Travel - Motorized",
+                     destination %in% c(317,320,321) ~ "Travel - Other",
+                     destination == 316 ~ "Travel - Transit",
+                     destination == 315 ~ "Travel - Walk",
+                     destination == 318 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -352,6 +343,7 @@ walking_2015 <- walking_2015 |>
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST','PRV')]
 
@@ -386,10 +378,12 @@ walking_2015 |>
   pivot_wider(names_from = "dest_label", values_from = "n")
 ```
 
-The table above shows that the most common destination for a walking trip
-that starts at home are `Home` and `Work or school`. It also shows that the second most common walking trip is from `Grocery store, other stores or mall` to `Home`. Notice, though,
-that quite a few trips start *and* end at Home. What are those supposed
-to be?
+The table above shows that the most common destination for a walking
+trip that starts at home are `Home` and `Work or school`. It also shows
+that the second most common walking trip is from
+`Grocery store, other stores or mall` to `Home`. Notice, though, that
+quite a few trips start *and* end at Home. What are those supposed to
+be?
 
 Check those home-to-home trips:
 
@@ -412,15 +406,17 @@ gss_e_2015 |>
 The person was at home doing personal care (code `27`), then went for
 walk that lasted 15 minutes, came back home and spent 180 minutes
 looking for work (code `9`). So, this was a recreational/leisure
-trip![^6]
+trip![^5]
 
-[^6]: `TUI_01` is an activity code of the episode (What were you doing
+[^5]: `TUI_01` is an activity code of the episode (What were you doing
     at minute). The list of main activity codes (001-095) can be found
     in an appendix of the User Guide. According to this list, `27` is
     "personal care", `7` is "Transport to or from activity" and `9` is
     "Looking for work".
 
-Label the activity ("7" is "Transport to or from activity") and drop the LOCATION because it is already coded as MODE:    
+Label the activity ("7" is "Transport to or from activity") and drop the
+LOCATION because it is already coded as MODE:
+
 ```{r}
 walking_2015 <- walking_2015 |>
   mutate(act_label = "Transport to or from activity") |>
@@ -464,18 +460,7 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_2015 <- cycling_2015 |>
-  filter(origin == 300 | 
-           origin == 301 | 
-           origin == 302 | 
-           origin == 303 | 
-           origin == 304 |
-           origin == 305 | 
-           origin == 306 | 
-           origin == 307 |
-           origin == 308 |
-           origin == 309 | 
-           origin == 310 |
-           origin == 311) |>
+  filter(origin <= 321) |>
   mutate(orig_label =
            case_when(origin == 300 ~ "Home", 
                      origin == 301 ~ "Work or school",
@@ -484,11 +469,17 @@ cycling_2015 <- cycling_2015 |>
                      origin == 304 ~ "In the neighbourhood",
                      origin == 305 ~ "Outdoors",
                      origin == 306 ~ "Grocery store, other stores or mall",
-                     origin == 308 ~ "Sports centre, field or arena",
                      origin == 307 ~ "Library, museum or theatre",
+                     origin == 308 ~ "Sports centre, field or arena",
                      origin == 309 ~ "Restaurant, bar or club",
                      origin == 310 ~ "Place of worship",
-                     origin == 311 ~ "Medical, dental or other health clinic"),
+                     origin == 311 ~ "Medical, dental or other health clinic",
+                     origin == 312 ~ "Elsewhere",
+                     origin %in% c(313,314,319) ~ "Travel - Motorized",
+                     origin %in% c(317,320,321) ~ "Travel - Other",
+                     origin == 316 ~ "Travel - Transit",
+                     origin == 315 ~ "Travel - Walk",
+                     origin == 318 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -498,20 +489,7 @@ and create the label for the `destination` variable:
 ```{r}
 # change destination and origins to text column
 cycling_2015 <- cycling_2015 |>  
-  # Choose destinations of interest
-  filter(destination == 300 | 
-           destination == 301 | 
-           destination == 302 | 
-           destination == 303 |
-           destination == 304 |
-           destination == 305 |
-           destination == 306 | 
-           destination == 307 |
-           destination == 308 |
-           destination == 309 | 
-           destination == 310 |
-           destination == 311)  |>
-  # Label the destinations
+  filter(destination <= 321) |>
   mutate(dest_label =
            case_when(destination == 300 ~ "Home", 
                      destination == 301 ~ "Work or school",
@@ -524,7 +502,13 @@ cycling_2015 <- cycling_2015 |>
                      destination == 308 ~ "Sports centre, field or arena",
                      destination == 309 ~ "Restaurant, bar or club",
                      destination == 310 ~ "Place of worship",
-                     destination == 311 ~ "Medical, dental or other health clinic"),
+                     destination == 311 ~ "Medical, dental or other health clinic",
+                     destination == 312 ~ "Elsewhere",
+                     destination %in% c(313,314,319) ~ "Travel - Motorized",
+                     destination %in% c(317,320,321) ~ "Travel - Other",
+                     destination == 316 ~ "Travel - Transit",
+                     destination == 315 ~ "Travel - Walk",
+                     destination == 318 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -541,6 +525,7 @@ cycling_2015 <- cycling_2015 |>
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_2015 <- gss_m_2015[,c('PUMFID','LUC_RST','PRV')]
 
@@ -576,8 +561,8 @@ cycling_2015 |>
 ```
 
 The most common destination for a cycling trip that starts at home is
-`Work or school`. Again, we can notice that there are quite a few trips that
-start *and* end at Home. What are those supposed to be?
+`Work or school`. Again, we can notice that there are quite a few trips
+that start *and* end at Home. What are those supposed to be?
 
 Check those home-to-home trips:
 
@@ -595,31 +580,37 @@ gss_e_2015 |>
    dplyr::select(PUMFID:LOCATION)
 ```
 
-The individual was at home engaged in personal care activities
-(`TUI_01` = `2`) before cycling for approximately 10 minutes to a grocery
-store. After spending 30 minutes at the store, they cycled back home.
-Upon returning, the person prepared a meal and cleaned the house for approximately 85 minutes. Subsequently, the individual embarked on
+The individual was at home engaged in personal care activities (`TUI_01`
+= `2`) before cycling for approximately 10 minutes to a grocery store.
+After spending 30 minutes at the store, they cycled back home. Upon
+returning, the person prepared a meal and cleaned the house for
+approximately 85 minutes. Subsequently, the individual embarked on
 another bicycle trip to the store, which took 10 minutes, and thereafter
-returned home.[^7]
+returned home.[^6]
 
-[^7]: Note: `TUI_01` is an activity code of the episode (What were you
+[^6]: Note: `TUI_01` is an activity code of the episode (What were you
     doing in minutes?).The list of main activity codes (001-095) can be
     found in an appendix of the User Guide.
-    
-Label the activity ("7" is "Transport to or from activity") and drop the LOCATION because it is already coded as MODE:    
+
+Label the activity ("7" is "Transport to or from activity") and drop the
+LOCATION because it is already coded as MODE:
+
 ```{r}
 cycling_2015 <- cycling_2015 |>
   mutate(act_label = "Transport to or from activity") |>
   dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
-```    
+```
 
 Save data in R format for later use:
+
 ```{r}
 usethis::use_data(cycling_2015, 
                   overwrite = TRUE)
 ```
 
-As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+As we have already processed this year's data, we will clear the Episode
+and Main files for this year from the computer's memory before uploading
+any more data
 
 ```{r}
 rm(gss_e_2015,gss_m_2015)
@@ -669,27 +660,22 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_2010 <- walking_2010 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3 | 
-           origin == 4 | 
-           origin == 5 |
-           origin == 6 | 
-           origin == 7 | 
-           origin == 8 |
-           origin == 9 |
-           origin == 10 ) |>
+  filter(origin <= 21 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
-                     origin == 2 ~ "Work or school",
+                     origin %in% c(2,8) ~ "Work or school",
                      origin == 3 ~ "Other's home",
+                     origin == 9 ~ "Outdoors",
+                     origin %in% c(6,7) ~ "Grocery store, other stores or mall",
+                     origin == 10 ~ "Library, museum or theatre",
                      origin == 4 ~ "Restaurant, bar or club",
                      origin == 5 ~ "Place of worship",
-                     origin == 6 ~ "Grocery store, other stores or mall",
-                     origin == 7 ~ "Grocery store, other stores or mall",                     
-                     origin == 8 ~ "Work or school",
-                     origin == 9 ~ "Outdoors",
-                     origin == 10 ~ "Library, museum or theatre"),
+                     origin == 11 ~ "Elsewhere",
+                     origin %in% c(12,13,19) ~ "Travel - Motorized",
+                     origin %in% c(18,20,21) ~ "Travel - Other",
+                     origin %in% c(15,16) ~ "Travel - Transit",
+                     origin == 14 ~ "Travel - Walk",
+                     origin == 17 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -698,27 +684,22 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_2010 <- walking_2010 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 | 
-           destination == 4 | 
-           destination == 5 |
-           destination == 6 | 
-           destination == 7 | 
-           destination == 8 |
-           destination == 9 |
-           destination == 10 ) |>
+  filter(destination <= 21 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
-                     destination == 2 ~ "Work or school",
+                     destination %in% c(2,8) ~ "Work or school",
                      destination == 3 ~ "Other's home",
                      destination == 9 ~ "Outdoors",
-                     destination == 6 ~ "Grocery store, other stores or mall",
+                     destination %in% c(6,7) ~ "Grocery store, other stores or mall",
                      destination == 10 ~ "Library, museum or theatre",
                      destination == 4 ~ "Restaurant, bar or club",
                      destination == 5 ~ "Place of worship",
-                     destination == 7 ~ "Grocery store, other stores or mall",                     
-                     destination == 8 ~ "Work or school"),
+                     destination == 11 ~ "Elsewhere",
+                     destination %in% c(12,13,19) ~ "Travel - Motorized",
+                     destination %in% c(18,20,21) ~ "Travel - Other",
+                     destination %in% c(15,16) ~ "Travel - Transit",
+                     destination == 14 ~ "Travel - Walk",
+                     destination == 17 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -737,6 +718,7 @@ walking_2010 <- walking_2010 %>% dplyr::rename(
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST','PRV')]
 
@@ -771,8 +753,9 @@ walking_2010 |>
   pivot_wider(names_from = "dest_label", values_from = "n")
 ```
 
-For the year 2010, the most common destination for a walking trip that starts at home are
-`Home` to `Home`, followed by `Home` to `Work or school`. Again, we can check the home-to-home trips:
+For the year 2010, the most common destination for a walking trip that
+starts at home are `Home` to `Home`, followed by `Home` to
+`Work or school`. Again, we can check the home-to-home trips:
 
 ```{r include=FALSE}
 walking_2010 |>
@@ -797,20 +780,21 @@ another grocery store, where they stayed for 10 minutes before returning
 home in 20 minutes. Once home, the individual engaged in socialization
 for approximately 10 minutes (`ACTCODE`=`751`) before taking a 10-minute
 walk to another location. At this new location, the person undertook
-activities related to washing and dressing (`ACTCODE`=`400`) for around 10
-minutes, then went for a 10-minute walk, returning home after that.
+activities related to washing and dressing (`ACTCODE`=`400`) for around
+10 minutes, then went for a 10-minute walk, returning home after that.
 Subsequently, they dedicated 10 minutes to meal preparation
-(`ACTCODE`=`101`), followed by a 10-minute session of food (or meal) cleanup
-(`ACTCODE`=`110`). The individual then took a 15-minute walk, returned home,
-and spent 5 minutes on household management tasks, which included
-organizing and planning activities.[^8]
+(`ACTCODE`=`101`), followed by a 10-minute session of food (or meal)
+cleanup (`ACTCODE`=`110`). The individual then took a 15-minute walk,
+returned home, and spent 5 minutes on household management tasks, which
+included organizing and planning activities.[^7]
 
-[^8]: Note: `ACTCODE` is an activity code of the episode (What were you
+[^7]: Note: `ACTCODE` is an activity code of the episode (What were you
     doing in minute).The list of main activity codes can be found in an
     appendix of the User Guide.
-    
 
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
+
 ```{r}
 walking_2010 <- walking_2010 |>
   mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
@@ -860,7 +844,7 @@ walking_2010 <- walking_2010 |>
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
   dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
-```    
+```
 
 Save data in R format for later use:
 
@@ -900,27 +884,22 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_2010 <- cycling_2010 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3 | 
-           origin == 4 | 
-           origin == 5 |
-           origin == 6 | 
-           origin == 7 | 
-           origin == 8 |
-           origin == 9 |
-           origin == 10 ) |>
+  filter(origin <= 21 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
-                     origin == 2 ~ "Work or school",
+                     origin %in% c(2,8) ~ "Work or school",
                      origin == 3 ~ "Other's home",
                      origin == 9 ~ "Outdoors",
-                     origin == 6 ~ "Grocery store, other stores or mall",
+                     origin %in% c(6,7) ~ "Grocery store, other stores or mall",
                      origin == 10 ~ "Library, museum or theatre",
                      origin == 4 ~ "Restaurant, bar or club",
                      origin == 5 ~ "Place of worship",
-                     origin == 7 ~ "Grocery store, other stores or mall",                     
-                     origin == 8 ~ "Work or school"),
+                     origin == 11 ~ "Elsewhere",
+                     origin %in% c(12,13,19) ~ "Travel - Motorized",
+                     origin %in% c(18,20,21) ~ "Travel - Other",
+                     origin %in% c(15,16) ~ "Travel - Transit",
+                     origin == 14 ~ "Travel - Walk",
+                     origin == 17 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -929,27 +908,22 @@ created for destinations.
 
 ```{r}
 cycling_2010 <- cycling_2010 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 | 
-           destination == 4 | 
-           destination == 5 |
-           destination == 6 | 
-           destination == 7 | 
-           destination == 8 |
-           destination == 9 |
-           destination == 10 ) |>
+  filter(destination <= 21 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
-                     destination == 2 ~ "Work or school",
+                     destination %in% c(2,8) ~ "Work or school",
                      destination == 3 ~ "Other's home",
                      destination == 9 ~ "Outdoors",
-                     destination == 6 ~ "Grocery store, other stores or mall",
+                     destination %in% c(6,7) ~ "Grocery store, other stores or mall",
                      destination == 10 ~ "Library, museum or theatre",
                      destination == 4 ~ "Restaurant, bar or club",
                      destination == 5 ~ "Place of worship",
-                     destination == 7 ~ "Grocery store, other stores or mall",                     
-                     destination == 8 ~ "Work or school"),
+                     destination == 11 ~ "Elsewhere",
+                     destination %in% c(12,13,19) ~ "Travel - Motorized",
+                     destination %in% c(18,20,21) ~ "Travel - Other",
+                     destination %in% c(15,16) ~ "Travel - Transit",
+                     destination == 14 ~ "Travel - Walk",
+                     destination == 17 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -968,6 +942,7 @@ cycling_2010 <- cycling_2010 %>% dplyr::rename(
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_2010 <- gss_m_2010[,c('RECID','LUC_RST','PRV')]
 
@@ -1030,7 +1005,9 @@ another cycling session for 15 minutes, after which they returned home
 once more. Subsequently, the individual carried out various household
 chores for about 10 minutes.
 
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
+
 ```{r}
 cycling_2010 <- cycling_2010 |>
   mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
@@ -1080,15 +1057,18 @@ cycling_2010 <- cycling_2010 |>
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
   dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
-```    
+```
 
 Save data in R format for later use:
+
 ```{r}
 usethis::use_data(cycling_2010, 
                   overwrite = TRUE)
 ```
 
-As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+As we have already processed this year's data, we will clear the Episode
+and Main files for this year from the computer's memory before uploading
+any more data
 
 ```{r}
 rm(gss_e_2010,gss_m_2010)
@@ -1141,27 +1121,22 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_2005 <- walking_2005 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3 | 
-           origin == 4 | 
-           origin == 5 |
-           origin == 6 | 
-           origin == 7 | 
-           origin == 8 |
-           origin == 9 |
-           origin == 10 ) |>
+  filter(origin <= 21 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
-                     origin == 2 ~ "Work or school",
+                     origin %in% c(2,8) ~ "Work or school",
                      origin == 3 ~ "Other's home",
                      origin == 9 ~ "Outdoors",
-                     origin == 6 ~ "Grocery store, other stores or mall",
+                     origin %in% c(6,7) ~ "Grocery store, other stores or mall",
                      origin == 10 ~ "Library, museum or theatre",
                      origin == 4 ~ "Restaurant, bar or club",
                      origin == 5 ~ "Place of worship",
-                     origin == 7 ~ "Grocery store, other stores or mall",               
-                     origin == 8 ~ "Work or school"),
+                     origin == 11 ~ "Elsewhere",
+                     origin %in% c(12,13,19) ~ "Travel - Motorized",
+                     origin %in% c(18,20,21) ~ "Travel - Other",
+                     origin %in% c(15,16) ~ "Travel - Transit",
+                     origin == 14 ~ "Travel - Walk",
+                     origin == 17 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -1170,27 +1145,22 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_2005 <- walking_2005 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 | 
-           destination == 4 | 
-           destination == 5 |
-           destination == 6 | 
-           destination == 7 | 
-           destination == 8 |
-           destination == 9 |
-           destination == 10 ) |>
+  filter(destination <= 21 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
-                     destination == 2 ~ "Work or school",
+                     destination %in% c(2,8) ~ "Work or school",
                      destination == 3 ~ "Other's home",
                      destination == 9 ~ "Outdoors",
-                     destination == 6 ~ "Grocery store, other stores or mall",
+                     destination %in% c(6,7) ~ "Grocery store, other stores or mall",
                      destination == 10 ~ "Library, museum or theatre",
                      destination == 4 ~ "Restaurant, bar or club",
                      destination == 5 ~ "Place of worship",
-                     destination == 7 ~ "Grocery store, other stores or mall",                     
-                     destination == 8 ~ "Work or school"),
+                     destination == 11 ~ "Elsewhere",
+                     destination %in% c(12,13,19) ~ "Travel - Motorized",
+                     destination %in% c(18,20,21) ~ "Travel - Other",
+                     destination %in% c(15,16) ~ "Travel - Transit",
+                     destination == 14 ~ "Travel - Walk",
+                     destination == 17 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -1209,6 +1179,7 @@ walking_2005 <- walking_2005 |> dplyr::rename(
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST','PRV')]
 
@@ -1244,7 +1215,7 @@ walking_2005 |>
 ```
 
 The most common destination for a walking trip that starts at home are
-`work or school`, `Other's home` and `home`. 
+`work or school`, `Other's home` and `home`.
 
 Check those home-to-home trips:
 
@@ -1263,8 +1234,8 @@ gss_e_2005 |>
 ```
 
 The individual engaged in personal grooming and dressing activities
-(`ACTCODE`= 400) before embarking on a brief walk lasting approximately 5
-minutes, after which they returned home. Subsequently, the person
+(`ACTCODE`= 400) before embarking on a brief walk lasting approximately
+5 minutes, after which they returned home. Subsequently, the person
 participated in religious activities at their residence, which included
 services, prayer, and Bible readings (`ACTCODE` = 640). Following these
 activities, the individual undertook another walk of around 5 minutes,
@@ -1272,13 +1243,15 @@ returning home once more. At home, they engaged in various activities,
 including socializing with friends and relatives and sleeping. Later,
 the person walked for approximately 5 minutes to reach a different
 location and then spent an additional 5 minutes walking to return
-home.[^9]
+home.[^8]
 
-[^9]: Note: `ACTCODE` is an activity code of the episode (What were you
+[^8]: Note: `ACTCODE` is an activity code of the episode (What were you
     doing in minute).The list of main activity codes can be found in an
     appendix of the User Guide.
 
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
+
 ```{r}
 walking_2005 <- walking_2005 |>
   mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
@@ -1328,9 +1301,10 @@ walking_2005 <- walking_2005 |>
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
   dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
-```    
+```
 
 Save data in R format for later use:
+
 ```{r}
 usethis::use_data(walking_2005,
                   overwrite = TRUE)
@@ -1368,27 +1342,22 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_2005 <- cycling_2005 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3 | 
-           origin == 4 | 
-           origin == 5 |
-           origin == 6 | 
-           origin == 7 | 
-           origin == 8 |
-           origin == 9 |
-           origin == 10 ) |>
+  filter(origin <= 21 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
-                     origin == 2 ~ "Work or school",
+                     origin %in% c(2,8) ~ "Work or school",
                      origin == 3 ~ "Other's home",
                      origin == 9 ~ "Outdoors",
-                     origin == 6 ~ "Grocery store, other stores or mall",
+                     origin %in% c(6,7) ~ "Grocery store, other stores or mall",
                      origin == 10 ~ "Library, museum or theatre",
                      origin == 4 ~ "Restaurant, bar or club",
                      origin == 5 ~ "Place of worship",
-                     origin == 7 ~ "Grocery store, other stores or mall",                     
-                     origin == 8 ~ "Work or school"),
+                     origin == 11 ~ "Elsewhere",
+                     origin %in% c(12,13,19) ~ "Travel - Motorized",
+                     origin %in% c(18,20,21) ~ "Travel - Other",
+                     origin %in% c(15,16) ~ "Travel - Transit",
+                     origin == 14 ~ "Travel - Walk",
+                     origin == 17 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -1397,27 +1366,22 @@ created for destinations.
 
 ```{r}
 cycling_2005 <- cycling_2005 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 | 
-           destination == 4 | 
-           destination == 5 |
-           destination == 6 | 
-           destination == 7 | 
-           destination == 8 |
-           destination == 9 |
-           destination == 10 ) |>
+  filter(destination <= 21 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
-                     destination == 2 ~ "Work or school",
+                     destination %in% c(2,8) ~ "Work or school",
                      destination == 3 ~ "Other's home",
                      destination == 9 ~ "Outdoors",
-                     destination == 6 ~ "Grocery store, other stores or mall",
+                     destination %in% c(6,7) ~ "Grocery store, other stores or mall",
                      destination == 10 ~ "Library, museum or theatre",
                      destination == 4 ~ "Restaurant, bar or club",
                      destination == 5 ~ "Place of worship",
-                     destination == 7 ~ "Grocery store, other stores or mall",                     
-                     destination == 8 ~ "Work or school"),
+                     destination == 11 ~ "Elsewhere",
+                     destination %in% c(12,13,19) ~ "Travel - Motorized",
+                     destination %in% c(18,20,21) ~ "Travel - Other",
+                     destination %in% c(15,16) ~ "Travel - Transit",
+                     destination == 14 ~ "Travel - Walk",
+                     destination == 17 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -1436,6 +1400,7 @@ cycling_2005 <- cycling_2005 |> dplyr::rename(
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_2005 <- gss_m_2005[,c('RECID','LUC_RST','PRV')]
 
@@ -1490,12 +1455,14 @@ gss_e_2005 |>
 The individual remained at home, where they slept for approximately 420
 minutes. Subsequently, they ventured out for a 15-minute cycling session
 before returning home. Upon their return, they engaged in an activity
-labeled as `ACTCODE` = 11 for 465 minutes, which denotes working from home
-as their primary workplace. Following this work period, the person went
-out for another 15-minute cycling session, then returned home once more
-and spent 90 minutes watching television.
+labeled as `ACTCODE` = 11 for 465 minutes, which denotes working from
+home as their primary workplace. Following this work period, the person
+went out for another 15-minute cycling session, then returned home once
+more and spent 90 minutes watching television.
 
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
+
 ```{r}
 cycling_2005 <- cycling_2005 |>
   mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
@@ -1548,11 +1515,15 @@ cycling_2005 <- cycling_2005 |>
 ```
 
 Save data in R format for later use:
+
 ```{r}
 usethis::use_data(cycling_2005, 
                   overwrite = TRUE)
 ```
-As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+As we have already processed this year's data, we will clear the Episode
+and Main files for this year from the computer's memory before uploading
+any more data
 
 ```{r}
 rm(gss_e_2005,gss_m_2005)
@@ -1571,7 +1542,6 @@ gss_e_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-
 gss_m_1998 <- read.csv(paste0(here(), "/data-raw/source-files/Time-use-1998/gss-12M0012-E-1998-c-12-m_F1.csv")) # Original file
 #gss_m_1998 <- read.csv(paste0(here(), "/data-raw/1998-gss-m-reproducibility.csv")) # Subset for reproducibility
 ```
-
 
 ### Walking 1998
 
@@ -1605,13 +1575,17 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_1998 <- walking_1998 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3 ) |>
+  filter(origin <= 10 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
-                     origin == 3 ~ "Other's home"),
+                     origin == 3 ~ "Other's home",
+                     origin == 4 ~ "Elsewhere",
+                     origin %in% c(5,6) ~ "Travel - Motorized",
+                     origin == 10 ~ "Travel - Other",
+                     origin == 8  ~ "Travel - Transit",
+                     origin == 7 ~ "Travel - Walk",
+                     origin == 9 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -1620,13 +1594,17 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_1998 <- walking_1998 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 ) |>
+  filter(destination <= 10 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
-                     destination == 3 ~ "Other's home"),
+                     destination == 3 ~ "Other's home",
+                     destination == 4 ~ "Elsewhere",
+                     destination %in% c(5,6) ~ "Travel - Motorized",
+                     destination == 10 ~ "Travel - Other",
+                     destination == 8  ~ "Travel - Transit",
+                     destination == 7 ~ "Travel - Walk",
+                     destination == 9 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -1646,6 +1624,7 @@ walking_1998 <- walking_1998|> dplyr::rename(
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_1998 <- gss_m_1998[,c('RECID','CMAPRV','PRV')]
 
@@ -1679,8 +1658,8 @@ walking_1998 |>
   pivot_wider(names_from = "dest_label", values_from = "n")
 ```
 
-In this case, the most common destination for a walking trip that starts at home are
-`other's Home`.
+In this case, the most common destination for a walking trip that starts
+at home are `other's Home`.
 
 Check those home-to-home trips:
 
@@ -1699,10 +1678,14 @@ gss_e_1998 |>
 
 ```
 
-The person was at home doing food cleanup (`ACTCODE` = 110), then
-went for walking that lasted 30 minutes, came back home and spent 15 minutes relaxing/resting. Here have here another case of a recreational/leisure trip!
+The person was at home doing food cleanup (`ACTCODE` = 110), then went
+for walking that lasted 30 minutes, came back home and spent 15 minutes
+relaxing/resting. Here have here another case of a recreational/leisure
+trip!
 
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
+
 ```{r}
 walking_1998 <- walking_1998 |>
   mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
@@ -1792,13 +1775,17 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_1998 <- cycling_1998 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3 ) |>
+  filter(origin <= 10 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
-                     origin == 3 ~ "Other's home"),
+                     origin == 3 ~ "Other's home",
+                     origin == 4 ~ "Elsewhere",
+                     origin %in% c(5,6) ~ "Travel - Motorized",
+                     origin == 10 ~ "Travel - Other",
+                     origin == 8  ~ "Travel - Transit",
+                     origin == 7 ~ "Travel - Walk",
+                     origin == 9 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -1807,13 +1794,17 @@ created for destinations.
 
 ```{r}
 cycling_1998 <- cycling_1998 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 ) |>
+  filter(destination <= 10 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
-                     destination == 3 ~ "Other's home"),
+                     destination == 3 ~ "Other's home",
+                     destination == 4 ~ "Elsewhere",
+                     destination %in% c(5,6) ~ "Travel - Motorized",
+                     destination == 10 ~ "Travel - Other",
+                     destination == 8  ~ "Travel - Transit",
+                     destination == 7 ~ "Travel - Walk",
+                     destination == 9 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -1833,6 +1824,7 @@ cycling_1998 <- cycling_1998|> dplyr::rename(
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_1998 <- gss_m_1998[,c('RECID','CMAPRV','PRV')]
 
@@ -1885,9 +1877,15 @@ gss_e_1998 |>
   dplyr::select(RECID,PLACE,ACTCODE,DURATION)
 ```
 
-The person spent 165 minutes talking to someone (in person or on the phone, `ARTCODE` = 950), then embarked on a bike ride for 12 minutes. After that, the person spent 108 minutes shopping at home (`ARTCODE` = 380), cycled for another 12 minutes and came back to talk to someone for another 138 minutes (`ARTCODE` = 950). 
+The person spent 165 minutes talking to someone (in person or on the
+phone, `ARTCODE` = 950), then embarked on a bike ride for 12 minutes.
+After that, the person spent 108 minutes shopping at home (`ARTCODE` =
+380), cycled for another 12 minutes and came back to talk to someone for
+another 138 minutes (`ARTCODE` = 950).
 
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
+
 ```{r}
 cycling_1998 <- cycling_1998 |>
   mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
@@ -1945,7 +1943,10 @@ Save data in R format for later use:
 usethis::use_data(cycling_1998, 
                   overwrite = TRUE)
 ```
-As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+As we have already processed this year's data, we will clear the Episode
+and Main files for this year from the computer's memory before uploading
+any more data
 
 ```{r}
 rm(gss_e_1998,gss_m_1998)
@@ -1997,13 +1998,17 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_1992 <- walking_1992 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3) |>
+  filter(origin <= 10 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
-                     origin == 3 ~ "Other's home"),
+                     origin == 3 ~ "Other's home",
+                     origin == 4 ~ "Elsewhere",
+                     origin %in% c(5,6) ~ "Travel - Motorized",
+                     origin == 10 ~ "Travel - Other",
+                     origin == 8  ~ "Travel - Transit",
+                     origin == 7 ~ "Travel - Walk",
+                     origin == 9 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -2012,13 +2017,17 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_1992 <- walking_1992 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 ) |>
+  filter(destination <= 10 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
-                     destination == 3 ~ "Other's home"),
+                     destination == 3 ~ "Other's home",
+                     destination == 4 ~ "Elsewhere",
+                     destination %in% c(5,6) ~ "Travel - Motorized",
+                     destination == 10 ~ "Travel - Other",
+                     destination == 8  ~ "Travel - Transit",
+                     destination == 7 ~ "Travel - Walk",
+                     destination == 9 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -2038,6 +2047,7 @@ walking_1992 <- walking_1992 |> dplyr::rename(
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA','DVPROV')]
 
@@ -2090,13 +2100,17 @@ gss_e_1992 |>
 
 ```
 
-The person was at home reading newspapers (`ACTCODE` = 940), then went for walking that lasted 30 minutes, came back home and spent 90 minutes resting (`ACTCODE` = 470).[^10]
+The person was at home reading newspapers (`ACTCODE` = 940), then went
+for walking that lasted 30 minutes, came back home and spent 90 minutes
+resting (`ACTCODE` = 470).[^9]
 
-[^10]: Note: ACTCODE is an activity code of the episode (What were you
+[^9]: Note: ACTCODE is an activity code of the episode (What were you
     doing in minute).The list of main activity codes can be found in an
     appendix of the User Guide.
 
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
+
 ```{r}
 walking_1992 <- walking_1992 |>
   mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
@@ -2119,19 +2133,33 @@ walking_1992 <- walking_1992 |>
                                ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
                                ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
                                ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 331 ~ "Financial Services (e.g. banking)", # p. 188
+                               ACTCODE == 332 ~ "Government Services (e.g. UIC)", # p. 188
                                ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 380 ~ "Other Shopping and Services", # p. 188
                                ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 400 ~ "Washing, Dressing", # p. 202
+                               ACTCODE == 470 ~ "Relaxing, Thinking, Resting", # p. 202
+                               ACTCODE == 480 ~ "Other Personal Care or Private Activities", # p. 202
                                ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
                                ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 550 ~ "Breaks/Waiting for Class", # p. 208
+                               ACTCODE == 580 ~ "Other Study", # p. 208
                                ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
                                ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 640 ~ "Religious ServicesfPrayerfRead Bible", # p. 215
                                ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
                                ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 678 ~ "Other unpaid work ", # p. 215
+                               ACTCODE == 680 ~ "Other Organizational, Voluntary and Religious Activity", # p. 215
                                ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
                                ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 753 ~ "Socializing w/friends (non-private residence)", # p. 234
+                               ACTCODE == 780 ~ "Other Social Gatherings (Weddings, Wakes)", # p. 234
                                ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
                                ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
                                ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 814 ~ "Camping", # p. 244
                                ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
                                ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
                                ACTCODE == 822 ~ "Bicycling", # p. 244
@@ -2143,18 +2171,22 @@ walking_1992 <- walking_1992 |>
                                ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
                                ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
                                ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 950 ~ "Talking, Conversation, Phone", # p. 266
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
   dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
 ```
 
-Cases of episodes with `NA` weight values will be updated to value 1, meaning that since there's no weighting value for this observation, this episode only represent itself:
+Cases of episodes with `NA` weight values will be updated to value 1,
+meaning that since there's no weighting value for this observation, this
+episode only represent itself:
 
 ```{r fixing-NA-weights-walking_1992}
 walking_1992$WGHT_EPI[is.na(walking_1992$WGHT_EPI)] <- 1
 ```
 
 Save data in `R` format for later use:
+
 ```{r}
 usethis::use_data(walking_1992, 
                   overwrite = TRUE)
@@ -2191,13 +2223,17 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_1992 <- cycling_1992 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3 ) |>
+  filter(origin <= 10 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
-                     origin == 3 ~ "Other's home"),
+                     origin == 3 ~ "Other's home",
+                     origin == 4 ~ "Elsewhere",
+                     origin %in% c(5,6) ~ "Travel - Motorized",
+                     origin == 10 ~ "Travel - Other",
+                     origin == 8  ~ "Travel - Transit",
+                     origin == 7 ~ "Travel - Walk",
+                     origin == 9 ~ "Travel - Bycicle"),
          orig_label = factor(orig_label))
 ```
 
@@ -2206,13 +2242,17 @@ and create the label for the `destination` variable:
 
 ```{r}
 cycling_1992 <- cycling_1992 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 ) |>
+  filter(destination <= 10 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
-                     destination == 3 ~ "Other's home"),
+                     destination == 3 ~ "Other's home",
+                     destination == 4 ~ "Elsewhere",
+                     destination %in% c(5,6) ~ "Travel - Motorized",
+                     destination == 10 ~ "Travel - Other",
+                     destination == 8  ~ "Travel - Transit",
+                     destination == 7 ~ "Travel - Walk",
+                     destination == 9 ~ "Travel - Bycicle"),
          dest_label = factor(dest_label))
 ```
 
@@ -2232,6 +2272,7 @@ cycling_1992 <- cycling_1992 |> dplyr::rename(
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_1992 <- gss_m_1992[,c('SEQNUM','DVCMA','DVPROV')]
 
@@ -2285,9 +2326,14 @@ gss_e_1992 |>
   dplyr::select(SEQNUM,PLACE,ACTCODE,DURATION)
 ```
 
-The person was at home Talking or having conversation on the phone (`ACTCODE` = 950), then went for cycling (`ACTCODE` = 822) that lasted 60 minutes, came back home and spent 15 minutes washing and dressing (`ACTCODE` = 400). 
+The person was at home Talking or having conversation on the phone
+(`ACTCODE` = 950), then went for cycling (`ACTCODE` = 822) that lasted
+60 minutes, came back home and spent 15 minutes washing and dressing
+(`ACTCODE` = 400).
 
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
+
 ```{r label-activity-codes-1992-cycling}
 cycling_1992 <- cycling_1992 |>
   mutate(act_label = case_when(ACTCODE == 2 ~ "Refused information",
@@ -2310,19 +2356,33 @@ cycling_1992 <- cycling_1992 |>
                                ACTCODE == 292 ~ "Travel to/from personal care activities for household adults",  # p.177
                                ACTCODE == 302 ~ "Everyday shopping: everyday goods and products (clothing, gas, etc.)", # p. 188
                                ACTCODE == 303 ~ "Everyday shopping: Take-out food", # p. 188
+                               ACTCODE == 331 ~ "Financial Services (e.g. banking)", # p. 188
+                               ACTCODE == 332 ~ "Government Services (e.g. UIC)", # p. 188
                                ACTCODE == 370 ~ "Waiting for purchases or services", # p. 188
+                               ACTCODE == 380 ~ "Other Shopping and Services", # p. 188
                                ACTCODE == 390 ~ "Travel to/from shopping or obtaining services", # p. 188
+                               ACTCODE == 400 ~ "Washing, Dressing", # p. 202
+                               ACTCODE == 470 ~ "Relaxing, Thinking, Resting", # p. 202
+                               ACTCODE == 480 ~ "Other Personal Care or Private Activities", # p. 202
                                ACTCODE == 491 ~ "Travel to/from restaurant meals", # p. 202
                                ACTCODE == 492 ~ "Travel to/from other personal care activities", # p. 202
+                               ACTCODE == 550 ~ "Breaks/Waiting for Class", # p. 208
+                               ACTCODE == 580 ~ "Other Study", # p. 208
                                ACTCODE == 590 ~ "Travel to/from school education activities", # p. 208
                                ACTCODE == 610 ~ "Political, civic activity (e.g. voting, jury duty, city council, donating blood)", # p. 215
+                               ACTCODE == 640 ~ "Religious ServicesfPrayerfRead Bible", # p. 215
                                ACTCODE == 673 ~ "Unpaid babysitting", # p. 215
                                ACTCODE == 674 ~ "Transportation assistance to someone other than a household member", # p. 215
+                               ACTCODE == 678 ~ "Other unpaid work ", # p. 215
+                               ACTCODE == 680 ~ "Other Organizational, Voluntary and Religious Activity", # p. 215
                                ACTCODE == 691 ~ "Travel to/from civic and voluntary activity", # p. 216
                                ACTCODE == 692 ~ "Travel to/from religious services", # p. 216
+                               ACTCODE == 753 ~ "Socializing w/friends (non-private residence)", # p. 234
+                               ACTCODE == 780 ~ "Other Social Gatherings (Weddings, Wakes)", # p. 234
                                ACTCODE == 791 ~ "Travel to/from attending sports, movies or other entertainment events or visit sites", # p. 234
                                ACTCODE == 792 ~ "Travel to/from socializing at private residences", # p. 234
                                ACTCODE == 793 ~ "Travel to/from other socializing (to bars, hospitals, weddings)", # p. 234
+                               ACTCODE == 814 ~ "Camping", # p. 244
                                ACTCODE == 816 ~ "Other outdoor activities/excursions (picnic, car rally, bird watching)", # p. 244
                                ACTCODE == 821 ~ "Walking, hiking, jogging, running", # p. 821
                                ACTCODE == 822 ~ "Bicycling", # p. 244
@@ -2330,22 +2390,28 @@ cycling_1992 <- cycling_1992 |>
                                ACTCODE == 871 ~ "Pleasure drives (as the driver)", # p. 245
                                ACTCODE == 872 ~ "Pleasure drives (as a passenger in the car)", # p. 245
                                ACTCODE == 873 ~ "Other pleasure drives (e.g. on a tour bus)", # p. 245
+                               ACTCODE == 880 ~ "Other Sport or Active Leisure", # p. 245
                                ACTCODE == 891 ~ "Travel to/from participation in active sport/outdoor activities", # p. 245
                                ACTCODE == 892 ~ "Travel to/from coaching activities", # p. 245
                                ACTCODE == 893 ~ "Travel to/from hobbies or for the sale of crafts", # p. 245
                                ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
+                               ACTCODE == 950 ~ "Talking, Conversation, Phone", # p. 266
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
   dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
 ```
 
 Save data in R format for later use:
+
 ```{r}
 usethis::use_data(cycling_1992, 
                   overwrite = TRUE)
 ```
 
-As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+As we have already processed this year's data, we will clear the Episode
+and Main files for this year from the computer's memory before uploading
+any more data
+
 ```{r}
 rm(gss_e_1992,gss_m_1992)
 ```
@@ -2395,13 +2461,15 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_1986 <- walking_1986 |>
-  filter(origin == 1 | 
-           origin == 2 | 
-           origin == 3) |>
+  filter(origin < 8 ) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
-                     origin == 3 ~ "Other's home"),
+                     origin == 3 ~ "Elsewhere",
+                     origin == 4 ~ "Travel - Motorized",
+                     origin == 7 ~ "Travel - Other",
+                     origin == 6 ~ "Travel - Transit",
+                     origin == 5 ~ "Travel - Walk"),
          orig_label = factor(orig_label))
 ```
 
@@ -2410,21 +2478,27 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_1986 <- walking_1986 |>
-  filter(destination == 1 | 
-           destination == 2 | 
-           destination == 3 ) |>
+  filter(destination < 8 ) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
-                     destination == 3 ~ "Other's home"),
+                     destination == 3 ~ "Elsewhere",
+                     destination == 4 ~ "Travel - Motorized",
+                     destination == 7 ~ "Travel - Other",
+                     destination == 6 ~ "Travel - Transit",
+                     destination == 5 ~ "Travel - Walk"),
          dest_label = factor(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
 `RECID`, `WGHTEPI` and `PLACE` were changed to `PUMFID`, `WGHT_EPI` and
-`LOCATION` to align with the names of the variables in 2015. 
+`LOCATION` to align with the names of the variables in 2015.
 
-**IMPORTANT:** See p. A96 of the User's Guide for Cycle 2. The `WGHT_EPI` values, which give the number of people a record represents, (in this case the `FWGT_MS`) are given as a 9 digit integer with 4 decimals, like so: XXXXX.XXXX. We cannot just copy `FWGT_MS` to `WGHT_EPI` below, we must divide first by 10,000:
+**IMPORTANT:** See p. A96 of the User's Guide for Cycle 2. The
+`WGHT_EPI` values, which give the number of people a record represents,
+(in this case the `FWGT_MS`) are given as a 9 digit integer with 4
+decimals, like so: XXXXX.XXXX. We cannot just copy `FWGT_MS` to
+`WGHT_EPI` below, we must divide first by 10,000:
 
 ```{r}
 gss_m_1986 <- gss_m_1986[,c('SEQNUM','PROV')]
@@ -2488,7 +2562,10 @@ gss_e_1986 |>
   dplyr::select(SEQNUM, PLACE, ACT_CODE, DURATION)
 ```
 
-The person was at home listening radio for 30 minutes (`ARTCODE` = 90), then went for a walk for gardening/pet care (`ACT_CODE` = 17) that lasted 15 minutes, came back home and spent 90 minutes resting/relaxing (`ARTCODE` = 47).
+The person was at home listening radio for 30 minutes (`ARTCODE` = 90),
+then went for a walk for gardening/pet care (`ACT_CODE` = 17) that
+lasted 15 minutes, came back home and spent 90 minutes resting/relaxing
+(`ARTCODE` = 47).
 
 ```{r include=FALSE}
 walking_1986 |>
@@ -2504,14 +2581,15 @@ gss_e_1986 |>
   dplyr::select(SEQNUM, PLACE, ACT_CODE, DURATION)
 ```
 
+Label the activity (see the activity codes in the 2010 User's Guide) and
+drop the LOCATION because it is already coded as MODE:
 
-
-Label the activity (see the activity codes in the 2010 User's Guide) and drop the LOCATION because it is already coded as MODE:
 ```{r label-activity-codes-1986-walking}
 walking_1986 <- walking_1986 |>
   mutate(act_label = case_when(ACTCODE == 1 ~ "Work for Pay",
                                ACTCODE == 2 ~ "Overtime/looking for work", # p. 156
                                ACTCODE == 3 ~ "Travel during work", # p. 156
+                               ACTCODE == 4 ~ "Waiting/Delays at Work", # p. 156
                                ACTCODE == 5 ~ "Meals/snacks at work", # p. 156
                                ACTCODE == 6 ~ "Idle time before/after work", # p. 156
                                ACTCODE == 7 ~ "Coffee/other breaks at work", # p. 156
@@ -2520,6 +2598,7 @@ walking_1986 <- walking_1986 |>
                                ACTCODE == 10 ~ "Meal preparation", # p. 164
                                ACTCODE == 11 ~ "Food (or meal) cleanup", # p. 164
                                ACTCODE == 12 ~ "Indoor cleaning", # p. 164
+                               ACTCODE == 14 ~ "Laundry, Ironing, Folding", # p. 164
                                ACTCODE == 13 ~ "Outdoor cleaning (garbage, snow removal, garage)", # p. 164
                                ACTCODE == 17 ~ "Gardening, pet care", # p. 164 
                                ACTCODE == 18 ~ "Other housework", # p. 164
@@ -2528,9 +2607,11 @@ walking_1986 <- walking_1986 |>
                                ACTCODE == 21 ~ "Child care", # p. 177
                                ACTCODE == 22 ~ "Helping/teaching/reprimanding", # p. 177
                                ACTCODE == 23 ~ "Reading/talking/conversation with child", # p. 177
+                               ACTCODE == 24 ~ "Play with Children", # p. 177
                                ACTCODE == 28 ~ "Other child care (unpaid babysitting)", # p. 177
                                ACTCODE == 29 ~ "Travel to/from personal care activities for household members", # p. 177 
                                ACTCODE == 30 ~ "Everyday Shopping", # p. 188
+                               ACTCODE == 32 ~ "Personal Care Services", # p. 188
                                ACTCODE == 33 ~ "Government and financial services", # p. 188
                                ACTCODE == 34 ~ "Adult medical and dental care (outside home)", # p. 188
                                ACTCODE == 36 ~ "Repair services (cleaning, auto, appliance)", # p. 
@@ -2573,6 +2654,7 @@ walking_1986 <- walking_1986 |>
                                ACTCODE == 91 ~ "Television, rented movies", # p. 266 
                                ACTCODE == 92 ~ "Listening to CD’s, cassette tapes or records", # p. 266
                                ACTCODE == 93 ~ "Reading books, magazines", # p. 266
+                               ACTCODE == 94 ~ "Reading Newspapers", # p. 266
                                ACTCODE == 95 ~ "Talking, conversation with household member only (face-to-face)", # p. 266
                                ACTCODE == 96 ~ "Letters and mail", # p. 266
                                ACTCODE == 97 ~ "Refused information", # p. 303
@@ -2583,16 +2665,19 @@ walking_1986 <- walking_1986 |>
 ```
 
 Save data in R format for later use:
+
 ```{r}
 usethis::use_data(walking_1986, 
                   overwrite = TRUE)
 ```
-As we have already processed this year's data, we will clear the Episode and Main files for this year from the computer's memory before uploading any more data
+
+As we have already processed this year's data, we will clear the Episode
+and Main files for this year from the computer's memory before uploading
+any more data
 
 ```{r}
 rm(gss_e_1986,gss_m_1986)
 ```
-
 
 ## GSS 2022
 
@@ -2629,10 +2714,10 @@ rows_sas <- lapply(inds_sas, function(x) (x-1):(x+1))
 ```
 
 Now, we'll select all the rows with walking episodes in the GSS survey,
-selecting the columns that we are interested[^5], and already creating
+selecting the columns that we are interested[^10], and already creating
 the origin and destination variables:
 
-[^5]: Specifically for the 2022 GSS survey, `TUI_01` refers to the
+[^10]: Specifically for the 2022 GSS survey, `TUI_01` refers to the
     activity code. We'll change the name of this column to be match the
     name of the activity code variable in the others surveys.
 
@@ -2665,23 +2750,20 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_2022_spss <- walking_2022_spss |>
-  filter(origin == 'At home or on property' | 
-           origin == 'At place of work or school' | 
-           origin == 'Grocery store, other stores or mall'| 
-           origin == 'In the neighbourhood'| 
-           origin == 'Sports centre, field or arena'| 
-           origin == 'Outdoors'| 
-           origin == 'Restaurant, bar or club'| 
-           origin == 'At someone else\'s home or property'| 
-           origin == 'Medical, dental or other health clinic'| 
-           origin == 'Library, museum or theatre'| 
-           origin == 'Place of worship' |
-           origin == 'Away at business') |>
-  mutate(orig_label =
+  filter(!is.na(origin)) |>
+    mutate(orig_label =
            case_when(origin == 'At home or on property' ~ "Home", 
                      origin == 'At place of work or school' ~ "Work or school",
                      origin == 'Away at business' ~ "Business",
                      origin == 'At someone else\'s home or property' ~ "Other's home",
+                     origin %in% c('Travel - Car, truck or van,  - as passenger', 
+                                   'Travel - Car, truck or van,  - as driver',
+                                   'Travel - Motorcycle, scooter or moped',
+                                   'Travel - Taxi, Limousine service') ~ "Travel - Motorized", 
+                     origin %in% c('Travel - Airplane', 
+                                   'Travel - Other',
+                                   'Travel - not stated') ~ "Travel - Other", 
+                     origin == 'Travel - Public transit (bus, streetcar, subway, light-rail)' ~ "Travel - Transit",
                      TRUE ~ origin),
          orig_label = factor(orig_label))
 ```
@@ -2690,25 +2772,22 @@ Similarly to the step before, we'll select the destinations of interest
 and create the label for the `destination` variable:
 
 ```{r}
-walking_2022_spss <- walking_2022_spss |>  
-  filter(destination == 'At home or on property' | 
-           destination == 'At place of work or school' | 
-           destination == 'Grocery store, other stores or mall'| 
-           destination == 'In the neighbourhood'| 
-           destination == 'Sports centre, field or arena'| 
-           destination == 'Outdoors'| 
-           destination == 'Restaurant, bar or club'| 
-           destination == 'At someone else\'s home or property'| 
-           destination == 'Medical, dental or other health clinic'| 
-           destination == 'Library, museum or theatre'| 
-           destination == 'Place of worship' |
-           destination == 'Away at business') |>
-  mutate(dest_label =
+walking_2022_spss <- walking_2022_spss |>
+  filter(!is.na(destination)) |>
+    mutate(dest_label =
            case_when(destination == 'At home or on property' ~ "Home", 
                      destination == 'At place of work or school' ~ "Work or school",
                      destination == 'Away at business' ~ "Business",
                      destination == 'At someone else\'s home or property' ~ "Other's home",
-                     TRUE ~ destination), 
+                     destination %in% c('Travel - Car, truck or van,  - as passenger', 
+                                   'Travel - Car, truck or van,  - as driver',
+                                   'Travel - Motorcycle, scooter or moped',
+                                   'Travel - Taxi, Limousine service') ~ "Travel - Motorized", 
+                     origin %in% c('Travel - Airplane', 
+                                   'Travel - Other',
+                                   'Travel - not stated') ~ "Travel - Other", 
+                     destination == 'Travel - Public transit (bus, streetcar, subway, light-rail)' ~ "Travel - Transit",
+                     TRUE ~ destination),
          dest_label = factor(dest_label))
 ```
 
@@ -2729,6 +2808,7 @@ walking_2022 <- walking_2022 |>
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 gss_m_2022 <- gss_m_2022 %>%
   dplyr::select(PUMFID,LUC_RST,PRV) %>%
@@ -2783,10 +2863,12 @@ walking_2022 |>
   pivot_wider(names_from = "dest_label", values_from = "n")
 ```
 
-The table above shows that the most common destination for a walking trip
-that starts at home are `Home` and `Work or school`. It also shows that the second most common walking trip is from `Grocery store, other stores or mall` to `Home`. Notice, though,
-that quite a few trips start *and* end at Home. What are those supposed
-to be?
+The table above shows that the most common destination for a walking
+trip that starts at home are `Home` and `Work or school`. It also shows
+that the second most common walking trip is from
+`Grocery store, other stores or mall` to `Home`. Notice, though, that
+quite a few trips start *and* end at Home. What are those supposed to
+be?
 
 Check those home-to-home trips:
 
@@ -2806,8 +2888,9 @@ gss_e_2022_spss |>
   dplyr::select(PUMFID, INSTANCE, ACTIVITY, LOCATION, DURATION)
 ```
 
-The person was at home doing regular household tasks, then went for
-walk that lasted 20 minutes, came back home and returned to the household tasks for more 180 minutes. 
+The person was at home doing regular household tasks, then went for walk
+that lasted 20 minutes, came back home and returned to the household
+tasks for more 180 minutes.
 
 Save data in R format for later use:
 
@@ -2815,7 +2898,6 @@ Save data in R format for later use:
 usethis::use_data(walking_2022, 
                   overwrite = TRUE)
 ```
-
 
 ### Cycling 2022
 
@@ -2834,10 +2916,10 @@ rows_sas <- lapply(inds_sas, function(x) (x-1):(x+1))
 ```
 
 Now, we'll select all the rows with cycling episodes in the GSS survey,
-selecting the columns that we are interested[^5], and already creating
+selecting the columns that we are interested[^11], and already creating
 the origin and destination variables:
 
-[^5]: Specifically for the 2022 GSS survey, `TUI_01` refers to the
+[^11]: Specifically for the 2022 GSS survey, `TUI_01` refers to the
     activity code. We'll change the name of this column to be match the
     name of the activity code variable in the others surveys.
 
@@ -2870,23 +2952,20 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_2022_spss <- cycling_2022_spss |>
-  filter(origin == 'At home or on property' | 
-           origin == 'At place of work or school' | 
-           origin == 'Grocery store, other stores or mall'| 
-           origin == 'In the neighbourhood'| 
-           origin == 'Sports centre, field or arena'| 
-           origin == 'Outdoors'| 
-           origin == 'Restaurant, bar or club'| 
-           origin == 'At someone else\'s home or property'| 
-           origin == 'Medical, dental or other health clinic'| 
-           origin == 'Library, museum or theatre'| 
-           origin == 'Place of worship' |
-           origin == 'Away at business') |>
-  mutate(orig_label =
+  filter(!is.na(origin)) |>
+    mutate(orig_label =
            case_when(origin == 'At home or on property' ~ "Home", 
                      origin == 'At place of work or school' ~ "Work or school",
                      origin == 'Away at business' ~ "Business",
                      origin == 'At someone else\'s home or property' ~ "Other's home",
+                     origin %in% c('Travel - Car, truck or van,  - as passenger', 
+                                   'Travel - Car, truck or van,  - as driver',
+                                   'Travel - Motorcycle, scooter or moped',
+                                   'Travel - Taxi, Limousine service') ~ "Travel - Motorized", 
+                     origin %in% c('Travel - Airplane', 
+                                   'Travel - Other',
+                                   'Travel - not stated') ~ "Travel - Other", 
+                     origin == 'Travel - Public transit (bus, streetcar, subway, light-rail)' ~ "Travel - Transit",
                      TRUE ~ origin),
          orig_label = factor(orig_label))
 ```
@@ -2895,25 +2974,22 @@ Similarly to the step before, we'll select the destinations of interest
 and create the label for the `destination` variable:
 
 ```{r}
-cycling_2022_spss <- cycling_2022_spss |>  
-  filter(destination == 'At home or on property' | 
-           destination == 'At place of work or school' | 
-           destination == 'Grocery store, other stores or mall'| 
-           destination == 'In the neighbourhood'| 
-           destination == 'Sports centre, field or arena'| 
-           destination == 'Outdoors'| 
-           destination == 'Restaurant, bar or club'| 
-           destination == 'At someone else\'s home or property'| 
-           destination == 'Medical, dental or other health clinic'| 
-           destination == 'Library, museum or theatre'| 
-           destination == 'Place of worship' |
-           destination == 'Away at business') |>
-  mutate(dest_label =
+cycling_2022_spss <- cycling_2022_spss |>
+  filter(!is.na(destination)) |>
+    mutate(dest_label =
            case_when(destination == 'At home or on property' ~ "Home", 
                      destination == 'At place of work or school' ~ "Work or school",
                      destination == 'Away at business' ~ "Business",
                      destination == 'At someone else\'s home or property' ~ "Other's home",
-                     TRUE ~ destination), 
+                     destination %in% c('Travel - Car, truck or van,  - as passenger', 
+                                   'Travel - Car, truck or van,  - as driver',
+                                   'Travel - Motorcycle, scooter or moped',
+                                   'Travel - Taxi, Limousine service') ~ "Travel - Motorized", 
+                     origin %in% c('Travel - Airplane', 
+                                   'Travel - Other',
+                                   'Travel - not stated') ~ "Travel - Other", 
+                     destination == 'Travel - Public transit (bus, streetcar, subway, light-rail)' ~ "Travel - Transit",
+                     TRUE ~ destination),
          dest_label = factor(dest_label))
 ```
 
@@ -2934,6 +3010,7 @@ cycling_2022 <- cycling_2022 |>
 ```
 
 Now, let's select only the cases of respondents who live in a CMA or CA:
+
 ```{r}
 cycling_2022 <- cycling_2022 |> 
   left_join(gss_m_2022, by = 'PUMFID') |>  # Merging the two tables
@@ -2959,10 +3036,12 @@ cycling_2022 |>
   pivot_wider(names_from = "dest_label", values_from = "n")
 ```
 
-The table above shows that the most common destination for a cycling trip
-that starts at home are `Home` and `Work or school`. It also shows that the second most common cycling trip is from `Grocery store, other stores or mall` to `Home`. Notice, though,
-that quite a few trips start *and* end at Home. What are those supposed
-to be?
+The table above shows that the most common destination for a cycling
+trip that starts at home are `Home` and `Work or school`. It also shows
+that the second most common cycling trip is from
+`Grocery store, other stores or mall` to `Home`. Notice, though, that
+quite a few trips start *and* end at Home. What are those supposed to
+be?
 
 Check those home-to-home trips:
 
@@ -2982,9 +3061,11 @@ gss_e_2022_spss |>
   dplyr::select(PUMFID, INSTANCE, ACTIVITY, LOCATION, DURATION)
 ```
 
-The person was at home doing `Culture, sports events, hobbies, leisure or outdoor activity`, then went for cycling trip that lasted 60 minutes, came back home and spent 120 minutes
-`reading, whatching TV or listening music`. So, this was a recreational/leisure
-trip!
+The person was at home doing
+`Culture, sports events, hobbies, leisure or outdoor activity`, then
+went for cycling trip that lasted 60 minutes, came back home and spent
+120 minutes `reading, whatching TV or listening music`. So, this was a
+recreational/leisure trip!
 
 Save data in R format for later use:
 
@@ -3003,7 +3084,9 @@ To finish our pre-processing methodology, we will create a dataset named
 gss_episodes <- rbind(walking_2022, cycling_2022, walking_2015, cycling_2015, walking_2010, cycling_2010, walking_2005, cycling_2005, cycling_1998, walking_1998, walking_1992, cycling_1992, walking_1986)
 ```
 
-Cases of episodes with `NA` weight values will be updated to value 1, meaning that since there's no weighting value for this observation, this episode only represent itself:
+Cases of episodes with `NA` weight values will be updated to value 1,
+meaning that since there's no weighting value for this observation, this
+episode only represent itself:
 
 ```{r fixing-NA-weights}
 gss_episodes$WGHT_EPI[is.na(gss_episodes$WGHT_EPI)] <- 1
