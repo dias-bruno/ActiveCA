@@ -1,33 +1,36 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ActiveCA
+# ActiveCA: Time use data from the general social survey of Canada to study active travel
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-{ActiveCA} is an open data product in the form of an `R` data package
-with information about active travel in Canada. The data product is
-based on Public Use Microdata Files of Statistics Canada’s [General
-Social Survey (GSS)
-program](https://www150.statcan.gc.ca/n1/pub/45-25-0001/index-eng.htm)
-with a focus on the [Time Use
-Survey](https://www150.statcan.gc.ca/n1/pub/45-25-0001/index-eng.htm#a7)
-cycles.
+- Bruno Santos, School of Earth, Environment and Society, McMaster
+  University
+- Mahdis Mogadhasi, School of Earth, Environment and Society, McMaster
+  University
+- Antonio Paez, School of Earth, Environment and Society, McMaster
+  University
 
-To reduce the barriers to the use of the Public Use Microdata Files,
-this data product has extracted all walking and cycling episodes and
-their corresponding episode weights. Origins and destinations are
-categorized, and it is possible to investigate active travel (number of
-episodes and their duration) for broad categories of purposes (e.g.,
-travel to work or school, travel to other’s home). {ActiveCA} also
-include some socioeconomic variables from the GSS Main Files to
-facilitate profiling the survey’s respondents.
+This paper describes {ActiveCA}, an open data product with Canadian time
+use data. {ActiveCA} is an R data package that contains analysis-ready
+data related to active travel spanning almost 40 years, extracted from
+Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005), 24 (2010), 29 (2015),
+and 34 (2022) of the Time Use Survey (TUS) from the General Social
+Survey (GSS). Active travel episodes are characterized by mode, with
+walking being part of every cycle and bicycling starting in 1992. The
+attributes of active trips are the types of locations of origins and
+destinations, the duration of trips, and episode weights for expanding
+the trips to population-wide estimates. Based on the year of the survey,
+a variety of locations are coded. In earlier cycles, these include home,
+work or school, and other’s home, whereas in later cycles these are
+augmented with locations such as grocery stores, restaurants, outdoor
+destinations, and others. The geographical resolution includes the
+province and whether the episode was in an urban or rural setting.
 
-The data covers cycles Cycles 2 (1986), 7 (1992), 12 (1998), 19 (2005),
-24 (2010), 29 (2015), and 2022, spanning a period of more than thirty
-five years.
+<https://doi-org.libaccess.lib.mcmaster.ca/10.1177/23998083251374724>
 
 ## Installation
 

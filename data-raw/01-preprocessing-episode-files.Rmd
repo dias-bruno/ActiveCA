@@ -119,55 +119,26 @@ the GSS episode surveys.
 For the purpose of our analyses, the following definitions are
 important:
 
-| **Code** | **Location** | **Year** | **Description** |
-|----------------|----------------|----------------|--------------------------|
-| 300 | At home or on property | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 301 | At place of work or school | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 302 | Away on business | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 303 | At someone else's home or property | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 304 | In the neighbourhood | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 305 | Outdoors | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 306 | Grocery store, other stores or mall | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 307 | Library, museum or theatre | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 308 | Sports centre, field or arena | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 309 | Restaurant, bar or club | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 310 | Place of worship | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 311 | Medical, dental or other health clinic | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 312 | Elsewhere | 2015 | Walking (code = 315) and Cycling (code = 318) to this location |
-| 1 | Respondent's home | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 2 | Work place | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 3 | Someone else's home | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 4 | Restaurant/bar | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 5 | Place of worship | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 6 | Grocery store | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 7 | Other store/Mall | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 8 | School | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 9 | Outdoors away from home | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 10 | Library | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 11 | Other place | 2010 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 1 | Respondent's home | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 2 | Work place | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 3 | Someone else's home | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 4 | Restaurant/bar | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 5 | Place of worship | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 6 | Grocery store | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 7 | Other store/Mall | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 8 | School | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 9 | Outdoors away from home | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 10 | Library | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 11 | Other place | 2005 | Walking (code = 14) and Cycling (code = 17) to this location |
-| 1 | Respondent's home | 1998 | Walking (code = 7) and Cycling (code = 9) to this location |
-| 2 | Work place | 1998 | Walking (code = 7) and Cycling (code = 9) to this location |
-| 3 | Someone else's home | 1998 | Walking (code = 7) and Cycling (code = 9) to this location |
-| 4 | Other plourhood | 1998 | Walking (code = 7) and Cycling (code = 9) to this location |
-| 1 | Respondent's home | 1992 | Walking (code = 7) and Cycling (code = 9) to this location |
-| 2 | Work place | 1992 | Walking (code = 7) and Cycling (code = 9) to this location |
-| 3 | Someone else's home | 1992 | Walking (code = 7) and Cycling (code = 9) to this location |
-| 4 | Other place | 1992 | Walking (code = 7) and Cycling (code = 9) to this location |
-| 1 | Respondent's home | 1886 | Walking (code = 5) to this location |
-| 2 | Work place | 1886 | Walking (code = 5) to this location |
-| 3 | At other places | 1886 | Walking (code = 5) to this location |
-| 7 | other | 1886 | Walking (code = 5) to this location |
+| Origin/Destination                     | LOCATION (2022)        | LOCATION (2015) | PLACE (2010) | PLACE (2005) | PLACE (1998) | PLACE (1998) | LOCATION (1986) |
+| -------------------------------------- | ---------------------- | --------------- | ------------ | ------------ | ------------ | ------------ | --------------- |
+| Home                                   | 3300                   | 300             | 1            | 1            | 1            | 1            | 1               |
+| Work or school                         | 3301                   | 301             | 2, 8         | 2, 8         | 2            | 2            | 2               |
+| Business                               | 3302                   | 302             |              |              |              |              |                 |
+| Other's home                           | 3303                   | 303             | 3            | 3            | 3            | 3            |                 |
+| In the neighbourhood                   | 3304                   | 304             |              |              |              |              |                 |
+| Outdoors                               | 3305                   | 305             | 9            | 9            |              |              |                 |
+| Grocery store, other stores or mall    | 3306                   | 306             | 6, 7         | 6, 7         |              |              |                 |
+| Library, museum or theatre             | 3307                   | 307             | 10           | 10           |              |              |                 |
+| Sports centre, field or arena          | 3308                   | 308             |              |              |              |              |                 |
+| Restaurant, bar or club                | 3309                   | 309             | 4            | 4            |              |              |                 |
+| Place of worship                       | 3310                   | 310             | 5            | 5            |              |              |                 |
+| Medical, dental or other health clinic | 3311                   | 311             |              |              |              |              |                 |
+| Elsewhere                              | 3312                   | 312             | 11           | 11           | 4            | 4            | 3               |
+| Travel - Motorized                     | 3313, 3314, 3319, 3320 | 313, 314, 319   | 12, 13, 19   | 12, 13, 19   | 5, 6         | 5, 6         | 4               |
+| Travel - Public transit                | 3316                   | 316             | 15, 16       | 15, 16       | 8            | 8            | 6               |
+| Travel - Walk                          | 3315                   | 315             | 14           | 14           | 7            | 7            | 5               |
+| Travel - Bicycle                       | 3318                   | 318             | 17           | 17           | 9            | 9            |                 |
+| Travel - Other                         |  3317, 3323, 3399      | 317, 320, 321   | 18, 20, 21   | 18, 20, 21   | 10           | 10           | 7               |
 
 To start processing the data, first load the `R` packages used in this
 notebook:
@@ -279,7 +250,7 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_2015 <- walking_2015 |>
-  filter(origin <= 321) |>
+  filter(!origin %in% c(315, 318, 317,320,321)) |>
   mutate(orig_label =
            case_when(origin == 300 ~ "Home", 
                      origin == 301 ~ "Work or school",
@@ -295,11 +266,8 @@ walking_2015 <- walking_2015 |>
                      origin == 311 ~ "Medical, dental or other health clinic",
                      origin == 312 ~ "Elsewhere",
                      origin %in% c(313,314,319) ~ "Travel - Motorized",
-                     origin %in% c(317,320,321) ~ "Travel - Other",
-                     origin == 316 ~ "Travel - Transit",
-                     origin == 315 ~ "Travel - Walk",
-                     origin == 318 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin == 316 ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -307,7 +275,7 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_2015 <- walking_2015 |>  
-  filter(destination <= 321) |>
+  filter(!destination %in% c(315, 318, 317,320,321)) |>
   mutate(dest_label =
            case_when(destination == 300 ~ "Home", 
                      destination == 301 ~ "Work or school",
@@ -323,11 +291,8 @@ walking_2015 <- walking_2015 |>
                      destination == 311 ~ "Medical, dental or other health clinic",
                      destination == 312 ~ "Elsewhere",
                      destination %in% c(313,314,319) ~ "Travel - Motorized",
-                     destination %in% c(317,320,321) ~ "Travel - Other",
-                     destination == 316 ~ "Travel - Transit",
-                     destination == 315 ~ "Travel - Walk",
-                     destination == 318 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination == 316 ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the column named
@@ -420,7 +385,8 @@ LOCATION because it is already coded as MODE:
 ```{r}
 walking_2015 <- walking_2015 |>
   mutate(act_label = "Transport to or from activity") |>
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>% 
+  distinct()
 ```
 
 Save data in R format for later use:
@@ -460,7 +426,7 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_2015 <- cycling_2015 |>
-  filter(origin <= 321) |>
+  filter(!origin %in% c(315, 318, 317,320,321)) |>
   mutate(orig_label =
            case_when(origin == 300 ~ "Home", 
                      origin == 301 ~ "Work or school",
@@ -476,11 +442,8 @@ cycling_2015 <- cycling_2015 |>
                      origin == 311 ~ "Medical, dental or other health clinic",
                      origin == 312 ~ "Elsewhere",
                      origin %in% c(313,314,319) ~ "Travel - Motorized",
-                     origin %in% c(317,320,321) ~ "Travel - Other",
-                     origin == 316 ~ "Travel - Transit",
-                     origin == 315 ~ "Travel - Walk",
-                     origin == 318 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin == 316 ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -489,7 +452,7 @@ and create the label for the `destination` variable:
 ```{r}
 # change destination and origins to text column
 cycling_2015 <- cycling_2015 |>  
-  filter(destination <= 321) |>
+  filter(!destination %in% c(315, 318, 317,320,321)) |>
   mutate(dest_label =
            case_when(destination == 300 ~ "Home", 
                      destination == 301 ~ "Work or school",
@@ -505,11 +468,8 @@ cycling_2015 <- cycling_2015 |>
                      destination == 311 ~ "Medical, dental or other health clinic",
                      destination == 312 ~ "Elsewhere",
                      destination %in% c(313,314,319) ~ "Travel - Motorized",
-                     destination %in% c(317,320,321) ~ "Travel - Other",
-                     destination == 316 ~ "Travel - Transit",
-                     destination == 315 ~ "Travel - Walk",
-                     destination == 318 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination == 316 ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the column named
@@ -598,7 +558,7 @@ LOCATION because it is already coded as MODE:
 ```{r}
 cycling_2015 <- cycling_2015 |>
   mutate(act_label = "Transport to or from activity") |>
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -660,7 +620,7 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_2010 <- walking_2010 |>
-  filter(origin <= 21 ) |>
+  filter(!origin %in% c(18, 20, 21, 14, 17)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin %in% c(2,8) ~ "Work or school",
@@ -672,11 +632,8 @@ walking_2010 <- walking_2010 |>
                      origin == 5 ~ "Place of worship",
                      origin == 11 ~ "Elsewhere",
                      origin %in% c(12,13,19) ~ "Travel - Motorized",
-                     origin %in% c(18,20,21) ~ "Travel - Other",
-                     origin %in% c(15,16) ~ "Travel - Transit",
-                     origin == 14 ~ "Travel - Walk",
-                     origin == 17 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin %in% c(15,16) ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -684,7 +641,7 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_2010 <- walking_2010 |>
-  filter(destination <= 21 ) |>
+  filter(!destination %in% c(18, 20, 21, 14, 17)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination %in% c(2,8) ~ "Work or school",
@@ -696,11 +653,8 @@ walking_2010 <- walking_2010 |>
                      destination == 5 ~ "Place of worship",
                      destination == 11 ~ "Elsewhere",
                      destination %in% c(12,13,19) ~ "Travel - Motorized",
-                     destination %in% c(18,20,21) ~ "Travel - Other",
-                     destination %in% c(15,16) ~ "Travel - Transit",
-                     destination == 14 ~ "Travel - Walk",
-                     destination == 17 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination %in% c(15,16) ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -843,7 +797,7 @@ walking_2010 <- walking_2010 |>
                                ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -884,7 +838,7 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_2010 <- cycling_2010 |>
-  filter(origin <= 21 ) |>
+  filter(!origin %in% c(18, 20, 21, 14, 17)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin %in% c(2,8) ~ "Work or school",
@@ -896,11 +850,8 @@ cycling_2010 <- cycling_2010 |>
                      origin == 5 ~ "Place of worship",
                      origin == 11 ~ "Elsewhere",
                      origin %in% c(12,13,19) ~ "Travel - Motorized",
-                     origin %in% c(18,20,21) ~ "Travel - Other",
-                     origin %in% c(15,16) ~ "Travel - Transit",
-                     origin == 14 ~ "Travel - Walk",
-                     origin == 17 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin %in% c(15,16) ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the previous step, the description column will also be
@@ -908,7 +859,7 @@ created for destinations.
 
 ```{r}
 cycling_2010 <- cycling_2010 |>
-  filter(destination <= 21 ) |>
+  filter(!destination %in% c(18, 20, 21, 14, 17)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination %in% c(2,8) ~ "Work or school",
@@ -920,11 +871,8 @@ cycling_2010 <- cycling_2010 |>
                      destination == 5 ~ "Place of worship",
                      destination == 11 ~ "Elsewhere",
                      destination %in% c(12,13,19) ~ "Travel - Motorized",
-                     destination %in% c(18,20,21) ~ "Travel - Other",
-                     destination %in% c(15,16) ~ "Travel - Transit",
-                     destination == 14 ~ "Travel - Walk",
-                     destination == 17 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination %in% c(15,16) ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -1056,7 +1004,7 @@ cycling_2010 <- cycling_2010 |>
                                ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -1121,7 +1069,7 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_2005 <- walking_2005 |>
-  filter(origin <= 21 ) |>
+  filter(!origin %in% c(18, 20, 21, 14, 17)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin %in% c(2,8) ~ "Work or school",
@@ -1133,11 +1081,8 @@ walking_2005 <- walking_2005 |>
                      origin == 5 ~ "Place of worship",
                      origin == 11 ~ "Elsewhere",
                      origin %in% c(12,13,19) ~ "Travel - Motorized",
-                     origin %in% c(18,20,21) ~ "Travel - Other",
-                     origin %in% c(15,16) ~ "Travel - Transit",
-                     origin == 14 ~ "Travel - Walk",
-                     origin == 17 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin %in% c(15,16) ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -1145,7 +1090,7 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_2005 <- walking_2005 |>
-  filter(destination <= 21 ) |>
+  filter(!destination %in% c(18, 20, 21, 14, 17)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination %in% c(2,8) ~ "Work or school",
@@ -1157,11 +1102,8 @@ walking_2005 <- walking_2005 |>
                      destination == 5 ~ "Place of worship",
                      destination == 11 ~ "Elsewhere",
                      destination %in% c(12,13,19) ~ "Travel - Motorized",
-                     destination %in% c(18,20,21) ~ "Travel - Other",
-                     destination %in% c(15,16) ~ "Travel - Transit",
-                     destination == 14 ~ "Travel - Walk",
-                     destination == 17 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination %in% c(15,16) ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -1300,7 +1242,7 @@ walking_2005 <- walking_2005 |>
                                ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -1342,7 +1284,7 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_2005 <- cycling_2005 |>
-  filter(origin <= 21 ) |>
+  filter(!origin %in% c(18, 20, 21, 14, 17)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin %in% c(2,8) ~ "Work or school",
@@ -1354,11 +1296,8 @@ cycling_2005 <- cycling_2005 |>
                      origin == 5 ~ "Place of worship",
                      origin == 11 ~ "Elsewhere",
                      origin %in% c(12,13,19) ~ "Travel - Motorized",
-                     origin %in% c(18,20,21) ~ "Travel - Other",
-                     origin %in% c(15,16) ~ "Travel - Transit",
-                     origin == 14 ~ "Travel - Walk",
-                     origin == 17 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin %in% c(15,16) ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the previous step, the description column will also be
@@ -1366,7 +1305,7 @@ created for destinations.
 
 ```{r}
 cycling_2005 <- cycling_2005 |>
-  filter(destination <= 21 ) |>
+  filter(!destination %in% c(18, 20, 21, 14, 17)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination %in% c(2,8) ~ "Work or school",
@@ -1378,11 +1317,8 @@ cycling_2005 <- cycling_2005 |>
                      destination == 5 ~ "Place of worship",
                      destination == 11 ~ "Elsewhere",
                      destination %in% c(12,13,19) ~ "Travel - Motorized",
-                     destination %in% c(18,20,21) ~ "Travel - Other",
-                     destination %in% c(15,16) ~ "Travel - Transit",
-                     destination == 14 ~ "Travel - Walk",
-                     destination == 17 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination %in% c(15,16) ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -1511,7 +1447,7 @@ cycling_2005 <- cycling_2005 |>
                                ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -1575,18 +1511,15 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_1998 <- walking_1998 |>
-  filter(origin <= 10 ) |>
+  filter(!origin %in% c(7, 9, 10)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
                      origin == 3 ~ "Other's home",
                      origin == 4 ~ "Elsewhere",
                      origin %in% c(5,6) ~ "Travel - Motorized",
-                     origin == 10 ~ "Travel - Other",
-                     origin == 8  ~ "Travel - Transit",
-                     origin == 7 ~ "Travel - Walk",
-                     origin == 9 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin == 8  ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -1594,18 +1527,15 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_1998 <- walking_1998 |>
-  filter(destination <= 10 ) |>
+  filter(!destination %in% c(7, 9, 10)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
                      destination == 3 ~ "Other's home",
                      destination == 4 ~ "Elsewhere",
                      destination %in% c(5,6) ~ "Travel - Motorized",
-                     destination == 10 ~ "Travel - Other",
-                     destination == 8  ~ "Travel - Transit",
-                     destination == 7 ~ "Travel - Walk",
-                     destination == 9 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination == 8  ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -1734,7 +1664,7 @@ walking_1998 <- walking_1998 |>
                                ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -1775,18 +1705,15 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_1998 <- cycling_1998 |>
-  filter(origin <= 10 ) |>
+  filter(!origin %in% c(7, 9, 10)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
                      origin == 3 ~ "Other's home",
                      origin == 4 ~ "Elsewhere",
                      origin %in% c(5,6) ~ "Travel - Motorized",
-                     origin == 10 ~ "Travel - Other",
-                     origin == 8  ~ "Travel - Transit",
-                     origin == 7 ~ "Travel - Walk",
-                     origin == 9 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin == 8  ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the previous step, the description column will also be
@@ -1794,18 +1721,15 @@ created for destinations.
 
 ```{r}
 cycling_1998 <- cycling_1998 |>
-  filter(destination <= 10 ) |>
+  filter(!destination %in% c(7, 9, 10)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
                      destination == 3 ~ "Other's home",
                      destination == 4 ~ "Elsewhere",
                      destination %in% c(5,6) ~ "Travel - Motorized",
-                     destination == 10 ~ "Travel - Other",
-                     destination == 8  ~ "Travel - Transit",
-                     destination == 7 ~ "Travel - Walk",
-                     destination == 9 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination == 8  ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -1934,7 +1858,7 @@ cycling_1998 <- cycling_1998 |>
                                ACTCODE == 894 ~ "Travel to/from other leisure activities", # p. 245
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -1998,18 +1922,15 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_1992 <- walking_1992 |>
-  filter(origin <= 10 ) |>
+  filter(!origin %in% c(7, 9, 10)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
                      origin == 3 ~ "Other's home",
                      origin == 4 ~ "Elsewhere",
                      origin %in% c(5,6) ~ "Travel - Motorized",
-                     origin == 10 ~ "Travel - Other",
-                     origin == 8  ~ "Travel - Transit",
-                     origin == 7 ~ "Travel - Walk",
-                     origin == 9 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin == 8  ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -2017,18 +1938,15 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_1992 <- walking_1992 |>
-  filter(destination <= 10 ) |>
+  filter(!destination %in% c(7, 9, 10)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
                      destination == 3 ~ "Other's home",
                      destination == 4 ~ "Elsewhere",
                      destination %in% c(5,6) ~ "Travel - Motorized",
-                     destination == 10 ~ "Travel - Other",
-                     destination == 8  ~ "Travel - Transit",
-                     destination == 7 ~ "Travel - Walk",
-                     destination == 9 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination == 8  ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -2174,7 +2092,7 @@ walking_1992 <- walking_1992 |>
                                ACTCODE == 950 ~ "Talking, Conversation, Phone", # p. 266
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Cases of episodes with `NA` weight values will be updated to value 1,
@@ -2223,18 +2141,15 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 cycling_1992 <- cycling_1992 |>
-  filter(origin <= 10 ) |>
+  filter(!origin %in% c(7, 9, 10)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
                      origin == 3 ~ "Other's home",
                      origin == 4 ~ "Elsewhere",
                      origin %in% c(5,6) ~ "Travel - Motorized",
-                     origin == 10 ~ "Travel - Other",
-                     origin == 8  ~ "Travel - Transit",
-                     origin == 7 ~ "Travel - Walk",
-                     origin == 9 ~ "Travel - Bycicle"),
-         orig_label = factor(orig_label))
+                     origin == 8  ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -2242,18 +2157,15 @@ and create the label for the `destination` variable:
 
 ```{r}
 cycling_1992 <- cycling_1992 |>
-  filter(destination <= 10 ) |>
+  filter(!destination %in% c(7, 9, 10)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
                      destination == 3 ~ "Other's home",
                      destination == 4 ~ "Elsewhere",
                      destination %in% c(5,6) ~ "Travel - Motorized",
-                     destination == 10 ~ "Travel - Other",
-                     destination == 8  ~ "Travel - Transit",
-                     destination == 7 ~ "Travel - Walk",
-                     destination == 9 ~ "Travel - Bycicle"),
-         dest_label = factor(dest_label))
+                     destination == 8  ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -2398,7 +2310,7 @@ cycling_1992 <- cycling_1992 |>
                                ACTCODE == 950 ~ "Talking, Conversation, Phone", # p. 266
                                ACTCODE == 961 ~ "Reading personal mail (including flyers and advertisements)", # p. 266
                                ACTCODE == 990 ~ "Travel to/from media or communication activities")) |> # p. 266 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -2461,16 +2373,14 @@ Now, we'll select the origins of interest and create the label for the
 
 ```{r}
 walking_1986 <- walking_1986 |>
-  filter(origin < 8 ) |>
+  filter(!origin %in% c(5,7)) |>
   mutate(orig_label =
            case_when(origin == 1 ~ "Home", 
                      origin == 2 ~ "Work or school",
                      origin == 3 ~ "Elsewhere",
                      origin == 4 ~ "Travel - Motorized",
-                     origin == 7 ~ "Travel - Other",
-                     origin == 6 ~ "Travel - Transit",
-                     origin == 5 ~ "Travel - Walk"),
-         orig_label = factor(orig_label))
+                     origin == 6 ~ "Travel - Transit"),
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -2478,16 +2388,14 @@ and create the label for the `destination` variable:
 
 ```{r}
 walking_1986 <- walking_1986 |>
-  filter(destination < 8 ) |>
+  filter(!origin %in% c(5,7)) |>
   mutate(dest_label =
            case_when(destination == 1 ~ "Home", 
                      destination == 2 ~ "Work or school",
                      destination == 3 ~ "Elsewhere",
                      destination == 4 ~ "Travel - Motorized",
-                     destination == 7 ~ "Travel - Other",
-                     destination == 6 ~ "Travel - Transit",
-                     destination == 5 ~ "Travel - Walk"),
-         dest_label = factor(dest_label))
+                     destination == 6 ~ "Travel - Transit"),
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the columns
@@ -2661,7 +2569,7 @@ walking_1986 <- walking_1986 |>
                                ACTCODE == 98 ~ "Other media or communication", # p. 266
                                ACTCODE == 99 ~ "Travel to/from media or communication activities", # p. 266
                                )) |> 
-  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province)
+  dplyr::select(PUMFID, WGHT_EPI, ACTCODE, act_label, STARTIME, ENDTIME, DURATION, origin, destination, orig_label, dest_label, YEAR, MODE, LUC_RST, PRV, Pop_centre, Province) %>%    distinct()
 ```
 
 Save data in R format for later use:
@@ -2751,7 +2659,11 @@ Now, we'll select the origins of interest and create the label for the
 ```{r}
 walking_2022_spss <- walking_2022_spss |>
   filter(!is.na(origin)) |>
-    mutate(orig_label =
+  filter(!origin %in% c('Travel - Airplane', 
+                                   'Travel - Other',
+                                   'Travel - not stated', 
+                        'Travel - Walk', 'Travel - Bicycle')) %>% 
+  mutate(orig_label =
            case_when(origin == 'At home or on property' ~ "Home", 
                      origin == 'At place of work or school' ~ "Work or school",
                      origin == 'Away at business' ~ "Business",
@@ -2760,12 +2672,9 @@ walking_2022_spss <- walking_2022_spss |>
                                    'Travel - Car, truck or van,  - as driver',
                                    'Travel - Motorcycle, scooter or moped',
                                    'Travel - Taxi, Limousine service') ~ "Travel - Motorized", 
-                     origin %in% c('Travel - Airplane', 
-                                   'Travel - Other',
-                                   'Travel - not stated') ~ "Travel - Other", 
                      origin == 'Travel - Public transit (bus, streetcar, subway, light-rail)' ~ "Travel - Transit",
                      TRUE ~ origin),
-         orig_label = factor(orig_label))
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -2774,6 +2683,10 @@ and create the label for the `destination` variable:
 ```{r}
 walking_2022_spss <- walking_2022_spss |>
   filter(!is.na(destination)) |>
+  filter(!destination %in% c('Travel - Airplane', 
+                                   'Travel - Other',
+                                   'Travel - not stated', 
+                        'Travel - Walk', 'Travel - Bicycle')) %>% 
     mutate(dest_label =
            case_when(destination == 'At home or on property' ~ "Home", 
                      destination == 'At place of work or school' ~ "Work or school",
@@ -2783,12 +2696,9 @@ walking_2022_spss <- walking_2022_spss |>
                                    'Travel - Car, truck or van,  - as driver',
                                    'Travel - Motorcycle, scooter or moped',
                                    'Travel - Taxi, Limousine service') ~ "Travel - Motorized", 
-                     origin %in% c('Travel - Airplane', 
-                                   'Travel - Other',
-                                   'Travel - not stated') ~ "Travel - Other", 
                      destination == 'Travel - Public transit (bus, streetcar, subway, light-rail)' ~ "Travel - Transit",
                      TRUE ~ destination),
-         dest_label = factor(dest_label))
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the column named
@@ -2953,7 +2863,11 @@ Now, we'll select the origins of interest and create the label for the
 ```{r}
 cycling_2022_spss <- cycling_2022_spss |>
   filter(!is.na(origin)) |>
-    mutate(orig_label =
+  filter(!origin %in% c('Travel - Airplane', 
+                                   'Travel - Other',
+                                   'Travel - not stated', 
+                        'Travel - Walk', 'Travel - Bicycle')) %>% 
+  mutate(orig_label =
            case_when(origin == 'At home or on property' ~ "Home", 
                      origin == 'At place of work or school' ~ "Work or school",
                      origin == 'Away at business' ~ "Business",
@@ -2962,12 +2876,9 @@ cycling_2022_spss <- cycling_2022_spss |>
                                    'Travel - Car, truck or van,  - as driver',
                                    'Travel - Motorcycle, scooter or moped',
                                    'Travel - Taxi, Limousine service') ~ "Travel - Motorized", 
-                     origin %in% c('Travel - Airplane', 
-                                   'Travel - Other',
-                                   'Travel - not stated') ~ "Travel - Other", 
                      origin == 'Travel - Public transit (bus, streetcar, subway, light-rail)' ~ "Travel - Transit",
                      TRUE ~ origin),
-         orig_label = factor(orig_label))
+         orig_label = factor(orig_label)) %>%   filter(!is.na(orig_label))
 ```
 
 Similarly to the step before, we'll select the destinations of interest
@@ -2976,6 +2887,10 @@ and create the label for the `destination` variable:
 ```{r}
 cycling_2022_spss <- cycling_2022_spss |>
   filter(!is.na(destination)) |>
+  filter(!destination %in% c('Travel - Airplane', 
+                                   'Travel - Other',
+                                   'Travel - not stated', 
+                        'Travel - Walk', 'Travel - Bicycle')) %>% 
     mutate(dest_label =
            case_when(destination == 'At home or on property' ~ "Home", 
                      destination == 'At place of work or school' ~ "Work or school",
@@ -2985,12 +2900,9 @@ cycling_2022_spss <- cycling_2022_spss |>
                                    'Travel - Car, truck or van,  - as driver',
                                    'Travel - Motorcycle, scooter or moped',
                                    'Travel - Taxi, Limousine service') ~ "Travel - Motorized", 
-                     origin %in% c('Travel - Airplane', 
-                                   'Travel - Other',
-                                   'Travel - not stated') ~ "Travel - Other", 
                      destination == 'Travel - Public transit (bus, streetcar, subway, light-rail)' ~ "Travel - Transit",
                      TRUE ~ destination),
-         dest_label = factor(dest_label))
+         dest_label = factor(dest_label)) %>%   filter(!is.na(dest_label))
 ```
 
 Creating the `year` and `mode` columns. Additionally, the column named
