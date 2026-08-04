@@ -409,8 +409,8 @@ processed for main and episode files. For the main files, a total of
 101,667 records were processed, referring to all records from the TUSs
 from 1986 to 2022, that together represents more of 181,526,641
 respondents. It also presents the total cases of active trips episodes
-identified. In total 23,513 records with register of active travel
-activity. Together, these records account for 44,316,110 episodes.
+identified. In total 36,567 records with register of active travel
+activity. Together, these records account for 71,209,481 episodes.
 
 \begin{table}
 \centering
@@ -423,14 +423,14 @@ activity. Together, these records account for 44,316,110 episodes.
 \cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
 Year & Count & Weighted & Count\_ep & Weighted\_ep\\
 \midrule
-2,022 & 12,336 & 32,136,802 & 1,765 & 6,041,032\\
-2,015 & 17,390 & 29,766,399 & 3,496 & 6,634,387\\
-2,010 & 15,390 & 28,075,610 & 4,615 & 8,516,753\\
-2,005 & 19,597 & 26,095,819 & 5,866 & 7,583,838\\
-1,998 & 10,749 & 24,260,137 & 1,789 & 3,606,987\\
+2,022 & 12,336 & 32,136,802 & 2,078 & 6,964,265\\
+2,015 & 17,390 & 29,766,399 & 4,269 & 8,222,619\\
+2,010 & 15,390 & 28,075,610 & 6,453 & 11,755,637\\
+2,005 & 19,597 & 26,095,819 & 7,801 & 10,050,651\\
+1,998 & 10,749 & 24,260,137 & 6,082 & 13,508,705\\
 \addlinespace
-1,992 & 9,815 & 21,294,313 & 1,635 & 3,691,918\\
-1,986 & 16,390 & 19,897,562 & 4,347 & 8,241,196\\
+1,992 & 9,815 & 21,294,313 & 5,078 & 11,575,716\\
+1,986 & 16,390 & 19,897,562 & 4,806 & 9,131,888\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -501,7 +501,7 @@ PUMFID & WGHT\_EPI & Activity & Duration & Origin & Destination & Mode\\
 
 \subsection{Descriptive statistics}\label{descriptive-statistics}
 
-Considering all TUS analyzed, we identified 23,513 episodes that
+Considering all TUS analyzed, we identified 36,567 episodes that
 recorded active travel episodes, with trip duration ranging from 0 to
 900 minutes, to twelve different destinations. \{ActiveCA\} includes all
 these episodes ready for analysis. Table \ref{tab:table-01} presents
@@ -520,25 +520,25 @@ include bicycle trips.
 \cmidrule(l{3pt}r{3pt}){3-9}
 Mode & Statistic & 1986 & 1992 & 1998 & 2005 & 2010 & 2015 & 2022\\
 \midrule
- & Maximum & 660 & 300 & 255 & 515 & 480 & 900 & 480\\
+ & Maximum & 660 & 300 & 285 & 515 & 480 & 900 & 480\\
 
- & Mean & 21 & 21 & 12 & 12 & 13 & 18 & 19\\
+ & Mean & 21 & 16 & 11 & 12 & 13 & 17 & 18\\
 
- & Median & 15 & 10 & 5 & 10 & 10 & 10 & 15\\
+ & Median & 10 & 10 & 5 & 10 & 10 & 10 & 15\\
 
  & Minimum & 1 & 1 & 1 & 0 & 0 & 5 & 5\\
 
-\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Walking}} & Standard deviation & 31 & 25 & 17 & 16 & 17 & 27 & 24\\
+\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Walking}} & Standard deviation & 31 & 18 & 13 & 16 & 17 & 25 & 23\\
 \cmidrule{1-9}
- & Maximum &  & 240 & 90 & 180 & 153 & 120 & 150\\
+ & Maximum &  & 240 & 90 & 180 & 270 & 175 & 150\\
 
- & Mean &  & 28 & 24 & 20 & 19 & 25 & 40\\
+ & Mean &  & 24 & 21 & 19 & 19 & 26 & 39\\
 
  & Median &  & 15 & 15 & 15 & 10 & 20 & 30\\
 
  & Minimum &  & 5 & 2 & 1 & 1 & 5 & 5\\
 
-\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Cycling}} & Standard deviation &  & 36 & 18 & 18 & 23 & 20 & 20\\
+\multirow[t]{-5}{*}{\raggedright\arraybackslash \textbf{Cycling}} & Standard deviation &  & 33 & 17 & 18 & 26 & 25 & 20\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -603,14 +603,14 @@ Province & CMA/CA & non CMA/CA\\
 \midrule
 Alberta & 15 & 5\\
 British Columbia & 15 & 10\\
-Manitoba & 10 & 10\\
+Manitoba & 10 & 5\\
 New Brunswick & 5 & 5\\
 Newfoundland and Labroador & 20 & 10\\
 \addlinespace
 Nova Scotia & 30 & 5\\
 Ontario & 15 & 15\\
 Prince Edward Island &  & 5\\
-Quebec & 15 & 15\\
+Quebec & 15 & 10\\
 Saskatchewan & 10 & 5\\
 \bottomrule
 \end{tabular}
