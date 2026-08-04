@@ -1,0 +1,9 @@
+pandoc: 3.8.3
+pkgdown: 2.2.1
+pkgdown_sha: ~
+articles:
+  ActiveCA-Applications: ActiveCA-Applications.html
+last_built: 2026-08-04T15:27Z
+urls:
+  reference: https://dias-bruno.github.io/ActiveCA/reference
+  article: https://dias-bruno.github.io/ActiveCA/articles
