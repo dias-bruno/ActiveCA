@@ -23,7 +23,7 @@ augmented with locations such as grocery stores, restaurants, outdoor
 destinations, and others. The geographical resolution includes the
 province and whether the episode was in an urban or rural setting.
 
-<https://doi-org.libaccess.lib.mcmaster.ca/10.1177/23998083251374724>
+[![DOI](https://img.shields.io/badge/DOI-10.1177%2F23998083251374724-blue)](https://doi.org/10.1177/23998083251374724)
 
 ## Installation
 

@@ -22,6 +22,9 @@ Useful links:
 
 Authors:
 
+- Bruno Dos Santos <dossanb@mcmaster.ca>
+  ([ORCID](https://orcid.org/0000-0002-6748-2038))
+
 - Mahdis Moghadasi <moghadasi.mahdis@mcmaster.ca>
   ([ORCID](https://orcid.org/0000-0003-1009-9369))
 

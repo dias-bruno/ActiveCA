@@ -17,14 +17,19 @@
 
 ## Citation
 
-Dos Santos B, Moghadasi M, Paez A (2026). *ActiveCA: Time Use Data from
-the General Social Survey of Canada to Study Active Travel*. R package
-version 2.1, <https://dias-bruno.github.io/ActiveCA/>.
+Dias dos Santos B, Moghadasi M, Páez A (2025). “ActiveCA: Time use data
+from the general social survey of Canada to study active travel.”
+*Environment and Planning B: Urban Analytics and City Science*,
+**52**(8), 2037–2047.
+[doi:10.1177/23998083251374724](https://doi.org/10.1177/23998083251374724).
 
-    @Manual{,
-      title = {ActiveCA: Time Use Data from the General Social Survey of Canada to Study Active Travel},
-      author = {Bruno {Dos Santos} and Mahdis Moghadasi and Antonio Paez},
-      year = {2026},
-      note = {R package version 2.1},
-      url = {https://dias-bruno.github.io/ActiveCA/},
+    @Article{,
+      title = {{ActiveCA}: Time use data from the general social survey of Canada to study active travel},
+      author = {Bruno {Dias dos Santos} and Mahdis Moghadasi and Antonio Páez},
+      journal = {Environment and Planning B: Urban Analytics and City Science},
+      year = {2025},
+      volume = {52},
+      number = {8},
+      pages = {2037--2047},
+      doi = {10.1177/23998083251374724},
     }
