@@ -20,6 +20,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Bruno Dos Santos \email{dossanb@mcmaster.ca} (\href{https://orcid.org/0000-0002-6748-2038}{ORCID})
   \item Mahdis Moghadasi \email{moghadasi.mahdis@mcmaster.ca} (\href{https://orcid.org/0000-0003-1009-9369}{ORCID})
   \item Antonio Paez \email{paezha@mcmaster.ca} (\href{https://orcid.org/0000-0001-6912-9919}{ORCID})
 }

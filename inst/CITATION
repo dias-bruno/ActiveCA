@@ -1,0 +1,14 @@
+bibentry(
+  bibtype = "Article",
+  header = "To cite this package in publications, please use:",
+  title = "{ActiveCA}: Time use data from the general social survey of Canada to study active travel",
+  author = c(person("Bruno", "Dias dos Santos"),
+             person("Mahdis", "Moghadasi"),
+             person("Antonio", "Páez")),
+  journal = "Environment and Planning B: Urban Analytics and City Science",
+  year = 2025,
+  volume = 52,
+  number = 8,
+  pages = "2037--2047",
+  doi = "10.1177/23998083251374724"
+)
